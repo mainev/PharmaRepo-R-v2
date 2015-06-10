@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1116.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbr.client.controller.WelcomeController">
+   <children>
+      <BorderPane layoutX="80.0" layoutY="64.0" prefHeight="610.0" prefWidth="1140.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="69.0" />
+               </font>
+               <fill>
+                  <LinearGradient endX="0.49047619047619045" endY="0.8857142857142857" startX="0.49047619047619045" startY="0.21428571428571427">
+                     <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

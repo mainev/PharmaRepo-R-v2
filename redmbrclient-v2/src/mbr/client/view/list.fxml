@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbr.client.controller.ListController">
+   <children>
+      <BorderPane layoutX="80.0" layoutY="64.0" prefHeight="610.0" prefWidth="1140.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fx:id="_headerHBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1140.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefWidth="100.0" text="New" />
+                        <Button mnemonicParsing="false" prefWidth="100.0" text="Print" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding></HBox>
+               </children></AnchorPane>
+         </top>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="_tableViewMbrList" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1116.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="_colProductCode" prefWidth="132.0" text="Product Code" />
+                      <TableColumn fx:id="_colProductBrandName" prefWidth="332.0" text="Product Name" />
+                        <TableColumn fx:id="_colBatchNo" prefWidth="102.0" text="Batch No" />
+                        <TableColumn fx:id="_colBatchSize" prefWidth="100.0" text="Batch Size" />
+                        <TableColumn fx:id="_colShelfLife" prefWidth="75.0" text="Shelf Life" />
+                        <TableColumn fx:id="_colMfgDate" prefWidth="126.0" text="Mfg Date" />
+                        <TableColumn fx:id="_colExpDate" prefWidth="119.0" text="Exp Date" />
+                        <TableColumn fx:id="_colPoNo" prefWidth="129.0" text="PO No" />
+                        <TableColumn fx:id="_colPackSize" prefWidth="199.0" text="Pack Size" />
+                        <TableColumn fx:id="_colVrNo" prefWidth="75.0" text="VR/FR No." />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
