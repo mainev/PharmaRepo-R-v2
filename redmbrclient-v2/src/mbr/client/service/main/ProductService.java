@@ -24,7 +24,7 @@ public class ProductService {
     public DefaultClientConfig defaultClientConfig;
     public Client client;
     public WebResource webResource;
-    public final String BASE_URI = "http://localhost:8080/RedWebServer/webresources/product";
+    public final String BASE_URI = "http://localhost:8080/RedServer-v2/webresources/main/product";
 
     public ProductService() {
         initClient();
@@ -43,8 +43,8 @@ public class ProductService {
         return Serializer.<Product>deserializeList(jsonOutput, Product.class);
     }
     
-    public PackagingMaterial getBottleContainer(Product productId){
-        webResource = client.resource(BASE_URI+"/getbottlecontainer");
+    public PackagingMaterial getPrimaryPackaging(Product productId){
+        webResource = client.resource(BASE_URI+"/getprimarypackaging");
         ClientResponse response = webResource
                 .queryParam("productId", String.valueOf(productId.getId()))
                 .accept("application/json")
@@ -53,8 +53,8 @@ public class ProductService {
         return Serializer.<PackagingMaterial>deserialize(jsonOutput, PackagingMaterial.class);
     }
     
-    public PackagingMaterial getCBoxContainer(Product productId){
-     webResource = client.resource(BASE_URI+"/getcboxcontainer");
+    public PackagingMaterial getSecondaryPackaging(Product productId){
+     webResource = client.resource(BASE_URI+"/getsecondarypackaging");
         ClientResponse response = webResource
                 .queryParam("productId", String.valueOf(productId.getId()))
                 .accept("application/json")

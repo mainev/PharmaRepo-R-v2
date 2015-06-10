@@ -23,7 +23,7 @@ public class ContainerService {
     public DefaultClientConfig defaultClientConfig;
     public Client client;
     public WebResource webResource;
-    public final String BASE_URI = "http://localhost:8080/RedWebServer/webresources/container";
+    public final String BASE_URI = "http://localhost:8080/RedServer-v2/webresources/main/container";
 
     public ContainerService() {
         initClient();

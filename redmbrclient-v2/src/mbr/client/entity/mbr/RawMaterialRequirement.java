@@ -7,6 +7,7 @@ package mbr.client.entity.mbr;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import mbr.client.entity.main.RawMaterial;
 import mbr.client.entity.main.Unit;
 
@@ -16,11 +17,34 @@ import mbr.client.entity.main.Unit;
  */
 @XmlRootElement
 public class RawMaterialRequirement implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private RawMaterial rawMaterialId;
     private Double quantity;
     private Unit unitId;
+
+    @XmlTransient
+    private double newQuantity;
+    @XmlTransient
+    private String newUnit;
+
+    public double getNewQuantity() {
+        return newQuantity;
+    }
+
+    public void setNewQuantity(double newQuantity) {
+        this.newQuantity = newQuantity;
+    }
+
+    public String getNewUnit() {
+        return newUnit;
+    }
+
+    public void setNewUnit(String newUnit) {
+        this.newUnit = newUnit;
+    }
+
     public RawMaterialRequirement() {
     }
 
@@ -59,17 +83,16 @@ public class RawMaterialRequirement implements Serializable {
     public void setUnitId(Unit unitId) {
         this.unitId = unitId;
     }
-    
+
     /*
 
-    public Udf getUdfId() {
-        return udfId;
-    }
+     public Udf getUdfId() {
+     return udfId;
+     }
 
-    public void setUdfId(Udf udfId) {
-        this.udfId = udfId;
-    }*/
-
+     public void setUdfId(Udf udfId) {
+     this.udfId = udfId;
+     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -94,5 +117,5 @@ public class RawMaterialRequirement implements Serializable {
     public String toString() {
         return "server.mbr.entity.RawMaterialRequirement[ id=" + id + " ]";
     }
-    
+
 }

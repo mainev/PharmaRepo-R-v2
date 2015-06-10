@@ -14,12 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import server._main.entity.RawMaterial;
 
 /**
  *
@@ -28,8 +25,6 @@ import server._main.entity.RawMaterial;
 @Entity
 @Table(name = "dosage", schema="mbr")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Dosage.findAll", query = "SELECT d FROM Dosage d")})
 public class Dosage implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,15 +33,18 @@ public class Dosage implements Serializable {
     @Column(name = "id")
     private Integer id;
    
-    @JoinColumn(name="raw_material_id", referencedColumnName="id")
+    @JoinColumn(name="raw_material_requirement_id", referencedColumnName="id")
     @ManyToOne
-    private RawMaterial rawMaterialId;
+    private RawMaterialRequirement rawMaterialRequirementId;
     
+    /*
     @Column(name = "quantity")
     private Double quantity;
     
+  /*
     @Column(name = "unit_id")
     private Short unitId;
+    */
     
     @Column(name = "percent_multiplier")
     private Double percentMultiplier;
@@ -54,11 +52,21 @@ public class Dosage implements Serializable {
     
     @JoinColumn(name = "compounding_procedure_id", referencedColumnName = "id")
     @ManyToOne
-    @XmlTransient
     private CompoundingProcedure compoundingProcedureId;
 
     public Dosage() {
     }
+
+    
+    @XmlTransient
+    public CompoundingProcedure getCompoundingProcedureId() {
+        return compoundingProcedureId;
+    }
+
+    public void setCompoundingProcedureId(CompoundingProcedure compoundingProcedureId) {
+        this.compoundingProcedureId = compoundingProcedureId;
+    }
+    
 
     public Dosage(Integer id) {
         this.id = id;
@@ -72,14 +80,15 @@ public class Dosage implements Serializable {
         this.id = id;
     }
 
-    public RawMaterial getRawMaterialId() {
-        return rawMaterialId;
+    public RawMaterialRequirement getRawMaterialRequirementId() {
+        return rawMaterialRequirementId;
     }
 
-    public void setRawMaterialId(RawMaterial rawMaterialId) {
-        this.rawMaterialId = rawMaterialId;
+    public void setRawMaterialRequirementId(RawMaterialRequirement rawMaterialRequirementId) {
+        this.rawMaterialRequirementId = rawMaterialRequirementId;
     }
 
+   /*
     public Double getQuantity() {
         return quantity;
     }
@@ -88,13 +97,14 @@ public class Dosage implements Serializable {
         this.quantity = quantity;
     }
 
+    /*
     public Short getUnitId() {
         return unitId;
     }
 
     public void setUnitId(Short unitId) {
         this.unitId = unitId;
-    }
+    }*/
 
     public Double getPercentMultiplier() {
         return percentMultiplier;

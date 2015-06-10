@@ -35,13 +35,14 @@ public class TextFieldWithSearch<T> extends VBox {
     ListView listView = new ListView();
 
     public TextFieldWithSearch(ObservableList<T> items) {
+        super();
         this.items = items;
         this.setAlignment(Pos.CENTER);
         this.getChildren().add(textField);
         this.getChildren().add(listView);
 
         //set margin of nodes
-        VBox.setMargin(textField, new Insets(15, 0, 0, 0));
+        VBox.setMargin(textField, new Insets(10, 0, 0, 0));
         VBox.setMargin(listView, new Insets(0, 0, -100, 0));
 
         listView.setItems(items);

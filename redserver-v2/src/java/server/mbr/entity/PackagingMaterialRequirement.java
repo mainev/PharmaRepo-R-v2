@@ -53,12 +53,23 @@ public class PackagingMaterialRequirement implements Serializable {
    
     @JoinColumn(name = "udf_id", referencedColumnName = "id")
     @ManyToOne
-    @XmlTransient
     private Udf udfId;
    
 
     public PackagingMaterialRequirement() {
     }
+
+    
+    @XmlTransient
+    public Udf getUdfId() {
+        return udfId;
+    }
+
+    public void setUdfId(Udf udfId) {
+        this.udfId = udfId;
+    }
+    
+    
 
     public PackagingMaterialRequirement(Integer id) {
         this.id = id;

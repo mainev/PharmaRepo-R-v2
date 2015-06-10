@@ -6,6 +6,7 @@
 package server._main.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import server.mbr.entity.ManufacturingProcedure;
+import server.mbr.entity.Udf;
 
 /**
  *
@@ -71,9 +75,34 @@ public class Product implements Serializable {
     @JoinColumn(name = "pack_size_id", referencedColumnName = "id")
     @ManyToOne
     private PackSize packSizeId;
+    
+    @OneToMany(mappedBy = "productId")
+    private List<Udf> udfList;
+    
+    @OneToMany(mappedBy = "productId")
+    private List<ManufacturingProcedure> manufacturingProcedureList;
 
     public Product() {
     }
+
+    public List<ManufacturingProcedure> getManufacturingProcedureList() {
+        return manufacturingProcedureList;
+    }
+
+    public void setManufacturingProcedureList(List<ManufacturingProcedure> manufacturingProcedureList) {
+        this.manufacturingProcedureList = manufacturingProcedureList;
+    }
+
+    
+    public List<Udf> getUdfList() {
+        return udfList;
+    }
+
+    public void setUdfList(List<Udf> udfList) {
+        this.udfList = udfList;
+    }
+    
+    
 
     public Product(Integer id) {
         this.id = id;

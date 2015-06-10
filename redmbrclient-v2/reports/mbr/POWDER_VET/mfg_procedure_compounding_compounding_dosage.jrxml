@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mfg_procedure_compounding_compounding_dosage" language="groovy" pageWidth="285" pageHeight="802" columnWidth="285" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aba6ce35-c6b6-4b47-b35b-1fb68420fa25">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="raw_material_requirements" class="java.lang.Object">
+		<fieldDescription><![CDATA[rawMaterialRequirementsId]]></fieldDescription>
+	</field>
+	<field name="unit" class="java.lang.String">
+		<fieldDescription><![CDATA[unit]]></fieldDescription>
+	</field>
+	<field name="percent_multiplier" class="java.lang.Double">
+		<fieldDescription><![CDATA[percentMultiplier]]></fieldDescription>
+	</field>
+	<field name="quantity" class="java.lang.Double">
+		<fieldDescription><![CDATA[quantity]]></fieldDescription>
+	</field>
+	<variable name="dosage_quantity" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{percent_multiplier}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="196" y="0" width="89" height="14" uuid="3b4db3ee-76f7-4b41-8575-17c35dbce44f"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{quantity}+" "+$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="39" height="14" uuid="5a19fe45-31ab-4509-9f6f-3ac451422685"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textFieldExpression><![CDATA[java.lang.Character.toString((char)$V{REPORT_COUNT}+96)+". "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="39" y="0" width="157" height="14" uuid="88f408a5-1dd7-4c8a-a590-2b8105e30e9d"/>
+				<box leftPadding="5" rightPadding="5"/>
+				<textFieldExpression><![CDATA[$F{raw_material_requirements}.getRawMaterialId().getName()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

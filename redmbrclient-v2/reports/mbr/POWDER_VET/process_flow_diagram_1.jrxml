@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="process_flow_diagram_1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e10e461a-f8aa-4c64-8c05-0f02e3387d55">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="477"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="555" height="20" uuid="2705ac46-d3f2-4b8a-921a-2cee4c4c81b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROCESS FLOW FOR CAPSULES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="513" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="465" uuid="eb95eb36-3bad-4227-85fb-82f564952ef9"/>
+				<imageExpression><![CDATA["P:\\PharmaRepo\\MBRClient\\reports\\mbr\\TABLET HUMAN\\process flow for capsules flowchart a.gif"]]></imageExpression>
+			</image>
+			<break>
+				<reportElement x="0" y="466" width="100" height="1" uuid="7b3d8aca-06cc-432c-b269-b2fd3e714f1b"/>
+			</break>
+			<subreport runToBottom="true">
+				<reportElement x="0" y="478" width="555" height="27" uuid="ee7cd565-4c3b-4e8a-997f-1d57bea6f6ec"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "process_flow_diagram_1_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

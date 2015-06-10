@@ -37,9 +37,11 @@ public class Area implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
+    
     @Size(max = 50)
     @Column(name = "name")
     private String name;
+    
     /*
     @OneToMany(mappedBy = "areaId")
     private List<Product> productList;

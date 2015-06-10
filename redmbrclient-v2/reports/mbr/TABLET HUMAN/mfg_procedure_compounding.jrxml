@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mfg_procedure_compounding" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="cc765e13-9a91-44a8-9dbd-5e1febf6fb43">
+	<property name="ireport.zoom" value="1.4615378250000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Wed Jun 03 09:09:37 SGT 2015"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="equipment_requirements_compounding" class="java.util.List"/>
+	<parameter name="batch_rm_requirements" class="java.util.List"/>
+	<parameter name="mbr" class="java.lang.Object"/>
+	<parameter name="compounding_procedures" class="java.util.List">
+		<defaultValueExpression><![CDATA[$P{mbr}.getProductId().getActiveManufacturingProcedure().getCompoundingProcedureList()]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="30" uuid="c36f5236-94f1-4b0f-8829-46c0e0e00565"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Step No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="340" height="30" uuid="9c8cfc2b-c06b-4d5b-9e9d-b817d8a660b2"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MANUFACTURING PROCEDURE (Compounding)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="0" width="83" height="30" uuid="4da03ddd-c68b-4431-8fbf-833c0b2ccca1"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Done by/date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="473" y="0" width="82" height="30" uuid="d77d05c8-4332-4525-a027-af34a745ac9b"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Checked by/date]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="30" uuid="7a897006-6aac-4217-beb9-b27b86109e27"/>
+				<subreportParameter name="equipment_requirements_compounding">
+					<subreportParameterExpression><![CDATA[$P{equipment_requirements_compounding}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_rm_requirements">
+					<subreportParameterExpression><![CDATA[$P{batch_rm_requirements}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "compounding_procedure_line_clearance.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="30" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="30" uuid="78a89901-cbc8-4a20-a705-ef5fd315480a"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{compounding_procedures}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "mfg_procedure_compounding_compounding.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="254" splitType="Prevent">
+			<staticText>
+				<reportElement x="342" y="24" width="183" height="14" uuid="b852ea5f-aa9b-4ad4-83a9-3a2979a970a2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QA Inspector: ___________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="156" width="475" height="14" uuid="812dc40a-9168-4781-8977-c41a074f9401"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BULK POWDER APPROVAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="187" width="211" height="14" uuid="60d4f971-782d-40c1-89ea-0da6541cdd52"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Q.C. Disposition: _____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="388" y="201" width="132" height="14" uuid="517342b5-2f76-4dac-8ece-9d16673d67a6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QC Supervisor/Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="24" width="211" height="14" uuid="8847aa67-f725-4bb0-a653-c0ce34a9ff62"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Production PIC: ___________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="201" width="113" height="14" uuid="b66e4115-3fdb-417f-9c4f-16073b327d2b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QC Analyst]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="60" width="140" height="14" uuid="160242a0-2041-4cdd-90e4-af3faea4a57d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BULK VERIFIED BY/DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="74" width="140" height="14" uuid="5220e8fb-92d7-4b14-b3c0-a278c3b2b968"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Production Manager/date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="187" width="211" height="14" uuid="8676aa69-af16-49ce-b4c9-75b98926e4c0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approved by/Date: _____________________]]></text>
+			</staticText>
+			<line>
+				<reportElement x="76" y="107" width="140" height="1" uuid="ea898e1d-ed2b-4446-b480-28e9c9290176"/>
+			</line>
+			<staticText>
+				<reportElement x="342" y="74" width="140" height="14" uuid="02a9695d-821c-4247-beb1-f8704f55cebf"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[QA Manager/date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="60" width="140" height="14" uuid="9c44aacc-31d5-4b78-a475-a5be89943b41"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BULK APPROVED BY/DATE:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="342" y="107" width="140" height="1" uuid="1c7cf384-457a-4e39-8e45-e9ad24c3ee79"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

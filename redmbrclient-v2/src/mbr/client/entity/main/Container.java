@@ -62,7 +62,7 @@ public class Container implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Container[ id=" + id + " ]";
+        return name;
     }
     
 }

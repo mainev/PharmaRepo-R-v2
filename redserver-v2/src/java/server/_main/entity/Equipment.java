@@ -34,9 +34,11 @@ public class Equipment implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
+    
     @Size(max = 15)
     @Column(name = "code")
     private String code;
+    
     @Size(max = 100)
     @Column(name = "name")
     private String name;

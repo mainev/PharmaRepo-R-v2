@@ -1,81 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" >
-   <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-            <GridPane fx:id="_gridPaneInput" hgap="10.0" prefHeight="250.0" prefWidth="972.0" BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="494.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbr.client.controller.NewController">
+   <center>
+      <AnchorPane>
+         <children>
+            <GridPane fx:id="gridPane" hgap="5.0" prefHeight="350.0" prefWidth="600.0" vgap="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0" BorderPane.alignment="CENTER">
               <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="40.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="379.0" minWidth="10.0" prefWidth="288.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="379.0" minWidth="10.0" prefWidth="163.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="379.0" minWidth="10.0" prefWidth="150.0" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="149.0" />
+                <ColumnConstraints halignment="CENTER" maxWidth="280.0" minWidth="10.0" prefWidth="280.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="67.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="79.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label text="Product" />
-                  <Label text="Batch Size" GridPane.rowIndex="2" />
-                  <Label text="Batch No" GridPane.rowIndex="1" />
-                  <Label text="Manufacturing Date" GridPane.columnIndex="2" />
-                  <Label text="Expiration Date" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Label text="PO No" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <TextField fx:id="_textFieldBatchNo" prefHeight="25.0" prefWidth="218.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <DatePicker fx:id="_datePickerExpDate" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label text="Batch Size" GridPane.rowIndex="1" />
+                  <Label text="Manufacturing Date" GridPane.rowIndex="2" />
+                  <Label text="PO No" GridPane.rowIndex="3" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="_textFieldBatchSize" prefHeight="25.0" prefWidth="127.0" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="89.0" text="Unit" />
-                        <ChoiceBox fx:id="_choiceBoxBatchSizeUnit" prefHeight="25.0" prefWidth="112.0" />
+                        <TextField fx:id="batchSizeTextField" prefHeight="25.0" prefWidth="115.0" />
+                        <Label text="Unit" />
+                        <ChoiceBox fx:id="unitsChoiceBox" prefHeight="25.0" prefWidth="116.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                     <children>
-                        <TextField fx:id="_textFieldPoNo" prefWidth="200.0" />
-                     </children>
-                  </HBox>
-                  <DatePicker fx:id="_datePickerMfgDate" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="3" />
-                  <Label text="Pack Size" GridPane.rowIndex="3" />
-                  <VBox fx:id="_vBoxProductSelection" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <children>
-                        <TextField fx:id="_newPackSizeQtyTextField" prefHeight="25.0" prefWidth="64.0" promptText="qty" />
-                        <ComboBox fx:id="_packSizeUnitComboBox" prefHeight="25.0" prefWidth="115.0" />
-                        <Label fx:id="_perLabel" alignment="CENTER" prefHeight="17.0" prefWidth="29.0" text="per" />
-                        <ComboBox fx:id="_newPackSizeContainerComboBox" prefHeight="25.0" prefWidth="92.0" />
-                     </children>
-                  </HBox>
+                  <DatePicker fx:id="mfgDateDatePicker" prefHeight="25.0" prefWidth="283.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="poNoTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-               <padding>
-                  <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
-               </padding>
             </GridPane>
-         </center>
-         <bottom>
-            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="30.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button mnemonicParsing="false" onAction="" prefWidth="100.0" text="Add &amp; Print" />
-                  <Button mnemonicParsing="false" onAction="" prefWidth="100.0" text="Cancel" />
-               </children>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </HBox>
-         </bottom>
-      </BorderPane>
-   </children>
-</AnchorPane>
+         </children>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="494.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="addPrintButton" mnemonicParsing="false" prefWidth="100.0" text="Add" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Cancel" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

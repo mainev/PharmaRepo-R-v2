@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="finished_goods_reconciliation" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4ef2e33a-6fc2-45e5-be54-c4890219a532">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="485" splitType="Prevent">
+			<staticText>
+				<reportElement x="62" y="49" width="280" height="15" uuid="b99d9223-db95-4417-abac-8e744102649f"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FINISHED GOODS RECONCILIATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="64" width="180" height="15" uuid="97bd464a-7345-4811-a5cd-62f267f30404"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[PROCESSING OUTPUT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="64" width="100" height="15" uuid="91c737f3-dd6c-49dc-b92d-4487749c0122"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[QUANTITY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="79" width="180" height="15" uuid="a4b2f38c-349c-4a79-9217-34edd5d47432"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Finished Packs]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="94" width="180" height="15" uuid="3940c2c1-520e-498c-83d2-32239ecf867f"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Rejects]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="109" width="180" height="15" uuid="2bb15a5b-4d6d-42cc-ac0b-3406e0858ff3"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[QC Samples (for testing)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="124" width="180" height="15" uuid="6ebb804d-6347-44e6-beb0-89406160c5aa"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Retention Sample]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="139" width="180" height="15" uuid="734552cb-df4e-4026-adc6-a52937084060"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Yield (Good)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="154" width="180" height="15" uuid="90298314-839f-43ac-be14-aa1785ecafa0"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[% Yield]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="79" width="100" height="15" uuid="42514a9e-e270-4b9a-aacf-f7e7d4c4450a"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="94" width="100" height="15" uuid="cc1297dc-6d20-454c-b054-0f9c4df93ff4"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="109" width="100" height="15" uuid="6d503078-aeba-410f-a0bc-66e3d6f873ea"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="124" width="100" height="15" uuid="9f48d642-0437-4c6b-ab88-8a2ff1395eb9"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="139" width="100" height="15" uuid="dc9e9738-9e87-4732-9756-b31dd734b799"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="242" y="154" width="100" height="15" uuid="e3c1674a-a797-4985-af4e-12b36782bfc5"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="189" width="280" height="15" uuid="14d0ee3b-da4e-4db1-be8e-2d517ea99b96"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Material Transfer Slip (# & date) ___________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="204" width="280" height="15" uuid="7f766bfd-66ae-47fe-a4b6-e1b6b3f16b93"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Quantity: _________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="219" width="280" height="15" uuid="024c14d4-8b34-4b83-8d0a-6820b2a11f97"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Prepared by/Date: ___________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="278" width="280" height="15" uuid="d47d08d9-240d-4ea8-9e89-b00fbdaced4b"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approved by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="313" width="280" height="15" uuid="819350f6-57bb-4435-8b37-1b328d9366ed"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Production Manager: ____________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="375" width="555" height="15" uuid="eb0d0839-50ea-405c-b0d6-00d362786d8f"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FINISHED PRODUCT APPROVAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="400" width="210" height="15" uuid="6fe5735e-d462-459a-9423-7a116387b6c7"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Q.C. Disposition/Date: _______________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="273" y="400" width="210" height="15" uuid="e1eb9585-db2a-4b7c-9fb0-ef94aa455ad6"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Approved by/Date: __________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="415" width="72" height="15" uuid="9632ad72-c9ce-42a6-8912-ef66eb2229e1"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[QC Analyst]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="415" width="72" height="15" uuid="0e53379f-95d5-47b2-af9e-6aef19b30545"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[QC Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="133" y="451" width="299" height="15" uuid="77917c75-b8ad-41d5-9743-a9da2df8f2ae"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Finished Product Release by/Date: __________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="466" width="72" height="15" uuid="c513bedd-32bf-4c98-8e91-e38a4a35b883"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[QA Manager]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

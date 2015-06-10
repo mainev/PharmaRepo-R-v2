@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mbr_template" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="14" bottomMargin="14" uuid="f61e6101-1f89-4c62-867f-6a2c44bab47c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="191"/>
+	<property name="ireport.callouts" value="##Mon May 25 16:55:38 SGT 2015\ncallouts.17.text=packaging_area_clearance_after_bottling.jrxml\ncallouts.10.text=packaging_materials.jrxml\ncallouts.4.pins=184,314;\ncallouts.13.bounds=222,575,153,40\ncallouts.15.bounds=446,627,163,45\ncallouts.7.bounds=223,384,215,37\ncallouts.9.bounds=226,461,224,37\ncallouts.22.text=packg_material_reconciliation.jrxml\ncallouts.15.pins=178,656;\ncallouts.22.bounds=222,869,216,44\ncallouts.7.text=start_up_of_encapsulation.jrxml\ncallouts.18.text=packaging_area_clearance_start_&amp;_end_of_label_pack.jrxml\ncallouts.1.text=first_page.jrxml\n\ncallouts.20.pins=175,810;\ncallouts.11.bounds=225,525,230,34\ncallouts.11.text=mfg_area_clearance_coding_room.jrxml\ncallouts.3.bounds=223,269,226,39\ncallouts.5.bounds=224,328,235,37\ncallouts.5.pins=185,346;\ncallouts.20.bounds=222,809,214,38\ncallouts.12.text=mfg_procedure_coding_specification.jrxml\ncallouts.23.text=finished_goods_reconciliation\ncallouts.16.pins=178,688;\ncallouts.8.text=mfg_procedure_encapsulation.jrxml\n needs redesigning the page\ncallouts.1.bounds=224,210,116,37\ncallouts.19.text=packg_operations_packg_procedure.jrxml\ncallouts.2.text=process_flow_diagram_1.jrxml\ncallouts.21.pins=176,842;\ncallouts.6.pins=184,375;\ncallouts.13.text=coded_labels.jrxml\ncallouts.18.bounds=221,745,347,43\ncallouts.24.text=direct_labor_data_sheet\ncallouts.17.pins=177,717;\ncallouts.10.pins=178,503;\ncallouts.9.text=capsule_group_weight_monitoring.jrxml\n\ncallouts.25.bounds=229,961,160,41\ncallouts.3.text=start_up_and_end_of_dispensing.jrxml\n\ncallouts.22.pins=174,871;\ncallouts.14.bounds=224,607,234,35\ncallouts.16.bounds=224,670,225,38\ncallouts.7.pins=179,409;\ncallouts.8.bounds=393,416,270,49\ncallouts.14.text=mfg_area_clearance_bottling_area.jrxml\n\ncallouts.23.bounds=226,905,196,39\ncallouts.25.text=comment_page\ncallouts.18.pins=176,748;\ncallouts.1.pins=188,219;\ncallouts.11.pins=179,533;\ncallouts.12.pins=180,562;\ncallouts.12.bounds=222,551,254,35\ncallouts.6.bounds=467,340,240,42\ncallouts.4.text=product_formulation.jrxml also includes a subreport raw_material_specification.jrxml\n\ncallouts.23.pins=173,906;\ncallouts.21.bounds=220,841,259,35\ncallouts.8.pins=178,440;\ncallouts.15.text=bottling_procedure.jrxml\ncallouts.19.pins=175,780;\ncallouts.2.pins=187,255;\ncallouts.10.bounds=226,492,171,39\ncallouts.2.bounds=223,241,187,39\ncallouts.4.bounds=225,297,442,39\ncallouts.20.text=net_weight_monitoring_sheet.jrxml\ncallouts.13.pins=179,594;\ncallouts.24.pins=173,936;\ncallouts.5.text=start_up_of_compounding.jrxml\ncallouts.9.pins=179,471;\ncallouts.16.text=bottle_Weight_monitoring_sheet.jrxml\ncallouts.19.bounds=219,778,235,38\ncallouts.3.pins=188,284;\ncallouts.21.text=packg_operations_packg_procedure_cont.jrxml\ncallouts.14.pins=180,625;\ncallouts.25.pins=172,966;\ncallouts.17.bounds=223,698,266,53\ncallouts.6.text=mfg_procedure_compounding.jrxml\ncallouts.24.bounds=227,931,183,41"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mbr" class="java.lang.Object"/>
+	<parameter name="batch_rm_requirements" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[$P{mbr}.getProductId().getActiveUdf().getRawMaterialRequirementList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="equipment_requirements_compounding" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[$P{mbr}.getProductId().getActiveManufacturingProcedure().getEquipmentRequirementCompoundingList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="bottles" class="java.lang.Integer"/>
+	<parameter name="batch_pm_requirements" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[$P{mbr}.getProductId().getActiveUdf().getPackagingMaterialRequirementList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rows" class="java.util.Collection"/>
+	<parameter name="cbox_rows" class="java.util.Collection"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="202" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="147" height="30" uuid="e728fb4e-9d56-44c1-bcf7-33c71825d1eb"/>
+				<imageExpression><![CDATA["..\\nutratech.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="336" y="0" width="219" height="15" uuid="872d0df4-a65c-4de6-a3bf-f0ffb62dcf41"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Brgy. Balubad II, Silang, Cavite, Philippines]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="336" y="15" width="219" height="15" uuid="867fcb7a-3fa7-4ffa-a8f7-2113bf0e8a91"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Tel. Nos. (+63)579-0954  +63 917-5583837]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="34" width="555" height="1" uuid="33040136-fd35-4712-bef5-e83c5552386b"/>
+			</line>
+			<line>
+				<reportElement x="0" y="31" width="555" height="1" uuid="4dcf2c09-e8fe-42eb-962e-4b4dbedbf06b"/>
+				<graphicElement>
+					<pen lineWidth="2.25" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="38" width="555" height="25" uuid="78c5f486-1604-4e7d-ae87-4a5c12c06a1a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MANUFACTURING BATCH RECORD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="67" width="105" height="15" uuid="5b23304d-b572-4d51-8952-d97a997d9201"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[GENERIC NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="82" width="105" height="15" uuid="774f472b-706f-48d7-9c20-9d83046b7330"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PRODUCT / BRAND:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="97" width="105" height="15" uuid="e9ea4027-f614-4aca-859c-bec41f9bd2b6"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[CLIENT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="112" width="105" height="15" uuid="0a69e0ec-3af8-475d-9a80-4bd8d69ce5d5"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[SHELF LIFE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="127" width="105" height="15" uuid="52cf8619-cb89-4025-8090-f175188c993a"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[MFG DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="142" width="105" height="15" uuid="22a50ba4-e3d9-4d4c-bd39-0889b6e07292"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[EXP DATE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="67" width="450" height="15" uuid="3edfe2d7-24f8-402d-a995-8bf84af68235"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getProductId().getGenericName()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="365" y="82" width="73" height="15" uuid="e69bf667-bda7-4737-a462-ef2b182e89bf"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[FR. NO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="97" width="73" height="15" uuid="196815f0-a1e7-4653-93b9-aba2939b9b98"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[BATCH NO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="112" width="73" height="15" uuid="f750d18f-f665-4051-8520-02bee9b2a395"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PACK SIZE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="142" width="73" height="15" uuid="d56eebde-2952-4453-b857-0ef3e1f66a27"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PO #:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="127" width="73" height="15" uuid="4473bc14-3d89-4b54-8e90-d74c1bcb4b61"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[BATCH SIZE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="438" y="82" width="117" height="15" uuid="508b0746-16db-4884-a75b-51dcbcb6e601"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getProductId().getVrNo()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="97" width="117" height="15" uuid="d8bf39c0-24cd-4600-8ec9-1677824e4bf8"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getBatchNo()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="112" width="117" height="15" uuid="99ab5a7a-5b23-472f-956a-fd389d521c14"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[""+$P{mbr}.getProductId().getPackSizeId().getQuantity()+" "+$P{mbr}.getProductId().getPackSizeId().getUnitId().getName()+" per "+$P{mbr}.getProductId().getPackSizeId().getContainerId().getName()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="127" width="117" height="15" uuid="a434da4a-c4df-4147-8dd7-85f36a48ef61"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getBatchSize()+" "+$P{mbr}.getUnitId().getName()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="142" width="117" height="15" uuid="e2b36bae-ee65-4e0a-9649-b1bc282c51c2"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getPoNo()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="82" width="260" height="15" uuid="6019033a-795c-4c1a-b60c-295e70dc8731"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getProductId().getBrandName()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="97" width="260" height="15" uuid="b4624e66-0394-4914-a568-b300ffdea602"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getProductId().getClientId().getName()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="112" width="260" height="15" uuid="86691b6e-85b4-46cd-96f5-a07d3ef44979"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getProductId().getShelfLife()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="127" width="260" height="15" uuid="2da6dc41-2984-4588-97fd-daaeec5387d1"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getMfgDate()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="142" width="260" height="15" uuid="e31edf70-6875-46e2-b933-2c3c6a42989e"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{mbr}.getExpDate()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="157" width="147" height="35" uuid="3a9df9ef-bd2d-478c-b5bb-da5c61704f8c"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Prepared by/date:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="147" y="157" width="209" height="35" uuid="590e272a-772c-4d60-abf1-8834611ff7be"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Checked by/date:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="157" width="199" height="35" uuid="c6aae6a5-56bb-4818-ad78-117de543ea29"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Approved by/date:"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<subreport runToBottom="true">
+				<reportElement x="0" y="0" width="200" height="30" uuid="af3b87f3-343b-4027-aa09-ab4e7810529e"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "first_page.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="a503b3cd-9bd9-45df-aa85-ed885cc801b0"/>
+			</break>
+		</band>
+		<band height="31" splitType="Prevent">
+			<subreport runToBottom="true">
+				<reportElement x="0" y="0" width="200" height="30" uuid="49d66a3f-fb8e-4d4b-9f16-50dc80fab405"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "process_flow_diagram_1.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="26f63684-0dee-4f15-9acb-342cae575cad"/>
+			</break>
+		</band>
+		<band height="31" splitType="Stretch">
+			<subreport runToBottom="true">
+				<reportElement x="0" y="0" width="200" height="30" uuid="efd4bd29-47f6-4c40-9768-9b1645c40b83"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "start_up_and_end_of_dispesing.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="b89d686f-3fc6-45f8-873e-193fdc02a25e"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="9b331dc1-7d3b-4bcb-81a2-e50c4bd15c12"/>
+				<subreportParameter name="batch_rm_requirements">
+					<subreportParameterExpression><![CDATA[$P{batch_rm_requirements}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_rm_requirements}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "product_formulation.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="e20ec1db-47a9-4ee9-bfe7-1b7651388fbd"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="7bac5a28-cc4b-46ed-ae48-bb5c4030f38d"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "start_up_of_compounding.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="4a5aed9b-0227-4036-9ae2-3accfd2330d5"/>
+			</break>
+		</band>
+		<band height="31" splitType="Stretch">
+			<subreport runToBottom="true">
+				<reportElement x="0" y="0" width="200" height="30" uuid="a489b9f2-286f-4454-8c83-387055bf5f7f"/>
+				<subreportParameter name="equipment_requirements_compounding">
+					<subreportParameterExpression><![CDATA[$P{equipment_requirements_compounding}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="mbr">
+					<subreportParameterExpression><![CDATA[$P{mbr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_rm_requirements">
+					<subreportParameterExpression><![CDATA[$P{batch_rm_requirements}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "mfg_procedure_compounding.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="95eb797e-3bf2-4e44-829f-362fab081b8d"/>
+			</break>
+		</band>
+		<band height="31" splitType="Prevent">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="8058a88c-fa9c-433e-b74c-5968007e0dfc"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "start_up_of_encapsulation.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="e57c5754-307e-4bd7-b9be-07c950737632"/>
+			</break>
+		</band>
+		<band height="31" splitType="Prevent">
+			<subreport runToBottom="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="200" height="30" isPrintInFirstWholeBand="true" uuid="a46778c1-fd34-4600-bf40-93bf1418a313"/>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<subreportParameter name="mbr">
+					<subreportParameterExpression><![CDATA[$P{mbr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "mfg_procedure_encapsulation.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="c833a21e-173c-4758-900b-57c2adc8214c"/>
+			</break>
+		</band>
+		<band height="31" splitType="Prevent">
+			<subreport runToBottom="true">
+				<reportElement x="0" y="0" width="200" height="30" uuid="e6106010-28ef-442e-b3b0-7434ebcb6a36"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "capsule_group_weight_monitoring.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="69447c49-2e93-49a2-886a-b3e3a32e4cea"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="5b830820-193f-4205-86ba-ee09f8dcd44a"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_pm_requirements}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "packaging_materials.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="22f2911e-2098-48ea-9a69-bdace691d288"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="b8ec4645-a378-439e-8379-fbf762ec649e"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "mfg_area_clearance_coding_room.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="83718514-95a9-46d2-80b6-dac22a8fa072"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="aef16fbc-7090-429f-b7e0-30e74a5ccf55"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "mfg_procedure_coding_specification.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="d14bc6a3-79d6-418a-8d11-dcd7ace77c1f"/>
+			</break>
+		</band>
+		<band height="31" splitType="Prevent">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="4f0b4098-4ba6-4fc0-a93b-12322b21824b"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "coded_labels.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="bfc9fc83-20e0-4933-96b6-f65cba5c4de8"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="49ccb383-5cfa-4357-9c1e-66b752b0658b"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "mfg_area_clearance_bottling_area.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="319b4c0c-f28f-4158-8d7e-f902b4138fbb"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="77cb337e-2ecf-46ab-be6f-184296bd88b7"/>
+				<subreportParameter name="mbr">
+					<subreportParameterExpression><![CDATA[$P{mbr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "bottling_procedure.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="aaef978f-5bff-4389-842a-3acec219517a"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport runToBottom="true">
+				<reportElement x="0" y="0" width="200" height="30" uuid="bc1bc93d-34dc-4da2-b35d-bc9897d5c3c5"/>
+				<subreportParameter name="bottles">
+					<subreportParameterExpression><![CDATA[$P{bottles}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{rows}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "bottle_weight_monitoring_sheet.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="6c287bef-741b-478d-b930-505e8f35863c"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="ba494481-8175-48f5-baec-e5e5bd11f018"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "packaging_area_clearance_after_bottling.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="2922a0ac-c7c7-4ae2-b2c4-3ad911a0f7e9"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="053faec1-4da6-4184-98c8-28d704cfe550"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "packaging_area_clearance_start_&_end_of_label_pack.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="bfd39d84-b9c6-48f9-90cb-802949178f9b"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="7cea90b6-dde9-4ba2-9c90-7f3c86fc7297"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "packg_operations_packg_procedure.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="ed9e9484-9f6f-4d49-8e19-335a93d983d9"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="3806ce0d-3831-47d4-8a19-4e80e2bacdc3"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{cbox_rows}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "net_weight_monitoring_sheet.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="6f0f9e5b-0f35-4ed7-8656-af3c4fb39314"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="7f073ab2-17c2-4f57-ac76-526ff8b6286d"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "packg_operations_packg_procedure_cont.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="c8bb984a-7c9e-443a-8d22-006a39ea7c5e"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="b7b2f550-9b18-436f-a90d-00baa652a28a"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_pm_requirements}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "packg_material_reconciliation.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="d0a67a26-8c15-4d63-b4f9-ad6a7a9307fe"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="6421fe66-0b16-4d27-b376-9adb382bafe8"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "finished_goods_reconciliation.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="c8b6ff85-4d20-4df7-8f15-e9d24f38db25"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="9b1cc4a0-9985-4e0e-a656-ad32b0b905fc"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "direct_labor_data_sheet.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="30" width="100" height="1" uuid="7da74cb3-1f11-4dee-9030-8c22ffd4d917"/>
+			</break>
+		</band>
+		<band height="31">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="bd5e49fc-ed30-4914-b07a-5b6115441fd2"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "comment_page.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<textField>
+				<reportElement x="207" y="4" width="80" height="15" uuid="9e387ebd-c906-45e1-beb1-7c222e66e218"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="287" y="4" width="40" height="15" uuid="36da0de5-6eb4-4c3a-a2cd-1afc639d9f01"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="19" width="555" height="15" uuid="f2e068ca-51d0-4337-bb6a-20fb7be16a49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[This document is a property of NUTRA TECH BIOPHARMA, INC. It shall not be reproduced in part or in full or used without authorization]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -5,20 +5,44 @@
  */
 package mbr.client.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import mbr.client.entity.main.PackagingMaterial;
+import mbr.client.entity.mbr.CompoundingProcedure;
+import mbr.client.entity.mbr.Dosage;
 import mbr.client.entity.mbr.Mbr;
+import mbr.client.entity.mbr.PackagingMaterialRequirement;
+import mbr.client.entity.mbr.RawMaterialRequirement;
+import mbr.client.service.main.ProductService;
 import mbr.client.service.mbr.MbrService;
 import mbr.client.utils.DateConverter;
+import mbr.client.utils.UDFCalculator;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -26,10 +50,10 @@ import mbr.client.utils.DateConverter;
  * @author maine
  */
 public class ListController implements Initializable {
-    
+
     @FXML
     HBox _headerHBox;
-    
+
     @FXML
     TableView<Mbr> _tableViewMbrList;
     @FXML
@@ -52,21 +76,50 @@ public class ListController implements Initializable {
     TableColumn<Mbr, String> _colPackSize;
     @FXML
     TableColumn<Mbr, String> _colVrNo;
-   
-   MbrService mbrService = new MbrService();
+
+    @FXML
+    Button newButton;
+    @FXML
+    Button printButton;
+
+    MbrService mbrService = new MbrService();
+    ProductService productService = new ProductService();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       initMbrListTableView();
+        initMbrListTableView();
+        printButton.setDisable(true);
+
+        newButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                handleNewButton();
+            }
+        });
+
+        printButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                createMbrJasperReport();
+            }
+        });
+        
+        _tableViewMbrList.getSelectionModel().selectedItemProperty().addListener((ob, ov, nv)->{
+            if(nv != null){
+                printButton.setDisable(false);
+            }
+                
+        });
+
     }
-    
-   
+
     private void initMbrListTableView() {
-          ObservableList<Mbr> mbrList = mbrService.getMbrList();
+        ObservableList<Mbr> mbrList = mbrService.getMbrList();
         _tableViewMbrList.setItems(mbrList);
+
         _colProductCode.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getProductId().getCode()));
         _colProductBrandName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getProductId().getBrandName()));
         _colBatchNo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBatchNo()));
@@ -82,74 +135,68 @@ public class ListController implements Initializable {
                                 + c.getValue().getProductId().getPackSizeId().getContainerId().getName())
                 );
         _colVrNo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getProductId().getVrNo()));
-        
-      
-        
-       // mbrService.getMbrList();
+
     }
-    
-    @FXML
-    public void handleNewButton() {
-        /*
+
+    private void handleNewButton() {
+
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mbr/client/view/mbr/new.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mbr/client/view/new.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Create New Mbr");
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("EXCEPTIONS: \n" + e.getMessage());
-        }*/
+
+        }
     }
-    
-    /*
-    @FXML
-    public void handlePrintButton() throws JRException {
+
+    public void createMbrJasperReport() {
+
         UDFCalculator udfCalculator = new UDFCalculator();
         Mbr mbr = _tableViewMbrList.getSelectionModel().getSelectedItem();
-        Collection<RawMaterialRequirements> rmReqCollection = mbr.getProductPackSizeId().getProductId().getActiveUdf().getRawMaterialRequirementsCollection();
-        Collection<PackagingMaterialRequirements> pmReqCollection = mbr.getProductPackSizeId().getProductId().getActiveUdf().getPackagingMaterialRequirementsCollection();
-        for (RawMaterialRequirements rmReq : rmReqCollection) {
-            udfCalculator.calculateBatchRawMaterialReq(rmReq, mbr);  //  System.out.println("rmReq.getNewQuantity === " + rmReq.getNewQuantity());
-        }
-        for (CompoundingProcedure cp : mbr.getProductPackSizeId().getProductId().getActiveManufacturingProcedure().getCompoundingProcedureCollection()) {
-            for (DosageInProcedure dip : cp.getDosageInProcedureCollection()) {
-                for (RawMaterialRequirements rmr : rmReqCollection) {
-                    if (rmr.getId().equals(dip.getRawMaterialRequirementsId().getId())) {
-                        dip.setQuantity(rmr.getNewQuantity());
-                        dip.setUnit(rmr.getNewUnit());
+        List<RawMaterialRequirement> rmReqCollection = mbr.getProductId().getActiveUdf().getRawMaterialRequirementList();
+        List<PackagingMaterialRequirement> pmReqCollection = mbr.getProductId().getActiveUdf().getPackagingMaterialRequirementList();
+
+        udfCalculator.calculateRawMaterialBatchReq(mbr);
+        udfCalculator.calculatePackMatBatchReq(mbr);
+        
+        for (CompoundingProcedure cp : mbr.getProductId().getActiveManufacturingProcedure().getCompoundingProcedureList()) {
+            for (Dosage d : cp.getDosageList()) {
+                for (RawMaterialRequirement rmr : rmReqCollection) {
+                    if (rmr.getId().equals(d.getRawMaterialRequirementId().getId())) {
+                        d.setRawMaterialRequirementId(rmr);
                     }
                 }
             }
         }
-        
-        for (PackagingMaterialRequirements pmReq : pmReqCollection) {
-            pmReq = udfCalculator.calculateBatchPackMatReq(pmReq, mbr);
-        }
 
         //this part gets the bottle and cbox used in the product to be displayed in report
-        PackagingMaterial bottleContainer = productService.getBottleContainer(mbr.getProductPackSizeId().getProductId());
-        PackagingMaterial cBoxContainer = productService.getCBoxContainer(mbr.getProductPackSizeId().getProductId());
-        double noOfBottles = mbrService.getNoOfBottlesInBatch(pmReqCollection, bottleContainer.getId());
-        int noOfCBox = mbrService.getNoOfCBox(pmReqCollection, cBoxContainer.getId());
-        Integer[] bottleRows = new Integer[getNumberOfReportRows(noOfBottles / 1.02)];
-        Integer[] cboxRows = new Integer[noOfCBox];
+        PackagingMaterial bottleContainer = productService.getPrimaryPackaging(mbr.getProductId());
+        PackagingMaterial cBoxContainer = productService.getSecondaryPackaging(mbr.getProductId());
+        double noOfBottles = mbrService.getPrimaryPackagingQuantity(pmReqCollection, bottleContainer.getId());
+        int noOfCBox = mbrService.getSecondaryPackagingQuantity(pmReqCollection, cBoxContainer.getId());
+        Integer[] primaryPackagingNoOfRows = new Integer[getNumberOfReportRows(noOfBottles / 1.02)];
+        Integer[] secondaryPackagingNoOfRows = new Integer[noOfCBox];
 
-        //
-        Map<String, Object> params = new HashMap();
-        params.put("mbr", mbr);
-        params.put("bottles", noOfBottles);
-        params.put("rows", bottleRows);
-        params.put("cbox_rows", cboxRows);
-        JasperPrint jasperPrint = JasperFillManager.fillReport("reports/mbr/TABLET HUMAN/mbr_template.jasper",
-                params, new JREmptyDataSource());
-        JasperViewer.viewReport(jasperPrint, false);
-    }*/
-    
+        try {
+            Map<String, Object> params = new HashMap();
+            params.put("mbr", mbr);
+            params.put("bottles", noOfBottles);
+            params.put("rows", primaryPackagingNoOfRows);
+            params.put("cbox_rows", secondaryPackagingNoOfRows);
+            JasperPrint jasperPrint = JasperFillManager.fillReport("reports/mbr/TABLET HUMAN/mbr_template.jasper",
+                    params, new JREmptyDataSource());
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+    }
+
+  
     private int getNumberOfReportRows(double size) {
         int rows = 0;
         int item = 0;
@@ -161,5 +208,5 @@ public class ListController implements Initializable {
         }
         return rows;
     }
-    
+
 }

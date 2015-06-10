@@ -43,7 +43,7 @@ public class CompoundingProcedure implements Serializable {
     @Column(name = "step_number")
     private Short stepNumber;
     
-    @Size(max = 200)
+    @Size(max = 500)
     @Column(name = "header")
     private String header;
     
@@ -64,11 +64,21 @@ public class CompoundingProcedure implements Serializable {
     
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
-    @XmlTransient
     private ManufacturingProcedure manufacturingProcedureId;
 
     public CompoundingProcedure() {
     }
+
+    @XmlTransient
+    public ManufacturingProcedure getManufacturingProcedureId() {
+        return manufacturingProcedureId;
+    }
+
+    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+        this.manufacturingProcedureId = manufacturingProcedureId;
+    }
+    
+    
 
     public CompoundingProcedure(Integer id) {
         this.id = id;
@@ -122,7 +132,6 @@ public class CompoundingProcedure implements Serializable {
         this.checkedBy = checkedBy;
     }
 
-    @XmlTransient
     public List<Dosage> getDosageList() {
         return dosageList;
     }

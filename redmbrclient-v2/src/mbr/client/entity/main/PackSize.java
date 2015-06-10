@@ -82,7 +82,7 @@ public class PackSize implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.PackSize[ id=" + id + " ]";
+        return ""+quantity+" " + unitId+" per "+containerId;
     }
     
 }

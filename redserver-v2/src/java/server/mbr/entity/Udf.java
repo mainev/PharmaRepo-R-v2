@@ -34,38 +34,45 @@ import server._main.entity.Unit;
 @NamedQueries({
     @NamedQuery(name = "Udf.findAll", query = "SELECT u FROM Udf u")})
 public class Udf implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "content")
     private Double content;
-    
-  @JoinColumn(name = "unit_id", referencedColumnName="id")
-  @ManyToOne
+
+    @JoinColumn(name = "unit_id", referencedColumnName = "id")
+    @ManyToOne
     private Unit unitId;
-  
-  
+
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne
-    @XmlTransient
     private Product productId;
-    
-  
+
     @Column(name = "is_active")
     private Boolean isActive;
-    
+
     @OneToMany(mappedBy = "udfId")
     private List<PackagingMaterialRequirement> packagingMaterialRequirementList;
-    
+
     @OneToMany(mappedBy = "udfId")
     private List<RawMaterialRequirement> rawMaterialRequirementList;
 
     public Udf() {
+    }
+
+    @XmlTransient
+    public Product getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Product productId) {
+        this.productId = productId;
     }
 
     public Udf(Integer id) {
@@ -97,14 +104,14 @@ public class Udf implements Serializable {
     }
 
     /*
-    public Integer getProductId() {
-        return productId;
-    }
+     public Integer getProductId() {
+     return productId;
+     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-*/
+     public void setProductId(Integer productId) {
+     this.productId = productId;
+     }
+     */
     public Boolean getIsActive() {
         return isActive;
     }
@@ -113,7 +120,6 @@ public class Udf implements Serializable {
         this.isActive = isActive;
     }
 
-    
     public List<PackagingMaterialRequirement> getPackagingMaterialRequirementList() {
         return packagingMaterialRequirementList;
     }
@@ -122,7 +128,6 @@ public class Udf implements Serializable {
         this.packagingMaterialRequirementList = packagingMaterialRequirementList;
     }
 
- 
     public List<RawMaterialRequirement> getRawMaterialRequirementList() {
         return rawMaterialRequirementList;
     }
@@ -155,5 +160,5 @@ public class Udf implements Serializable {
     public String toString() {
         return "server.mbr.entity.Udf[ id=" + id + " ]";
     }
-    
+
 }

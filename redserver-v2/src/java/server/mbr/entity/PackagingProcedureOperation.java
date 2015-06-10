@@ -47,12 +47,22 @@ public class PackagingProcedureOperation implements Serializable {
     
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
-    @XmlTransient
     private ManufacturingProcedure manufacturingProcedureId;
 
     public PackagingProcedureOperation() {
     }
 
+    
+    @XmlTransient
+    public ManufacturingProcedure getManufacturingProcedureId() {
+        return manufacturingProcedureId;
+    }
+
+    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+        this.manufacturingProcedureId = manufacturingProcedureId;
+    }
+
+    
     public PackagingProcedureOperation(Integer id) {
         this.id = id;
     }

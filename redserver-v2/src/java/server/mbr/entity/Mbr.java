@@ -58,11 +58,11 @@ public class Mbr implements Serializable {
     private Unit unitId;
    
     @Column(name = "mfg_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date mfgDate;
     
     @Column(name = "exp_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date expDate;
     
     @Size(max = 15)

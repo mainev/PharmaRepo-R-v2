@@ -6,7 +6,10 @@
 package mbr.client.entity.main;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
+import mbr.client.entity.mbr.ManufacturingProcedure;
+import mbr.client.entity.mbr.Udf;
 
 /**
  *
@@ -26,10 +29,36 @@ public class Product implements Serializable {
     private Classification classificationId;
     private Client clientId;
     private PackSize packSizeId;
+      private List<Udf> udfList;
+      private List<ManufacturingProcedure> manufacturingProcedureList;
 
     public Product() {
     }
 
+    public Udf getActiveUdf(){
+        for(Udf u : udfList){
+          if(u.getIsActive())
+              return u;
+        }
+        return null;
+    }
+    
+    public ManufacturingProcedure getActiveManufacturingProcedure(){
+        for(ManufacturingProcedure mp : manufacturingProcedureList){
+            if(mp.getIsActive())
+                return mp;
+        }
+        return null;
+    }
+    public List<Udf> getUdfList() {
+        return udfList;
+    }
+
+    public void setUdfList(List<Udf> udfList) {
+        this.udfList = udfList;
+    }
+
+    
     public Product(Integer id) {
         this.id = id;
     }
@@ -136,7 +165,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Product[ id=" + id + " ]";
+        return code + " : " + brandName + " - " + packSizeId;
     }
     
 }

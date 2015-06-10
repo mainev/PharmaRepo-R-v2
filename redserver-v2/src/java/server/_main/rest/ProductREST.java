@@ -54,19 +54,19 @@ public class ProductREST {
     }
     
     @GET
-    @Path("/getbottlecontainer")
+    @Path("/getprimarypackaging")
     @Produces("application/json")
     @Consumes("application/json")
-    public PackagingMaterial getBottleContainer(@QueryParam("productId") String productId){
+    public PackagingMaterial getPrimaryPackaging(@QueryParam("productId") String productId){
         Integer product_id = Integer.parseInt(productId);
         return productFacade.getPrimaryPackaging(product_id);
     }
     
      @GET
-    @Path("/getcboxcontainer")
+    @Path("/getsecondarypackaging")
     @Produces("application/json")
     @Consumes("application/json")
-    public PackagingMaterial getCBoxContainer(@QueryParam("productId") String productId){
+    public PackagingMaterial getSecondaryPackaging(@QueryParam("productId") String productId){
         Integer product_id = Integer.parseInt(productId);
         return productFacade.getSecondaryPackaging(product_id);
     }

@@ -53,11 +53,22 @@ public class RawMaterialRequirement implements Serializable {
     
     @JoinColumn(name = "udf_id", referencedColumnName = "id")
     @ManyToOne
-    @XmlTransient
     private Udf udfId;
 
     public RawMaterialRequirement() {
     }
+
+    
+    @XmlTransient
+    public Udf getUdfId() {
+        return udfId;
+    }
+
+    public void setUdfId(Udf udfId) {
+        this.udfId = udfId;
+    }
+    
+    
 
     public RawMaterialRequirement(Integer id) {
         this.id = id;

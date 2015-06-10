@@ -72,7 +72,7 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Unit[ id=" + id + " ]";
+        return name;
     }
     
 }

@@ -7,8 +7,6 @@ package mbr.client.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +21,7 @@ public abstract class Serializer {
 
     public static <T> ObservableList<T> deserializeList(String json, Class<T> typeClass) {
         ObservableList<T> observableList = FXCollections.observableArrayList();
-        Gson gson = new Gson();
+          Gson gson = new GsonBuilder().setDateFormat(pattern).create();
         List<T> datasets = gson.fromJson(json, new ListOfJson(typeClass));
         datasets.forEach(rm -> observableList.add(rm));
 

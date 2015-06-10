@@ -7,7 +7,7 @@ package mbr.client.entity.mbr;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
-import mbr.client.entity.main.RawMaterial;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -15,12 +15,12 @@ import mbr.client.entity.main.RawMaterial;
  */
 @XmlRootElement
 public class Dosage implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private RawMaterial rawMaterialId;
-    private Double quantity;
-    private Short unitId;
+    private RawMaterialRequirement rawMaterialRequirementId;
     private Double percentMultiplier;
+
     public Dosage() {
     }
 
@@ -36,29 +36,32 @@ public class Dosage implements Serializable {
         this.id = id;
     }
 
-    public RawMaterial getRawMaterialId() {
-        return rawMaterialId;
+    public RawMaterialRequirement getRawMaterialRequirementId() {
+        return rawMaterialRequirementId;
     }
 
-    public void setRawMaterialId(RawMaterial rawMaterialId) {
-        this.rawMaterialId = rawMaterialId;
+    public void setRawMaterialRequirementId(RawMaterialRequirement rawMaterialRequirementId) {
+        this.rawMaterialRequirementId = rawMaterialRequirementId;
     }
 
+    @XmlTransient
     public Double getQuantity() {
-        return quantity;
+        return rawMaterialRequirementId.getNewQuantity() * percentMultiplier;
+       // return quantity;
     }
 
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
+//    public void setQuantity(Double quantity) {
+//        this.quantity = quantity;
+//    }
+
+     @XmlTransient
+    public String getUnit() {
+        return rawMaterialRequirementId.getNewUnit();
     }
 
-    public Short getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Short unitId) {
-        this.unitId = unitId;
-    }
+//    public void setUnit(String unit) {
+//        this.unit = unit;
+//    }
 
     public Double getPercentMultiplier() {
         return percentMultiplier;
@@ -67,17 +70,16 @@ public class Dosage implements Serializable {
     public void setPercentMultiplier(Double percentMultiplier) {
         this.percentMultiplier = percentMultiplier;
     }
-    
+
     /*
 
-    public CompoundingProcedure getCompoundingProcedureId() {
-        return compoundingProcedureId;
-    }
+     public CompoundingProcedure getCompoundingProcedureId() {
+     return compoundingProcedureId;
+     }
 
-    public void setCompoundingProcedureId(CompoundingProcedure compoundingProcedureId) {
-        this.compoundingProcedureId = compoundingProcedureId;
-    }*/
-
+     public void setCompoundingProcedureId(CompoundingProcedure compoundingProcedureId) {
+     this.compoundingProcedureId = compoundingProcedureId;
+     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -102,5 +104,5 @@ public class Dosage implements Serializable {
     public String toString() {
         return "server.mbr.entity.Dosage[ id=" + id + " ]";
     }
-    
+
 }
