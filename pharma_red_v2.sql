@@ -454,7 +454,7 @@ ALTER SEQUENCE compounding_procedure_id_seq OWNED BY compounding_procedure.id;
 
 CREATE TABLE dosage (
     id integer NOT NULL,
-    raw_material_id integer,
+    raw_material_requirement_id integer,
     quantity double precision,
     unit_id smallint,
     percent_multiplier double precision,
@@ -1806,11 +1806,11 @@ ALTER TABLE ONLY dosage
 
 
 --
--- Name: dosage_raw_material_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+-- Name: dosage_raw_material_requirement_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
 ALTER TABLE ONLY dosage
-    ADD CONSTRAINT dosage_raw_material_id_fkey FOREIGN KEY (raw_material_id) REFERENCES main.raw_material(id);
+    ADD CONSTRAINT dosage_raw_material_requirement_id_fkey FOREIGN KEY (raw_material_requirement_id) REFERENCES raw_material_requirement(id);
 
 
 --
