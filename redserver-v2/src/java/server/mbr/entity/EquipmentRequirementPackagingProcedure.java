@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import server._main.entity.Equipment;
 
 /**
@@ -42,6 +43,8 @@ public class EquipmentRequirementPackagingProcedure implements Serializable {
     private Equipment equipmentId;
    
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
+//    @JoinColumns({
+//        @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
 
@@ -68,7 +71,7 @@ public class EquipmentRequirementPackagingProcedure implements Serializable {
         this.equipmentId = equipmentId;
     }
 
-  
+  @XmlTransient
     public ManufacturingProcedure getManufacturingProcedureId() {
         return manufacturingProcedureId;
     }

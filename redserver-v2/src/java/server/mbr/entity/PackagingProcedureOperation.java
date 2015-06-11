@@ -28,8 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "packaging_procedure_operation", schema="mbr")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PackagingProcedureOperation.findAll", query = "SELECT p FROM PackagingProcedureOperation p")})
 public class PackagingProcedureOperation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,14 +35,13 @@ public class PackagingProcedureOperation implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
     @Column(name = "step_number")
     private Short stepNumber;
-    
-    @Size(max = 200)
+    @Size(max = 500)
     @Column(name = "header")
     private String header;
-    
+    @Column(name = "part")
+    private Short part;
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
@@ -52,17 +49,6 @@ public class PackagingProcedureOperation implements Serializable {
     public PackagingProcedureOperation() {
     }
 
-    
-    @XmlTransient
-    public ManufacturingProcedure getManufacturingProcedureId() {
-        return manufacturingProcedureId;
-    }
-
-    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-        this.manufacturingProcedureId = manufacturingProcedureId;
-    }
-
-    
     public PackagingProcedureOperation(Integer id) {
         this.id = id;
     }
@@ -91,14 +77,22 @@ public class PackagingProcedureOperation implements Serializable {
         this.header = header;
     }
 
-    /*
+    public Short getPart() {
+        return part;
+    }
+
+    public void setPart(Short part) {
+        this.part = part;
+    }
+
+    @XmlTransient
     public ManufacturingProcedure getManufacturingProcedureId() {
         return manufacturingProcedureId;
     }
 
     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
         this.manufacturingProcedureId = manufacturingProcedureId;
-    }*/
+    }
 
     @Override
     public int hashCode() {

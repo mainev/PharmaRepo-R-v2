@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -45,6 +46,8 @@ public class EquipmentRequirementCoding implements Serializable {
     
     
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
+//    @JoinColumns({
+//        @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
 

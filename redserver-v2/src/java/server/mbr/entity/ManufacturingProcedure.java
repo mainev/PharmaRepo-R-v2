@@ -10,15 +10,14 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import server._main.entity.Product;
@@ -28,64 +27,23 @@ import server._main.entity.Product;
  * @author maine
  */
 @Entity
-@Table(name = "manufacturing_procedure", schema="mbr")
+@Table(name = "manufacturing_procedure", schema = "mbr")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ManufacturingProcedure.findAll", query = "SELECT m FROM ManufacturingProcedure m")})
 public class ManufacturingProcedure implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
-    
-    
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne
+
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
     private Product productId;
-    
-    
-    @Column(name = "is_active")
-    private Boolean isActive;
-    
-    @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<EquipmentRequirementPackagingProcedure> equipmentRequirementPackagingProcedureList;
-    
-    @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<EquipmentRequirementCoding> equipmentRequirementCodingList;
-    
-    @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<EquipmentRequirementCompounding> equipmentRequirementCompoundingList;
-    
-    @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<EquipmentRequirementEncapsulation> equipmentRequirementEncapsulationList;
-    
-    @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<CompoundingProcedure> compoundingProcedureList;
-    
-    @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<PackagingProcedureOperation> packagingProcedureOperationList;
-    
-    @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<PackagingProcedure> packagingProcedureList;
 
-    public ManufacturingProcedure() {
-    }
-
-    public ManufacturingProcedure(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    
     @XmlTransient
     public Product getProductId() {
         return productId;
@@ -95,14 +53,20 @@ public class ManufacturingProcedure implements Serializable {
         this.productId = productId;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
+    @OneToMany(mappedBy = "manufacturingProcedureId")
+    private List<EquipmentRequirementPackagingProcedure> equipmentRequirementPackagingProcedureList;
+    @OneToMany(mappedBy = "manufacturingProcedureId")
+    private List<EquipmentRequirementCoding> equipmentRequirementCodingList;
+    @OneToMany(mappedBy = "manufacturingProcedureId")
+    private List<EquipmentRequirementCompounding> equipmentRequirementCompoundingList;
+    @OneToMany(mappedBy = "manufacturingProcedureId")
+    private List<EquipmentRequirementEncapsulation> equipmentRequirementEncapsulationList;
+    @OneToMany(mappedBy = "manufacturingProcedureId")
+    private List<CompoundingProcedure> compoundingProcedureList;
+    @OneToMany(mappedBy = "manufacturingProcedureId")
+    private List<PackagingProcedureOperation> packagingProcedureOperationList;
+    @OneToMany(mappedBy = "manufacturingProcedureId")
+    private List<PackagingProcedure> packagingProcedureList;
 
     public List<EquipmentRequirementPackagingProcedure> getEquipmentRequirementPackagingProcedureList() {
         return equipmentRequirementPackagingProcedureList;
@@ -112,7 +76,6 @@ public class ManufacturingProcedure implements Serializable {
         this.equipmentRequirementPackagingProcedureList = equipmentRequirementPackagingProcedureList;
     }
 
-  
     public List<EquipmentRequirementCoding> getEquipmentRequirementCodingList() {
         return equipmentRequirementCodingList;
     }
@@ -129,7 +92,6 @@ public class ManufacturingProcedure implements Serializable {
         this.equipmentRequirementCompoundingList = equipmentRequirementCompoundingList;
     }
 
-   
     public List<EquipmentRequirementEncapsulation> getEquipmentRequirementEncapsulationList() {
         return equipmentRequirementEncapsulationList;
     }
@@ -138,7 +100,6 @@ public class ManufacturingProcedure implements Serializable {
         this.equipmentRequirementEncapsulationList = equipmentRequirementEncapsulationList;
     }
 
-   
     public List<CompoundingProcedure> getCompoundingProcedureList() {
         return compoundingProcedureList;
     }
@@ -147,7 +108,6 @@ public class ManufacturingProcedure implements Serializable {
         this.compoundingProcedureList = compoundingProcedureList;
     }
 
-  
     public List<PackagingProcedureOperation> getPackagingProcedureOperationList() {
         return packagingProcedureOperationList;
     }
@@ -156,13 +116,27 @@ public class ManufacturingProcedure implements Serializable {
         this.packagingProcedureOperationList = packagingProcedureOperationList;
     }
 
-    
     public List<PackagingProcedure> getPackagingProcedureList() {
         return packagingProcedureList;
     }
 
     public void setPackagingProcedureList(List<PackagingProcedure> packagingProcedureList) {
         this.packagingProcedureList = packagingProcedureList;
+    }
+
+    public ManufacturingProcedure() {
+    }
+
+    public ManufacturingProcedure(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
@@ -189,5 +163,5 @@ public class ManufacturingProcedure implements Serializable {
     public String toString() {
         return "server.mbr.entity.ManufacturingProcedure[ id=" + id + " ]";
     }
-    
+
 }

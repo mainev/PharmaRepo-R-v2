@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,71 +30,82 @@ import server.mbr.entity.Udf;
  * @author maine
  */
 @Entity
-@Table(name = "product", schema="main")
+@Table(name = "product", schema = "main")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")})
 public class Product implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Size(max = 5)
     @Column(name = "code")
     private String code;
-    
+
     @Size(max = 200)
     @Column(name = "brand_name")
     private String brandName;
-    
+
     @Size(max = 200)
     @Column(name = "generic_name")
     private String genericName;
-    
+
     @Size(max = 10)
     @Column(name = "vr_no")
     private String vrNo;
-    
+
     @Column(name = "shelf_life")
     private Short shelfLife;
-    
+
     @JoinColumn(name = "area_id", referencedColumnName = "id")
     @ManyToOne
     private Area areaId;
-    
+
     @JoinColumn(name = "classification_id", referencedColumnName = "id")
     @ManyToOne
     private Classification classificationId;
-    
+
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne
     private Client clientId;
-    
+
     @JoinColumn(name = "pack_size_id", referencedColumnName = "id")
     @ManyToOne
     private PackSize packSizeId;
-    
+
     @OneToMany(mappedBy = "productId")
     private List<Udf> udfList;
-    
-    @OneToMany(mappedBy = "productId")
-    private List<ManufacturingProcedure> manufacturingProcedureList;
+
+    @OneToOne(mappedBy = "productId")
+    private ManufacturingProcedure manufacturingProcedureId;
 
     public Product() {
+
     }
 
-    public List<ManufacturingProcedure> getManufacturingProcedureList() {
-        return manufacturingProcedureList;
+    public ManufacturingProcedure getManufacturingProcedureId() {
+        return manufacturingProcedureId;
     }
 
-    public void setManufacturingProcedureList(List<ManufacturingProcedure> manufacturingProcedureList) {
-        this.manufacturingProcedureList = manufacturingProcedureList;
+    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+        this.manufacturingProcedureId = manufacturingProcedureId;
     }
+    /*
 
-    
+     public List<ManufacturingProcedure> getManufacturingProcedureList() {
+     return manufacturingProcedureList;
+     }
+
+     public void setManufacturingProcedureList(List<ManufacturingProcedure> manufacturingProcedureList) {
+     this.manufacturingProcedureList = manufacturingProcedureList;
+     }
+     */
+
     public List<Udf> getUdfList() {
         return udfList;
     }
@@ -101,8 +113,6 @@ public class Product implements Serializable {
     public void setUdfList(List<Udf> udfList) {
         this.udfList = udfList;
     }
-    
-    
 
     public Product(Integer id) {
         this.id = id;
@@ -212,5 +222,5 @@ public class Product implements Serializable {
     public String toString() {
         return "server._main.entity.Product[ id=" + id + " ]";
     }
-    
+
 }

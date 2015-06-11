@@ -668,9 +668,7 @@ ALTER SEQUENCE equipment_requirement_packaging_procedure_id_seq OWNED BY equipme
 --
 
 CREATE TABLE manufacturing_procedure (
-    id integer NOT NULL,
-    product_id integer,
-    is_active boolean
+    id integer NOT NULL
 );
 
 
@@ -822,7 +820,8 @@ CREATE TABLE packaging_procedure_operation (
     id integer NOT NULL,
     step_number smallint,
     header character varying(500),
-    manufacturing_procedure_id integer
+    manufacturing_procedure_id integer,
+    part smallint
 );
 
 
@@ -1076,13 +1075,6 @@ ALTER TABLE ONLY equipment_requirement_packaging_procedure ALTER COLUMN id SET D
 -- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
 --
 
-ALTER TABLE ONLY manufacturing_procedure ALTER COLUMN id SET DEFAULT nextval('manufacturing_procedure_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
---
-
 ALTER TABLE ONLY mbr ALTER COLUMN id SET DEFAULT nextval('mbr_id_seq'::regclass);
 
 
@@ -1259,7 +1251,7 @@ INSERT INTO product VALUES (1, 'P25', 'NUDERM ADVANCE', 'L-Glutathione+ALA+Colla
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
 --
 
-SELECT pg_catalog.setval('product_id_seq', 2, true);
+SELECT pg_catalog.setval('product_id_seq', 3, true);
 
 
 --
@@ -1310,25 +1302,6 @@ SET search_path = mbr, pg_catalog;
 -- Data for Name: compounding_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO compounding_procedure VALUES (1, 1, 'Ensure all the equipment, including manufacturing area cleaned and cleared from all traces of the previous batch tree from moisture.', true, NULL, NULL, 1);
-INSERT INTO compounding_procedure VALUES (2, 2, 'Monitor RH (NMT 50%) and Temperature (NMT 25°C) every 15 minutes. Fill up form NF-QA-011-01-01.', false, NULL, NULL, 1);
-INSERT INTO compounding_procedure VALUES (3, 3, 'Passing thru mesh #20 load Collage, Alpha-lipoic Acid and Vitamin C coated into the paddle mixer and mix for 3 minutes.', true, NULL, NULL, 1);
-INSERT INTO compounding_procedure VALUES (4, 4, 'Add 1st part of L-Glutathione Powder to the bulk passing thru mesh #20 and mix for 5 minutes.', true, NULL, NULL, 1);
-INSERT INTO compounding_procedure VALUES (5, 5, 'Load 2nd part of L-Glutathione Powder to the bulk passing thru mesh #20 and mix for 30 minutes.', true, NULL, NULL, 1);
-INSERT INTO compounding_procedure VALUES (6, 6, 'QC to collect samples from the bulk for In-Process Analysis. 
-   a. Homogeneity Test
-       -Top: 10g
-       -Middle: 10g
-       -Bottom: 10g
-   b. Bulk Density: 10g
-   c. Moisture Content: 10g
-   d. Microbial Test: 5g', true, NULL, NULL, 1);
-INSERT INTO compounding_procedure VALUES (7, 7, 'Compute for the yield of the bulk.
-   Theoretical Weight: _____
-   Actual Weight: _____
-   QC Samples: 55 g
-   %Recovery: _____', true, NULL, NULL, 1);
-INSERT INTO compounding_procedure VALUES (8, 8, 'Store the bulk in a double-lined PE bag with silica gel in between PE bags and place inside the blue drum. Attach quarantine sticker and store in a room with controlled temperature (NMT 25°C) while waiting for QC disposition for encapsulation.', true, NULL, NULL, 1);
 
 
 --
@@ -1342,11 +1315,6 @@ SELECT pg_catalog.setval('compounding_procedure_id_seq', 8, true);
 -- Data for Name: dosage; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO dosage VALUES (1, 4, NULL, NULL, 1, 3);
-INSERT INTO dosage VALUES (2, 3, NULL, NULL, 1, 3);
-INSERT INTO dosage VALUES (3, 6, NULL, NULL, 1, 3);
-INSERT INTO dosage VALUES (4, 1, NULL, NULL, 1, 4);
-INSERT INTO dosage VALUES (5, 2, NULL, NULL, 1, 5);
 
 
 --
@@ -1387,12 +1355,6 @@ SELECT pg_catalog.setval('equipment_requirement_coding_manufacturing_procedure_i
 -- Data for Name: equipment_requirement_compounding; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO equipment_requirement_compounding VALUES (1, 1, 1);
-INSERT INTO equipment_requirement_compounding VALUES (2, 1, 3);
-INSERT INTO equipment_requirement_compounding VALUES (3, 1, 4);
-INSERT INTO equipment_requirement_compounding VALUES (4, 1, 5);
-INSERT INTO equipment_requirement_compounding VALUES (5, 1, 6);
-INSERT INTO equipment_requirement_compounding VALUES (6, 1, 7);
 
 
 --
@@ -1406,8 +1368,6 @@ SELECT pg_catalog.setval('equipment_requirement_compounding_id_seq', 6, true);
 -- Data for Name: equipment_requirement_encapsulation; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO equipment_requirement_encapsulation VALUES (1, 1, 2);
-INSERT INTO equipment_requirement_encapsulation VALUES (2, 1, 8);
 
 
 --
@@ -1434,14 +1394,14 @@ SELECT pg_catalog.setval('equipment_requirement_packaging_procedure_id_seq', 1, 
 -- Data for Name: manufacturing_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO manufacturing_procedure VALUES (1, 1, true);
+INSERT INTO manufacturing_procedure VALUES (1);
 
 
 --
 -- Name: manufacturing_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('manufacturing_procedure_id_seq', 1, true);
+SELECT pg_catalog.setval('manufacturing_procedure_id_seq', 4, true);
 
 
 --
@@ -1496,20 +1456,6 @@ SELECT pg_catalog.setval('packaging_procedure_id_seq', 1, false);
 -- Data for Name: packaging_procedure_operation; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO packaging_procedure_operation VALUES (1, 1, 'Room and Equipment Clearance
- Perform room/line clearance check for each of the following areas:
-Labeling/Packaging Room', 1);
-INSERT INTO packaging_procedure_operation VALUES (2, 2, 'Check the quantity if Filled Bottles.
-Total Quantity of Filled Bottles: ____________pcs', 1);
-INSERT INTO packaging_procedure_operation VALUES (3, 3, 'Withdraw packaging materials/coded labels from the staging area for labeling and final packaging.
-Coded Labels: _______________
-Corrugated Box:______________
-Packaging Tape:______________', 1);
-INSERT INTO packaging_procedure_operation VALUES (4, 4, 'Check the completeness of requested packaging materials before using.
-Requested materials:
-Coded Labels:______________
-Corrugated Box:_______________
-Packaging Tape:_______________', 1);
 
 
 --
@@ -1935,11 +1881,11 @@ ALTER TABLE ONLY equipment_requirement_packaging_procedure
 
 
 --
--- Name: manufacturing_procedure_product_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+-- Name: manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
 ALTER TABLE ONLY manufacturing_procedure
-    ADD CONSTRAINT manufacturing_procedure_product_id_fkey FOREIGN KEY (product_id) REFERENCES main.product(id);
+    ADD CONSTRAINT manufacturing_procedure_id_fkey FOREIGN KEY (id) REFERENCES main.product(id);
 
 
 --
