@@ -486,17 +486,18 @@ ALTER SEQUENCE dosage_id_seq OWNED BY dosage.id;
 
 
 --
--- Name: equipment_requirement_coding; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+-- Name: equipment_requirement; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE equipment_requirement_coding (
+CREATE TABLE equipment_requirement (
     id integer NOT NULL,
     manufacturing_procedure_id integer,
-    equipment_id smallint
+    equipment_id smallint,
+    procedure character varying(20)
 );
 
 
-ALTER TABLE mbr.equipment_requirement_coding OWNER TO postgres;
+ALTER TABLE mbr.equipment_requirement OWNER TO postgres;
 
 --
 -- Name: equipment_requirement_coding_equipment_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
@@ -516,7 +517,7 @@ ALTER TABLE mbr.equipment_requirement_coding_equipment_id_seq OWNER TO postgres;
 -- Name: equipment_requirement_coding_equipment_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
 --
 
-ALTER SEQUENCE equipment_requirement_coding_equipment_id_seq OWNED BY equipment_requirement_coding.equipment_id;
+ALTER SEQUENCE equipment_requirement_coding_equipment_id_seq OWNED BY equipment_requirement.equipment_id;
 
 
 --
@@ -537,7 +538,7 @@ ALTER TABLE mbr.equipment_requirement_coding_id_seq OWNER TO postgres;
 -- Name: equipment_requirement_coding_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
 --
 
-ALTER SEQUENCE equipment_requirement_coding_id_seq OWNED BY equipment_requirement_coding.id;
+ALTER SEQUENCE equipment_requirement_coding_id_seq OWNED BY equipment_requirement.id;
 
 
 --
@@ -558,109 +559,7 @@ ALTER TABLE mbr.equipment_requirement_coding_manufacturing_procedure_id_seq OWNE
 -- Name: equipment_requirement_coding_manufacturing_procedure_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
 --
 
-ALTER SEQUENCE equipment_requirement_coding_manufacturing_procedure_id_seq OWNED BY equipment_requirement_coding.manufacturing_procedure_id;
-
-
---
--- Name: equipment_requirement_compounding; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE equipment_requirement_compounding (
-    id integer NOT NULL,
-    manufacturing_procedure_id integer,
-    equipment_id smallint
-);
-
-
-ALTER TABLE mbr.equipment_requirement_compounding OWNER TO postgres;
-
---
--- Name: equipment_requirement_compounding_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
---
-
-CREATE SEQUENCE equipment_requirement_compounding_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE mbr.equipment_requirement_compounding_id_seq OWNER TO postgres;
-
---
--- Name: equipment_requirement_compounding_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
---
-
-ALTER SEQUENCE equipment_requirement_compounding_id_seq OWNED BY equipment_requirement_compounding.id;
-
-
---
--- Name: equipment_requirement_encapsulation; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE equipment_requirement_encapsulation (
-    id integer NOT NULL,
-    manufacturing_procedure_id integer,
-    equipment_id smallint
-);
-
-
-ALTER TABLE mbr.equipment_requirement_encapsulation OWNER TO postgres;
-
---
--- Name: equipment_requirement_encapsulation_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
---
-
-CREATE SEQUENCE equipment_requirement_encapsulation_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE mbr.equipment_requirement_encapsulation_id_seq OWNER TO postgres;
-
---
--- Name: equipment_requirement_encapsulation_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
---
-
-ALTER SEQUENCE equipment_requirement_encapsulation_id_seq OWNED BY equipment_requirement_encapsulation.id;
-
-
---
--- Name: equipment_requirement_packaging_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE equipment_requirement_packaging_procedure (
-    id integer NOT NULL,
-    manufacturing_procedure_id integer,
-    equipment_id smallint
-);
-
-
-ALTER TABLE mbr.equipment_requirement_packaging_procedure OWNER TO postgres;
-
---
--- Name: equipment_requirement_packaging_procedure_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
---
-
-CREATE SEQUENCE equipment_requirement_packaging_procedure_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE mbr.equipment_requirement_packaging_procedure_id_seq OWNER TO postgres;
-
---
--- Name: equipment_requirement_packaging_procedure_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
---
-
-ALTER SEQUENCE equipment_requirement_packaging_procedure_id_seq OWNED BY equipment_requirement_packaging_procedure.id;
+ALTER SEQUENCE equipment_requirement_coding_manufacturing_procedure_id_seq OWNED BY equipment_requirement.manufacturing_procedure_id;
 
 
 --
@@ -1047,28 +946,7 @@ ALTER TABLE ONLY dosage ALTER COLUMN id SET DEFAULT nextval('dosage_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
 --
 
-ALTER TABLE ONLY equipment_requirement_coding ALTER COLUMN id SET DEFAULT nextval('equipment_requirement_coding_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_compounding ALTER COLUMN id SET DEFAULT nextval('equipment_requirement_compounding_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_encapsulation ALTER COLUMN id SET DEFAULT nextval('equipment_requirement_encapsulation_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_packaging_procedure ALTER COLUMN id SET DEFAULT nextval('equipment_requirement_packaging_procedure_id_seq'::regclass);
+ALTER TABLE ONLY equipment_requirement ALTER COLUMN id SET DEFAULT nextval('equipment_requirement_coding_id_seq'::regclass);
 
 
 --
@@ -1302,32 +1180,38 @@ SET search_path = mbr, pg_catalog;
 -- Data for Name: compounding_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
+INSERT INTO compounding_procedure VALUES (10, 2, 'header 2', false, NULL, NULL, 1);
+INSERT INTO compounding_procedure VALUES (9, 1, 'sample header
+new line
+3rd line', true, NULL, NULL, 1);
 
 
 --
 -- Name: compounding_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('compounding_procedure_id_seq', 8, true);
+SELECT pg_catalog.setval('compounding_procedure_id_seq', 10, true);
 
 
 --
 -- Data for Name: dosage; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
+INSERT INTO dosage VALUES (6, 1, 0, 5, 1, 9);
 
 
 --
 -- Name: dosage_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('dosage_id_seq', 5, true);
+SELECT pg_catalog.setval('dosage_id_seq', 6, true);
 
 
 --
--- Data for Name: equipment_requirement_coding; Type: TABLE DATA; Schema: mbr; Owner: postgres
+-- Data for Name: equipment_requirement; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
+INSERT INTO equipment_requirement VALUES (1, 1, 1, 'COMPOUNDING');
 
 
 --
@@ -1341,7 +1225,7 @@ SELECT pg_catalog.setval('equipment_requirement_coding_equipment_id_seq', 1, fal
 -- Name: equipment_requirement_coding_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 1, false);
+SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 1, true);
 
 
 --
@@ -1349,45 +1233,6 @@ SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('equipment_requirement_coding_manufacturing_procedure_id_seq', 1, false);
-
-
---
--- Data for Name: equipment_requirement_compounding; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-
-
---
--- Name: equipment_requirement_compounding_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('equipment_requirement_compounding_id_seq', 6, true);
-
-
---
--- Data for Name: equipment_requirement_encapsulation; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-
-
---
--- Name: equipment_requirement_encapsulation_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('equipment_requirement_encapsulation_id_seq', 2, true);
-
-
---
--- Data for Name: equipment_requirement_packaging_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-
-
---
--- Name: equipment_requirement_packaging_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('equipment_requirement_packaging_procedure_id_seq', 1, false);
 
 
 --
@@ -1503,13 +1348,14 @@ SELECT pg_catalog.setval('raw_material_requirement_id_seq', 6, true);
 --
 
 INSERT INTO udf VALUES (1, 1, 6, 1, true);
+INSERT INTO udf VALUES (2, 5, 2, 1, false);
 
 
 --
 -- Name: udf_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('udf_id_seq', 1, true);
+SELECT pg_catalog.setval('udf_id_seq', 2, true);
 
 
 SET search_path = main, pg_catalog;
@@ -1616,32 +1462,8 @@ ALTER TABLE ONLY dosage
 -- Name: equipment_requirement_coding_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY equipment_requirement_coding
+ALTER TABLE ONLY equipment_requirement
     ADD CONSTRAINT equipment_requirement_coding_pkey PRIMARY KEY (id);
-
-
---
--- Name: equipment_requirement_compounding_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY equipment_requirement_compounding
-    ADD CONSTRAINT equipment_requirement_compounding_pkey PRIMARY KEY (id);
-
-
---
--- Name: equipment_requirement_encapsulation_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY equipment_requirement_encapsulation
-    ADD CONSTRAINT equipment_requirement_encapsulation_pkey PRIMARY KEY (id);
-
-
---
--- Name: equipment_requirement_packaging_procedure_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY equipment_requirement_packaging_procedure
-    ADD CONSTRAINT equipment_requirement_packaging_procedure_pkey PRIMARY KEY (id);
 
 
 --
@@ -1820,7 +1642,7 @@ ALTER TABLE ONLY dosage
 -- Name: equipment_requirement_coding_equipment_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
-ALTER TABLE ONLY equipment_requirement_coding
+ALTER TABLE ONLY equipment_requirement
     ADD CONSTRAINT equipment_requirement_coding_equipment_id_fkey FOREIGN KEY (equipment_id) REFERENCES main.equipment(id);
 
 
@@ -1828,56 +1650,8 @@ ALTER TABLE ONLY equipment_requirement_coding
 -- Name: equipment_requirement_coding_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
-ALTER TABLE ONLY equipment_requirement_coding
+ALTER TABLE ONLY equipment_requirement
     ADD CONSTRAINT equipment_requirement_coding_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
-
-
---
--- Name: equipment_requirement_compoundi_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_compounding
-    ADD CONSTRAINT equipment_requirement_compoundi_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
-
-
---
--- Name: equipment_requirement_compounding_equipment_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_compounding
-    ADD CONSTRAINT equipment_requirement_compounding_equipment_id_fkey FOREIGN KEY (equipment_id) REFERENCES main.equipment(id);
-
-
---
--- Name: equipment_requirement_encapsula_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_encapsulation
-    ADD CONSTRAINT equipment_requirement_encapsula_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
-
-
---
--- Name: equipment_requirement_encapsulation_equipment_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_encapsulation
-    ADD CONSTRAINT equipment_requirement_encapsulation_equipment_id_fkey FOREIGN KEY (equipment_id) REFERENCES main.equipment(id);
-
-
---
--- Name: equipment_requirement_packaging_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_packaging_procedure
-    ADD CONSTRAINT equipment_requirement_packaging_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
-
-
---
--- Name: equipment_requirement_packaging_procedure_equipment_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY equipment_requirement_packaging_procedure
-    ADD CONSTRAINT equipment_requirement_packaging_procedure_equipment_id_fkey FOREIGN KEY (equipment_id) REFERENCES main.equipment(id);
 
 
 --
