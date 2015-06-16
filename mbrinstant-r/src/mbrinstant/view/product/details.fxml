@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="167.0" layoutY="14.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                  <Tab text="Product Formulation">
+                     <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <BorderPane layoutX="261.0" layoutY="47.0" prefHeight="469.0" prefWidth="898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <top>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label text="UDF:" />
+                                          <ChoiceBox fx:id="udfChoiceBox" prefWidth="150.0" />
+                                          <Hyperlink text="New UDF" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </top>
+                                 <center>
+                                    <AnchorPane style="-fx-background-color: gray;">
+                                       <children>
+                                          <TabPane prefHeight="419.0" prefWidth="898.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" BorderPane.alignment="CENTER">
+                                            <tabs>
+                                              <Tab text="Raw Material">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="rawMaterialReqTable" layoutX="29.0" layoutY="22.0" prefHeight="390.0" prefWidth="898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                              <columns>
+                                                                  <TableColumn fx:id="colProductFormulationRMAction" prefWidth="200.0" text="Action" />
+                                                                <TableColumn fx:id="colProductFormulationRMMaterial" prefWidth="300.0" text="Material" />
+                                                                <TableColumn fx:id="colProductFormulationRMQty" prefWidth="100.0" text="Quantity" />
+                                                                  <TableColumn fx:id="colProductFormulationRMUnit" prefWidth="100.0" text="Unit" />
+                                                              </columns>
+                                                            </TableView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                              <Tab text="Packaging Material">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="packagingMaterialReqTable" layoutX="123.0" prefHeight="370.0" prefWidth="878.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                              <columns>
+                                                                  <TableColumn prefWidth="200.0" text="Action" />
+                                                                <TableColumn fx:id="colProductFormulationPMMaterial" prefWidth="300.0" text="Material" />
+                                                                <TableColumn fx:id="colProductFormulationPMQty" prefWidth="100.0" text="Quantity" />
+                                                                  <TableColumn fx:id="colProductFormulationPMUnit" prefWidth="100.0" text="Unit" />
+                                                              </columns>
+                                                            </TableView>
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                            </tabs>
+                                          </TabPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                <Tab text="Compounding Procedure">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <BorderPane layoutX="95.0" layoutY="96.0" prefHeight="471.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <TableView fx:id="compoundingProcedureTableView" prefHeight="471.0" prefWidth="900.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                            <columns>
+                                              <TableColumn fx:id="colCompoundingProcedureAction" prefWidth="200.0" text="Action" />
+                                              <TableColumn fx:id="colCompoundingProcedureStep" prefWidth="100.0" text="Step" />
+                                                <TableColumn fx:id="colCompoundingProcedureHeader" prefWidth="500.0" text="Header/Content" />
+                                                <TableColumn fx:id="colCompoundingProcedureDosageList" prefWidth="300.0" text="Dosage" />
+                                                <TableColumn fx:id="colCompoundingProcedureFooter" prefWidth="100.0" text="Footer" />
+                                                <TableColumn fx:id="colCompoundingProcedureDoneBy" prefWidth="100.0" text="Done By" />
+                                                <TableColumn fx:id="colCompoundingProcedureCheckedBy" prefWidth="100.0" text="Checked By" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                                 <top>
+                                    <HBox prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                 </top>
+                              </BorderPane>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Packaging Procedure">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+                  <Tab text="Equipment Requirements">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="800.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="closeButton" mnemonicParsing="false" prefWidth="100.0" text="Close" />
+               </children>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </HBox>
+         </bottom>
+         <top>
+            <AnchorPane prefHeight="100.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane layoutX="82.0" prefHeight="100.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="444.0" minWidth="10.0" prefWidth="116.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="784.0" minWidth="10.0" prefWidth="784.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Product Code:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Label text="Brand Name:" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <Label fx:id="codeLabel" GridPane.columnIndex="1" />
+                        <Label fx:id="brandNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

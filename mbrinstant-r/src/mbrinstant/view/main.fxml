@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="710.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.MainController">
+   <children>
+      <BorderPane prefHeight="710.0" prefWidth="1366.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <AnchorPane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER" />
+         </bottom>
+         <left>
+            <AnchorPane prefHeight="200.0" prefWidth="250.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutX="50.0" layoutY="-21.0" prefHeight="635.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ToggleButton fx:id="batchRecordsButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Batch Record" />
+                        <ToggleButton fx:id="productButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Product" />
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </left>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <StackPane fx:id="_mainStackPane" layoutX="144.0" layoutY="150.0" prefHeight="635.0" prefWidth="1116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </center>
+         <top>
+            <AnchorPane prefHeight="46.0" prefWidth="1366.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text layoutX="5.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pharma">
+                     <font>
+                        <Font name="Segoe UI Light" size="29.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
