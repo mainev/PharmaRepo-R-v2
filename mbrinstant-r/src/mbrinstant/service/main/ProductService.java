@@ -36,6 +36,17 @@ public class ProductService {
         client = Client.create(defaultClientConfig);
     }
 
+     public Product getProductById(int id) {
+        webResource = client.resource(BASE_URI + "/find_by_id");
+
+        ClientResponse response = webResource
+                .queryParam("id", String.valueOf(id))
+                .accept("application/json")
+                .get(ClientResponse.class);
+
+        String jsonResult = response.getEntity(String.class);
+        return Serializer.<Product>deserialize(jsonResult, Product.class);
+    }
     public  ObservableList<Product> getProductList() {
         webResource = client.resource(BASE_URI);
         ClientResponse response = webResource.accept("application/json").get(ClientResponse.class);

@@ -22,7 +22,7 @@ import javafx.util.Callback;
 
 /**
  * *
- * 
+ *
  *
  * @author Admin
  * @param <T>
@@ -33,6 +33,11 @@ public class TextFieldWithSearch<T> extends VBox {
     ObservableList<T> items;
     TextField textField = new TextField();
     ListView listView = new ListView();
+
+    @Override
+    protected void setWidth(double value) {
+        super.setWidth(value); //To change body of generated methods, choose Tools | Templates.
+    }
 
     public TextFieldWithSearch(ObservableList<T> items) {
         super();
@@ -72,9 +77,8 @@ public class TextFieldWithSearch<T> extends VBox {
         configureListView();
 
     }
-    
-    
-    public void setTextFieldMargin(int top, int left, int bottom, int right){
+
+    public void setTextFieldMargin(int top, int left, int bottom, int right) {
         VBox.setMargin(textField, new Insets(top, left, bottom, right));
     }
 
@@ -110,9 +114,12 @@ public class TextFieldWithSearch<T> extends VBox {
 
         //filter items whenever there is a change in text field value
         textField.textProperty().addListener((ob, ov, nv) -> {
+
             ObservableList<T> filteredItems = listFilterer(items, nv);
             listView.setItems(filteredItems);
+
         });
+
     }
 
     private ObservableList<T> listFilterer(ObservableList<T> items, String filter) {
@@ -170,8 +177,8 @@ public class TextFieldWithSearch<T> extends VBox {
         this.textField.setText("");
         this.selected = null;
     }
-    
-    public ReadOnlyObjectProperty listViewSelectedItemProperty(){
+
+    public ReadOnlyObjectProperty listViewSelectedItemProperty() {
         return listView.getSelectionModel().selectedItemProperty();
     }
 }

@@ -24,6 +24,16 @@ public class CompoundingProcedure implements Serializable {
     private String doneBy;
     private String checkedBy;
     private List<Dosage> dosageList;
+    
+    public CompoundingProcedure(short stepNumber, String header, boolean footer, String doneBy, String checkedBy, List<Dosage> dosageList){
+    
+        this.stepNumber = stepNumber;
+        this.header = header;
+        this.footer = footer;
+        this.doneBy = doneBy;
+        this.checkedBy = checkedBy;
+        this.dosageList = dosageList;
+    }
     public CompoundingProcedure() {
     }
 
@@ -119,7 +129,9 @@ public class CompoundingProcedure implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.CompoundingProcedure[ id=" + id + " ]";
+        return stepNumber + " " + header;
     }
+    
+   
     
 }

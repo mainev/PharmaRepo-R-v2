@@ -20,6 +20,11 @@ public class Dosage implements Serializable {
     private Integer id;
     private RawMaterialRequirement rawMaterialRequirementId;
     private Double percentMultiplier;
+    
+    public Dosage(RawMaterialRequirement rawMaterialRequirementId, double percentMultiplier){
+        this.rawMaterialRequirementId = rawMaterialRequirementId;
+        this.percentMultiplier = percentMultiplier;
+    }
 
     public Dosage() {
     }
@@ -102,7 +107,7 @@ public class Dosage implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.Dosage[ id=" + id + " ]";
+        return rawMaterialRequirementId + " qty: "+ percentMultiplier;
     }
 
 }

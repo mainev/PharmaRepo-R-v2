@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" style="-fx-background-color: silver;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="29.0" layoutY="14.0" minHeight="-Infinity" prefHeight="600.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Product Name:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="productNameLabel">
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin></Label>
+            <Label text="Step Number:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <Label text="Label">
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin></Label>
+            <CheckBox mnemonicParsing="false" text="Add Footer" />
+            <Label text="Content:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TextArea fx:id="contentTextArea" prefHeight="100.0" prefWidth="200.0" />
+            <AnchorPane>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="Dosage List:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="dosagesTable" prefHeight="150.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn prefWidth="100.0" />
+                            <TableColumn fx:id="colRmReq" prefWidth="514.0" text="Raw Material">
+                                <cellValueFactory>
+                                    <PropertyValueFactory property="rawMaterialRequirementId" />
+                                </cellValueFactory>
+                            </TableColumn>
+                              <TableColumn fx:id="colRmReqPercent" prefWidth="100.0" text="Percent">
+                                   <cellValueFactory>
+                                    <PropertyValueFactory property="percentMultiplier" />
+                                </cellValueFactory>
+                              </TableColumn>
+                              
+                          </columns>
+                        </TableView>
+                        <HBox fx:id="dosageHbox" alignment="CENTER_LEFT" focusTraversable="true" minHeight="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="10.0">
+                           <children>
+                              <Label text="Material:" />
+                              <ChoiceBox fx:id="rmReqChoiceBox" prefWidth="250.0" />
+                              <Label text="Percent (%):" />
+                              <TextField fx:id="percent" prefWidth="100.0" />
+                              <Button fx:id="addDosageButton" mnemonicParsing="false" prefWidth="100.0" text="ADD" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button mnemonicParsing="false" prefWidth="100.0" text="Save" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Cancel" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

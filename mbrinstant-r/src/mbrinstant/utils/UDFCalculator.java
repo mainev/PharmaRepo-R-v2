@@ -20,7 +20,7 @@ public class UDFCalculator {
     public void calculateRawMaterialBatchReq(Mbr mbr) {
         double multiplier = getUdfMultiplier(mbr);
         Product product = mbr.getProductId();
-        List<RawMaterialRequirement> list = product.getActiveUdf().getRawMaterialRequirementList();
+        List<RawMaterialRequirement> list = product.getUdfId().getRawMaterialRequirementList();
 
         for (RawMaterialRequirement rmReq : list) {
             double oldQty = rmReq.getQuantity();
@@ -36,7 +36,7 @@ public class UDFCalculator {
 
     public void calculatePackMatBatchReq(Mbr mbr) {
         double batchSize = mbr.getBatchSize();
-        List<PackagingMaterialRequirement> packagingMaterialReqCollection = mbr.getProductId().getActiveUdf().getPackagingMaterialRequirementList();
+        List<PackagingMaterialRequirement> packagingMaterialReqCollection = mbr.getProductId().getUdfId().getPackagingMaterialRequirementList();
 
         for (PackagingMaterialRequirement pmr : packagingMaterialReqCollection) {
             double quantity = pmr.getQuantity() * batchSize;
@@ -59,8 +59,8 @@ public class UDFCalculator {
         Product product = mbr.getProductId();
         double batchSize = mbr.getBatchSize();
         String batchSizeUnit = mbr.getUnitId().getName();
-        double udfContent = product.getActiveUdf().getContent();
-        String udfContentUnit = product.getActiveUdf().getUnitId().getName();
+        double udfContent = product.getUdfId().getContent();
+        String udfContentUnit = product.getUdfId().getUnitId().getName();
         double multiplier = 1;
 
         if (!batchSizeUnit.equals(udfContentUnit)) {

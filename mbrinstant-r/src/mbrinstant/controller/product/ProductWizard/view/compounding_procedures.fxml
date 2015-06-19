@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.CompoundingProceduresController">
+   <children>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane fx:id="mainScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="293.0" prefViewportHeight="508.0" prefViewportWidth="598.0" prefWidth="750.0" />
+            <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="750.0">
+               <children>
+                  <Button fx:id="addProcedureButton" mnemonicParsing="false" prefWidth="100.0" text="Add procedure" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <Label text="Compounding Procedures:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TableView fx:id="compoundingProcedureTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="750.0" tableMenuButtonVisible="true">
+               <columns>
+                  <TableColumn fx:id="colCompoundingProcedureAction" prefWidth="100.0" text="Action" />
+                  <TableColumn fx:id="colCompoundingProcedureStep" prefWidth="100.0" text="Step" />
+                  <TableColumn fx:id="colCompoundingProcedureHeader" prefWidth="500.0" text="Header/Content" />
+                  <TableColumn fx:id="colCompoundingProcedureDosageList" prefWidth="500.0" text="Ingredients" />
+                  <TableColumn fx:id="colCompoundingProcedureFooter" prefWidth="100.0" text="Time" />
+                  <TableColumn fx:id="colCompoundingProcedureDoneBy" prefWidth="100.0" text="Done By" />
+                  <TableColumn fx:id="colCompoundingProcedureCheckedBy" prefWidth="100.0" text="Checked By" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

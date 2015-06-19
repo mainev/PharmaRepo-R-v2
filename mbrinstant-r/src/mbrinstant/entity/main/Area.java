@@ -62,7 +62,7 @@ public class Area implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Area[ id=" + id + " ]";
+        return name;
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package mbrinstant.controller.product;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,12 +15,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import mbrinstant.controller.product.ProductWizard.ProductWizard;
 import mbrinstant.entity.main.Product;
 import mbrinstant.service.main.ProductService;
 
@@ -54,6 +59,9 @@ public class ListController implements Initializable {
     @FXML
     TableColumn colAction;
 
+    @FXML
+    Button newProductButton;
+
     ProductService productService = new ProductService();
 
     /**
@@ -62,6 +70,22 @@ public class ListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initMbrListTableView();
+
+        newProductButton.setOnAction(e -> {
+//            Stage stage = new Stage();
+//            stage.setScene(new Scene(new ProductWizard(stage), 400, 250));
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.setTitle("NEW Product");
+//            stage.setResizable(false);
+//            stage.show();
+            
+            try{
+                new ProductWizard();
+            }
+            catch(IOException ex){
+            }
+
+        });
     }
 
     private void initMbrListTableView() {

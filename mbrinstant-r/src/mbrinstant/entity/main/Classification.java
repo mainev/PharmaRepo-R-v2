@@ -63,7 +63,7 @@ public class Classification implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Classification[ id=" + id + " ]";
+        return description;
     }
     
 }

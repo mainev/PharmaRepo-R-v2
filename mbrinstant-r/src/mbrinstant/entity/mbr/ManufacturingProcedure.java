@@ -18,10 +18,7 @@ public class ManufacturingProcedure implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Boolean isActive;
-    private List<EquipmentRequirementPackagingProcedure> equipmentRequirementPackagingProcedureList;
-    private List<EquipmentRequirementCoding> equipmentRequirementCodingList;
-    private List<EquipmentRequirementCompounding> equipmentRequirementCompoundingList;
-    private List<EquipmentRequirementEncapsulation> equipmentRequirementEncapsulationList;
+    private List<EquipmentRequirement> equipmentRequirementList;
     private List<CompoundingProcedure> compoundingProcedureList;
     private List<PackagingProcedureOperation> packagingProcedureOperationList;
     private List<PackagingProcedure> packagingProcedureList;
@@ -58,39 +55,13 @@ public class ManufacturingProcedure implements Serializable {
         this.isActive = isActive;
     }
 
-
-    public List<EquipmentRequirementPackagingProcedure> getEquipmentRequirementPackagingProcedureList() {
-        return equipmentRequirementPackagingProcedureList;
-    }
-
-    public void setEquipmentRequirementPackagingProcedureList(List<EquipmentRequirementPackagingProcedure> equipmentRequirementPackagingProcedureList) {
-        this.equipmentRequirementPackagingProcedureList = equipmentRequirementPackagingProcedureList;
-    }
-
   
-    public List<EquipmentRequirementCoding> getEquipmentRequirementCodingList() {
-        return equipmentRequirementCodingList;
+    public List<EquipmentRequirement> getEquipmentRequirementList() {
+        return equipmentRequirementList;
     }
 
-    public void setEquipmentRequirementCodingList(List<EquipmentRequirementCoding> equipmentRequirementCodingList) {
-        this.equipmentRequirementCodingList = equipmentRequirementCodingList;
-    }
-
-    public List<EquipmentRequirementCompounding> getEquipmentRequirementCompoundingList() {
-        return equipmentRequirementCompoundingList;
-    }
-
-    public void setEquipmentRequirementCompoundingList(List<EquipmentRequirementCompounding> equipmentRequirementCompoundingList) {
-        this.equipmentRequirementCompoundingList = equipmentRequirementCompoundingList;
-    }
-
-   
-    public List<EquipmentRequirementEncapsulation> getEquipmentRequirementEncapsulationList() {
-        return equipmentRequirementEncapsulationList;
-    }
-
-    public void setEquipmentRequirementEncapsulationList(List<EquipmentRequirementEncapsulation> equipmentRequirementEncapsulationList) {
-        this.equipmentRequirementEncapsulationList = equipmentRequirementEncapsulationList;
+    public void setEquipmentRequirementList(List<EquipmentRequirement> equipmentRequirementList) {
+        this.equipmentRequirementList = equipmentRequirementList;
     }
 
    

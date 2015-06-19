@@ -29,20 +29,21 @@ public class Product implements Serializable {
     private Classification classificationId;
     private Client clientId;
     private PackSize packSizeId;
-    private List<Udf> udfList;
+//    private List<Udf> udfList;
+    private Udf udfId;
     private ManufacturingProcedure manufacturingProcedureId;
 
     public Product() {
     }
 
-    public Udf getActiveUdf() {
-        for (Udf u : udfList) {
-            if (u.getIsActive()) {
-                return u;
-            }
-        }
-        return null;
-    }
+//    public Udf getActiveUdf() {
+//        for (Udf u : udfList) {
+//            if (u.getIsActive()) {
+//                return u;
+//            }
+//        }
+//        return null;
+//    }
 
     public ManufacturingProcedure getManufacturingProcedureId() {
         return manufacturingProcedureId;
@@ -52,14 +53,23 @@ public class Product implements Serializable {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
 
-    public List<Udf> getUdfList() {
-        return udfList;
+//    public List<Udf> getUdfList() {
+//        return udfList;
+//    }
+//
+//    public void setUdfList(List<Udf> udfList) {
+//        this.udfList = udfList;
+//    }
+
+    public Udf getUdfId() {
+        return udfId;
     }
 
-    public void setUdfList(List<Udf> udfList) {
-        this.udfList = udfList;
+    public void setUdfId(Udf udfId) {
+        this.udfId = udfId;
     }
 
+    
     public Product(Integer id) {
         this.id = id;
     }

@@ -11,12 +11,13 @@
          <top>
             <AnchorPane prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox fx:id="_headerHBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="1140.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox fx:id="_headerHBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="1140.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <padding>
                         <Insets left="10.0" right="10.0" />
                      </padding>
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="100.0" text="New" />
+                        <Label text="Search" />
+                        <TextField prefWidth="200.0" />
                      </children></HBox>
                </children></AnchorPane>
          </top>
@@ -39,6 +40,19 @@
                </children>
             </AnchorPane>
          </center>
+         <bottom>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="newProductButton" mnemonicParsing="false" prefWidth="100.0" text="New" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

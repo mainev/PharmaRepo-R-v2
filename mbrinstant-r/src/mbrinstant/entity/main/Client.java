@@ -90,7 +90,7 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Client[ id=" + id + " ]";
+        return name;
     }
     
 }

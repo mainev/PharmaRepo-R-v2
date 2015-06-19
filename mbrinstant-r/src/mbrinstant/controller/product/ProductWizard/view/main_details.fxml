@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainDetailsPane" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.MainDetailsController">
+   <children>
+      <VBox layoutX="188.0" layoutY="14.0" prefHeight="400.0" prefWidth="600.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label text="Product Code:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="productCodeTextField" />
+            <Label text="Brand Name:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="brandNameTextField" />
+            <Label text="Generic Name:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="genericNameTextField" />
+            <Label text="Classification:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="classificationChoiceBox" prefWidth="150.0" />
+            <Label text="Client:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="clientChoiceBox" prefWidth="150.0" />
+            <Label text="VR No/FR No:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="vrNoTextField" />
+            <Label text="Shelf Life:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="shelfLifeTextField" />
+            <Label text="Area:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="areaChoiceBox" prefWidth="150.0" />
+            <Label text="Pack Size:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="packSizeQty" prefWidth="80.0" promptText="quantity" />
+                  <ChoiceBox fx:id="packSizeUnit" prefWidth="80.0" />
+                  <Label text="per" />
+                  <ChoiceBox fx:id="packSizeContainer" prefWidth="130.0" />
+               </children>
+            </HBox>
+            <Label text="UDF Content:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="udfContent" prefWidth="80.0" promptText="content" />
+                  <Label text="per" />
+                  <ChoiceBox fx:id="udfUnit" prefWidth="80.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

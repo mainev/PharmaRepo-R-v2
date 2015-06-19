@@ -20,7 +20,7 @@ public class Udf implements Serializable {
     private Integer id;
     private Double content;
     private Unit unitId;
-    private Boolean isActive;
+//    private Boolean isActive;
     private List<PackagingMaterialRequirement> packagingMaterialRequirementList;
     private List<RawMaterialRequirement> rawMaterialRequirementList;
 
@@ -64,13 +64,13 @@ public class Udf implements Serializable {
         this.productId = productId;
     }
 */
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
+//    public Boolean getIsActive() {
+//        return isActive;
+//    }
+//
+//    public void setIsActive(Boolean isActive) {
+//        this.isActive = isActive;
+//    }
 
     
     public List<PackagingMaterialRequirement> getPackagingMaterialRequirementList() {

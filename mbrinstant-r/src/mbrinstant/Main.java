@@ -26,6 +26,7 @@ public class Main extends Application {
        //  setUserAgentStylesheet(STYLESHEET_CASPIAN);
         Pane mainPane = loadMainPane();
         Scene scene = new Scene(mainPane);
+       // stage.setResizable(false);
         stage.setTitle("Pharma");
         stage.setMaximized(true);
         stage.setScene(scene);

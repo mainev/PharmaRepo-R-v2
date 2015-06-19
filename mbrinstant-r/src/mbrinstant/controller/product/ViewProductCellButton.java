@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mbrinstant.entity.main.Product;
+import mbrinstant.service.main.ProductService;
 
 /**
  * Modified version of jewelsea JavaFX sample TableView with Add Buttons sources
@@ -85,12 +86,13 @@ public class ViewProductCellButton extends TableCell<Product, Boolean> {
 
             DetailsController controller = new DetailsController();
             fxmlLoader.setController(controller);
-            controller.setProduct(product);
+            controller.setProduct(new ProductService().getProductById(product.getId()));
 
             Parent root1 = (Parent) fxmlLoader.load();
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
+          
             stage.setTitle("Product Details");
             stage.setResizable(false);
             stage.setScene(new Scene(root1));

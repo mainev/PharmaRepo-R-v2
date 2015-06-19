@@ -23,6 +23,12 @@ public class PackagingMaterialRequirement implements Serializable {
     private PackagingMaterial packagingMaterialId;
     private Double quantity;
     private Unit unitId;
+    
+    public PackagingMaterialRequirement(PackagingMaterial packagingMaterialId, double quantity, Unit unitId){
+        this.packagingMaterialId = packagingMaterialId;
+        this.quantity = quantity;
+        this.unitId = unitId;
+    }
 
     @XmlTransient
     private double newQuantity;

@@ -28,6 +28,12 @@ public class RawMaterialRequirement implements Serializable {
     private double newQuantity;
     @XmlTransient
     private String newUnit;
+    
+    public RawMaterialRequirement(RawMaterial rawMaterialId, double quantity, Unit unitId){
+        this.rawMaterialId = rawMaterialId;
+        this.quantity = quantity;
+        this.unitId = unitId;
+    }
 
     public double getNewQuantity() {
         return newQuantity;
@@ -115,7 +121,7 @@ public class RawMaterialRequirement implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.RawMaterialRequirement[ id=" + id + " ]";
+        return rawMaterialId + " - " + quantity + " " + unitId;
     }
 
 }
