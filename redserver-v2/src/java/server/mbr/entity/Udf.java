@@ -10,15 +10,16 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import server._main.entity.Product;
@@ -37,7 +38,7 @@ public class Udf implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -50,13 +51,15 @@ public class Udf implements Serializable {
     @ManyToOne
     private Unit unitId;
 
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne
+//    @JoinColumn(name = "product_id", referencedColumnName = "id")
+//    @ManyToOne
+//    private Product productId;
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
     private Product productId;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
-
+//    @Column(name = "is_active")
+//    private Boolean isActive;
     @OneToMany(mappedBy = "udfId")
     private List<PackagingMaterialRequirement> packagingMaterialRequirementList;
 
@@ -112,14 +115,13 @@ public class Udf implements Serializable {
      this.productId = productId;
      }
      */
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
+//    public Boolean getIsActive() {
+//        return isActive;
+//    }
+//
+//    public void setIsActive(Boolean isActive) {
+//        this.isActive = isActive;
+//    }
     public List<PackagingMaterialRequirement> getPackagingMaterialRequirementList() {
         return packagingMaterialRequirementList;
     }

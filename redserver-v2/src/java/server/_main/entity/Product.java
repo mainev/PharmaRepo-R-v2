@@ -78,15 +78,28 @@ public class Product implements Serializable {
     @ManyToOne
     private PackSize packSizeId;
 
-    @OneToMany(mappedBy = "productId")
-    private List<Udf> udfList;
+//    @OneToMany(mappedBy = "productId")
+//    private List<Udf> udfList;
 
     @OneToOne(mappedBy = "productId")
     private ManufacturingProcedure manufacturingProcedureId;
+    
+       @OneToOne(mappedBy = "productId")
+    private Udf udfId;
 
     public Product() {
 
     }
+
+    public Udf getUdfId() {
+        return udfId;
+    }
+
+    public void setUdfId(Udf udfId) {
+        this.udfId = udfId;
+    }
+    
+    
 
     public ManufacturingProcedure getManufacturingProcedureId() {
         return manufacturingProcedureId;
@@ -106,13 +119,13 @@ public class Product implements Serializable {
      }
      */
 
-    public List<Udf> getUdfList() {
-        return udfList;
-    }
-
-    public void setUdfList(List<Udf> udfList) {
-        this.udfList = udfList;
-    }
+//    public List<Udf> getUdfList() {
+//        return udfList;
+//    }
+//
+//    public void setUdfList(List<Udf> udfList) {
+//        this.udfList = udfList;
+//    }
 
     public Product(Integer id) {
         this.id = id;

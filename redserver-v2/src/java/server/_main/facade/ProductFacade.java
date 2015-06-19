@@ -30,6 +30,10 @@ public class ProductFacade {
     public List<Product> findAll() {
         return em.createQuery("SELECT p FROM Product p").getResultList();
     }
+    
+    public Product findById(int id){
+        return em.find(Product.class, id);
+    }
 
     public PackagingMaterial getPrimaryPackaging(Integer productId) {
         Query query = em.createNativeQuery("SELECT primary_packaging_id from mbr.primary_secondary_packaging "

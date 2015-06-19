@@ -29,12 +29,19 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(server._main.rest.AreaREST.class);
+        resources.add(server._main.rest.ClassificationREST.class);
+        resources.add(server._main.rest.ClientREST.class);
         resources.add(server._main.rest.ContainerREST.class);
         resources.add(server._main.rest.PackagingMaterialREST.class);
         resources.add(server._main.rest.ProductREST.class);
         resources.add(server._main.rest.RawMaterialREST.class);
         resources.add(server._main.rest.UnitREST.class);
+        resources.add(server.mbr.rest.EquipmentRequirementREST.class);
         resources.add(server.mbr.rest.MbrREST.class);
+        resources.add(server.mbr.rest.PackagingMaterialRequirementREST.class);
+        resources.add(server.mbr.rest.RawMaterialRequirementREST.class);
+        resources.add(server.mbr.rest.UdfREST.class);
     }
     
 }

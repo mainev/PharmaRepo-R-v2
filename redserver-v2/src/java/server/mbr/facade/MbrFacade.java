@@ -6,9 +6,11 @@
 package server.mbr.facade;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import server._main.facade.UnitFacade;
 import server.mbr.entity.Mbr;
 
 /**
@@ -17,9 +19,11 @@ import server.mbr.entity.Mbr;
  */
 @Stateless
 public class MbrFacade {
+  
 
     @PersistenceContext(unitName = "RedServer-v2PU")
     private EntityManager em;
+    
     
     public List<Mbr> findAll(){
         return em.createQuery("SELECT m from Mbr m order by m.id desc").getResultList();

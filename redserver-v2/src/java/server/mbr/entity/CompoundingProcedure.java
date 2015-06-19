@@ -31,9 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "compounding_procedure", schema="mbr")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CompoundingProcedure.findAll", query = "SELECT c FROM CompoundingProcedure c")})
-public class CompoundingProcedure implements Serializable {
+public class CompoundingProcedure implements Serializable,  Comparable<CompoundingProcedure> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,8 +62,6 @@ public class CompoundingProcedure implements Serializable {
     
     
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
-//    @JoinColumns({
- //       @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
 
@@ -175,6 +171,18 @@ public class CompoundingProcedure implements Serializable {
     @Override
     public String toString() {
         return "server.mbr.entity.CompoundingProcedure[ id=" + id + " ]";
+    }
+    
+     @Override
+    public int compareTo(CompoundingProcedure cp) {
+        short comparedNumber = cp.getStepNumber();
+        if (stepNumber < comparedNumber) {
+            return 1;
+        } else if (stepNumber == comparedNumber) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
     
 }

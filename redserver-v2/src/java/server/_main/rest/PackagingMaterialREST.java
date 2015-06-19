@@ -24,7 +24,7 @@ import server._main.facade.PackagingMaterialFacade;
  *
  * @author maine
  */
-@Path("main/packagingmaterial")
+@Path("main/packaging_material")
 @RequestScoped
 public class PackagingMaterialREST {
 
@@ -52,14 +52,5 @@ public class PackagingMaterialREST {
         return packagingMaterialFacade.findAll();
     }
 
-    /**
-     * PUT method for updating or creating an instance of PackagingMaterialREST
-     *
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
-    @PUT
-    @Consumes("application/json")
-    public void putJson(String content) {
-    }
+   
 }

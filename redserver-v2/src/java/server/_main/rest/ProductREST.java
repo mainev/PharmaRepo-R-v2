@@ -71,14 +71,12 @@ public class ProductREST {
         return productFacade.getSecondaryPackaging(product_id);
     }
 
-    /**
-     * PUT method for updating or creating an instance of ProductREST
-     *
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
-    @PUT
-    @Consumes("application/json")
-    public void putJson(String content) {
+    @GET
+    @Produces("application/json")
+    @Path("/find_by_id")
+    public Product findById(@QueryParam("id") String id) {
+        int productId = Integer.parseInt(id);
+
+        return productFacade.findById(productId);
     }
 }

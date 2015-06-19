@@ -15,42 +15,44 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
-import server._main.entity.RawMaterial;
-import server._main.facade.RawMaterialFacade;
+import server._main.entity.Area;
+import server._main.facade.AreaFacade;
 
 /**
  * REST Web Service
  *
  * @author maine
  */
-@Path("main/raw_material")
+@Path("main/area")
 @RequestScoped
-public class RawMaterialREST {
+public class AreaREST {
 
     @Context
     private UriInfo context;
-    
-     @Inject
-    private RawMaterialFacade rawMaterialFacade;
+
+    @Inject
+    private AreaFacade areaFacade;
 
     /**
-     * Creates a new instance of RawMaterialREST
+     * Creates a new instance of AreaREST
      */
-    public RawMaterialREST() {
+    public AreaREST() {
     }
 
     /**
-     * Retrieves representation of an instance of server._main.RawMaterialREST
+     * Retrieves representation of an instance of server._main.rest.AreaREST
+     *
      * @return an instance of java.lang.String
      */
-     @GET
+    @GET
     @Produces("application/json")
-    public List<RawMaterial> findAll() {
-        return rawMaterialFacade.findAll();
+    public List<Area> getJson() {
+        return areaFacade.findAll();
     }
 
     /**
-     * PUT method for updating or creating an instance of RawMaterialREST
+     * PUT method for updating or creating an instance of AreaREST
+     *
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
      */

@@ -13,11 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import server._main.entity.Equipment;
@@ -27,11 +27,9 @@ import server._main.entity.Equipment;
  * @author maine
  */
 @Entity
-@Table(name = "equipment_requirement_compounding", schema="mbr")
+@Table(name = "equipment_requirement", schema="mbr")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "EquipmentRequirementCompounding.findAll", query = "SELECT e FROM EquipmentRequirementCompounding e")})
-public class EquipmentRequirementCompounding implements Serializable {
+public class EquipmentRequirement implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,24 +37,36 @@ public class EquipmentRequirementCompounding implements Serializable {
     @Column(name = "id")
     private Integer id;
     
-    
+   // @Column(name = "equipment_id")
     @JoinColumn(name = "equipment_id", referencedColumnName="id")
     @ManyToOne
     private Equipment equipmentId;
     
- 
+    
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
-//    @JoinColumns({
-//        @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
+    
+    @Column(name = "procedure")
+    @Size(max = 20)
+    private String procedure;
 
-    public EquipmentRequirementCompounding() {
+    public EquipmentRequirement() {
     }
 
-    public EquipmentRequirementCompounding(Integer id) {
+    public EquipmentRequirement(Integer id) {
         this.id = id;
     }
+
+    public String getProcedure() {
+        return procedure;
+    }
+
+    public void setProcedure(String procedure) {
+        this.procedure = procedure;
+    }
+    
+    
 
     public Integer getId() {
         return id;
@@ -83,6 +93,7 @@ public class EquipmentRequirementCompounding implements Serializable {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
 
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -93,10 +104,10 @@ public class EquipmentRequirementCompounding implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EquipmentRequirementCompounding)) {
+        if (!(object instanceof EquipmentRequirement)) {
             return false;
         }
-        EquipmentRequirementCompounding other = (EquipmentRequirementCompounding) object;
+        EquipmentRequirement other = (EquipmentRequirement) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -105,7 +116,7 @@ public class EquipmentRequirementCompounding implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.EquipmentRequirementCompounding[ id=" + id + " ]";
+        return "server.mbr.entity.EquipmentRequirementCoding[ id=" + id + " ]";
     }
     
 }
