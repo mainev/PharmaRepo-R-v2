@@ -21,7 +21,7 @@ import server._main.entity.Product;
 @Stateless
 public class ProductFacade {
 
-   @EJB
+    @EJB
     private PackagingMaterialFacade packagingMaterialFacade;
 
     @PersistenceContext(unitName = "RedServer-v2PU")
@@ -30,8 +30,8 @@ public class ProductFacade {
     public List<Product> findAll() {
         return em.createQuery("SELECT p FROM Product p").getResultList();
     }
-    
-    public Product findById(int id){
+
+    public Product findById(int id) {
         return em.find(Product.class, id);
     }
 
@@ -41,14 +41,23 @@ public class ProductFacade {
         Integer bottleId = (Integer) query.getSingleResult();
         return packagingMaterialFacade.findById(bottleId);
     }
-    
-     public PackagingMaterial getSecondaryPackaging(Integer productId) {
+
+    public PackagingMaterial getSecondaryPackaging(Integer productId) {
         Query query = em.createNativeQuery("SELECT secondary_packaging_id from mbr.primary_secondary_packaging "
                 + "where mbr.primary_secondary_packaging.product_id = '" + productId + "'");
         Integer cBoxId = (Integer) query.getSingleResult();
         return packagingMaterialFacade.findById(cBoxId);
     }
-    
-    
-    
+
+    public Boolean isCodeUnique(String code) {
+        List<Product> pList = findAll();
+        for (Product p : pList) {
+            if (p.getCode().toUpperCase().equals(code.toUpperCase())) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
 }

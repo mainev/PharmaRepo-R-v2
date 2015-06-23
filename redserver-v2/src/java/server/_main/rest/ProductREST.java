@@ -10,12 +10,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.QueryParam;
 import server._main.entity.PackagingMaterial;
 import server._main.entity.Product;
@@ -52,21 +50,21 @@ public class ProductREST {
     public List<Product> findAll() {
         return productFacade.findAll();
     }
-    
+
     @GET
     @Path("/getprimarypackaging")
     @Produces("application/json")
     @Consumes("application/json")
-    public PackagingMaterial getPrimaryPackaging(@QueryParam("productId") String productId){
+    public PackagingMaterial getPrimaryPackaging(@QueryParam("productId") String productId) {
         Integer product_id = Integer.parseInt(productId);
         return productFacade.getPrimaryPackaging(product_id);
     }
-    
-     @GET
+
+    @GET
     @Path("/getsecondarypackaging")
     @Produces("application/json")
     @Consumes("application/json")
-    public PackagingMaterial getSecondaryPackaging(@QueryParam("productId") String productId){
+    public PackagingMaterial getSecondaryPackaging(@QueryParam("productId") String productId) {
         Integer product_id = Integer.parseInt(productId);
         return productFacade.getSecondaryPackaging(product_id);
     }
@@ -78,5 +76,11 @@ public class ProductREST {
         int productId = Integer.parseInt(id);
 
         return productFacade.findById(productId);
+    }
+
+    @GET
+    @Path("/codevalidation")
+    public Boolean isCodeUnique(@QueryParam("code") String code) {
+        return productFacade.isCodeUnique(code);
     }
 }
