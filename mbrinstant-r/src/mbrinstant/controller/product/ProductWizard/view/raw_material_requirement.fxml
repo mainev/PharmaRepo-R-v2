@@ -7,6 +7,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import mbrinstant.controls.*?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.RawMaterialRequirementController">
    <children>
@@ -22,7 +23,7 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Label>
-                  <TextField fx:id="rmReqQty" prefWidth="80.0" />
+                  <NumberTextField fx:id="rmReqQty" prefWidth="80.0" minValue="1" promptText="qty" />
                   <Label text="Unit:">
                      <font>
                         <Font name="System Bold" size="12.0" />

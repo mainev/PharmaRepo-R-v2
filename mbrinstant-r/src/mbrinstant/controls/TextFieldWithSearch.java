@@ -27,7 +27,7 @@ import javafx.util.Callback;
  * @author Admin
  * @param <T>
  */
-public class TextFieldWithSearch<T> extends VBox {
+public class TextFieldWithSearch<T> extends VBox implements Validatable {
 
     T selected = null;
     ObservableList<T> items;
@@ -42,6 +42,7 @@ public class TextFieldWithSearch<T> extends VBox {
     public TextFieldWithSearch(ObservableList<T> items) {
         super();
         this.items = items;
+        this.setPrefHeight(25);
         this.setAlignment(Pos.CENTER);
         this.getChildren().add(textField);
         this.getChildren().add(listView);
@@ -102,12 +103,13 @@ public class TextFieldWithSearch<T> extends VBox {
 
          });
          */
+     
         textField.focusedProperty().addListener((ob, ov, nv) -> {
             if (nv) {
                 listView.setVisible(true);
                 listView.getSelectionModel().clearSelection();
             } else {
-                // listView.setVisible(false);
+                 listView.setVisible(false);
                 listView.getSelectionModel().clearSelection();
             }
         });
@@ -180,5 +182,12 @@ public class TextFieldWithSearch<T> extends VBox {
 
     public ReadOnlyObjectProperty listViewSelectedItemProperty() {
         return listView.getSelectionModel().selectedItemProperty();
+    }
+    
+    @Override
+    public boolean isValid(){
+        return (!textField.getText().equals("") && selected != null && !listView.visibleProperty().getValue());
+      //  return true;
+        
     }
 }

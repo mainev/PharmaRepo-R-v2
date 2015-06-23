@@ -23,8 +23,6 @@ public class ProductWizard {
     public static String PRODUCT_WIZARD_LOCATION = "view/product_wizard.fxml";
     static ProductWizardController mainController;
     
- 
-  
 
     public ProductWizard() throws IOException {
        //    loadPages();
@@ -36,25 +34,16 @@ public class ProductWizard {
         mainStage.setResizable(false);
         mainStage.setScene(scene);
         mainStage.show();
-        
-        
-      //  loadScreen(MAIN_DETAILS_PAGE);//default page in the stack pane
-        
     }
 
     private Pane loadMainPane() throws IOException {
        
         FXMLLoader loader = new FXMLLoader();
         AnchorPane mainPane = (AnchorPane) loader.load(getClass().getResourceAsStream(PRODUCT_WIZARD_LOCATION));
-      //  ProductWizardController mainController = loader.getController();
-      //  this.mainController = mainController;
+    
         return mainPane;
     }
 
    
    
-    
-//    public static AnchorPane getFirstPage(){
-//        return pages.get(0);
-//    }
 }

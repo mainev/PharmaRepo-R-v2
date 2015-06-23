@@ -18,13 +18,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import mbrinstant.controls.InputValidator;
 import mbrinstant.controls.TextFieldWithSearch;
 import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Unit;
@@ -37,7 +37,7 @@ import mbrinstant.service.main.UnitService;
  *
  * @author maine
  */
-public class PackagingMaterialRequirementController implements Initializable {
+public class PackagingMaterialRequirementController implements Initializable , PageController{
 
     @FXML
     HBox hbox;
@@ -76,6 +76,7 @@ public class PackagingMaterialRequirementController implements Initializable {
             PackagingMaterialRequirement temp = new PackagingMaterialRequirement(getPackagingMaterial(), getQuantity(), getUnit());
             pmReqTemporaryList.add(temp);
         });
+        createValidator();
     }
 
     private PackagingMaterial getPackagingMaterial() {
@@ -146,6 +147,23 @@ public class PackagingMaterialRequirementController implements Initializable {
                 setGraphic(null);
             }
         }
+    }
+    
+      InputValidator validator;
+
+    @Override
+    public void createValidator() {
+        validator = new InputValidator();
+    }
+
+    @Override
+    public boolean allFieldsValid() {
+        return validator.validateFields();
+    }
+
+    @Override
+    public String getInstruction() {
+        return "3. Specify packaging material requirements";
     }
 
 }

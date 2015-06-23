@@ -7,6 +7,7 @@ package mbrinstant.controller.product.ProductWizard;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -26,7 +27,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -37,6 +37,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import mbrinstant.controller.product.CompoundingProcedureTableFactory;
+import mbrinstant.controls.InputValidator;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.Dosage;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
@@ -46,7 +47,7 @@ import mbrinstant.entity.mbr.RawMaterialRequirement;
  *
  * @author maine
  */
-public class CompoundingProceduresController implements Initializable {
+public class CompoundingProceduresController implements Initializable, PageController {
 
     @FXML
     Button addProcedureButton;
@@ -81,6 +82,7 @@ public class CompoundingProceduresController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         initDosageTable();
         initCompoundingProcedureTable();
 
@@ -98,8 +100,9 @@ public class CompoundingProceduresController implements Initializable {
         dosagePane.getChildren().addAll(dosageHBox, dosagesTable);
         dosagePane.setStyle("-fx-background-color: lightgray;");
 
+        scrollPaneVBox.setStyle("-fx-background-color: gray;");
         scrollPaneVBox.setSpacing(10);
-        scrollPaneVBox.setPrefSize(700, 400);
+        scrollPaneVBox.setPrefSize(730, 400);
         scrollPaneVBox.setPadding(new Insets(10, 10, 10, 10));
         scrollPaneVBox.getChildren().addAll(contentLabel, contentArea, footer, dosageLabel, dosagePane);
 
@@ -117,6 +120,7 @@ public class CompoundingProceduresController implements Initializable {
             CompoundingProcedure tempCp = new CompoundingProcedure((short) 0, contentArea.getText(),
                     footer.isSelected(), null, null, cpDosageList);
             compoundingProcedureList.add(tempCp);
+            
             //clear all values after adding the temporary procedure to the list
             dosageList.clear();
             footer.setSelected(false);
@@ -134,6 +138,47 @@ public class CompoundingProceduresController implements Initializable {
                     i++;
                 }
                 refreshTable(compoundingProcedureTableView);
+            }
+        });
+
+        createValidator();
+        initRmReqList();
+    }
+
+    private boolean isIn(RawMaterialRequirement rmReq) {
+        for (RawMaterialRequirement rm : rmReqList) {
+            if (rm.getRawMaterialId().getCode().equals(rmReq.getRawMaterialId().getCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void initRmReqList() {
+        rmReqList.addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                while (change.next()) {
+                    Iterator<Dosage> dosageListIterator = dosageList.iterator();
+                    while (dosageListIterator.hasNext()) {
+                        Dosage dos = dosageListIterator.next();
+                        if (!isIn(dos.getRawMaterialRequirementId())) {
+                            dosageListIterator.remove();
+                        }
+                    }
+                    for (CompoundingProcedure cp : compoundingProcedureList) {
+                        Iterator<Dosage> cpDosIter = cp.getDosageList().iterator();
+                        while (cpDosIter.hasNext()) {
+                            Dosage dos = cpDosIter.next();
+                            if (!isIn(dos.getRawMaterialRequirementId())) {
+                                cpDosIter.remove();
+                                refreshTable(compoundingProcedureTableView);
+                            }
+                        }
+
+                    }
+
+                }
             }
         });
     }
@@ -259,8 +304,6 @@ public class CompoundingProceduresController implements Initializable {
         }
     }
 
-    
-
     public ObservableList<Dosage> getDosageList() {
         return dosageList;
     }
@@ -270,6 +313,23 @@ public class CompoundingProceduresController implements Initializable {
             ((TableColumn) (tableView.getColumns().get(i))).setVisible(false);
             ((TableColumn) (tableView.getColumns().get(i))).setVisible(true);
         }
+    }
+
+    InputValidator validator;
+
+    @Override
+    public void createValidator() {
+        validator = new InputValidator();
+    }
+
+    @Override
+    public boolean allFieldsValid() {
+        return validator.validateFields();
+    }
+
+    @Override
+    public String getInstruction() {
+        return "4. Set compounding procedures";
     }
 
 }

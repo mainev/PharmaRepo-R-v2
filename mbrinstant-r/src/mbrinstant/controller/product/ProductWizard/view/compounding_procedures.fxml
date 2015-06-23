@@ -13,7 +13,7 @@
    <children>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ScrollPane fx:id="mainScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="293.0" prefViewportHeight="508.0" prefViewportWidth="598.0" prefWidth="750.0" />
+            <ScrollPane fx:id="mainScrollPane" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="293.0" prefViewportHeight="508.0" prefViewportWidth="598.0" prefWidth="750.0" />
             <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="750.0">
                <children>
                   <Button fx:id="addProcedureButton" mnemonicParsing="false" prefWidth="100.0" text="Add procedure" />

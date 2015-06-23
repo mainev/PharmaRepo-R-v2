@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import mbrinstant.controls.MyNotifications;
 
 /**
  *
@@ -49,15 +50,19 @@ public class ProductWizardController implements Initializable {
     public static String COMPPROC_LOCATION = "view/compounding_procedures.fxml";
     public static String RMREQ_LOCATION = "view/raw_material_requirement.fxml";
     public static String PMREQ_LOCATION = "view/packaging_material_requirement.fxml";
-    
-    public static AnchorPane MAIN_DETAILS_PAGE;
-    public static AnchorPane COMPROC_PAGE;
-    public AnchorPane RMREQ_PAGE;
+    public String EQUIPREQ_LOCATION = "view/equipment_requirements.fxml";
+
+    private AnchorPane MAIN_DETAILS_PAGE;
+    private AnchorPane RMREQ_PAGE;
     private AnchorPane PMREQ_PAGE;
+    private AnchorPane COMPROC_PAGE;
+    private AnchorPane EQUIPREQ_PAGE;
 
     static ObservableList<AnchorPane> pages;
 
     static int FIRST_PAGE = 0;
+
+    PageController currentController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -75,7 +80,11 @@ public class ProductWizardController implements Initializable {
 
     private void initButtons() {
         nextButton.setOnAction(e -> {
-            stepList.getSelectionModel().select(stepList.getSelectionModel().getSelectedIndex() + 1);
+            if (currentController.allFieldsValid()) {
+                stepList.getSelectionModel().select(stepList.getSelectionModel().getSelectedIndex() + 1);
+            } else {
+                MyNotifications.displayError("Please enter all required fields");
+            }
         });
         previousButton.setOnAction(e -> {
             stepList.getSelectionModel().select(stepList.getSelectionModel().getSelectedIndex() - 1);
@@ -88,6 +97,10 @@ public class ProductWizardController implements Initializable {
     }
 
     private void initStepsListView() {
+        //for disabling list view selection
+//        stepList.setMouseTransparent(true);
+//        stepList.setFocusTraversable(false);
+
         stepList.getItems().clear();
         stepList.setItems(pages);
         stepList.setCellFactory(new Callback<ListView<AnchorPane>, ListCell<AnchorPane>>() {
@@ -100,19 +113,18 @@ public class ProductWizardController implements Initializable {
 
         stepList.getSelectionModel().selectedItemProperty().addListener((ob, ov, nv) -> {
             if (nv != null) {
-                loadScreen(nv);
+                currentController = (PageController) nv.getUserData();
+                setScreen(nv);
             }
         });
 
         stepList.getSelectionModel().selectedIndexProperty().addListener((ob, ov, nv) -> {
-
             if (pages.size() != 0) {
                 if ((int) nv == FIRST_PAGE) {
                     previousButton.setDisable(true);
                     nextButton.setDisable(false);
                     finishButton.setDisable(true);
                 } else if (((int) nv + 2) > pages.size()) {
-                    //System.out.println("nv + 1 > pages.size "+ ((int) nv + 1) > pages.size());
                     previousButton.setDisable(false);
                     nextButton.setDisable(true);
                     finishButton.setDisable(false);
@@ -137,7 +149,8 @@ public class ProductWizardController implements Initializable {
         public void updateItem(AnchorPane item, boolean empty) {
             super.updateItem(item, empty);
             if (item != null) {
-                Label label = new Label((String) item.getUserData());
+                PageController cn = (PageController) item.getUserData();
+                Label label = new Label(cn.getInstruction());
                 setGraphic(label);
             }
         }
@@ -148,34 +161,39 @@ public class ProductWizardController implements Initializable {
 
         FXMLLoader loader = new FXMLLoader();
         MAIN_DETAILS_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(MAIN_DETAILS_LOCATION));
-        MAIN_DETAILS_PAGE.setUserData("1. Enter product details");
+        //  mainDetailsController = loader.getController();
+        MAIN_DETAILS_PAGE.setUserData(loader.getController());
 
         loader = new FXMLLoader();
         RMREQ_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(RMREQ_LOCATION));
         RawMaterialRequirementController rmReqController = loader.getController();
-        RMREQ_PAGE.setUserData("2. Specify raw material requirements");
-
+        RMREQ_PAGE.setUserData(loader.getController());
+//
         loader = new FXMLLoader();
         PMREQ_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(PMREQ_LOCATION));
-        PMREQ_PAGE.setUserData("3. Specify packaging material requirements");
-        
+        //  pmReqController = loader.getController();
+        PMREQ_PAGE.setUserData(loader.getController());
+//        
         loader = new FXMLLoader();
         COMPROC_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(COMPPROC_LOCATION));
         CompoundingProceduresController cpcontroller = loader.getController();
-        Bindings.bindContentBidirectional( cpcontroller.rmReqList, rmReqController.getRmReqTemporaryList());
-        COMPROC_PAGE.setUserData("4. Set compounding procedures");
+        Bindings.bindContentBidirectional(cpcontroller.rmReqList, rmReqController.getRmReqTemporaryList());
+        COMPROC_PAGE.setUserData(loader.getController());
 
+        loader = new FXMLLoader();
+        EQUIPREQ_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(EQUIPREQ_LOCATION));
+        EQUIPREQ_PAGE.setUserData(loader.getController());
 
         pages.add(MAIN_DETAILS_PAGE);
         pages.add(RMREQ_PAGE);
         pages.add(PMREQ_PAGE);
         pages.add(COMPROC_PAGE);
+        pages.add(EQUIPREQ_PAGE);
     }
 
-    public void loadScreen(Node node) {
-
-        setScreen(node);
-
-    }
-
+//    public void loadScreen(Node node) {
+//
+//        setScreen(node);
+//
+//    }
 }

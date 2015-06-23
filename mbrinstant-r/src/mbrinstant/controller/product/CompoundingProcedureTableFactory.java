@@ -122,7 +122,7 @@ public class CompoundingProcedureTableFactory {
             rawMaterial.setPrefWidth(400);
           
             dosageTable.getColumns().addAll(rawMaterial, percent);
-            dosageTable.setPrefHeight(100);
+            dosageTable.setPrefHeight(117);
             dosageTable.setPrefWidth(500);
 
             percent.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getPercentMultiplier())));

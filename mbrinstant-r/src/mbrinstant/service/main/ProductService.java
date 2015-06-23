@@ -36,6 +36,18 @@ public class ProductService {
         client = Client.create(defaultClientConfig);
     }
 
+      public boolean isCodeUnique(String code) {
+        webResource = client.resource(BASE_URI + "/codevalidation");
+
+        ClientResponse response = webResource
+                .queryParam("code", code)
+                .get(ClientResponse.class);
+
+        String jsonResult = response.getEntity(String.class);
+      
+        return jsonResult.equals("true");      
+    }
+      
      public Product getProductById(int id) {
         webResource = client.resource(BASE_URI + "/find_by_id");
 

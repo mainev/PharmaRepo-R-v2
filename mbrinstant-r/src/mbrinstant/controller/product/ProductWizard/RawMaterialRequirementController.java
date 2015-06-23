@@ -12,8 +12,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -23,9 +21,11 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.MyNotifications;
+import mbrinstant.controls.NumberTextField;
 import mbrinstant.controls.TextFieldWithSearch;
 import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
@@ -38,12 +38,12 @@ import mbrinstant.service.main.UnitService;
  *
  * @author maine
  */
-public class RawMaterialRequirementController implements Initializable {
+public class RawMaterialRequirementController implements Initializable, PageController {
 
     @FXML
     HBox hbox;
     @FXML
-    TextField rmReqQty;
+    NumberTextField rmReqQty;
     @FXML
     ChoiceBox<Unit> rmReqUnit;
     @FXML
@@ -67,6 +67,8 @@ public class RawMaterialRequirementController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        rmReqUnit.setUserData(true);
+
         rmTextField = new TextFieldWithSearch(rmService.getRawMaterialList());
         hbox.getChildren().add(1, rmTextField);
 
@@ -74,12 +76,20 @@ public class RawMaterialRequirementController implements Initializable {
         initRmReqTable();
 
         addButton.setOnAction(e -> {
+            if(allFieldsValid()){
             RawMaterialRequirement temp = new RawMaterialRequirement(getRawMaterial(), getQuantity(), getUnit());
             rmReqTemporaryList.add(temp);
-           // clearFields();
+            }
+            else{
+                MyNotifications.displayError("Please enter all required fields");
+            }
+            // clearFields();
         });
+
+        createValidator();
     }
-    private void clearFields(){
+
+    private void clearFields() {
         rmTextField.clearAll();
         rmReqQty.setText("");
         rmReqUnit.setValue(null);
@@ -134,13 +144,13 @@ public class RawMaterialRequirementController implements Initializable {
         public ActionCell(TableView table) {
             hbox.setAlignment(Pos.CENTER);
             hbox.getChildren().add(delete);
-            
-            delete.setOnAction(e->{
+
+            delete.setOnAction(e -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
-               // RawMaterialRequirement selectedRm = (RawMaterialRequirement)table.getSelectionModel().getSelectedItem();
+                // RawMaterialRequirement selectedRm = (RawMaterialRequirement)table.getSelectionModel().getSelectedItem();
                 rmReqTemporaryList.remove(getTableRow().getIndex());
-            
-        });
+
+            });
         }
 
         @Override
@@ -158,7 +168,26 @@ public class RawMaterialRequirementController implements Initializable {
     public ObservableList<RawMaterialRequirement> getRmReqTemporaryList() {
         return rmReqTemporaryList;
     }
-    
-    
+
+    InputValidator validator;
+
+    @Override
+    public void createValidator() {
+        validator = new InputValidator(
+                rmTextField,
+                rmReqQty,
+                rmReqUnit
+        );
+    }
+
+    @Override
+    public boolean allFieldsValid() {
+        return validator.validateFields();
+    }
+
+    @Override
+    public String getInstruction() {
+        return "2. Specify raw material requirements";
+    }
 
 }

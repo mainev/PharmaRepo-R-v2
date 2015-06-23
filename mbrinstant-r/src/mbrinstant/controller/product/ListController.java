@@ -15,16 +15,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import mbrinstant.controller.product.ProductWizard.ProductWizard;
+import mbrinstant.controls.CharacterTextField;
 import mbrinstant.entity.main.Product;
 import mbrinstant.service.main.ProductService;
 
@@ -72,13 +71,7 @@ public class ListController implements Initializable {
         initMbrListTableView();
 
         newProductButton.setOnAction(e -> {
-//            Stage stage = new Stage();
-//            stage.setScene(new Scene(new ProductWizard(stage), 400, 250));
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.setTitle("NEW Product");
-//            stage.setResizable(false);
-//            stage.show();
-            
+            CharacterTextField t = new CharacterTextField();
             try{
                 new ProductWizard();
             }
