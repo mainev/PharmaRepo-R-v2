@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.main;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,8 +16,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Equipment implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Expose
     private Short id;
+    @Expose
     private String code;
+    @Expose
     private String name;
 
     public Equipment() {
@@ -72,7 +76,7 @@ public class Equipment implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Equipment[ id=" + id + " ]";
+        return code + " : " + name;
     }
     
 }

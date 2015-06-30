@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -13,12 +14,15 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author maine
  */
-@XmlRootElement
+//@XmlRootElement
 public class Dosage implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+   // private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private RawMaterialRequirement rawMaterialRequirementId;
+    @Expose
     private Double percentMultiplier;
     
     public Dosage(RawMaterialRequirement rawMaterialRequirementId, double percentMultiplier){
@@ -49,7 +53,7 @@ public class Dosage implements Serializable {
         this.rawMaterialRequirementId = rawMaterialRequirementId;
     }
 
-    @XmlTransient
+   
     public Double getQuantity() {
         return rawMaterialRequirementId.getNewQuantity() * percentMultiplier;
        // return quantity;
@@ -59,7 +63,7 @@ public class Dosage implements Serializable {
 //        this.quantity = quantity;
 //    }
 
-     @XmlTransient
+  
     public String getUnit() {
         return rawMaterialRequirementId.getNewUnit();
     }

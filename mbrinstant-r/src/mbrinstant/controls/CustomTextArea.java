@@ -5,20 +5,20 @@
  */
 package mbrinstant.controls;
 
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 
 /**
  *
  * @author maine
  */
-public class CharacterTextField extends TextField implements Validatable{
-
-    private int maxLength;
-    private int minLength = 1;
-    private boolean notNull = true;//default text field doesn't allow null values
+public class CustomTextArea extends TextArea implements Validatable{
+    
+     private int maxLength;
+    private int minLength = 0;
+    private boolean notNull = true;
     private boolean betweenRange;//text length is between min and max length
 
-    public CharacterTextField() {
+    public CustomTextArea() {
 
     }
 
@@ -26,37 +26,17 @@ public class CharacterTextField extends TextField implements Validatable{
     public boolean isValid() {
         int textLength = getText().length();
 
-        betweenRange = (textLength >= minLength && textLength < maxLength);
+        betweenRange = (textLength >= minLength && textLength <= maxLength);
         if (notNull ) {
             return (!getText().equals("") && betweenRange);
         }
-    
         return betweenRange;
     }
 
-//    public boolean isUnique() {
-//        if (typeClass == Product.class) {
-////            System.out.println(Product.class.getDeclaredFields().length);
-//            ProductService productService = new ProductService();
-//            return productService.isCodeValid(getText());
-//        }
-//
-//        return false;
-//    }
-
-//    public void unique(boolean unique, Class typeClass) {
-//        this.typeClass = typeClass;
-//        this.unique = unique;
-//    }
-//    
-
-    public void notNull(boolean notNull) {
-        this.notNull = notNull;
-    }
 
     @Override
     public void replaceText(int start, int end, String text) {
-        if ((getText().length() < maxLength) || text.equals("")) {
+        if ((getText().length() <= maxLength) || text.equals("") || text.isEmpty()) {
             super.replaceText(start, end, text);
         }
     }
@@ -81,5 +61,15 @@ public class CharacterTextField extends TextField implements Validatable{
     public void setMinLength(int minLength) {
         this.minLength = minLength;
     }
+
+    public boolean isNotNull() {
+        return notNull;
+    }
+
+    public void setNotNull(boolean notNull) {
+        this.notNull = notNull;
+    }
+
+ 
 
 }

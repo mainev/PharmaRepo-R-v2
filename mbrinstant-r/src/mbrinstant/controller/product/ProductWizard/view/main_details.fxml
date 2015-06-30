@@ -27,7 +27,7 @@
                   </Label>
                </children>
             </HBox>
-            <CharacterTextField fx:id="productCodeTextField" maxLength="5" />
+            <CustomTextField fx:id="productCodeTextField" maxLength="5" />
             <HBox spacing="5.0">
                <children>
                   <Label text="*Brand Name:">
@@ -38,7 +38,7 @@
                   <Label text="(maximum: 200 characters)" textFill="#807e7e" />
                </children>
             </HBox>
-            <CharacterTextField fx:id="brandNameTextField" maxLength="200" />
+            <CustomTextField fx:id="brandNameTextField" maxLength="200" />
             <HBox spacing="5.0">
                <children>
                   <Label text="*Generic Name:">
@@ -49,19 +49,19 @@
                   <Label text="(maximum: 200 characters)" textFill="#807e7e" />
                </children>
             </HBox>
-            <CharacterTextField fx:id="genericNameTextField" maxLength="200" />
+            <CustomTextField fx:id="genericNameTextField" maxLength="200" />
             <Label text="*Classification:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="classificationChoiceBox" prefWidth="150.0" />
+            <CustomizedChoiceBox fx:id="classificationChoiceBox" prefWidth="150.0" />
             <Label text="*Client:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="clientChoiceBox" prefWidth="150.0" />
+            <CustomizedChoiceBox fx:id="clientChoiceBox" prefWidth="150.0" />
             <HBox spacing="5.0">
                <children>
                   <Label text="*VR No/FR No:">
@@ -72,19 +72,19 @@
                   <Label text="(maximum: 10 characters)" textFill="#807e7e" />
                </children>
             </HBox>
-            <CharacterTextField fx:id="vrNoTextField" maxLength="10" />
+            <CustomTextField fx:id="vrNoTextField" maxLength="10" />
             <Label text="*Shelf Life:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <NumberTextField fx:id="shelfLifeTextField" minValue="1" />
+            <IntegerTextField fx:id="shelfLifeTextField" minValue="0" />
             <Label text="*Area:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="areaChoiceBox" prefWidth="150.0" />
+            <CustomizedChoiceBox fx:id="areaChoiceBox" prefWidth="150.0" />
             <Label text="*Pack Size:">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -92,10 +92,10 @@
             </Label>
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <NumberTextField fx:id="packSizeQty" minValue="1" prefWidth="80.0" promptText="quantity" />
-                  <ChoiceBox fx:id="packSizeUnit" prefWidth="80.0" />
+                  <NumberTextField fx:id="packSizeQty" minValue="0" prefWidth="80.0" promptText="quantity" />
+                  <CustomizedChoiceBox fx:id="packSizeUnit" prefWidth="80.0" />
                   <Label text="per" />
-                  <ChoiceBox fx:id="packSizeContainer" prefWidth="130.0" />
+                  <CustomizedChoiceBox fx:id="packSizeContainer" prefWidth="130.0" />
                </children>
             </HBox>
             <Label text="*UDF Content:">
@@ -105,8 +105,8 @@
             </Label>
             <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0" spacing="5.0">
                <children>
-                  <NumberTextField fx:id="udfContent" minValue="1" prefWidth="80.0" promptText="content" />
-                  <ChoiceBox fx:id="udfUnit" prefWidth="80.0" />
+                  <NumberTextField fx:id="udfContent" minValue="0" prefWidth="80.0" promptText="content" />
+                  <CustomizedChoiceBox fx:id="udfUnit" prefWidth="80.0" />
                </children>
             </HBox>
          </children>

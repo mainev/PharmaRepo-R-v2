@@ -17,44 +17,32 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 /**
- * *
  *
- *
- * @author Admin
- * @param <T>
+ * @author maine
  */
-public class TextFieldWithSearch<T> extends VBox implements Validatable {
+public class SearchTextField<T> extends VBox implements Validatable {
 
     T selected = null;
-    ObservableList<T> items;
+    ObservableList<T> items = FXCollections.observableArrayList();
     TextField textField = new TextField();
-    ListView listView = new ListView();
+    ListView<T> listView = new ListView();
 
-    @Override
-    protected void setWidth(double value) {
-        super.setWidth(value); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public TextFieldWithSearch() {
+    public SearchTextField() {
         super();
-    }
-
-    public TextFieldWithSearch(ObservableList<T> items) {
-        super();
-        this.items = items;
-        this.setPrefHeight(25);
-        this.setAlignment(Pos.CENTER);
+        
+        textField.setPrefHeight(25);
+        this.setPrefHeight(textField.getHeight());
         this.getChildren().add(textField);
         this.getChildren().add(listView);
 
         //set margin of nodes
-        VBox.setMargin(textField, new Insets(10, 0, 0, 0));
+        VBox.setMargin(textField, new Insets(0, 0, 0, 0));
         VBox.setMargin(listView, new Insets(0, 0, -100, 0));
-
         listView.setItems(items);
         listView.setVisible(false);
 
@@ -80,11 +68,21 @@ public class TextFieldWithSearch<T> extends VBox implements Validatable {
 
         configureTextField();
         configureListView();
+    }
 
+    public void setTextFieldPadding(Insets insets){
+        textField.setPadding(insets);
+    }
+    public void setItems(ObservableList<T> items) {
+        this.items.addAll(items);
     }
 
     public void setTextFieldMargin(int top, int left, int bottom, int right) {
         VBox.setMargin(textField, new Insets(top, left, bottom, right));
+    }
+    
+    public void setTextFieldMargin(Insets insets){
+        VBox.setMargin(textField, insets);
     }
 
     /**
@@ -113,7 +111,7 @@ public class TextFieldWithSearch<T> extends VBox implements Validatable {
                 listView.setVisible(true);
                 listView.getSelectionModel().clearSelection();
             } else {
-              //  listView.setVisible(false);
+               // listView.setVisible(false);
                 listView.getSelectionModel().clearSelection();
             }
         });
@@ -191,7 +189,7 @@ public class TextFieldWithSearch<T> extends VBox implements Validatable {
     @Override
     public boolean isValid() {
         return (!textField.getText().equals("") && selected != null && !listView.visibleProperty().getValue());
-      //  return true;
+        //  return true;
 
     }
 }

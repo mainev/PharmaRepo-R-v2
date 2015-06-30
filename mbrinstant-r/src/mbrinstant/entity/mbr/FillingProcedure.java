@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,28 +14,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @XmlRootElement
-public class PackagingProcedureOperation implements Serializable {
+public class FillingProcedure implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private Short stepNumber;
+    @Expose
     private String header;
-     private Short part;
-    public PackagingProcedureOperation() {
+    public FillingProcedure() {
     }
 
-    public PackagingProcedureOperation(Integer id) {
+    public FillingProcedure(Integer id) {
         this.id = id;
     }
-
-    public Short getPart() {
-        return part;
-    }
-
-    public void setPart(Short part) {
-        this.part = part;
-    }
-    
-    
 
     public Integer getId() {
         return id;
@@ -79,10 +72,10 @@ public class PackagingProcedureOperation implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PackagingProcedureOperation)) {
+        if (!(object instanceof FillingProcedure)) {
             return false;
         }
-        PackagingProcedureOperation other = (PackagingProcedureOperation) object;
+        FillingProcedure other = (FillingProcedure) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +84,7 @@ public class PackagingProcedureOperation implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.PackagingProcedureOperation[ id=" + id + " ]";
+        return "server.mbr.entity.PackagingProcedure[ id=" + id + " ]";
     }
     
 }

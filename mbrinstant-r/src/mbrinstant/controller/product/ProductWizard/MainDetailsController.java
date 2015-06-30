@@ -9,26 +9,31 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import mbrinstant.controls.CharacterTextField;
+import mbrinstant.controls.CustomTextField;
+import mbrinstant.controls.CustomizedChoiceBox;
 import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.IntegerTextField;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Classification;
 import mbrinstant.entity.main.Client;
 import mbrinstant.entity.main.Container;
 import mbrinstant.entity.main.PackSize;
+import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
+import mbrinstant.entity.mbr.Udf;
 import mbrinstant.service.main.AreaService;
 import mbrinstant.service.main.ClassificationService;
 import mbrinstant.service.main.ClientService;
 import mbrinstant.service.main.ContainerService;
+import mbrinstant.service.main.PackSizeService;
 import mbrinstant.service.main.ProductService;
 import mbrinstant.service.main.UnitService;
+import mbrinstant.service.mbr.ManufacturingProcedureService;
+import mbrinstant.service.mbr.UdfService;
 
 /**
  * FXML Controller class
@@ -40,35 +45,35 @@ public class MainDetailsController implements Initializable, PageController {
     @FXML
     AnchorPane mainDetailsPane;
     @FXML
-    CharacterTextField productCodeTextField;
+    CustomTextField productCodeTextField;
     @FXML
     Label codeValidationStatusLabel;
     @FXML
-    CharacterTextField brandNameTextField;
+    CustomTextField brandNameTextField;
     @FXML
-    CharacterTextField genericNameTextField;
+    CustomTextField genericNameTextField;
     @FXML
-    ChoiceBox<Classification> classificationChoiceBox;
+    CustomizedChoiceBox<Classification> classificationChoiceBox;
     @FXML
-    ChoiceBox<Client> clientChoiceBox;
+    CustomizedChoiceBox<Client> clientChoiceBox;
     @FXML
-    CharacterTextField vrNoTextField;
+    CustomTextField vrNoTextField;
     @FXML
-    NumberTextField shelfLifeTextField;
+    IntegerTextField shelfLifeTextField;
     @FXML
-    ChoiceBox<Area> areaChoiceBox;
+    CustomizedChoiceBox<Area> areaChoiceBox;
     @FXML
-    ChoiceBox<PackSize> packSizeChoiceBox;
+    CustomizedChoiceBox<PackSize> packSizeChoiceBox;
     @FXML
     NumberTextField packSizeQty;
     @FXML
-    ChoiceBox<Unit> packSizeUnit;
+    CustomizedChoiceBox<Unit> packSizeUnit;
     @FXML
-    ChoiceBox<Container> packSizeContainer;
+    CustomizedChoiceBox<Container> packSizeContainer;
     @FXML
     NumberTextField udfContent;
     @FXML
-    ChoiceBox<Unit> udfUnit;
+    CustomizedChoiceBox<Unit> udfUnit;
 
     //services
     ClassificationService classificationService = new ClassificationService();
@@ -77,19 +82,16 @@ public class MainDetailsController implements Initializable, PageController {
     UnitService unitService = new UnitService();
     ContainerService containerService = new ContainerService();
     ProductService productService = new ProductService();
+    PackSizeService packSizeService = new PackSizeService();
+    UdfService udfService = new UdfService();
+    ManufacturingProcedureService manufacturingProcedureService = new ManufacturingProcedureService();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        classificationChoiceBox.setUserData(true);
-        clientChoiceBox.setUserData(true);
-        areaChoiceBox.setUserData(true);
-        packSizeUnit.setUserData(true);
-        packSizeContainer.setUserData(true);
-        udfUnit.setUserData(true);
-        
+
         classificationChoiceBox.setItems(classificationService.getClassificationList());
         clientChoiceBox.setItems(clientService.getClientList());
         areaChoiceBox.setItems(areaService.getAreaList());
@@ -99,6 +101,35 @@ public class MainDetailsController implements Initializable, PageController {
 
         initCodeTextField();
         createValidator();
+    }
+
+    public PackSize createFinalPackSize() {
+        return packSizeService.createPackSize(packSizeQty.getValue(), packSizeUnit.getValue(), packSizeContainer.getValue());
+    }
+    private Product finalProduct;
+
+   
+    public Product getFinalProduct() {
+        return productService.getProductById(finalProduct.getId());
+    }
+
+    public void createFinalProduct() {
+        if (validator.validateFields()) {
+            String code = productCodeTextField.getText();
+            String brandName = brandNameTextField.getText();
+            String genericName = genericNameTextField.getText();
+            String vrNo = vrNoTextField.getText();
+            short shelfLife = (short) shelfLifeTextField.getValue();
+            Area areaId = areaChoiceBox.getValue();
+            Classification classificationId = classificationChoiceBox.getValue();
+            Client clientId = clientChoiceBox.getValue();
+            PackSize packSizeId = createFinalPackSize();
+            
+            finalProduct = productService.create(code, brandName, genericName, vrNo, shelfLife, areaId, classificationId, clientId, packSizeId);
+            System.out.println("product created in db: "+finalProduct);
+            udfService.createUdf(finalProduct.getId(), udfContent.getValue(), udfUnit.getValue());
+            manufacturingProcedureService.create(finalProduct);
+        }
     }
 
     private void initCodeTextField() {
@@ -126,14 +157,14 @@ public class MainDetailsController implements Initializable, PageController {
     @Override
     public void createValidator() {
         validator = new InputValidator(
-                productCodeTextField, 
-                brandNameTextField, 
+                productCodeTextField,
+                brandNameTextField,
                 genericNameTextField,
-                classificationChoiceBox, 
-                clientChoiceBox, 
-                areaChoiceBox, 
-                packSizeUnit, 
-                packSizeContainer, 
+                classificationChoiceBox,
+                clientChoiceBox,
+                areaChoiceBox,
+                packSizeUnit,
+                packSizeContainer,
                 udfUnit,
                 packSizeQty,
                 udfContent,
@@ -146,9 +177,10 @@ public class MainDetailsController implements Initializable, PageController {
     public boolean allFieldsValid() {
         return validator.validateFields() && productService.isCodeUnique(productCodeTextField.getText());
     }
+
     @Override
     public String getInstruction() {
-        return "1. Enter product name and details";
+        return "Enter product name and details";
     }
 
 }

@@ -10,8 +10,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import javafx.collections.ObservableList;
-import mbrinstant.entity.main.PackagingMaterial;
-import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.utils.Serializer;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
@@ -51,10 +49,10 @@ public class PackagingMaterialRequirementService {
         return Serializer.<PackagingMaterialRequirement>deserializeList(jsonResult, PackagingMaterialRequirement.class);
     }
     
-     public PackagingMaterialRequirement createPackagingMaterialRequirement(int udfId, PackagingMaterial packagingMaterialId, double quantity, Unit unitId) {
-        PackagingMaterialRequirement rmReq = new PackagingMaterialRequirement(packagingMaterialId, quantity, unitId);
+     public PackagingMaterialRequirement createPackagingMaterialRequirement(int udfId, PackagingMaterialRequirement pmReq) {
+       // PackagingMaterialRequirement rmReq = new PackagingMaterialRequirement(packagingMaterialId, quantity, unitId);
 
-        String input = Serializer.serialize(rmReq);
+        String input = Serializer.serialize(pmReq);
         webResource = client.resource(BASE_URI + "/create");
         ClientResponse response = webResource
                 .queryParam("udf_id", String.valueOf(udfId))
@@ -64,5 +62,20 @@ public class PackagingMaterialRequirementService {
       
         return Serializer.<PackagingMaterialRequirement>deserialize(output, PackagingMaterialRequirement.class);
 
+    }
+     
+      public PackagingMaterialRequirement findByDetails(int pmId, double qty, short unitId, int udfId) {
+
+        webResource = client.resource(BASE_URI + "/find_by_details");
+        ClientResponse response = webResource
+                .queryParam("pm_id", String.valueOf(pmId))
+                .queryParam("qty", String.valueOf(qty))
+                .queryParam("unit_id", String.valueOf(unitId))
+                .queryParam("udf_id", String.valueOf(udfId))
+                .accept("application/json")
+                .get(ClientResponse.class);
+
+        String jsonResult = response.getEntity(String.class);
+        return Serializer.<PackagingMaterialRequirement>deserialize(jsonResult, PackagingMaterialRequirement.class);
     }
 }

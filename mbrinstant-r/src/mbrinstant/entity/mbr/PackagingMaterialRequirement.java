@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -15,14 +16,19 @@ import mbrinstant.entity.main.Unit;
  *
  * @author maine
  */
-@XmlRootElement
-public class PackagingMaterialRequirement implements Serializable {
+public class PackagingMaterialRequirement  {
 
-    private static final long serialVersionUID = 1L;
+
+    @Expose
     private Integer id;
+    @Expose
     private PackagingMaterial packagingMaterialId;
+    @Expose
     private Double quantity;
+    @Expose
     private Unit unitId;
+    
+     private double newQuantity;
     
     public PackagingMaterialRequirement(PackagingMaterial packagingMaterialId, double quantity, Unit unitId){
         this.packagingMaterialId = packagingMaterialId;
@@ -30,8 +36,8 @@ public class PackagingMaterialRequirement implements Serializable {
         this.unitId = unitId;
     }
 
-    @XmlTransient
-    private double newQuantity;
+  
+   
 
     public double getNewQuantity() {
         return newQuantity;
@@ -80,37 +86,37 @@ public class PackagingMaterialRequirement implements Serializable {
         this.unitId = unitId;
     }
 
-    /*
-     public Udf getUdfId() {
-     return udfId;
-     }
-
-     public void setUdfId(Udf udfId) {
-     this.udfId = udfId;
-     }*/
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PackagingMaterialRequirement)) {
-            return false;
-        }
-        PackagingMaterialRequirement other = (PackagingMaterialRequirement) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+//    /*
+//     public Udf getUdfId() {
+//     return udfId;
+//     }
+//
+//     public void setUdfId(Udf udfId) {
+//     this.udfId = udfId;
+//     }*/
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof PackagingMaterialRequirement)) {
+//            return false;
+//        }
+//        PackagingMaterialRequirement other = (PackagingMaterialRequirement) object;
+//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public String toString() {
-        return "server.mbr.entity.PackagingMaterialRequirement[ id=" + id + " ]";
+        return packagingMaterialId + " - " + quantity + " " + unitId;
     }
 
 }

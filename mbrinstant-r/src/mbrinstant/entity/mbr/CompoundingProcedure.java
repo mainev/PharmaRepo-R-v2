@@ -5,25 +5,34 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author maine
  */
-@XmlRootElement
 public class CompoundingProcedure implements Serializable {
-    private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private Short stepNumber;
+    @Expose
     private String header;
+    @Expose
     private Boolean footer;
+    @Expose
     private String doneBy;
+    @Expose
     private String checkedBy;
+    @Expose(serialize=false)
     private List<Dosage> dosageList;
+
+   
+    
+    
     
     public CompoundingProcedure(short stepNumber, String header, boolean footer, String doneBy, String checkedBy, List<Dosage> dosageList){
     
@@ -89,7 +98,6 @@ public class CompoundingProcedure implements Serializable {
         this.checkedBy = checkedBy;
     }
 
-    @XmlTransient
     public List<Dosage> getDosageList() {
         return dosageList;
     }
@@ -98,15 +106,7 @@ public class CompoundingProcedure implements Serializable {
         this.dosageList = dosageList;
     }
 
-    /*
-    public ManufacturingProcedure getManufacturingProcedureId() {
-        return manufacturingProcedureId;
-    }
-
-    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-        this.manufacturingProcedureId = manufacturingProcedureId;
-    }
-*/
+ 
     @Override
     public int hashCode() {
         int hash = 0;

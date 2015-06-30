@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.main;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,11 +16,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class PackSize implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
-    private Short quantity;
+    @Expose
+    private Double quantity;
+    @Expose
     private Container containerId;
+    @Expose
     private Unit unitId;
 
+    public PackSize(double quantity, Container containerId, Unit unitId) {
+        this.quantity = quantity;
+        this.containerId = containerId;
+        this.unitId = unitId;
+    }
+
+    
     public PackSize() {
     }
 
@@ -35,11 +47,11 @@ public class PackSize implements Serializable {
         this.id = id;
     }
 
-    public Short getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Short quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

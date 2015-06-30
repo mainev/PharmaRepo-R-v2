@@ -14,10 +14,12 @@ import org.controlsfx.control.Notifications;
  */
 public class MyNotifications {
 
+    private static final Pos POS = Pos.BOTTOM_RIGHT;
+    
     public static void displayInformation(String text) {
         Notifications
                 .create()
-                .position(Pos.TOP_RIGHT)
+                .position(POS)
                 .text(text)
                 .showInformation();
     }
@@ -25,7 +27,7 @@ public class MyNotifications {
     public static void displayConfirm(String text) {
         Notifications
                 .create()
-                .position(Pos.TOP_RIGHT)
+                .position(POS)
                 .text(text)
                 .showConfirm();
     }
@@ -33,7 +35,7 @@ public class MyNotifications {
     public static void displayError(String text) {
         Notifications
                 .create()
-                .position(Pos.TOP_RIGHT)
+                .position(POS)
                 .text(text)
                 .showError();
     }
@@ -41,7 +43,7 @@ public class MyNotifications {
     public static void displayWarning(String text) {
         Notifications
                 .create()
-                .position(Pos.TOP_RIGHT)
+                .position(POS)
                 .text(text)
                 .showWarning();
     }

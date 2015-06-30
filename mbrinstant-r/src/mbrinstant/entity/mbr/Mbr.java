@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,13 +19,21 @@ import mbrinstant.entity.main.Unit;
 @XmlRootElement
 public class Mbr implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private Product productId;
+    @Expose
     private Double batchSize;
+    @Expose
     private String batchNo;
+    @Expose
     private Unit unitId;
+    @Expose
     private Date mfgDate;
+    @Expose
     private Date expDate;
+    @Expose
     private String poNo;
 
     public Mbr(Product productId, double batchSize, String batchNo, Date mfgDate, Date expDate,

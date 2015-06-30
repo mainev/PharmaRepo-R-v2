@@ -1,0 +1,167 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mbrinstant.controller.product.ProductWizard;
+
+import java.awt.Toolkit;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
+import javafx.util.Callback;
+import mbrinstant.controls.CustomizedChoiceBox;
+import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.SearchTextField;
+import mbrinstant.entity.main.Equipment;
+import mbrinstant.entity.mbr.EquipmentRequirement;
+import mbrinstant.entity.mbr.ManufacturingProcedure;
+import mbrinstant.service.main.EquipmentService;
+import mbrinstant.service.mbr.EquipmentRequirementService;
+
+/**
+ * FXML Controller class
+ *
+ * @author maine
+ */
+public class EquipmentRequirementController implements Initializable, PageController {
+    @FXML
+            SearchTextField<Equipment> equipmentTextField;
+    @FXML
+            CustomizedChoiceBox procedureChoiceBox;
+    @FXML
+            Button addEquipmentButton;
+    
+    @FXML
+            TableView<EquipmentRequirement> equipmentReqTable;
+    @FXML
+            TableColumn colAction;
+    @FXML
+            TableColumn colEquipment;
+    @FXML
+            TableColumn colProcedure;
+    
+
+    
+    InputValidator validator;
+    ObservableList<EquipmentRequirement> temporaryEquipmentList = FXCollections.observableArrayList();
+    
+    //services
+    EquipmentService equipmentService = new EquipmentService();
+    EquipmentRequirementService erService = new EquipmentRequirementService();
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
+        initEquipmentRequirementTable();
+        equipmentTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
+        equipmentTextField.setItems(equipmentService.getEquipmentList());
+       
+        addEquipmentButton.setOnAction(e->{
+            if(validator.validateFields()){
+                EquipmentRequirement temp = new EquipmentRequirement(getSelectedEquipment(),getProcedure());
+                temporaryEquipmentList.add(temp);
+            }else{
+            Toolkit.getDefaultToolkit().beep();
+            }
+        });
+        createValidator();
+    }
+    
+    public void createEquipmentRequirements(ManufacturingProcedure mfg){
+        for(EquipmentRequirement er : temporaryEquipmentList){
+            erService.createEquipmentRequirement(mfg.getId(), er);
+        }
+    }
+    
+    private void initEquipmentRequirementTable(){
+         equipmentReqTable.setItems(temporaryEquipmentList);
+        colAction.setSortable(false);
+
+        // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
+        colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<EquipmentRequirement, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<EquipmentRequirement, Boolean> features) {
+                return new SimpleBooleanProperty(features.getValue() != null);
+            }
+        });
+
+        // create a cell value factory with an add button for each row in the table.
+        colAction.setCellFactory(new Callback<TableColumn<EquipmentRequirement, Boolean>, TableCell<EquipmentRequirement, Boolean>>() {
+            @Override
+            public TableCell<EquipmentRequirement, Boolean> call(TableColumn<EquipmentRequirement, Boolean> erCol) {
+                return new ActionCell(equipmentReqTable);
+            }
+        });
+
+    }
+    
+     public class ActionCell extends TableCell<EquipmentRequirement, Boolean> {
+
+        HBox hbox = new HBox();
+        Button delete = new Button("Remove");
+
+        public ActionCell(TableView table) {
+            hbox.setAlignment(Pos.CENTER);
+            hbox.getChildren().add(delete);
+
+            delete.setOnAction(e -> {
+                table.getSelectionModel().select(getTableRow().getIndex());
+                temporaryEquipmentList.remove(getTableRow().getIndex());
+
+            });
+        }
+
+        @Override
+        protected void updateItem(Boolean item, boolean empty) {
+            super.updateItem(item, empty);
+            if (!empty) {
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                setGraphic(hbox);
+            } else {
+                setGraphic(null);
+            }
+        }
+    }
+
+    
+    private Equipment getSelectedEquipment(){
+        return equipmentTextField.getSelectedItem();
+    }
+    
+    private String getProcedure(){
+        return procedureChoiceBox.getValue().toString();
+    }
+
+    @Override
+    public void createValidator() {
+        validator = new InputValidator(
+        equipmentTextField,
+        procedureChoiceBox);
+    }
+
+    @Override
+    public boolean allFieldsValid() {
+       // return validator.validateFields();
+        return !temporaryEquipmentList.isEmpty();
+    }
+
+    @Override
+    public String getInstruction() {
+        return "Set equipment requirements";
+    }
+
+}

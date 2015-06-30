@@ -35,7 +35,7 @@ public abstract class Serializer {
     }
 
     public static String serialize(Object object) {
-        Gson gson = new GsonBuilder().setDateFormat(pattern).create();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(pattern).create();
         String json = gson.toJson(object);
 
         return json;

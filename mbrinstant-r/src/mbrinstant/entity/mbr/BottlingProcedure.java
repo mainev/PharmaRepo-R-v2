@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mbrinstant.entity.main;
+package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
@@ -14,45 +14,47 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @XmlRootElement
-public class Unit implements Serializable {
+public class BottlingProcedure implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Expose
-    private Short id;
+    private Integer id;
     @Expose
-    private String name;
-    public Unit() {
-    }
+    private String content;
+    @Expose
+    private Short stepNumber;
 
-    public Unit(Short id) {
-        this.id = id;
+    public BottlingProcedure(String content) {
+        this.content = content;
     }
-
-    public Short getId() {
+    
+    
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getContent() {
+        return content;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    /*
-    @XmlTransient
-    public List<PackSize> getPackSizeList() {
-        return packSizeList;
+    public Short getStepNumber() {
+        return stepNumber;
     }
 
-    public void setPackSizeList(List<PackSize> packSizeList) {
-        this.packSizeList = packSizeList;
-    }*/
+    public void setStepNumber(Short stepNumber) {
+        this.stepNumber = stepNumber;
+    }
 
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -63,10 +65,10 @@ public class Unit implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Unit)) {
+        if (!(object instanceof BottlingProcedure)) {
             return false;
         }
-        Unit other = (Unit) object;
+        BottlingProcedure other = (BottlingProcedure) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -75,7 +77,7 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return "server.mbr.entity.BottlingProcedure[ id=" + id + " ]";
     }
-    
+
 }

@@ -47,4 +47,20 @@ public class EquipmentRequirementService {
         String jsonResult = response.getEntity(String.class);
         return Serializer.<EquipmentRequirement>deserializeList(jsonResult, EquipmentRequirement.class);
     }
+    
+    public EquipmentRequirement createEquipmentRequirement(int mfgId, EquipmentRequirement er) {
+//        cp.setDosageList(new ArrayList());
+        String input = Serializer.serialize(er);
+        System.out.println("serialized equipmentreq: "+input);
+        webResource = client.resource(BASE_URI + "/create");
+        ClientResponse response = webResource
+                .queryParam("mfg_id", String.valueOf(mfgId))
+                .type("application/json")
+                .post(ClientResponse.class, input);
+        String output = response.getEntity(String.class);
+
+        return Serializer.<EquipmentRequirement>deserialize(output, EquipmentRequirement.class);
+
+       // return null;
+    }
 }

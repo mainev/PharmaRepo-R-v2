@@ -5,20 +5,28 @@
  */
 package mbrinstant.entity.mbr;
 
-import java.io.Serializable;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.google.gson.annotations.Expose;
 import mbrinstant.entity.main.Equipment;
 
 /**
  *
  * @author maine
  */
-@XmlRootElement
-public class EquipmentRequirement implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class EquipmentRequirement {
+
+   // private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private Equipment equipmentId;
+    @Expose
     private String procedure;
+
+    public EquipmentRequirement(Equipment equipmentId, String procedure) {
+        this.equipmentId = equipmentId;
+        this.procedure = procedure;
+    }
+
     public EquipmentRequirement() {
     }
 
@@ -33,7 +41,6 @@ public class EquipmentRequirement implements Serializable {
     public void setProcedure(String procedure) {
         this.procedure = procedure;
     }
-    
 
     public Integer getId() {
         return id;
@@ -52,38 +59,37 @@ public class EquipmentRequirement implements Serializable {
     }
 
     /*
-    public ManufacturingProcedure getManufacturingProcedureId() {
-        return manufacturingProcedureId;
-    }
+     public ManufacturingProcedure getManufacturingProcedureId() {
+     return manufacturingProcedureId;
+     }
 
-    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-        this.manufacturingProcedureId = manufacturingProcedureId;
-    }
-    */
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EquipmentRequirement)) {
-            return false;
-        }
-        EquipmentRequirement other = (EquipmentRequirement) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+     this.manufacturingProcedureId = manufacturingProcedureId;
+     }
+     */
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof EquipmentRequirement)) {
+//            return false;
+//        }
+//        EquipmentRequirement other = (EquipmentRequirement) object;
+//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public String toString() {
         return "server.mbr.entity.EquipmentRequirementCoding[ id=" + id + " ]";
     }
-    
+
 }

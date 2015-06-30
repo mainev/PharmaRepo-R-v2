@@ -7,10 +7,37 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import mbrinstant.controls.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.PackagingMaterialRequirementController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.PackagingMaterialRequirementController">
    <children>
-      <BorderPane layoutX="82.0" layoutY="42.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane prefHeight="400.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox>
+               <children>
+                  <HBox spacing="5.0">
+                     <children>
+                        <Label text="*Product Formulation">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="(Packaging Material Requirements)" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <TableView fx:id="pmReqTable" prefHeight="322.0" prefWidth="600.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+                    <columns>
+                      <TableColumn fx:id="colAction" prefWidth="100.0" />
+                      <TableColumn fx:id="colPackagingMaterial" prefWidth="450.0" text="Packaging" />
+                        <TableColumn fx:id="colQuantity" prefWidth="200.0" text="Quantity" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </center>
          <top>
             <HBox fx:id="hbox" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
@@ -18,16 +45,17 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Label>
+                  <SearchTextField fx:id="pmTextField" prefWidth="250.0" />
                   <Label text="Qty:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Label>
-                  <TextField fx:id="pmReqQty" prefWidth="80.0" />
+                  <NumberTextField fx:id="pmReqQty" minValue="0" prefWidth="80.0" promptText="qty" />
                   <Label text="Unit:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Label>
-                  <ChoiceBox fx:id="pmReqUnit" prefWidth="80.0" />
+                  <CustomizedChoiceBox fx:id="pmReqUnit" prefWidth="80.0" />
                   <Button fx:id="addButton" mnemonicParsing="false" prefWidth="100.0" text="ADD" />
                </children>
                <padding>
@@ -35,15 +63,6 @@
                </padding>
             </HBox>
          </top>
-         <bottom>
-            <TableView fx:id="pmReqTable" prefHeight="322.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="colAction" prefWidth="100.0" />
-                <TableColumn fx:id="colPackagingMaterial" prefWidth="400.0" text="Packaging" />
-                  <TableColumn fx:id="colQuantity" prefWidth="130.0" text="Quantity" />
-              </columns>
-            </TableView>
-         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

@@ -5,8 +5,8 @@
  */
 package mbrinstant.entity.main;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
-import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.Udf;
@@ -19,20 +19,44 @@ import mbrinstant.entity.mbr.Udf;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private String code;
+    @Expose
     private String brandName;
+    @Expose
     private String genericName;
+    @Expose
     private String vrNo;
+    @Expose
     private Short shelfLife;
+    @Expose
     private Area areaId;
+    @Expose
     private Classification classificationId;
+    @Expose
     private Client clientId;
+    @Expose
     private PackSize packSizeId;
-//    private List<Udf> udfList;
+    @Expose
     private Udf udfId;
+    @Expose
     private ManufacturingProcedure manufacturingProcedureId;
 
+    public Product(String code, String brandName, String genericName, String vrNo, Short shelfLife, Area areaId, Classification classificationId, Client clientId, PackSize packSizeId) {
+        this.code = code;
+        this.brandName = brandName;
+        this.genericName = genericName;
+        this.vrNo = vrNo;
+        this.shelfLife = shelfLife;
+        this.areaId = areaId;
+        this.classificationId = classificationId;
+        this.clientId = clientId;
+        this.packSizeId = packSizeId;
+    }
+
+    
     public Product() {
     }
 

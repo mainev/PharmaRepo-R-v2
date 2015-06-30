@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,13 +18,31 @@ import mbrinstant.entity.main.Unit;
 @XmlRootElement
 public class Udf implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private Double content;
+    @Expose
     private Unit unitId;
 //    private Boolean isActive;
+    @Expose(serialize=false)
     private List<PackagingMaterialRequirement> packagingMaterialRequirementList;
+    @Expose(serialize=false)
     private List<RawMaterialRequirement> rawMaterialRequirementList;
 
+    public Udf(Double content, Unit unitId) {
+        this.content = content;
+        this.unitId = unitId;
+    }
+
+    
+    public Udf(int id, Double content, Unit unitId) {
+        this.id = id;
+        this.content = content;
+        this.unitId = unitId;
+    }
+
+    
     public Udf() {
     }
 

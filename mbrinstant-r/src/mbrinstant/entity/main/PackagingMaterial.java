@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.main;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,9 +16,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class PackagingMaterial implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
+    @Expose
     private String code;
+    @Expose
     private String description;
+    @Expose
     private Client clientId;
 
     public PackagingMaterial() {

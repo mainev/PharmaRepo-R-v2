@@ -40,7 +40,7 @@ import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
-import mbrinstant.entity.mbr.PackagingProcedureOperation;
+import mbrinstant.entity.mbr.PackagingOperation;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.entity.mbr.Udf;
 import mbrinstant.service.main.PackagingMaterialService;
@@ -191,6 +191,7 @@ public class DetailsController implements Initializable {
             initRawMaterialRequirementTable();
         });
 
+        /*
         //for adding packaging material requirement
         pmReqTextField = new TextFieldWithSearch(packagingMaterialService.getPackagingMaterialList());
         pmReqTextField.setPrefWidth(200);
@@ -204,6 +205,7 @@ public class DetailsController implements Initializable {
             pmReqService.createPackagingMaterialRequirement(product.getUdfId().getId(), pm, qty, unit);
             initPackagingMaterialRequirementTable();
         });
+                */
     }
 
     private void initCompoundingProcedurePane() {
@@ -350,16 +352,15 @@ public class DetailsController implements Initializable {
         int mfgId = product.getManufacturingProcedureId().getId();
         equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getAllEquipmentRequirement(mfgId, procedureChoiceBox.getValue())));
         colEquipmentRequirementCode.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipmentId().getCode()));
-        colEquipmentRequirementName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipmentId().getCode()));
+        colEquipmentRequirementName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipmentId().getName()));
+   }
 
-    }
-
     @FXML
-    TableView<PackagingProcedureOperation> packgProcOperationTable;
+    TableView<PackagingOperation> packgProcOperationTable;
     @FXML
-    TableColumn<PackagingProcedureOperation, Short> operationStep;
+    TableColumn<PackagingOperation, Short> operationStep;
     @FXML
-    TableColumn<PackagingProcedureOperation, PackagingProcedureOperation> operationProcedure;
+    TableColumn<PackagingOperation, PackagingOperation> operationProcedure;
 
     PackagingProcedureTableFactory packgProcTableFactory = new PackagingProcedureTableFactory();
 
@@ -369,21 +370,20 @@ public class DetailsController implements Initializable {
     }
 
     private void initOperationTable() {
-        ObservableList<PackagingProcedureOperation> packgProcOperationList = FXCollections.observableArrayList(product.getManufacturingProcedureId().getPackagingProcedureOperationList());
+        ObservableList<PackagingOperation> packgProcOperationList = FXCollections.observableArrayList(product.getManufacturingProcedureId().getPackagingProcedureOperationList());
         packgProcOperationTable.setItems(packgProcOperationList);
         operationStep.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getStepNumber()));
 
-        operationProcedure.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<PackagingProcedureOperation, PackagingProcedureOperation>, ObservableValue<PackagingProcedureOperation>>() {
+        operationProcedure.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PackagingOperation, PackagingOperation>, ObservableValue<PackagingOperation>>() {
                     @Override
-                    public ObservableValue<PackagingProcedureOperation> call(TableColumn.CellDataFeatures<PackagingProcedureOperation, PackagingProcedureOperation> cp) {
+                    public ObservableValue<PackagingOperation> call(TableColumn.CellDataFeatures<PackagingOperation, PackagingOperation> cp) {
                         return new ReadOnlyObjectWrapper(cp.getValue());
                     }
                 });
 
-        operationProcedure.setCellFactory(new Callback<TableColumn<PackagingProcedureOperation, PackagingProcedureOperation>, TableCell<PackagingProcedureOperation, PackagingProcedureOperation>>() {
+        operationProcedure.setCellFactory(new Callback<TableColumn<PackagingOperation, PackagingOperation>, TableCell<PackagingOperation, PackagingOperation>>() {
             @Override
-            public TableCell<PackagingProcedureOperation, PackagingProcedureOperation> call(TableColumn<PackagingProcedureOperation, PackagingProcedureOperation> colCompoundingProcedureHeader) {
+            public TableCell<PackagingOperation, PackagingOperation> call(TableColumn<PackagingOperation, PackagingOperation> colCompoundingProcedureHeader) {
                 return packgProcTableFactory.new OperationProcedureCell();
             }
         });

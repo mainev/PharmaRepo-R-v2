@@ -14,24 +14,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import mbrinstant.controls.CustomizedChoiceBox;
 import mbrinstant.controls.InputValidator;
-import mbrinstant.controls.MyNotifications;
 import mbrinstant.controls.NumberTextField;
-import mbrinstant.controls.TextFieldWithSearch;
+import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
+import mbrinstant.entity.mbr.Udf;
 import mbrinstant.service.main.RawMaterialService;
 import mbrinstant.service.main.UnitService;
+import mbrinstant.service.mbr.RawMaterialRequirementService;
 
 /**
  * FXML Controller class
@@ -41,11 +43,9 @@ import mbrinstant.service.main.UnitService;
 public class RawMaterialRequirementController implements Initializable, PageController {
 
     @FXML
-    HBox hbox;
-    @FXML
     NumberTextField rmReqQty;
     @FXML
-    ChoiceBox<Unit> rmReqUnit;
+    CustomizedChoiceBox<Unit> rmReqUnit;
     @FXML
     Button addButton;
     @FXML
@@ -57,36 +57,42 @@ public class RawMaterialRequirementController implements Initializable, PageCont
     @FXML
     TableColumn<RawMaterialRequirement, String> colQuantity;
 
-    TextFieldWithSearch<RawMaterial> rmTextField;
+    @FXML
+    SearchTextField<RawMaterial> rmTextField;
 
     //service
     RawMaterialService rmService = new RawMaterialService();
     UnitService unitService = new UnitService();
+    RawMaterialRequirementService rmReqService = new RawMaterialRequirementService();
 
     ObservableList<RawMaterialRequirement> rmReqTemporaryList = FXCollections.observableArrayList();
-
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        rmReqUnit.setUserData(true);
-
-        rmTextField = new TextFieldWithSearch(rmService.getRawMaterialList());
-        hbox.getChildren().add(1, rmTextField);
+        rmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
+        rmTextField.setItems(rmService.getRawMaterialList());
 
         rmReqUnit.setItems(unitService.getUnitList());
         initRmReqTable();
 
         addButton.setOnAction(e -> {
-            if(allFieldsValid()){
-            RawMaterialRequirement temp = new RawMaterialRequirement(getRawMaterial(), getQuantity(), getUnit());
-            rmReqTemporaryList.add(temp);
+            if (validator.validateFields()) {
+                RawMaterialRequirement temp = new RawMaterialRequirement(getRawMaterial(), getQuantity(), getUnit());
+                rmReqTemporaryList.add(temp);
+                clearFields();
             }
-            else{
-                MyNotifications.displayError("Please enter all required fields");
-            }
-            // clearFields();
-        });
 
+        });
         createValidator();
+
+    }
+
+    public void createRawMaterialRequirements(Udf udfId) {
+        if (allFieldsValid()) {
+            for(RawMaterialRequirement rmReq : rmReqTemporaryList){
+                rmReqService.createRawMaterialRequirement(udfId.getId(), rmReq);
+            }
+        }
     }
 
     private void clearFields() {
@@ -147,7 +153,6 @@ public class RawMaterialRequirementController implements Initializable, PageCont
 
             delete.setOnAction(e -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
-                // RawMaterialRequirement selectedRm = (RawMaterialRequirement)table.getSelectionModel().getSelectedItem();
                 rmReqTemporaryList.remove(getTableRow().getIndex());
 
             });
@@ -182,12 +187,13 @@ public class RawMaterialRequirementController implements Initializable, PageCont
 
     @Override
     public boolean allFieldsValid() {
-        return validator.validateFields();
+        //advance to next page if the product formulation list is not empty
+        return !rmReqTemporaryList.isEmpty();
     }
 
     @Override
     public String getInstruction() {
-        return "2. Specify raw material requirements";
+        return "Specify raw material requirements";
     }
 
 }

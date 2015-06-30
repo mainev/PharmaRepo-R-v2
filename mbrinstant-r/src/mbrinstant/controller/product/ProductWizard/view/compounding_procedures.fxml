@@ -7,13 +7,83 @@
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
+<?import mbrinstant.controls.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.CompoundingProceduresController">
    <children>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ScrollPane fx:id="mainScrollPane" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="293.0" prefViewportHeight="508.0" prefViewportWidth="598.0" prefWidth="750.0" />
+            <ScrollPane fx:id="mainScrollPane" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pannable="true" prefHeight="293.0" prefViewportHeight="508.0" prefViewportWidth="598.0" prefWidth="750.0">
+               <content>
+                  <VBox prefHeight="400.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: lightgray;">
+                     <children>
+                        <HBox spacing="5.0">
+                           <children>
+                              <Label text="*Content:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="(maximum of 500 characters only)" />
+                           </children>
+                        </HBox>
+                        <CustomTextArea fx:id="contentArea" maxLength="500" prefHeight="85.0" prefWidth="200.0" />
+                        <CheckBox fx:id="footer" mnemonicParsing="false" text="Require 'Time Started' and 'Time Finished'">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </CheckBox>
+                        <VBox prefHeight="200.0" prefWidth="715.0" spacing="5.0" style="-fx-background-color: gray;">
+                           <children>
+                              <Label text="Dosage List:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <HBox fx:id="hbox" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="5.0">
+                                 <children>
+                                    <Label text="Material:" />
+                                    <ComboBox fx:id="rmReqChoiceBox" prefWidth="250.0" />
+                                    <Label text="Pecent (%):" />
+                                    <NumberTextField fx:id="percentQty" />
+                                    <Button fx:id="addDosage" mnemonicParsing="false" prefWidth="100.0" text="Add Ingredient" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </HBox>
+                              <TableView fx:id="dosagesTable" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn fx:id="colAction" prefWidth="100.0" />
+                                  <TableColumn fx:id="colMaterial" prefWidth="500.0" text="Ingredients">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="rawMaterialRequirementId" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                                  <TableColumn fx:id="colPercent" prefWidth="100.0" text="Quantity">
+                                      <cellValueFactory>
+                                          <PropertyValueFactory property="percentMultiplier" />
+                                      </cellValueFactory>
+                                  </TableColumn>
+                                </columns>
+                              </TableView>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
             <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="750.0">
                <children>
                   <Button fx:id="addProcedureButton" mnemonicParsing="false" prefWidth="100.0" text="Add procedure" />
@@ -22,7 +92,7 @@
                   <Insets left="10.0" right="10.0" />
                </padding>
             </HBox>
-            <Label text="Compounding Procedures:">
+            <Label text="*COMPOUNDING PROCEDURES:">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

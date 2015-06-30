@@ -20,27 +20,28 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import mbrinstant.controller.product.CompoundingProcedureTableFactory;
+import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.NumberTextField;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.Dosage;
+import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
+import mbrinstant.service.mbr.CompoundingProcedureService;
+import mbrinstant.service.mbr.DosageService;
+import mbrinstant.service.mbr.RawMaterialRequirementService;
 
 /**
  * FXML Controller class
@@ -54,79 +55,78 @@ public class CompoundingProceduresController implements Initializable, PageContr
     @FXML
     ScrollPane mainScrollPane;
 
-    CheckBox footer = new CheckBox("Require Time Started and Time Finished");
-    Label contentLabel = new Label("Content:");
-    TextArea contentArea = new TextArea();
-    Label dosageLabel = new Label("Dosage List:");
+    @FXML
+    CheckBox footer;
+    @FXML
+    CustomTextArea contentArea;
 
-    VBox dosagePane = new VBox();
-
-    HBox dosageHBox = new HBox();
-    Label materialLabel = new Label("Material:");
-    ChoiceBox<RawMaterialRequirement> rmReqChoiceBox = new ChoiceBox();
-
-    Label percentLabel = new Label("Percent(%)");
-    TextField percentQty = new TextField();
-    Button addDosage = new Button("Add Dosage");
-
-    TableView dosagesTable = new TableView();
-    TableColumn colAction = new TableColumn();
-    TableColumn<Dosage, String> colMaterial = new TableColumn("Ingredients");
-    TableColumn<Dosage, Double> colPercent = new TableColumn("Quantity");
-
-    VBox scrollPaneVBox = new VBox();
+    @FXML
+    ComboBox<RawMaterialRequirement> rmReqChoiceBox;
+    @FXML
+    NumberTextField percentQty;
+    @FXML
+    Button addDosage;
+    @FXML
+    TableView<Dosage> dosagesTable;
+    @FXML
+    TableColumn colAction;
+    @FXML
+    TableColumn colMaterial;
+    @FXML
+    TableColumn colPercent;
 
     public ObservableList<Dosage> dosageList = FXCollections.observableArrayList();
     public ObservableList<RawMaterialRequirement> rmReqList = FXCollections.observableArrayList();
     public ObservableList<CompoundingProcedure> compoundingProcedureList = FXCollections.observableArrayList();
+
+    //services
+    CompoundingProcedureService cpService = new CompoundingProcedureService();
+    DosageService dosService = new DosageService();
+    RawMaterialRequirementService rmReqService = new RawMaterialRequirementService();
+
+    @FXML
+    HBox hbox;
+
+    ObservableList sample = FXCollections.observableArrayList();
+    ObservableList<RawMaterialRequirement> tmp = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         initDosageTable();
         initCompoundingProcedureTable();
+        rmReqChoiceBox.setPromptText("Click Me");
 
-        contentLabel.setStyle("-fx-font-weight: bold;");
-        contentArea.setPrefHeight(100);
-        dosageLabel.setStyle("-fx-font-weight: bold;");
-        dosagePane.setSpacing(5);
-        dosagePane.setPadding(new Insets(10, 30, 10, 30));
-        dosageHBox.setSpacing(5);
-        dosageHBox.setAlignment(Pos.CENTER_RIGHT);
-        rmReqChoiceBox.setPrefWidth(200);
         rmReqChoiceBox.setItems(rmReqList);
-        percentQty.setPrefWidth(100);
-        dosageHBox.getChildren().addAll(materialLabel, rmReqChoiceBox, percentLabel, percentQty, addDosage);
-        dosagePane.getChildren().addAll(dosageHBox, dosagesTable);
-        dosagePane.setStyle("-fx-background-color: lightgray;");
-
-        scrollPaneVBox.setStyle("-fx-background-color: gray;");
-        scrollPaneVBox.setSpacing(10);
-        scrollPaneVBox.setPrefSize(730, 400);
-        scrollPaneVBox.setPadding(new Insets(10, 10, 10, 10));
-        scrollPaneVBox.getChildren().addAll(contentLabel, contentArea, footer, dosageLabel, dosagePane);
-
-        mainScrollPane.setContent(scrollPaneVBox);
 
         addDosage.setOnAction(e -> {
-            double p = Double.parseDouble(percentQty.getText()) * 0.01;
-            Dosage dos = new Dosage(rmReqChoiceBox.getValue(), p);
-            dosageList.add(dos);
+            InputValidator dosageValidator = new InputValidator(rmReqChoiceBox, percentQty);
+            if (dosageValidator.validateFields()) {
+                double p = Double.parseDouble(percentQty.getText()) * 0.01;
+                Dosage dos = new Dosage(rmReqChoiceBox.getSelectionModel().getSelectedItem(), p);
+                dosageList.add(dos);
+                rmReqChoiceBox.getSelectionModel().clearSelection();
+                rmReqChoiceBox.setValue(null);
+                percentQty.setText("");
+            }
+
         });
 
         addProcedureButton.setOnAction(e -> {
-            List<Dosage> cpDosageList = new ArrayList();
-            cpDosageList.addAll(dosageList);
-            CompoundingProcedure tempCp = new CompoundingProcedure((short) 0, contentArea.getText(),
-                    footer.isSelected(), null, null, cpDosageList);
-            compoundingProcedureList.add(tempCp);
-            
-            //clear all values after adding the temporary procedure to the list
-            dosageList.clear();
-            footer.setSelected(false);
-            contentArea.setText(null);
-            rmReqChoiceBox.setValue(null);
-            percentQty.setText(null);
+            if (validator.validateFields()) {
+                List<Dosage> cpDosageList = new ArrayList();
+                cpDosageList.addAll(dosageList);
+                CompoundingProcedure tempCp = new CompoundingProcedure((short) 0, contentArea.getText(),
+                        footer.isSelected(), null, null, cpDosageList);
+                compoundingProcedureList.add(tempCp);
+
+                //clear all values after adding the temporary procedure to the list
+                dosageList.clear();
+                footer.setSelected(false);
+                contentArea.setText("");
+                rmReqChoiceBox.setValue(null);
+                percentQty.setText(null);
+            }
         });
 
         compoundingProcedureList.addListener(new ListChangeListener() {
@@ -142,7 +142,22 @@ public class CompoundingProceduresController implements Initializable, PageContr
         });
 
         createValidator();
-        initRmReqList();
+        updateDosageAndCompoundingProcedureList();
+    }
+
+    public void createCompoundingProcedures(ManufacturingProcedure mfgId, int udfId) {
+        if (allFieldsValid()) {
+            for (CompoundingProcedure cp : compoundingProcedureList) {
+                List<Dosage> dosList = cp.getDosageList();
+                cp = cpService.createCompoundingProcedure(mfgId.getId(), cp);
+                for (Dosage dos : dosList) {
+                    RawMaterialRequirement rmReq = dos.getRawMaterialRequirementId();
+                    rmReq = rmReqService.findByDetails(rmReq.getRawMaterialId().getId(), rmReq.getQuantity(), rmReq.getUnitId().getId(), udfId);
+                    dos.setRawMaterialRequirementId(rmReq);
+                    dosService.createDosage(cp.getId(), dos);
+                } //   rmReqService.createRawMaterialRequirement(udfId.getId(), rmReq);
+            }
+        }
     }
 
     private boolean isIn(RawMaterialRequirement rmReq) {
@@ -154,7 +169,11 @@ public class CompoundingProceduresController implements Initializable, PageContr
         return false;
     }
 
-    private void initRmReqList() {
+    /**
+     * This will automatically update all dosages/ingredients in the table
+     * whenever a raw material is removed from the main requirement list.
+     */
+    private void updateDosageAndCompoundingProcedureList() {
         rmReqList.addListener(new ListChangeListener() {
             @Override
             public void onChanged(ListChangeListener.Change change) {
@@ -175,25 +194,14 @@ public class CompoundingProceduresController implements Initializable, PageContr
                                 refreshTable(compoundingProcedureTableView);
                             }
                         }
-
                     }
-
                 }
             }
         });
     }
 
     private void initDosageTable() {
-        dosagesTable.setPrefHeight(150);
-        dosagesTable.getColumns().addAll(colAction, colMaterial, colPercent);
-        colAction.setPrefWidth(100);
-        colMaterial.setPrefWidth(400);
-        colPercent.setPrefWidth(100);
-
-        //
         dosagesTable.setItems(dosageList);
-        colMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getRawMaterialRequirementId().toString()));
-        colPercent.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getPercentMultiplier()));
 
         colAction.setSortable(false); // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
         colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Dosage, Boolean>, ObservableValue<Boolean>>() {
@@ -226,6 +234,9 @@ public class CompoundingProceduresController implements Initializable, PageContr
     CompoundingProcedureTableFactory cpFactory = new CompoundingProcedureTableFactory();
 
     private void initCompoundingProcedureTable() {
+        TableView<RawMaterialRequirement> tb = new TableView();
+
+        //tb.itemsProperty().bind(rmReqChoiceBox.itemsProperty());
         compoundingProcedureTableView.setItems(compoundingProcedureList);
         colCompoundingProcedureHeader.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getHeader()));
         colCompoundingProcedureStep.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getStepNumber()));
@@ -319,17 +330,21 @@ public class CompoundingProceduresController implements Initializable, PageContr
 
     @Override
     public void createValidator() {
-        validator = new InputValidator();
+        validator = new InputValidator(
+                contentArea //a compounding procedure can only be added if the contentArea has values
+        );
     }
 
     @Override
     public boolean allFieldsValid() {
-        return validator.validateFields();
+        //advance to next page if compounding procedure list is not empty
+        return !compoundingProcedureList.isEmpty();
+
     }
 
     @Override
     public String getInstruction() {
-        return "4. Set compounding procedures";
+        return "Set compounding procedures";
     }
 
 }

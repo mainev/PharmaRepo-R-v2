@@ -9,8 +9,8 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import mbrinstant.entity.main.Unit;
-import mbrinstant.entity.mbr.Udf;
+import java.util.ArrayList;
+import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.utils.Serializer;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
@@ -18,14 +18,14 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
  *
  * @author maine
  */
-public class UdfService {
+public class CompoundingProcedureService {
 
     public DefaultClientConfig defaultClientConfig;
     public Client client;
     public WebResource webResource;
-    public String BASE_URI = "http://localhost:8080/RedServer-v2/webresources/mbr/udf";
+    public String BASE_URI = "http://localhost:8080/RedServer-v2/webresources/mbr/compounding_procedure";
 
-    public UdfService() {
+    public CompoundingProcedureService() {
         initClient();
     }
 
@@ -35,28 +35,19 @@ public class UdfService {
         client = Client.create(defaultClientConfig);
     }
 
-    public Udf getUdfById(int id) {
-        webResource = client.resource(BASE_URI + "/find_by_id");
-
-        ClientResponse response = webResource
-                .queryParam("id", String.valueOf(id))
-                .accept("application/json")
-                .get(ClientResponse.class);
-
-        String jsonResult = response.getEntity(String.class);
-        return Serializer.<Udf>deserialize(jsonResult, Udf.class);
-    }
-    
-      public Udf createUdf(int id, double content, Unit unit) {
-        Udf udf = new Udf(id, content, unit);
-        String input = Serializer.serialize(udf);
+    public CompoundingProcedure createCompoundingProcedure(int mfgId, CompoundingProcedure cp) {
+//        cp.setDosageList(new ArrayList());
+        String input = Serializer.serialize(cp);
+        System.out.println("serialized compoundingproc: "+input);
         webResource = client.resource(BASE_URI + "/create");
         ClientResponse response = webResource
+                .queryParam("mfg_id", String.valueOf(mfgId))
                 .type("application/json")
                 .post(ClientResponse.class, input);
         String output = response.getEntity(String.class);
-        return Serializer.<Udf>deserialize(output, Udf.class);
 
+        return Serializer.<CompoundingProcedure>deserialize(output, CompoundingProcedure.class);
+
+       // return null;
     }
-    
 }

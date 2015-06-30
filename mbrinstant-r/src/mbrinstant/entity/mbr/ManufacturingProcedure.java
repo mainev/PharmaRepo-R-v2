@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,12 +17,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ManufacturingProcedure implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
-    private Boolean isActive;
+    @Expose(serialize=false)
     private List<EquipmentRequirement> equipmentRequirementList;
+    @Expose(serialize=false)
     private List<CompoundingProcedure> compoundingProcedureList;
-    private List<PackagingProcedureOperation> packagingProcedureOperationList;
-    private List<PackagingProcedure> packagingProcedureList;
+    @Expose(serialize=false)
+    private List<PackagingOperation> packagingProcedureOperationList;
+    @Expose(serialize=false)
+    private List<FillingProcedure> packagingProcedureList;
+    @Expose(serialize=false)
+    private List<BottlingProcedure> bottlingProcedureList;
 
     public ManufacturingProcedure() {
     }
@@ -38,23 +45,16 @@ public class ManufacturingProcedure implements Serializable {
         this.id = id;
     }
 
-    /*
-    public Product getProductId() {
-        return productId;
+
+    public List<BottlingProcedure> getBottlingProcedureList() {
+        return bottlingProcedureList;
     }
 
-    public void setProductId(Product productId) {
-        this.productId = productId;
-    }
-*/
-    public Boolean getIsActive() {
-        return isActive;
+    public void setBottlingProcedureList(List<BottlingProcedure> bottlingProcedureList) {
+        this.bottlingProcedureList = bottlingProcedureList;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
+    
   
     public List<EquipmentRequirement> getEquipmentRequirementList() {
         return equipmentRequirementList;
@@ -74,20 +74,20 @@ public class ManufacturingProcedure implements Serializable {
     }
 
   
-    public List<PackagingProcedureOperation> getPackagingProcedureOperationList() {
+    public List<PackagingOperation> getPackagingProcedureOperationList() {
         return packagingProcedureOperationList;
     }
 
-    public void setPackagingProcedureOperationList(List<PackagingProcedureOperation> packagingProcedureOperationList) {
+    public void setPackagingProcedureOperationList(List<PackagingOperation> packagingProcedureOperationList) {
         this.packagingProcedureOperationList = packagingProcedureOperationList;
     }
 
     
-    public List<PackagingProcedure> getPackagingProcedureList() {
+    public List<FillingProcedure> getPackagingProcedureList() {
         return packagingProcedureList;
     }
 
-    public void setPackagingProcedureList(List<PackagingProcedure> packagingProcedureList) {
+    public void setPackagingProcedureList(List<FillingProcedure> packagingProcedureList) {
         this.packagingProcedureList = packagingProcedureList;
     }
 

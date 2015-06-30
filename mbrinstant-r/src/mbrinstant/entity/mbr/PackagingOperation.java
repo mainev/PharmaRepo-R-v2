@@ -5,6 +5,7 @@
  */
 package mbrinstant.entity.mbr;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,17 +14,62 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @XmlRootElement
-public class PackagingProcedure implements Serializable {
+public class PackagingOperation implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Expose
     private Integer id;
-    
+    @Expose
     private Short stepNumber;
+    @Expose
     private String header;
-    public PackagingProcedure() {
+    @Expose
+    private Short part;
+    @Expose
+    private String doneBy;
+    @Expose
+    private String checkedBy;
+
+    public PackagingOperation(String header, Short part, String doneBy, String checkedBy) {
+        this.header = header;
+        this.part = part;
+        this.doneBy = doneBy;
+        this.checkedBy = checkedBy;
+    }
+    
+  
+    
+    
+
+    public PackagingOperation() {
     }
 
-    public PackagingProcedure(Integer id) {
+    public PackagingOperation(Integer id) {
         this.id = id;
+    }
+
+    public String getDoneBy() {
+        return doneBy;
+    }
+
+    public void setDoneBy(String doneBy) {
+        this.doneBy = doneBy;
+    }
+
+    public String getCheckedBy() {
+        return checkedBy;
+    }
+
+    public void setCheckedBy(String checkedBy) {
+        this.checkedBy = checkedBy;
+    }
+
+    public Short getPart() {
+        return part;
+    }
+
+    public void setPart(Short part) {
+        this.part = part;
     }
 
     public Integer getId() {
@@ -51,14 +97,13 @@ public class PackagingProcedure implements Serializable {
     }
 
     /*
-    public ManufacturingProcedure getManufacturingProcedureId() {
-        return manufacturingProcedureId;
-    }
+     public ManufacturingProcedure getManufacturingProcedureId() {
+     return manufacturingProcedureId;
+     }
 
-    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-        this.manufacturingProcedureId = manufacturingProcedureId;
-    }*/
-
+     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+     this.manufacturingProcedureId = manufacturingProcedureId;
+     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -69,10 +114,10 @@ public class PackagingProcedure implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PackagingProcedure)) {
+        if (!(object instanceof PackagingOperation)) {
             return false;
         }
-        PackagingProcedure other = (PackagingProcedure) object;
+        PackagingOperation other = (PackagingOperation) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -81,7 +126,7 @@ public class PackagingProcedure implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.PackagingProcedure[ id=" + id + " ]";
+        return "server.mbr.entity.PackagingProcedureOperation[ id=" + id + " ]";
     }
-    
+
 }

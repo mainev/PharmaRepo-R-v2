@@ -5,6 +5,7 @@
  */
 package mbrinstant.controller.product.ProductWizard;
 
+import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,37 +15,39 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import mbrinstant.controls.CustomizedChoiceBox;
 import mbrinstant.controls.InputValidator;
-import mbrinstant.controls.TextFieldWithSearch;
+import mbrinstant.controls.NumberTextField;
+import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
+import mbrinstant.entity.mbr.Udf;
 import mbrinstant.service.main.PackagingMaterialService;
 import mbrinstant.service.main.UnitService;
+import mbrinstant.service.mbr.PackagingMaterialRequirementService;
 
 /**
  * FXML Controller class
  *
  * @author maine
  */
-public class PackagingMaterialRequirementController implements Initializable , PageController{
+public class PackagingMaterialRequirementController implements Initializable, PageController {
+
 
     @FXML
-    HBox hbox;
+    NumberTextField pmReqQty;
     @FXML
-    TextField pmReqQty;
-    @FXML
-    ChoiceBox<Unit> pmReqUnit;
+    CustomizedChoiceBox<Unit> pmReqUnit;
     @FXML
     Button addButton;
     @FXML
@@ -56,27 +59,42 @@ public class PackagingMaterialRequirementController implements Initializable , P
     @FXML
     TableColumn<PackagingMaterialRequirement, String> colQuantity;
 
-    TextFieldWithSearch<PackagingMaterial> pmTextField;
+    @FXML
+    SearchTextField<PackagingMaterial> pmTextField;
 
     //service
     PackagingMaterialService pmService = new PackagingMaterialService();
     UnitService unitService = new UnitService();
-
+    PackagingMaterialRequirementService pmReqService = new PackagingMaterialRequirementService();
     ObservableList<PackagingMaterialRequirement> pmReqTemporaryList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        pmTextField = new TextFieldWithSearch(pmService.getPackagingMaterialList());
-        hbox.getChildren().add(1, pmTextField);
+        pmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
+        pmTextField.setItems(pmService.getPackagingMaterialList());
+
+    
 
         pmReqUnit.setItems(unitService.getUnitList());
         initRmReqTable();
 
         addButton.setOnAction(e -> {
-            PackagingMaterialRequirement temp = new PackagingMaterialRequirement(getPackagingMaterial(), getQuantity(), getUnit());
-            pmReqTemporaryList.add(temp);
+
+            if (validator.validateFields()) {
+                PackagingMaterialRequirement temp = new PackagingMaterialRequirement(getPackagingMaterial(), getQuantity(), getUnit());
+                pmReqTemporaryList.add(temp);
+                clearFields();
+            }else{
+                Toolkit.getDefaultToolkit().beep();
+            }
         });
         createValidator();
+    }
+
+    private void clearFields() {
+        pmTextField.clearAll();
+        pmReqQty.setText("");
+        pmReqUnit.setValue(null);
     }
 
     private PackagingMaterial getPackagingMaterial() {
@@ -128,13 +146,13 @@ public class PackagingMaterialRequirementController implements Initializable , P
         public ActionCell(TableView table) {
             hbox.setAlignment(Pos.CENTER);
             hbox.getChildren().add(delete);
-            
-            delete.setOnAction(e->{
+
+            delete.setOnAction(e -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
-           //     PackagingMaterialRequirement selectedPm = (PackagingMaterialRequirement)table.getSelectionModel().getSelectedItem();
+                //     PackagingMaterialRequirement selectedPm = (PackagingMaterialRequirement)table.getSelectionModel().getSelectedItem();
                 pmReqTemporaryList.remove(getTableRow().getIndex());
-            
-        });
+
+            });
         }
 
         @Override
@@ -149,21 +167,34 @@ public class PackagingMaterialRequirementController implements Initializable , P
         }
     }
     
-      InputValidator validator;
+    public void createPackagingMaterialRequirements(Udf udfId) {
+        if (allFieldsValid()) {
+            for(PackagingMaterialRequirement pmReq : pmReqTemporaryList){
+                pmReqService.createPackagingMaterialRequirement(udfId.getId(), pmReq);
+            }
+        }
+    }
+
+    InputValidator validator;
 
     @Override
     public void createValidator() {
-        validator = new InputValidator();
+        validator = new InputValidator(
+                pmTextField,
+                pmReqQty,
+                pmReqUnit
+        );
     }
 
     @Override
     public boolean allFieldsValid() {
-        return validator.validateFields();
+        //advance to next page if the packaging material requirement list is not empty
+        return !pmReqTemporaryList.isEmpty();
     }
 
     @Override
     public String getInstruction() {
-        return "3. Specify packaging material requirements";
+        return "Specify packaging material requirements";
     }
 
 }

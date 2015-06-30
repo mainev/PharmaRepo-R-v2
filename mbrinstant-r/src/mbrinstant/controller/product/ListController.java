@@ -23,7 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import mbrinstant.controller.product.ProductWizard.ProductWizard;
-import mbrinstant.controls.CharacterTextField;
+import mbrinstant.controls.CustomTextField;
 import mbrinstant.entity.main.Product;
 import mbrinstant.service.main.ProductService;
 
@@ -71,7 +71,7 @@ public class ListController implements Initializable {
         initMbrListTableView();
 
         newProductButton.setOnAction(e -> {
-            CharacterTextField t = new CharacterTextField();
+            CustomTextField t = new CustomTextField();
             try{
                 new ProductWizard();
             }

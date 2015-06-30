@@ -11,31 +11,31 @@ import javafx.scene.control.TextField;
  *
  * @author maine
  */
-public class NumberTextField extends TextField implements Validatable {
+public class IntegerTextField extends TextField implements Validatable {
 
-    private double maxValue;
-    private double minValue = 0;//this textfield only allows value greater than 0
+    private int maxValue;
+    private int minValue = 0;//this textfield only allows value greater than or equal 0
 
-    public NumberTextField() {
+    public IntegerTextField() {
         super();
         this.setPromptText("Enter only numbers");
     }
-    
-    public double getValue(){
+
+    public int getValue(){
         if(!getText().isEmpty()){
-            return Double.parseDouble(getText());
+            return Integer.parseInt(getText());
         }
         return 0;
     }
-
+    
     @Override
     public boolean isValid() {
         if (!getText().isEmpty() || !getText().equals("")) {
             double value = Double.parseDouble(getText());
             if (maxValue != 0) {
-                return value > minValue && value <= maxValue;
+                return value >= minValue && value <= maxValue;
             }
-            return value > minValue;
+            return value >= minValue;
         }
         
        return false;
@@ -45,7 +45,7 @@ public class NumberTextField extends TextField implements Validatable {
 
     @Override
     public void replaceText(int start, int end, String text) {
-        if (text.matches("[-+]?[0-9]*\\.?[0-9]*") || text.isEmpty() || text.equals("")) {
+        if (text.matches("[0-9]") || text.isEmpty() || text.equals("")) {
             super.replaceText(start, end, text);
         }
     }
@@ -55,20 +55,22 @@ public class NumberTextField extends TextField implements Validatable {
         super.replaceSelection(replacement); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public double getMaxValue() {
+    public int getMaxValue() {
         return maxValue;
     }
 
-    public void setMaxValue(double maxValue) {
+    public void setMaxValue(int maxValue) {
         this.maxValue = maxValue;
     }
 
-    public double getMinValue() {
+    public int getMinValue() {
         return minValue;
     }
 
-    public void setMinValue(double minValue) {
+    public void setMinValue(int minValue) {
         this.minValue = minValue;
     }
+
+   
 
 }

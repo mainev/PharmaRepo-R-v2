@@ -5,32 +5,44 @@
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
+<?import mbrinstant.controls.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="mbrinstant.controller.product.ProductWizard.EquipmentRequirementsController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.EquipmentRequirementController">
    <children>
-      <VBox layoutX="36.0" layoutY="33.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="5.0">
+      <BorderPane prefHeight="400.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <TableView fx:id="equipmentReqTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="colAction" prefWidth="100.0" />
+                <TableColumn fx:id="colEquipment" prefWidth="450.0" text="Equipment" >
+                    <cellValueFactory>
+                        <PropertyValueFactory property="equipmentId"/> 
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="colProcedure" prefWidth="200.0" text="Procedure" >
+                    <cellValueFactory>
+                        <PropertyValueFactory property="procedure"/> 
+                    </cellValueFactory>
+                </TableColumn>
+              </columns>
+            </TableView>
+         </center>
+         <top>
+            <HBox alignment="CENTER_RIGHT" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="750.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
                   <Label text="Equipment:" />
-                  <TextField prefWidth="250.0" />
+                  <SearchTextField fx:id="equipmentTextField" prefWidth="250.0" />
                   <Label text="Procedure:" />
-                  <ChoiceBox prefWidth="200.0" />
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="ADD" />
+                  <CustomizedChoiceBox fx:id="procedureChoiceBox" prefWidth="200.0" />
+                  <Button fx:id="addEquipmentButton" mnemonicParsing="false" prefWidth="100.0" text="ADD" />
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding>
             </HBox>
-            <TableView prefHeight="301.0" prefWidth="600.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-         </children>
-      </VBox>
+         </top>
+      </BorderPane>
    </children>
 </AnchorPane>
