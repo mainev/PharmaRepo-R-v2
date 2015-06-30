@@ -233,7 +233,7 @@ ALTER SEQUENCE equipment_id_seq OWNED BY equipment.id;
 
 CREATE TABLE pack_size (
     id integer NOT NULL,
-    quantity smallint,
+    quantity double precision,
     unit_id smallint,
     container_id smallint
 );
@@ -411,6 +411,41 @@ ALTER SEQUENCE unit_id_seq OWNED BY unit.id;
 SET search_path = mbr, pg_catalog;
 
 --
+-- Name: bottling_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE bottling_procedure (
+    id integer NOT NULL,
+    manufacturing_procedure_id integer,
+    content character varying(1000),
+    step_number smallint
+);
+
+
+ALTER TABLE mbr.bottling_procedure OWNER TO postgres;
+
+--
+-- Name: bottling_procedure_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
+--
+
+CREATE SEQUENCE bottling_procedure_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE mbr.bottling_procedure_id_seq OWNER TO postgres;
+
+--
+-- Name: bottling_procedure_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
+--
+
+ALTER SEQUENCE bottling_procedure_id_seq OWNED BY bottling_procedure.id;
+
+
+--
 -- Name: compounding_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
@@ -455,8 +490,6 @@ ALTER SEQUENCE compounding_procedure_id_seq OWNED BY compounding_procedure.id;
 CREATE TABLE dosage (
     id integer NOT NULL,
     raw_material_requirement_id integer,
-    quantity double precision,
-    unit_id smallint,
     percent_multiplier double precision,
     compounding_procedure_id integer
 );
@@ -560,6 +593,27 @@ ALTER TABLE mbr.equipment_requirement_coding_manufacturing_procedure_id_seq OWNE
 --
 
 ALTER SEQUENCE equipment_requirement_coding_manufacturing_procedure_id_seq OWNED BY equipment_requirement.manufacturing_procedure_id;
+
+
+--
+-- Name: filling_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE filling_procedure (
+    id integer NOT NULL,
+    step_number smallint,
+    header character varying(200),
+    manufacturing_procedure_id integer
+);
+
+
+ALTER TABLE mbr.filling_procedure OWNER TO postgres;
+
+--
+-- Name: TABLE filling_procedure; Type: COMMENT; Schema: mbr; Owner: postgres
+--
+
+COMMENT ON TABLE filling_procedure IS 'packaging procedure for filling process';
 
 
 --
@@ -670,25 +724,21 @@ ALTER SEQUENCE packaging_material_requirement_id_seq OWNED BY packaging_material
 
 
 --
--- Name: packaging_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+-- Name: packaging_operation; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE packaging_procedure (
+CREATE TABLE packaging_operation (
     id integer NOT NULL,
     step_number smallint,
-    header character varying(200),
-    manufacturing_procedure_id integer
+    header character varying(1000),
+    manufacturing_procedure_id integer,
+    part smallint,
+    done_by character varying(100),
+    checked_by character varying(100)
 );
 
 
-ALTER TABLE mbr.packaging_procedure OWNER TO postgres;
-
---
--- Name: TABLE packaging_procedure; Type: COMMENT; Schema: mbr; Owner: postgres
---
-
-COMMENT ON TABLE packaging_procedure IS 'packaging procedure for filling process';
-
+ALTER TABLE mbr.packaging_operation OWNER TO postgres;
 
 --
 -- Name: packaging_procedure_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
@@ -708,23 +758,8 @@ ALTER TABLE mbr.packaging_procedure_id_seq OWNER TO postgres;
 -- Name: packaging_procedure_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
 --
 
-ALTER SEQUENCE packaging_procedure_id_seq OWNED BY packaging_procedure.id;
+ALTER SEQUENCE packaging_procedure_id_seq OWNED BY filling_procedure.id;
 
-
---
--- Name: packaging_procedure_operation; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE packaging_procedure_operation (
-    id integer NOT NULL,
-    step_number smallint,
-    header character varying(500),
-    manufacturing_procedure_id integer,
-    part smallint
-);
-
-
-ALTER TABLE mbr.packaging_procedure_operation OWNER TO postgres;
 
 --
 -- Name: packaging_procedure_operation_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
@@ -744,7 +779,7 @@ ALTER TABLE mbr.packaging_procedure_operation_id_seq OWNER TO postgres;
 -- Name: packaging_procedure_operation_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
 --
 
-ALTER SEQUENCE packaging_procedure_operation_id_seq OWNED BY packaging_procedure_operation.id;
+ALTER SEQUENCE packaging_procedure_operation_id_seq OWNED BY packaging_operation.id;
 
 
 --
@@ -753,9 +788,8 @@ ALTER SEQUENCE packaging_procedure_operation_id_seq OWNED BY packaging_procedure
 
 CREATE TABLE primary_secondary_packaging (
     id integer NOT NULL,
-    primary_packaging_id integer,
-    secondary_packaging_id integer,
-    product_id integer
+    primary_packaging_id integer NOT NULL,
+    secondary_packaging_id integer NOT NULL
 );
 
 
@@ -930,6 +964,13 @@ SET search_path = mbr, pg_catalog;
 -- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
 --
 
+ALTER TABLE ONLY bottling_procedure ALTER COLUMN id SET DEFAULT nextval('bottling_procedure_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
+--
+
 ALTER TABLE ONLY compounding_procedure ALTER COLUMN id SET DEFAULT nextval('compounding_procedure_id_seq'::regclass);
 
 
@@ -951,6 +992,13 @@ ALTER TABLE ONLY equipment_requirement ALTER COLUMN id SET DEFAULT nextval('equi
 -- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
 --
 
+ALTER TABLE ONLY filling_procedure ALTER COLUMN id SET DEFAULT nextval('packaging_procedure_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
+--
+
 ALTER TABLE ONLY mbr ALTER COLUMN id SET DEFAULT nextval('mbr_id_seq'::regclass);
 
 
@@ -965,21 +1013,7 @@ ALTER TABLE ONLY packaging_material_requirement ALTER COLUMN id SET DEFAULT next
 -- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
 --
 
-ALTER TABLE ONLY packaging_procedure ALTER COLUMN id SET DEFAULT nextval('packaging_procedure_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY packaging_procedure_operation ALTER COLUMN id SET DEFAULT nextval('packaging_procedure_operation_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY primary_secondary_packaging ALTER COLUMN id SET DEFAULT nextval('primary_secondary_packaging_id_seq'::regclass);
+ALTER TABLE ONLY packaging_operation ALTER COLUMN id SET DEFAULT nextval('packaging_procedure_operation_id_seq'::regclass);
 
 
 --
@@ -987,357 +1021,6 @@ ALTER TABLE ONLY primary_secondary_packaging ALTER COLUMN id SET DEFAULT nextval
 --
 
 ALTER TABLE ONLY raw_material_requirement ALTER COLUMN id SET DEFAULT nextval('raw_material_requirement_id_seq'::regclass);
-
-
-SET search_path = main, pg_catalog;
-
---
--- Data for Name: area; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO area VALUES (1, 'LIQUID VET');
-INSERT INTO area VALUES (2, 'LIQUID HUMAN');
-INSERT INTO area VALUES (3, 'POWDER AREA');
-INSERT INTO area VALUES (4, 'TABLET HUMAN');
-INSERT INTO area VALUES (5, 'TABLET VET');
-
-
---
--- Name: area_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('area_id_seq', 5, true);
-
-
---
--- Data for Name: classification; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO classification VALUES (1, 'LIQUID');
-INSERT INTO classification VALUES (2, 'POWDER');
-INSERT INTO classification VALUES (3, 'CAPSULE');
-
-
---
--- Name: classification_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('classification_id_seq', 3, true);
-
-
---
--- Data for Name: client; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO client VALUES (1, 'APT-HEALTH');
-INSERT INTO client VALUES (2, 'DERMCLINIC');
-
-
---
--- Name: client_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('client_id_seq', 2, true);
-
-
---
--- Data for Name: container; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO container VALUES (1, 'bottle');
-
-
---
--- Name: container_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('container_id_seq', 1, true);
-
-
---
--- Data for Name: equipment; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO equipment VALUES (1, 'NEQ-039', 'Paddle Mixer');
-INSERT INTO equipment VALUES (2, 'NEQ-130', 'Encapsulating Machine');
-INSERT INTO equipment VALUES (3, NULL, 'Scoops');
-INSERT INTO equipment VALUES (4, NULL, 'Spatula');
-INSERT INTO equipment VALUES (5, NULL, 'Weighing Balance');
-INSERT INTO equipment VALUES (6, NULL, 'PE bag');
-INSERT INTO equipment VALUES (8, 'NQC-LAB-021', 'Analytical Weighing Balance');
-INSERT INTO equipment VALUES (7, NULL, 'Mesh Screen #20');
-
-
---
--- Name: equipment_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('equipment_id_seq', 8, true);
-
-
---
--- Data for Name: pack_size; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO pack_size VALUES (1, 30, 10, 1);
-
-
---
--- Name: pack_size_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('pack_size_id_seq', 1, true);
-
-
---
--- Data for Name: packaging_material; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO packaging_material VALUES (1, 'pm1', 'HDPE Bottle with cap, (Glutathione)', 2);
-INSERT INTO packaging_material VALUES (2, 'pm2', 'Paper Lean', 2);
-INSERT INTO packaging_material VALUES (3, 'pm3', 'Moisture Adsorbent (0.50g)', 2);
-INSERT INTO packaging_material VALUES (4, 'pm4', 'Labels', 2);
-INSERT INTO packaging_material VALUES (5, 'pm5', 'Corrugated Box', 2);
-INSERT INTO packaging_material VALUES (6, 'pm6', 'Packaging Tape (PLAIN)', 2);
-INSERT INTO packaging_material VALUES (7, 'pm7', 'Silica Gels (100g)', 2);
-
-
---
--- Name: packaging_material_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('packaging_material_id_seq', 7, true);
-
-
---
--- Data for Name: product; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO product VALUES (1, 'P25', 'NUDERM ADVANCE', 'L-Glutathione+ALA+Collagen+Vit.C 650mg/150mg/50mg.', 3, 2, 'N/A', 2, 4, 1);
-
-
---
--- Name: product_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('product_id_seq', 3, true);
-
-
---
--- Data for Name: raw_material; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO raw_material VALUES (1, '1', 'L-Glutathione Powder', 'White crystalline powder.', 2, 2);
-INSERT INTO raw_material VALUES (2, '2', 'Alpha-lipoic Acid', 'Yellow crystalline powder.', 2, 2);
-INSERT INTO raw_material VALUES (3, '3', 'Collagen', 'White or light yellow powder.', 2, 2);
-INSERT INTO raw_material VALUES (4, '4', 'Vitamin C (Coated)', 'White or slightly yellow crystals or powder gradu...', 2, 2);
-INSERT INTO raw_material VALUES (5, '5', 'Hard Empty Gelatin Capsule #00 (White/white)', NULL, 3, 2);
-
-
---
--- Name: raw_material_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('raw_material_id_seq', 5, true);
-
-
---
--- Data for Name: unit; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO unit VALUES (1, 'mcL');
-INSERT INTO unit VALUES (2, 'mL');
-INSERT INTO unit VALUES (3, 'L');
-INSERT INTO unit VALUES (4, 'mcg');
-INSERT INTO unit VALUES (5, 'mg');
-INSERT INTO unit VALUES (6, 'g');
-INSERT INTO unit VALUES (7, 'kg');
-INSERT INTO unit VALUES (8, 'roll');
-INSERT INTO unit VALUES (9, 'pcs');
-INSERT INTO unit VALUES (10, 'capsules');
-INSERT INTO unit VALUES (11, 'boxes');
-
-
---
--- Name: unit_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
---
-
-SELECT pg_catalog.setval('unit_id_seq', 11, true);
-
-
-SET search_path = mbr, pg_catalog;
-
---
--- Data for Name: compounding_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-
-
---
--- Name: compounding_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('compounding_procedure_id_seq', 10, true);
-
-
---
--- Data for Name: dosage; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-
-
---
--- Name: dosage_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('dosage_id_seq', 6, true);
-
-
---
--- Data for Name: equipment_requirement; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO equipment_requirement VALUES (1, 1, 1, 'COMPOUNDING');
-
-
---
--- Name: equipment_requirement_coding_equipment_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('equipment_requirement_coding_equipment_id_seq', 1, false);
-
-
---
--- Name: equipment_requirement_coding_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 1, true);
-
-
---
--- Name: equipment_requirement_coding_manufacturing_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('equipment_requirement_coding_manufacturing_procedure_id_seq', 1, false);
-
-
---
--- Data for Name: manufacturing_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO manufacturing_procedure VALUES (1);
-
-
---
--- Name: manufacturing_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('manufacturing_procedure_id_seq', 4, true);
-
-
---
--- Data for Name: mbr; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO mbr VALUES (16, 1, 30, 'batch1', 7, '2015-06-27', '2017-06-27', 'hjklop');
-INSERT INTO mbr VALUES (17, 1, 90, 'batch1', 7, '2015-06-27', '2017-06-27', '90');
-
-
---
--- Name: mbr_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('mbr_id_seq', 17, true);
-
-
---
--- Data for Name: packaging_material_requirement; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO packaging_material_requirement VALUES (11, 1, 90, 3, 1);
-
-
---
--- Name: packaging_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 11, true);
-
-
---
--- Data for Name: packaging_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-
-
---
--- Name: packaging_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('packaging_procedure_id_seq', 1, false);
-
-
---
--- Data for Name: packaging_procedure_operation; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO packaging_procedure_operation VALUES (5, 1, 'n1
-n2
-n3
-n4
-n5
-n6
-n7', 1, 1);
-
-
---
--- Name: packaging_procedure_operation_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 5, true);
-
-
---
--- Data for Name: primary_secondary_packaging; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO primary_secondary_packaging VALUES (1, 1, 5, 1);
-
-
---
--- Name: primary_secondary_packaging_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('primary_secondary_packaging_id_seq', 1, true);
-
-
---
--- Data for Name: raw_material_requirement; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO raw_material_requirement VALUES (15, 1, 89, 5, 1);
-INSERT INTO raw_material_requirement VALUES (16, 2, 90, 5, 1);
-
-
---
--- Name: raw_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('raw_material_requirement_id_seq', 16, true);
-
-
---
--- Data for Name: udf; Type: TABLE DATA; Schema: mbr; Owner: postgres
---
-
-INSERT INTO udf VALUES (1, 1, 2);
-
-
---
--- Name: udf_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
---
-
-SELECT pg_catalog.setval('udf_id_seq', 2, true);
 
 
 SET search_path = main, pg_catalog;
@@ -1425,6 +1108,14 @@ ALTER TABLE ONLY unit
 SET search_path = mbr, pg_catalog;
 
 --
+-- Name: bottling_procedure_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY bottling_procedure
+    ADD CONSTRAINT bottling_procedure_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: compounding_procedure_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
@@ -1476,7 +1167,7 @@ ALTER TABLE ONLY packaging_material_requirement
 -- Name: packaging_procedure_operation_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY packaging_procedure_operation
+ALTER TABLE ONLY packaging_operation
     ADD CONSTRAINT packaging_procedure_operation_pkey PRIMARY KEY (id);
 
 
@@ -1484,7 +1175,7 @@ ALTER TABLE ONLY packaging_procedure_operation
 -- Name: packaging_procedure_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY packaging_procedure
+ALTER TABLE ONLY filling_procedure
     ADD CONSTRAINT packaging_procedure_pkey PRIMARY KEY (id);
 
 
@@ -1494,6 +1185,22 @@ ALTER TABLE ONLY packaging_procedure
 
 ALTER TABLE ONLY primary_secondary_packaging
     ADD CONSTRAINT primary_secondary_packaging_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: primary_secondary_packaging_primary_packaging_id_key; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY primary_secondary_packaging
+    ADD CONSTRAINT primary_secondary_packaging_primary_packaging_id_key UNIQUE (primary_packaging_id);
+
+
+--
+-- Name: primary_secondary_packaging_secondary_packaging_id_key; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY primary_secondary_packaging
+    ADD CONSTRAINT primary_secondary_packaging_secondary_packaging_id_key UNIQUE (secondary_packaging_id);
 
 
 --
@@ -1589,6 +1296,14 @@ ALTER TABLE ONLY raw_material
 SET search_path = mbr, pg_catalog;
 
 --
+-- Name: bottling_procedure_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY bottling_procedure
+    ADD CONSTRAINT bottling_procedure_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
+
+
+--
 -- Name: compounding_procedure_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
@@ -1610,14 +1325,6 @@ ALTER TABLE ONLY dosage
 
 ALTER TABLE ONLY dosage
     ADD CONSTRAINT dosage_raw_material_requirement_id_fkey FOREIGN KEY (raw_material_requirement_id) REFERENCES raw_material_requirement(id);
-
-
---
--- Name: dosage_unit_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY dosage
-    ADD CONSTRAINT dosage_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES main.unit(id);
 
 
 --
@@ -1688,7 +1395,7 @@ ALTER TABLE ONLY packaging_material_requirement
 -- Name: packaging_procedure_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
-ALTER TABLE ONLY packaging_procedure
+ALTER TABLE ONLY filling_procedure
     ADD CONSTRAINT packaging_procedure_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
 
 
@@ -1696,8 +1403,16 @@ ALTER TABLE ONLY packaging_procedure
 -- Name: packaging_procedure_operation_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
-ALTER TABLE ONLY packaging_procedure_operation
+ALTER TABLE ONLY packaging_operation
     ADD CONSTRAINT packaging_procedure_operation_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
+
+
+--
+-- Name: primary_secondary_packaging_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY primary_secondary_packaging
+    ADD CONSTRAINT primary_secondary_packaging_id_fkey FOREIGN KEY (id) REFERENCES main.product(id);
 
 
 --
@@ -1705,15 +1420,7 @@ ALTER TABLE ONLY packaging_procedure_operation
 --
 
 ALTER TABLE ONLY primary_secondary_packaging
-    ADD CONSTRAINT primary_secondary_packaging_primary_packaging_id_fkey FOREIGN KEY (primary_packaging_id) REFERENCES main.packaging_material(id);
-
-
---
--- Name: primary_secondary_packaging_product_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
---
-
-ALTER TABLE ONLY primary_secondary_packaging
-    ADD CONSTRAINT primary_secondary_packaging_product_id_fkey FOREIGN KEY (product_id) REFERENCES main.product(id);
+    ADD CONSTRAINT primary_secondary_packaging_primary_packaging_id_fkey FOREIGN KEY (primary_packaging_id) REFERENCES packaging_material_requirement(id);
 
 
 --
@@ -1721,7 +1428,7 @@ ALTER TABLE ONLY primary_secondary_packaging
 --
 
 ALTER TABLE ONLY primary_secondary_packaging
-    ADD CONSTRAINT primary_secondary_packaging_secondary_packaging_id_fkey FOREIGN KEY (secondary_packaging_id) REFERENCES main.packaging_material(id);
+    ADD CONSTRAINT primary_secondary_packaging_secondary_packaging_id_fkey FOREIGN KEY (secondary_packaging_id) REFERENCES packaging_material_requirement(id);
 
 
 --
