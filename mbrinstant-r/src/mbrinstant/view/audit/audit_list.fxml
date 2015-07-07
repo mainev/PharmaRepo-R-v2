@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="635.0" prefWidth="1116.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="mbrinstant.controller.audit.AuditListController">
+   <children>
+      <BorderPane layoutX="228.0" layoutY="77.0" prefHeight="635.0" prefWidth="1116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </top>
+         <bottom>
+            <HBox prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </bottom>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView layoutX="118.0" layoutY="133.0" prefHeight="535.0" prefWidth="1116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                        <TableColumn prefWidth="100.0" text="User" />
+                      <TableColumn prefWidth="100.0" text="Action" />
+                      <TableColumn prefWidth="200.0" text="DateTime" />
+                        <TableColumn prefWidth="100.0" text="Machine" />
+                        <TableColumn prefWidth="130.0" text="Table Name" />
+                        <TableColumn prefWidth="100.0" text="Record Id" />
+                        <TableColumn prefWidth="130.0" text="Field Name" />
+                        <TableColumn prefWidth="300.0" text="Old Value" />
+                        <TableColumn prefWidth="300.0" text="New Value" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

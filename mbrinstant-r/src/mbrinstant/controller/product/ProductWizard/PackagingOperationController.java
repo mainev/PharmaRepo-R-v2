@@ -24,7 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import mbrinstant.controls.CustomTextArea;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.IntegerTextField;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.PackagingOperation;
@@ -80,8 +80,6 @@ public class PackagingOperationController implements Initializable, PageControll
             if (validator.validateFields()) {
                 PackagingOperation ppo = new PackagingOperation(getContent(), getPart(), getDoneBy(), getCheckedBy());
                 packagingProcedureList.add(ppo);
-            } else {
-                Toolkit.getDefaultToolkit().beep();
             }
         });
 
@@ -176,11 +174,11 @@ public class PackagingOperationController implements Initializable, PageControll
         return checkedBy.getText();
     }
 
-    InputValidator validator;
+    ConstraintValidator validator;
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(
+        validator = new ConstraintValidator(
                 content, part, doneBy, checkedBy
         );
     }

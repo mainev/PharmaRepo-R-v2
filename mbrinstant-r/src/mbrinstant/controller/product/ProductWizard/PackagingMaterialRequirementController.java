@@ -24,8 +24,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomizedChoiceBox;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.CustomChoiceBox;
+import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.PackagingMaterial;
@@ -47,7 +47,7 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
     @FXML
     NumberTextField pmReqQty;
     @FXML
-    CustomizedChoiceBox<Unit> pmReqUnit;
+    CustomChoiceBox<Unit> pmReqUnit;
     @FXML
     Button addButton;
     @FXML
@@ -175,11 +175,11 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
         }
     }
 
-    InputValidator validator;
+    ConstraintValidator validator;
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(
+        validator = new ConstraintValidator(
                 pmTextField,
                 pmReqQty,
                 pmReqUnit

@@ -29,6 +29,7 @@ public class UDFCalculator {
             newQty = (oldQty * multiplier);
             newUnit = oldUnit;
             rawMaterialQuantityAndUnitConverter();
+        
             rmReq.setNewQuantity(roundThreeDecimals(newQty));
             rmReq.setNewUnit(newUnit);
         }

@@ -23,8 +23,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomizedChoiceBox;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.CustomChoiceBox;
+import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomComboBox;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.RawMaterial;
@@ -43,9 +44,11 @@ import mbrinstant.service.mbr.RawMaterialRequirementService;
 public class RawMaterialRequirementController implements Initializable, PageController {
 
     @FXML
+    CustomComboBox<Short> partComboBox;
+    @FXML
     NumberTextField rmReqQty;
     @FXML
-    CustomizedChoiceBox<Unit> rmReqUnit;
+    CustomComboBox<Unit> rmReqUnit;
     @FXML
     Button addButton;
     @FXML
@@ -54,8 +57,6 @@ public class RawMaterialRequirementController implements Initializable, PageCont
     TableColumn colAction;
     @FXML
     TableColumn<RawMaterialRequirement, String> colRawMaterial;
-    @FXML
-    TableColumn<RawMaterialRequirement, String> colQuantity;
 
     @FXML
     SearchTextField<RawMaterial> rmTextField;
@@ -66,30 +67,40 @@ public class RawMaterialRequirementController implements Initializable, PageCont
     RawMaterialRequirementService rmReqService = new RawMaterialRequirementService();
 
     ObservableList<RawMaterialRequirement> rmReqTemporaryList = FXCollections.observableArrayList();
-   
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        partComboBox.setItems(FXCollections.observableArrayList(null, (short)1, (short)2, (short)3));
         rmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
         rmTextField.setItems(rmService.getRawMaterialList());
-
+        rmTextField.setPromptText("Type raw material here");
         rmReqUnit.setItems(unitService.getUnitList());
         initRmReqTable();
 
         addButton.setOnAction(e -> {
             if (validator.validateFields()) {
-                RawMaterialRequirement temp = new RawMaterialRequirement(getRawMaterial(), getQuantity(), getUnit());
+                
+                RawMaterialRequirement temp = new RawMaterialRequirement(getRawMaterial(), getQuantity(), getUnit(), getPart());
+           System.out.println("hashcode is: "+temp.hashCode());
                 rmReqTemporaryList.add(temp);
                 clearFields();
             }
-
         });
         createValidator();
 
     }
+    
+    private short getPart(){
+        if(partComboBox.getValue()==null){
+            return 0;
+        }
+        else
+            return partComboBox.getValue();
+    }
 
     public void createRawMaterialRequirements(Udf udfId) {
         if (allFieldsValid()) {
-            for(RawMaterialRequirement rmReq : rmReqTemporaryList){
+            for (RawMaterialRequirement rmReq : rmReqTemporaryList) {
                 rmReqService.createRawMaterialRequirement(udfId.getId(), rmReq);
             }
         }
@@ -99,6 +110,7 @@ public class RawMaterialRequirementController implements Initializable, PageCont
         rmTextField.clearAll();
         rmReqQty.setText("");
         rmReqUnit.setValue(null);
+        partComboBox.setValue(null);
     }
 
     private RawMaterial getRawMaterial() {
@@ -116,11 +128,11 @@ public class RawMaterialRequirementController implements Initializable, PageCont
     private Unit getUnit() {
         return rmReqUnit.getValue();
     }
+    
+    
 
     private void initRmReqTable() {
-        colRawMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getRawMaterialId().toString()));
-        colQuantity.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getQuantity() + " " + c.getValue().getUnitId()));
-
+        colRawMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().toString()));
         colAction.setSortable(false);
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
@@ -174,11 +186,11 @@ public class RawMaterialRequirementController implements Initializable, PageCont
         return rmReqTemporaryList;
     }
 
-    InputValidator validator;
+    ConstraintValidator validator;
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(
+        validator = new ConstraintValidator(
                 rmTextField,
                 rmReqQty,
                 rmReqUnit

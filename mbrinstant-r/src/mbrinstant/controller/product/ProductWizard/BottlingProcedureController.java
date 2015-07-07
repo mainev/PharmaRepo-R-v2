@@ -24,7 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import mbrinstant.controls.CustomTextArea;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.entity.mbr.BottlingProcedure;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.service.mbr.BottlingProcedureService;
@@ -139,11 +139,11 @@ public class BottlingProcedureController implements Initializable, PageControlle
             }
         }
     }
-    InputValidator validator;
+    ConstraintValidator validator;
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(
+        validator = new ConstraintValidator(
                 content
         );
     }

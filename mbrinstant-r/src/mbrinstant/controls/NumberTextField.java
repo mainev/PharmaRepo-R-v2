@@ -13,16 +13,18 @@ import javafx.scene.control.TextField;
  */
 public class NumberTextField extends TextField implements Validatable {
 
-    private double maxValue;
+    private double maxValue = 0;
     private double minValue = 0;//this textfield only allows value greater than 0
+
+    private boolean notNull = true;
 
     public NumberTextField() {
         super();
         this.setPromptText("Enter only numbers");
     }
-    
-    public double getValue(){
-        if(!getText().isEmpty()){
+
+    public double getValue() {
+        if (!getText().isEmpty()) {
             return Double.parseDouble(getText());
         }
         return 0;
@@ -30,17 +32,20 @@ public class NumberTextField extends TextField implements Validatable {
 
     @Override
     public boolean isValid() {
-        if (!getText().isEmpty() || !getText().equals("")) {
-            double value = Double.parseDouble(getText());
-            if (maxValue != 0) {
-                return value > minValue && value <= maxValue;
+        if (notNull) {
+            if (!getText().isEmpty() || !getText().equals("")) {
+                double value = Double.parseDouble(getText());
+                if (maxValue != 0) {
+                    return value >= minValue && value <= maxValue;
+                }
+                return value >= minValue;
             }
-            return value > minValue;
+            
+            return false;
         }
-        
-       return false;
-        //   return value <= maxValue;
-        // return true;
+
+        return true;
+      
     }
 
     @Override
@@ -69,6 +74,14 @@ public class NumberTextField extends TextField implements Validatable {
 
     public void setMinValue(double minValue) {
         this.minValue = minValue;
+    }
+
+    public boolean isNotNull() {
+        return notNull;
+    }
+
+    public void setNotNull(boolean notNull) {
+        this.notNull = notNull;
     }
 
 }

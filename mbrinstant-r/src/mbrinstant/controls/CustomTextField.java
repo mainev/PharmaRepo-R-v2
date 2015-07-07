@@ -34,26 +34,10 @@ public class CustomTextField extends TextField implements Validatable{
         return betweenRange;
     }
 
-//    public boolean isUnique() {
-//        if (typeClass == Product.class) {
-////            System.out.println(Product.class.getDeclaredFields().length);
-//            ProductService productService = new ProductService();
-//            return productService.isCodeValid(getText());
-//        }
-//
-//        return false;
-//    }
-
-//    public void unique(boolean unique, Class typeClass) {
-//        this.typeClass = typeClass;
-//        this.unique = unique;
-//    }
-//    
-
   
     @Override
     public void replaceText(int start, int end, String text) {
-        if ((getText().length() < maxLength) || text.equals("")) {
+        if ((getText().length() <= maxLength) || text.equals("")) {
             super.replaceText(start, end, text);
         }
     }

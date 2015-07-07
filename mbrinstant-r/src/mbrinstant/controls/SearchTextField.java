@@ -70,6 +70,9 @@ public class SearchTextField<T> extends VBox implements Validatable {
         configureListView();
     }
 
+    public void setPromptText(String promptText){
+        textField.setPromptText(promptText);
+    }
     public void setTextFieldPadding(Insets insets){
         textField.setPadding(insets);
     }

@@ -19,6 +19,8 @@ public class ScreenNavigator {
     public static final String WELCOME_SCREEN = "view/welcome.fxml";
     public static final String BATCH_RECORD_SCREEN = "view/list.fxml";
     public static final String PRODUCT_SCREEN = "view/product/list.fxml";
+    public static final String AUDIT_LIST_FXML = "view/audit/audit_list.fxml";
+     public static final String PROJECTION_FXML = "view/projection/projection_pane.fxml";
   
     private static MainController mainController;
 

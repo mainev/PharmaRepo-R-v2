@@ -15,7 +15,6 @@ import mbrinstant.entity.main.Classification;
 import mbrinstant.entity.main.PackSize;
 import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Product;
-import mbrinstant.entity.mbr.Udf;
 import mbrinstant.utils.Serializer;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 

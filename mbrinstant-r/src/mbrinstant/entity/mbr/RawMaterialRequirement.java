@@ -6,8 +6,6 @@
 package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
-import java.io.Serializable;
-import javax.xml.bind.annotation.XmlRootElement;
 import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
 
@@ -15,9 +13,8 @@ import mbrinstant.entity.main.Unit;
  *
  * @author maine
  */
-public class RawMaterialRequirement implements Serializable {
+public class RawMaterialRequirement{
 
-    private static final long serialVersionUID = 1L;
     @Expose
     private Integer id;
     @Expose
@@ -26,17 +23,28 @@ public class RawMaterialRequirement implements Serializable {
     private Double quantity;
     @Expose
     private Unit unitId;
-
+    @Expose
+    private short part;
     
     private double newQuantity;
     private String newUnit;
     
-    public RawMaterialRequirement(RawMaterial rawMaterialId, double quantity, Unit unitId){
+    public RawMaterialRequirement(RawMaterial rawMaterialId, double quantity, Unit unitId, short part){
         this.rawMaterialId = rawMaterialId;
         this.quantity = quantity;
         this.unitId = unitId;
+        this.part = part;
     }
 
+    public short getPart() {
+        return part;
+    }
+
+    public void setPart(short part) {
+        this.part = part;
+    }
+
+    
     public double getNewQuantity() {
         return newQuantity;
     }
@@ -123,7 +131,11 @@ public class RawMaterialRequirement implements Serializable {
 
     @Override
     public String toString() {
-        return rawMaterialId + " - " + quantity + " " + unitId;
+        String p = "";
+        if(part > 0)
+            p = " (Part "+part+")";
+        
+        return rawMaterialId + " - " + quantity + " " + unitId + p;
     }
 
 }

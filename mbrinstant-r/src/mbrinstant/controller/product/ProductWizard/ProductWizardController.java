@@ -24,7 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import mbrinstant.ScreenNavigator;
-import mbrinstant.controls.CustomizedChoiceBox;
+import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Product;
@@ -52,14 +52,15 @@ public class ProductWizardController implements Initializable {
     @FXML
     Button cancelButton;
 
-    public String MAIN_DETAILS_LOCATION = "view/main_details.fxml";
-    public String COMPPROC_LOCATION = "view/compounding_procedures.fxml";
-    public String RMREQ_LOCATION = "view/raw_material_requirement.fxml";
-    public String PMREQ_LOCATION = "view/packaging_material_requirement.fxml";
-    public String EQUIPREQ_LOCATION = "view/equipment_requirements.fxml";
-    public String PACKG_OPERATION_LOCATION = "view/packaging_operation.fxml";
-    public String BOTTLING_PROC_LOCATION = "view/bottling_procedure.fxml";
-    public String PRIMARY_SECONDARY_LOCATION = "view/primary_secondary_packg.fxml";
+    String MAIN_DETAILS_LOCATION = "view/main_details.fxml";
+    String COMPPROC_LOCATION = "view/compounding_procedures.fxml";
+    String RMREQ_LOCATION = "view/raw_material_requirement.fxml";
+    String PMREQ_LOCATION = "view/packaging_material_requirement.fxml";
+    String EQUIPREQ_LOCATION = "view/equipment_requirements.fxml";
+    String PACKG_OPERATION_LOCATION = "view/packaging_operation.fxml";
+    String BOTTLING_PROC_LOCATION = "view/bottling_procedure.fxml";
+    String PRIMARY_SECONDARY_LOCATION = "view/primary_secondary_packg.fxml";
+    String POWDER_FILLING_LOCATION = "view/powder_filling.fxml";
 
     private AnchorPane MAIN_DETAILS_PAGE;
     private AnchorPane RMREQ_PAGE;
@@ -69,6 +70,7 @@ public class ProductWizardController implements Initializable {
     private AnchorPane PACKG_OPERATION_PAGE;
     private AnchorPane BOTTLING_PROC_PAGE;
     private AnchorPane PRIMARY_SECONDARY_PAGE;
+    private AnchorPane POWDER_FILLING_PAGE;
 
     ObservableList<AnchorPane> pages = FXCollections.observableArrayList();
 
@@ -77,14 +79,15 @@ public class ProductWizardController implements Initializable {
     PageController currentController;
 
     //controllers
-    static MainDetailsController mainDetailsController;
-    static RawMaterialRequirementController rmReqController;
-    static PackagingMaterialRequirementController pmReqController;
-    static CompoundingProceduresController cpcontroller;
-    static EquipmentRequirementController equipReqController;
-    static PackagingOperationController packgOperationController;
-    static BottlingProcedureController bottlingProcedureController;
-    static PrimarySecondaryController primarySecondaryController;
+    public static MainDetailsController mainDetailsController;
+   public RawMaterialRequirementController rmReqController;
+   public PackagingMaterialRequirementController pmReqController;
+   public CompoundingProceduresController cpcontroller;
+   public static EquipmentRequirementController equipReqController;
+   public PackagingOperationController packgOperationController;
+   public BottlingProcedureController bottlingProcedureController;
+   public PrimarySecondaryController primarySecondaryController;
+   public PowderFillingController powderFillingController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -104,22 +107,55 @@ public class ProductWizardController implements Initializable {
 
     ObservableList<AnchorPane> DEFAULT_PAGES = FXCollections.observableArrayList();
     ObservableList<AnchorPane> TABLET_HUMAN_PAGES = FXCollections.observableArrayList();
+    ObservableList<AnchorPane> POWDER_VET_PAGES = FXCollections.observableArrayList();
 
     private void loadPages() {
-        DEFAULT_PAGES.setAll(MAIN_DETAILS_PAGE, RMREQ_PAGE, PMREQ_PAGE, COMPROC_PAGE, EQUIPREQ_PAGE, PACKG_OPERATION_PAGE, PRIMARY_SECONDARY_PAGE);
-        TABLET_HUMAN_PAGES.setAll(MAIN_DETAILS_PAGE, RMREQ_PAGE, PMREQ_PAGE, COMPROC_PAGE, EQUIPREQ_PAGE, BOTTLING_PROC_PAGE, PACKG_OPERATION_PAGE, PRIMARY_SECONDARY_PAGE);
+        DEFAULT_PAGES.setAll(
+                MAIN_DETAILS_PAGE,
+                RMREQ_PAGE,
+                PMREQ_PAGE,
+                COMPROC_PAGE,
+                EQUIPREQ_PAGE,
+                PACKG_OPERATION_PAGE,
+                PRIMARY_SECONDARY_PAGE
+        );
+
+        TABLET_HUMAN_PAGES.setAll(
+                MAIN_DETAILS_PAGE,
+                RMREQ_PAGE,
+                PMREQ_PAGE,
+                COMPROC_PAGE,
+                EQUIPREQ_PAGE,
+                BOTTLING_PROC_PAGE,
+                PACKG_OPERATION_PAGE,
+                PRIMARY_SECONDARY_PAGE);
+
+        POWDER_VET_PAGES.setAll(
+                MAIN_DETAILS_PAGE,
+                RMREQ_PAGE,
+                PMREQ_PAGE,
+                COMPROC_PAGE,
+                EQUIPREQ_PAGE,
+                POWDER_FILLING_PAGE,
+                PACKG_OPERATION_PAGE,
+                PRIMARY_SECONDARY_PAGE);
 
         pages.setAll(DEFAULT_PAGES);
     }
 
     private void initAreaScanner() {
-        CustomizedChoiceBox area = mainDetailsController.areaChoiceBox;
+        CustomChoiceBox area = mainDetailsController.areaChoiceBox;
         area.getSelectionModel().selectedItemProperty().addListener((ob, ov, nv) -> {
             Area selectedArea = (Area) nv;
-            equipReqController.temporaryEquipmentList.clear();
+            equipReqController.equipmentRequirementList.clear();
             if (selectedArea.getName().equals("TABLET HUMAN")) {
                 pages.setAll(TABLET_HUMAN_PAGES);
                 ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForTabletHuman());
+                equipReqController.procedureChoiceBox.setItems(equipmentLocations);
+
+            } else if (selectedArea.getName().equals("POWDER VET")) {
+                pages.setAll(POWDER_VET_PAGES);
+                ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForPowderVet());
                 equipReqController.procedureChoiceBox.setItems(equipmentLocations);
 
             } else {
@@ -155,6 +191,7 @@ public class ProductWizardController implements Initializable {
                 equipReqController.createEquipmentRequirements(finalProduct.getManufacturingProcedureId());
                 packgOperationController.createPackagingOperations(finalProduct.getManufacturingProcedureId());
                 bottlingProcedureController.createBottlingProcedures(finalProduct.getManufacturingProcedureId());
+                powderFillingController.createPackagingOperations(finalProduct.getManufacturingProcedureId());
                 primarySecondaryController.createPrimarySecondaryPackg(finalProduct, finalProduct.getUdfId().getId());
                 Stage stage = (Stage) finishButton.getScene().getWindow();
                 stage.close();
@@ -278,6 +315,11 @@ public class ProductWizardController implements Initializable {
         BOTTLING_PROC_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(BOTTLING_PROC_LOCATION));
         bottlingProcedureController = loader.getController();
         BOTTLING_PROC_PAGE.setUserData(loader.getController());
+
+        loader = new FXMLLoader();
+        POWDER_FILLING_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(POWDER_FILLING_LOCATION));
+        powderFillingController = loader.getController();
+        POWDER_FILLING_PAGE.setUserData(loader.getController());
 
         loader = new FXMLLoader();
         PRIMARY_SECONDARY_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(PRIMARY_SECONDARY_LOCATION));

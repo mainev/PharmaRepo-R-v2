@@ -32,6 +32,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import mbrinstant.controls.MyNotifications;
 import mbrinstant.controls.TextFieldWithSearch;
 import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Product;
@@ -184,11 +185,12 @@ public class DetailsController implements Initializable {
         rmReqHbox.getChildren().add(1, rmReqTextField);
         rmReqUnit.setItems(unitService.getUnitList());
         addRmReqButton.setOnAction(e -> {
-            RawMaterial rm = rmReqTextField.getSelectedItem();
-            double qty = Double.parseDouble(rmReqQty.getText());
-            Unit unit = rmReqUnit.getValue();
-            rmReqService.createRawMaterialRequirement(product.getUdfId().getId(), rm, qty, unit);
-            initRawMaterialRequirementTable();
+            MyNotifications.displayWarning("function not implemented");
+//            RawMaterial rm = rmReqTextField.getSelectedItem();
+//            double qty = Double.parseDouble(rmReqQty.getText());
+//            Unit unit = rmReqUnit.getValue();
+//            rmReqService.createRawMaterialRequirement(product.getUdfId().getId(), rm, qty, unit, (short)0);
+//            initRawMaterialRequirementTable();
         });
 
         /*
@@ -250,15 +252,6 @@ public class DetailsController implements Initializable {
         packagingMaterialReqTable.setItems(FXCollections.observableArrayList(pmReqService.getByUdfId(product.getUdfId().getId())));
     }
 
-//    private void initUdfChoiceBox() {
-//        udfChoiceBox.setItems(FXCollections.observableArrayList(product.getUdfList()));
-//        udfChoiceBox.getSelectionModel().selectFirst();
-//
-//        udfChoiceBox.valueProperty().addListener((ob, ov, nv) -> {
-//            rawMaterialReqTable.setItems(FXCollections.observableArrayList(rmReqService.getByUdfId(udfChoiceBox.getValue().getId())));
-//            packagingMaterialReqTable.setItems(FXCollections.observableArrayList(pmReqService.getByUdfId(udfChoiceBox.getValue().getId())));
-//        });
-//    }
 
     public void closeProductDetailsDialog() {
         Stage stage = (Stage) closeButton.getScene().getWindow();

@@ -21,6 +21,8 @@
                      <children>
                         <ToggleButton fx:id="batchRecordsButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Batch Record" />
                         <ToggleButton fx:id="productButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Product" />
+                        <ToggleButton fx:id="projectionButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Batch Projection" />
+                        <ToggleButton fx:id="auditButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Audit" />
                      </children>
                   </VBox>
                </children>
@@ -29,7 +31,7 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <StackPane fx:id="_mainStackPane" layoutX="144.0" layoutY="150.0" prefHeight="635.0" prefWidth="1116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <StackPane fx:id="_mainStackPane" layoutX="144.0" layoutY="150.0" prefHeight="635.0" prefWidth="1116.0" style="-fx-border-color: gray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </center>

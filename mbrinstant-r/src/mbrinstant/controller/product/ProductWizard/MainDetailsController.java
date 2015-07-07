@@ -13,8 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import mbrinstant.controls.CustomTextField;
-import mbrinstant.controls.CustomizedChoiceBox;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.CustomChoiceBox;
+import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.IntegerTextField;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.entity.main.Area;
@@ -53,27 +53,27 @@ public class MainDetailsController implements Initializable, PageController {
     @FXML
     CustomTextField genericNameTextField;
     @FXML
-    CustomizedChoiceBox<Classification> classificationChoiceBox;
+    CustomChoiceBox<Classification> classificationChoiceBox;
     @FXML
-    CustomizedChoiceBox<Client> clientChoiceBox;
+    CustomChoiceBox<Client> clientChoiceBox;
     @FXML
     CustomTextField vrNoTextField;
     @FXML
     IntegerTextField shelfLifeTextField;
     @FXML
-    CustomizedChoiceBox<Area> areaChoiceBox;
+    CustomChoiceBox<Area> areaChoiceBox;
     @FXML
-    CustomizedChoiceBox<PackSize> packSizeChoiceBox;
+    CustomChoiceBox<PackSize> packSizeChoiceBox;
     @FXML
     NumberTextField packSizeQty;
     @FXML
-    CustomizedChoiceBox<Unit> packSizeUnit;
+    CustomChoiceBox<Unit> packSizeUnit;
     @FXML
-    CustomizedChoiceBox<Container> packSizeContainer;
+    CustomChoiceBox<Container> packSizeContainer;
     @FXML
     NumberTextField udfContent;
     @FXML
-    CustomizedChoiceBox<Unit> udfUnit;
+    CustomChoiceBox<Unit> udfUnit;
 
     //services
     ClassificationService classificationService = new ClassificationService();
@@ -152,11 +152,11 @@ public class MainDetailsController implements Initializable, PageController {
 
     }
 
-    InputValidator validator;
+    ConstraintValidator validator;
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(
+        validator = new ConstraintValidator(
                 productCodeTextField,
                 brandNameTextField,
                 genericNameTextField,

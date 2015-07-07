@@ -25,7 +25,7 @@ public class ProductWizard {
     
 
     public ProductWizard() throws IOException {
-       //    loadPages();
+     
         Pane mainPane = loadMainPane();
         Scene scene = new Scene(mainPane);
 

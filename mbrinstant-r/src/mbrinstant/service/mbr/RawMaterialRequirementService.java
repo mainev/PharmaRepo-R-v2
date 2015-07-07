@@ -50,8 +50,8 @@ public class RawMaterialRequirementService {
 
     }
 
-    public RawMaterialRequirement createRawMaterialRequirement(int udfId, RawMaterial rawMaterialId, double quantity, Unit unitId) {
-        RawMaterialRequirement rmReq = new RawMaterialRequirement(rawMaterialId, quantity, unitId);
+    public RawMaterialRequirement createRawMaterialRequirement(int udfId, RawMaterial rawMaterialId, double quantity, Unit unitId, short part) {
+        RawMaterialRequirement rmReq = new RawMaterialRequirement(rawMaterialId, quantity, unitId, part);
 
         String input = Serializer.serialize(rmReq);
         webResource = client.resource(BASE_URI + "/create");

@@ -31,6 +31,10 @@ public class MainController implements Initializable {
     @FXML
     private ToggleButton productButton;
     @FXML
+    private ToggleButton auditButton;
+    @FXML
+    private ToggleButton projectionButton;
+    @FXML
     private StackPane _mainStackPane;
     
     final ToggleGroup menuToggleGroup = new ToggleGroup();
@@ -47,6 +51,8 @@ public class MainController implements Initializable {
     private void addToggleGroupListener() {
         batchRecordsButton.setUserData(ScreenNavigator.BATCH_RECORD_SCREEN);
         productButton.setUserData(ScreenNavigator.PRODUCT_SCREEN);
+        auditButton.setUserData(ScreenNavigator.AUDIT_LIST_FXML);
+        projectionButton.setUserData(ScreenNavigator.PROJECTION_FXML);
         
         menuToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov,
@@ -55,7 +61,6 @@ public class MainController implements Initializable {
                     ScreenNavigator.loadScreen(ScreenNavigator.WELCOME_SCREEN);
                 } else {
                     String userData = (String) menuToggleGroup.getSelectedToggle().getUserData();
-                    
                     ScreenNavigator.loadScreen(userData);
                 }
             }
@@ -65,6 +70,8 @@ public class MainController implements Initializable {
     private void setMenuButtonToggleGroup() {
         batchRecordsButton.setToggleGroup(menuToggleGroup);
         productButton.setToggleGroup(menuToggleGroup);
+        auditButton.setToggleGroup(menuToggleGroup);
+        projectionButton.setToggleGroup(menuToggleGroup);
     }
     
     public void setScreen(Node node) {

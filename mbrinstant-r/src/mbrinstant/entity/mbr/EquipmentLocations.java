@@ -14,9 +14,18 @@ import java.util.List;
  */
 public class EquipmentLocations {
 
-    static enum MANUFACTURING_PROCEDURE {
+    public static enum MANUFACTURING_PROCEDURE {
 
-        COMPOUNDING, ENCAPSULATION, CODING, PACKG_PROCEDURE
+        COMPOUNDING, ENCAPSULATION, CODING, PACKG_PROCEDURE, POWDER_FILLING
+    }
+
+    public static List<String> getEquipmentLocationsForPowderVet() {
+        List<String> list = new ArrayList();
+
+        list.add(MANUFACTURING_PROCEDURE.COMPOUNDING.toString());
+        list.add(MANUFACTURING_PROCEDURE.CODING.toString());
+        list.add(MANUFACTURING_PROCEDURE.POWDER_FILLING.toString());
+        return list;
     }
 
     public static List<String> getEquipmentLocationsForTabletHuman() {

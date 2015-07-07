@@ -22,8 +22,8 @@
          <children>
             <Label text="*Primary Packaging:" />
             <Label text="*Secondary Packaging:" GridPane.rowIndex="1" />
-            <CustomizedChoiceBox fx:id="primary" prefWidth="300.0" GridPane.columnIndex="1" />
-            <CustomizedChoiceBox fx:id="secondary" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <CustomChoiceBox fx:id="primary" prefWidth="300.0" GridPane.columnIndex="1" />
+            <CustomChoiceBox fx:id="secondary" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

@@ -109,7 +109,7 @@ public class CompoundingProcedureTableFactory {
     public class DosageListCell extends TableCell<CompoundingProcedure, CompoundingProcedure> {
 
         HBox hbox = new HBox();
-        ListView<Dosage> listView = new ListView();
+      //  ListView<Dosage> listView = new ListView();
         TableView<Dosage> dosageTable = new TableView();
         TableColumn<Dosage, String> percent = new TableColumn("Qty");
         TableColumn<Dosage, String> rawMaterial = new TableColumn("Raw Material");

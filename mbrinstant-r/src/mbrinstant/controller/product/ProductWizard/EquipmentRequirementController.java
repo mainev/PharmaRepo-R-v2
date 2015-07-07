@@ -23,10 +23,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomizedChoiceBox;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.CustomChoiceBox;
+import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.Equipment;
+import mbrinstant.entity.mbr.EquipmentLocations;
 import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.service.main.EquipmentService;
@@ -41,7 +42,7 @@ public class EquipmentRequirementController implements Initializable, PageContro
     @FXML
             SearchTextField<Equipment> equipmentTextField;
     @FXML
-            CustomizedChoiceBox procedureChoiceBox;
+            CustomChoiceBox procedureChoiceBox;
     @FXML
             Button addEquipmentButton;
     
@@ -56,9 +57,9 @@ public class EquipmentRequirementController implements Initializable, PageContro
     
 
     
-    InputValidator validator;
-    ObservableList<EquipmentRequirement> temporaryEquipmentList = FXCollections.observableArrayList();
-    
+    ConstraintValidator validator;
+    ObservableList<EquipmentRequirement> equipmentRequirementList = FXCollections.observableArrayList();
+  
     //services
     EquipmentService equipmentService = new EquipmentService();
     EquipmentRequirementService erService = new EquipmentRequirementService();
@@ -73,22 +74,24 @@ public class EquipmentRequirementController implements Initializable, PageContro
         addEquipmentButton.setOnAction(e->{
             if(validator.validateFields()){
                 EquipmentRequirement temp = new EquipmentRequirement(getSelectedEquipment(),getProcedure());
-                temporaryEquipmentList.add(temp);
+                equipmentRequirementList.add(temp);
             }else{
             Toolkit.getDefaultToolkit().beep();
             }
         });
         createValidator();
+        
+        
     }
     
     public void createEquipmentRequirements(ManufacturingProcedure mfg){
-        for(EquipmentRequirement er : temporaryEquipmentList){
+        for(EquipmentRequirement er : equipmentRequirementList){
             erService.createEquipmentRequirement(mfg.getId(), er);
         }
     }
     
     private void initEquipmentRequirementTable(){
-         equipmentReqTable.setItems(temporaryEquipmentList);
+         equipmentReqTable.setItems(equipmentRequirementList);
         colAction.setSortable(false);
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
@@ -120,7 +123,7 @@ public class EquipmentRequirementController implements Initializable, PageContro
 
             delete.setOnAction(e -> {
                 table.getSelectionModel().select(getTableRow().getIndex());
-                temporaryEquipmentList.remove(getTableRow().getIndex());
+                equipmentRequirementList.remove(getTableRow().getIndex());
 
             });
         }
@@ -145,10 +148,12 @@ public class EquipmentRequirementController implements Initializable, PageContro
     private String getProcedure(){
         return procedureChoiceBox.getValue().toString();
     }
+    
+   
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(
+        validator = new ConstraintValidator(
         equipmentTextField,
         procedureChoiceBox);
     }
@@ -156,7 +161,7 @@ public class EquipmentRequirementController implements Initializable, PageContro
     @Override
     public boolean allFieldsValid() {
        // return validator.validateFields();
-        return !temporaryEquipmentList.isEmpty();
+        return !equipmentRequirementList.isEmpty();
     }
 
     @Override

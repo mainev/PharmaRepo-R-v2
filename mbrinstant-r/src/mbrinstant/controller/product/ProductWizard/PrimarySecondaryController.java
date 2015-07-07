@@ -12,8 +12,8 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import mbrinstant.controls.CustomizedChoiceBox;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.CustomChoiceBox;
+import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.service.main.ProductService;
@@ -27,11 +27,11 @@ import mbrinstant.service.mbr.PackagingMaterialRequirementService;
 public class PrimarySecondaryController implements Initializable, PageController {
 
     @FXML
-    CustomizedChoiceBox<PackagingMaterialRequirement> primary;
+    CustomChoiceBox<PackagingMaterialRequirement> primary;
     @FXML
-    CustomizedChoiceBox<PackagingMaterialRequirement>  secondary;
+    CustomChoiceBox<PackagingMaterialRequirement>  secondary;
 
-    private InputValidator validator;
+    private ConstraintValidator validator;
     ObservableList<PackagingMaterialRequirement> pmReqList = FXCollections.observableArrayList();
 
     //services
@@ -80,7 +80,7 @@ public class PrimarySecondaryController implements Initializable, PageController
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(primary, secondary);
+        validator = new ConstraintValidator(primary, secondary);
 
     }
 

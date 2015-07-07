@@ -33,7 +33,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import mbrinstant.controller.product.CompoundingProcedureTableFactory;
 import mbrinstant.controls.CustomTextArea;
-import mbrinstant.controls.InputValidator;
+import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.Dosage;
@@ -100,7 +100,7 @@ public class CompoundingProceduresController implements Initializable, PageContr
         rmReqChoiceBox.setItems(rmReqList);
 
         addDosage.setOnAction(e -> {
-            InputValidator dosageValidator = new InputValidator(rmReqChoiceBox, percentQty);
+            ConstraintValidator dosageValidator = new ConstraintValidator(rmReqChoiceBox, percentQty);
             if (dosageValidator.validateFields()) {
                 double p = Double.parseDouble(percentQty.getText()) * 0.01;
                 Dosage dos = new Dosage(rmReqChoiceBox.getSelectionModel().getSelectedItem(), p);
@@ -155,14 +155,14 @@ public class CompoundingProceduresController implements Initializable, PageContr
                     rmReq = rmReqService.findByDetails(rmReq.getRawMaterialId().getId(), rmReq.getQuantity(), rmReq.getUnitId().getId(), udfId);
                     dos.setRawMaterialRequirementId(rmReq);
                     dosService.createDosage(cp.getId(), dos);
-                } //   rmReqService.createRawMaterialRequirement(udfId.getId(), rmReq);
+                } 
             }
         }
     }
 
     private boolean isIn(RawMaterialRequirement rmReq) {
         for (RawMaterialRequirement rm : rmReqList) {
-            if (rm.getRawMaterialId().getCode().equals(rmReq.getRawMaterialId().getCode())) {
+            if (rm.hashCode()==(rmReq.hashCode())) {
                 return true;
             }
         }
@@ -326,11 +326,11 @@ public class CompoundingProceduresController implements Initializable, PageContr
         }
     }
 
-    InputValidator validator;
+    ConstraintValidator validator;
 
     @Override
     public void createValidator() {
-        validator = new InputValidator(
+        validator = new ConstraintValidator(
                 contentArea //a compounding procedure can only be added if the contentArea has values
         );
     }

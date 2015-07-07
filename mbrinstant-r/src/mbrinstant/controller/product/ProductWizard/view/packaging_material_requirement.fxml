@@ -55,7 +55,7 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Label>
-                  <CustomizedChoiceBox fx:id="pmReqUnit" prefWidth="80.0" />
+                  <CustomChoiceBox fx:id="pmReqUnit" prefWidth="80.0" />
                   <Button fx:id="addButton" mnemonicParsing="false" prefWidth="100.0" text="ADD" />
                </children>
                <padding>

@@ -13,7 +13,7 @@ import javafx.scene.control.TextArea;
  */
 public class CustomTextArea extends TextArea implements Validatable{
     
-     private int maxLength;
+     private int maxLength = 500;
     private int minLength = 0;
     private boolean notNull = true;
     private boolean betweenRange;//text length is between min and max length
@@ -36,7 +36,7 @@ public class CustomTextArea extends TextArea implements Validatable{
 
     @Override
     public void replaceText(int start, int end, String text) {
-        if ((getText().length() <= maxLength) || text.equals("") || text.isEmpty()) {
+        if ((getText().length() <= maxLength)|| text.equals("") || text.isEmpty()) {
             super.replaceText(start, end, text);
         }
     }

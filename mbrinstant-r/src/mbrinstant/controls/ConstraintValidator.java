@@ -15,11 +15,11 @@ import javafx.scene.control.TextArea;
  *
  * @author maine
  */
-public class InputValidator {
+public class ConstraintValidator {
 
     ObservableList<Object> nodes = FXCollections.observableArrayList();
 
-    public InputValidator(Object... n) {
+    public ConstraintValidator(Object... n) {
         this.nodes.addAll(n);
     }
 
@@ -30,7 +30,7 @@ public class InputValidator {
         if (!nodes.isEmpty()) {
             for (Object n : nodes) {
                 if (!validate(n)) {
-                     Toolkit.getDefaultToolkit().beep();
+                    Toolkit.getDefaultToolkit().beep();
                     return false;
                 }
             }
@@ -50,8 +50,11 @@ public class InputValidator {
         if (n.getClass() == CustomTextField.class) {
             CustomTextField n1 = (CustomTextField) n;
             return n1.isValid();
-        } else if (n.getClass() == CustomizedChoiceBox.class) {
-            CustomizedChoiceBox n1 = (CustomizedChoiceBox) n;
+        } else if (n.getClass() == CustomComboBox.class) {
+            CustomComboBox n1 = (CustomComboBox) n;
+            return n1.isValid();
+        } else if (n.getClass() == CustomChoiceBox.class) {
+            CustomChoiceBox n1 = (CustomChoiceBox) n;
             return n1.isValid();
         } else if (n.getClass() == ChoiceBox.class) {
             ChoiceBox n1 = (ChoiceBox) n;
@@ -62,24 +65,21 @@ public class InputValidator {
         } else if (n.getClass() == IntegerTextField.class) {
             IntegerTextField n1 = (IntegerTextField) n;
             return n1.isValid();
-        }else if (n.getClass() == TextFieldWithSearch.class) {
+        } else if (n.getClass() == TextFieldWithSearch.class) {
             TextFieldWithSearch n1 = (TextFieldWithSearch) n;
             return n1.isValid();
-        }
-        else if (n.getClass() == SearchTextField.class) {
+        } else if (n.getClass() == SearchTextField.class) {
             SearchTextField n1 = (SearchTextField) n;
             return n1.isValid();
-        }
-         else if (n.getClass() == TextArea.class) {
+        } else if (n.getClass() == TextArea.class) {
             TextArea n1 = (TextArea) n;
-            
+
             return (!n1.getText().equals(""));
-        }
-         else if (n.getClass() == CustomTextArea.class) {
+        } else if (n.getClass() == CustomTextArea.class) {
             CustomTextArea n1 = (CustomTextArea) n;
             return n1.isValid();
         }
-        
+
         return true;
 
     }

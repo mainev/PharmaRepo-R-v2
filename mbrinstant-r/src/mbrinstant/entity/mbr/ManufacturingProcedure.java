@@ -26,7 +26,7 @@ public class ManufacturingProcedure implements Serializable {
     @Expose(serialize=false)
     private List<PackagingOperation> packagingProcedureOperationList;
     @Expose(serialize=false)
-    private List<FillingProcedure> packagingProcedureList;
+    private List<PowderFillingProcedure> packagingProcedureList;
     @Expose(serialize=false)
     private List<BottlingProcedure> bottlingProcedureList;
 
@@ -83,11 +83,11 @@ public class ManufacturingProcedure implements Serializable {
     }
 
     
-    public List<FillingProcedure> getPackagingProcedureList() {
+    public List<PowderFillingProcedure> getPackagingProcedureList() {
         return packagingProcedureList;
     }
 
-    public void setPackagingProcedureList(List<FillingProcedure> packagingProcedureList) {
+    public void setPackagingProcedureList(List<PowderFillingProcedure> packagingProcedureList) {
         this.packagingProcedureList = packagingProcedureList;
     }
 

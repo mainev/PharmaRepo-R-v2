@@ -11,11 +11,11 @@ import javafx.scene.control.ChoiceBox;
  *
  * @author maine
  */
-public class CustomizedChoiceBox<T> extends ChoiceBox<T> implements Validatable {
+public class CustomChoiceBox<T> extends ChoiceBox<T> implements Validatable {
 
     private boolean notNull = true;
     
-    public CustomizedChoiceBox() {
+    public CustomChoiceBox() {
         super();
     }
 
