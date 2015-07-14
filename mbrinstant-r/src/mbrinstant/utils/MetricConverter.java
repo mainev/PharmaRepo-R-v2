@@ -13,38 +13,46 @@ public abstract class MetricConverter {
 
     public enum WeightUnit {
 
-        mcg(1e-6),
-        mg(1e-3),
-        g(1),
-        kg(1e3);
-
-        private final double level;
-
-        WeightUnit(double level) {
-            this.level = level;
-        }
-
-        public double getLevel() {
-            return this.level;
-        }
+        mcg,
+        mg,
+        g,
+        kg;
+//        mcg(1e-6),
+//        mg(1e-3),
+//        g(1),
+//        kg(1e3);
+//
+//        private final double level;
+//
+//        WeightUnit(double level) {
+//            this.level = level;
+//        }
+//
+//        public double getLevel() {
+//            return this.level;
+//        }
     }
 
     enum VolumeUnit {
 
-        mcL(1e-6),
-        mL(1e-3),
-        L(1),
-        kL(1e3);
-
-        private final double level;
-
-        VolumeUnit(double level) {
-            this.level = level;
-        }
-
-        public double getLevel() {
-            return this.level;
-        }
+        mcL,
+        mL,
+        L,
+        kL;
+//        mcL(1e-6),
+//        mL(1e-3),
+//        L(1),
+//        kL(1e3);
+//
+//        private final double level;
+//
+//        VolumeUnit(double level) {
+//            this.level = level;
+//        }
+//
+//        public double getLevel() {
+//            return this.level;
+//        }
     }
 
     public static Object getEnumUnit(String unit) {

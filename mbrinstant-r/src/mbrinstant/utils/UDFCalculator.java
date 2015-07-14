@@ -82,6 +82,7 @@ public class UDFCalculator {
                         multiplier = (MetricConverter.convertGramToMicrogram(batchSize) / udfContent);
                     }
                     break;
+               
                 //add another case here for weight unit
 
                 case "L":

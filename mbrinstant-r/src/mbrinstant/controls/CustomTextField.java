@@ -37,7 +37,7 @@ public class CustomTextField extends TextField implements Validatable{
   
     @Override
     public void replaceText(int start, int end, String text) {
-        if ((getText().length() <= maxLength) || text.equals("")) {
+        if ((getText().length() < maxLength) || text.equals("") || text.isEmpty()) {
             super.replaceText(start, end, text);
         }
     }

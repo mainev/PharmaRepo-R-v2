@@ -298,7 +298,6 @@ public class ProductWizardController implements Initializable {
         COMPROC_PAGE = (AnchorPane) loader.load(getClass().getResourceAsStream(COMPPROC_LOCATION));
         cpcontroller = loader.getController();
         Bindings.bindContentBidirectional(cpcontroller.rmReqList, rmReqController.getRmReqTemporaryList());
-
         COMPROC_PAGE.setUserData(loader.getController());
 
         loader = new FXMLLoader();
@@ -326,7 +325,6 @@ public class ProductWizardController implements Initializable {
         primarySecondaryController = loader.getController();
         Bindings.bindContentBidirectional(primarySecondaryController.pmReqList, pmReqController.pmReqTemporaryList);
         PRIMARY_SECONDARY_PAGE.setUserData(loader.getController());
-
     }
 
 }

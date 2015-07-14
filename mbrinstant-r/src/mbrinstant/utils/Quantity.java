@@ -16,7 +16,11 @@ package mbrinstant.utils;
 
         public Quantity() {
         }
-
+        public Quantity(Quantity q){
+            super();
+            this.unit = q.getUnit();
+            this.value = q.getValue();
+        }
         public Quantity(double value, String unit) {
             this.value = value;
             this.unit = unit;
@@ -38,6 +42,7 @@ package mbrinstant.utils;
             this.unit = unit;
         }
         
+        @Override
         public String toString(){
             return value + " " + unit;
         }

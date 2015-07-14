@@ -17,6 +17,7 @@
                   <Insets left="5.0" right="5.0" />
                </padding>
                <children>
+                
                   <Button fx:id="newButton" mnemonicParsing="false" prefWidth="100.0" text="New" />
                </children>
             </HBox>
@@ -80,11 +81,11 @@
                                                               <PropertyValueFactory property="" />
                                                           </cellValueFactory>
                                                     </TableColumn>
-                                                    <TableColumn fx:id="colRequiredRm" prefWidth="100.0" text="Required">
+                                                      <TableColumn fx:id="colRequiredQty" prefWidth="100.0" text="Required Qty">
                                                           <cellValueFactory>
-                                                              <PropertyValueFactory property="" />
+                                                              <PropertyValueFactory property="requiredQuantity" />
                                                           </cellValueFactory>
-                                                    </TableColumn>
+                                                      </TableColumn>
                                                       <TableColumn fx:id="colTotalRemainingRm" prefWidth="100.0" text="Total Remaining" />
                                                   </columns>
                                                 </TableView>

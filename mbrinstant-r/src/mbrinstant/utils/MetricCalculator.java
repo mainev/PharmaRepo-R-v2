@@ -5,6 +5,7 @@
  */
 package mbrinstant.utils;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -13,14 +14,48 @@ import java.text.DecimalFormat;
  */
 public class MetricCalculator {
 
-   
-
     public MetricCalculator() {
 
     }
 
     public Quantity add(Quantity a, Quantity b) {
         Quantity q = new Quantity();
+        
+        Quantity a1 = new Quantity(a);
+        Quantity b1 = new Quantity(b);
+        try {
+            analyzeUnit(a1, b1);
+            Double sum = a1.getValue() + b1.getValue();
+            q.setValue(sum);
+            q.setUnit(a1.getUnit());
+        } catch (Exception e) {
+            if(a1.getValue() == 0 || a1.getUnit()==(null)){
+                q = b1;
+            }
+            else
+                e.printStackTrace();
+        }
+        return q;
+    }
+    
+    
+
+    public Quantity subtract(Quantity a, Quantity b) {
+        Quantity q = new Quantity();
+
+        analyzeUnitReverse(a, b);
+        BigDecimal x1 = new BigDecimal(String.valueOf(a.getValue()));
+        BigDecimal x2 = new BigDecimal(String.valueOf(b.getValue()));
+        BigDecimal diff = x1.subtract(x2);
+
+        // Double diff = a.getValue() - b.getValue();
+        //System.out.println("diff " + diff.floatValue());
+        q.setValue(Double.parseDouble(String.valueOf(diff)));
+        q.setUnit(a.getUnit());
+        return q;
+    }
+
+    public void analyzeUnit(Quantity a, Quantity b) {
         if (!a.getUnit().equals(b.getUnit())) {
             if (MetricConverter.isConvertable(a.getUnit(), b.getUnit())) {
                 switch (a.getUnit()) {
@@ -128,20 +163,134 @@ public class MetricCalculator {
                         }
                         break;
                 }
+            } else {//unit is not convertable
+                System.out.println("exception");
+
+            }
+
+        }//unit are equal
+
+    }
+
+    public void analyzeUnitReverse(Quantity a, Quantity b) {
+        if (!a.getUnit().equals(b.getUnit())) {
+            if (MetricConverter.isConvertable(a.getUnit(), b.getUnit())) {
+                switch (a.getUnit()) {
+                    case "mcg":
+                        switch (b.getUnit()) {
+                            case "mg":
+                                b.setValue(MetricConverter.convertMilligramToMicrogram(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                            case "g":
+                                b.setValue(MetricConverter.convertGramToMicrogram(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                            case "kg":
+                                b.setValue(MetricConverter.convertKilogramToMicrogram(b.getValue()));
+                                b.setUnit(a.getUnit());
+                        }
+                        break;
+
+                    case "mg":
+                        
+                        switch (b.getUnit()) {
+                            case "mcg":
+                                a.setValue(MetricConverter.convertMilligramToMicrogram(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                            case "g":
+                                b.setValue(MetricConverter.convertGramToMilligram(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                            case "kg":
+                                b.setValue(MetricConverter.convertKilogramToMilligram(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                        }
+                        break;
+
+                    case "g":
+                        switch (b.getUnit()) {
+                            case "mcg":
+                                a.setValue(MetricConverter.convertGramToMicrogram(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                            case "mg":
+                                a.setValue(MetricConverter.convertGramToMilligram(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                            case "kg":
+                                b.setValue(MetricConverter.convertKilogramToGram(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                        }
+                        break;
+
+                    case "kg":
+                        switch (b.getUnit()) {
+                            case "mcg":
+                                a.setValue(MetricConverter.convertKilogramToMicrogram(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                            case "mg":
+                                a.setValue(MetricConverter.convertKilogramToMilligram(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                            case "g":
+                                a.setValue(MetricConverter.convertKilogramToGram(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                        }
+
+                    case "mcL":
+                        switch (b.getUnit()) {
+                            case "mL":
+                                b.setValue(MetricConverter.convertMillilitreToMicrolitre(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                            case "L":
+                                b.setValue(MetricConverter.convertLitreToMicrolitre(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                        }
+                        break;
+
+                    case "mL":
+                        switch (b.getUnit()) {
+                            case "mcL":
+                                a.setValue(MetricConverter.convertMillilitreToMicrolitre(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                            case "L":
+                                b.setValue(MetricConverter.convertLitreToMillilitre(b.getValue()));
+                                b.setUnit(a.getUnit());
+                                break;
+                        }
+                        break;
+                    case "L":
+                        switch (b.getUnit()) {
+                            case "mcL":
+                                a.setValue(MetricConverter.convertLitreToMicrolitre(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                            case "mL":
+                                a.setValue(MetricConverter.convertLitreToMillilitre(a.getValue()));
+                                a.setUnit(b.getUnit());
+                                break;
+                        }
+                        break;
+                }
+            } else {
+                System.out.println("exception");
             }
 
         }
-        
-        double sum = a.getValue() + b.getValue();
-        q.setValue(sum);
-        q.setUnit(a.getUnit());
-        return q;
     }
 
-     public static double roundThreeDecimals(double d) {
+    public static double roundThreeDecimals(double d) {
         DecimalFormat twoDForm = new DecimalFormat("#.###");
         return Double.valueOf(twoDForm.format(d));
     }
-   
 
 }
