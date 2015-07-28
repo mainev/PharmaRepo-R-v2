@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.mmd_module.controller.stockcard.StockcardListController">
+   <children>
+      <BorderPane layoutX="48.0" layoutY="56.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Search" />
+                  <TextField fx:id="controlNoTextField" prefHeight="25.0" prefWidth="212.0" promptText="Type control no here ..." />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+         </top>
+         <center>
+            <AnchorPane fx:id="stockCardInfo" prefHeight="240.0" prefWidth="1000.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutX="373.0" layoutY="94.0" prefHeight="250.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="998.0" spacing="10.0" style="-fx-background-color: LIGHTGRAY;">
+                           <children>
+                              <Label text="Item:">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="itemLabel">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                        <GridPane hgap="10.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="185.0" minWidth="0.0" prefWidth="142.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="490.0" minWidth="10.0" prefWidth="299.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="280.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="227.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Control No:" />
+                              <Label text="Warehouse:" GridPane.rowIndex="1" />
+                              <Label text="Quantity:" GridPane.rowIndex="4" />
+                              <Label text="Unit Cost:" GridPane.rowIndex="3" />
+                              <Label text="Lot No:" GridPane.rowIndex="5" />
+                              <Label text="Manufacturing Date:" GridPane.columnIndex="2" />
+                              <Label text="Expiration Date:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label text="Stock Status:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label text="Status:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Label text="Company:" GridPane.rowIndex="2" />
+                              <Label fx:id="controlNoLabel" underline="true" GridPane.columnIndex="1" />
+                              <Label fx:id="warehouseLabel" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="companyLabel" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="unitCostLabel" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="quantityLabel" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="lotNoLabel" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Label fx:id="mfgDateLabel" underline="true" GridPane.columnIndex="3" />
+                              <Label fx:id="expDateLabel" underline="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <Label fx:id="stockStatusLabel" underline="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                              <Label fx:id="statusLabel" underline="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <Label text="In-Out Mode:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Label fx:id="inOutModeLabel" underline="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <VBox fx:id="transactionInfo">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label text="Transaction">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <AnchorPane prefHeight="319.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TableView fx:id="txnTable" layoutX="77.0" layoutY="14.0" prefHeight="319.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="colQty" prefWidth="400.0" text="Quantity" />
+                              <TableColumn fx:id="colPurpose" prefWidth="500.0" text="Purpose" />
+                              <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

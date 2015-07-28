@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="batch_bom" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e2e9aa14-fb4c-48b6-a329-ae8c3a01ccc8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="product" class="java.lang.Object">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="pack_size" class="java.lang.Object"/>
+	<parameter name="batch_size" class="java.lang.Double"/>
+	<parameter name="unit" class="java.lang.Object"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="74" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="5407f9b7-655a-4ff3-8e8c-d30c6c643c28"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["PRODUCT NAME:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="100" height="20" uuid="606203c0-ab92-4b57-8d06-95ad23ba9184"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["PACKAGING SIZE:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="40" width="100" height="20" uuid="e80c8e0e-ebd9-4408-9526-3646861fd99c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["BATCH SIZE:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="0" width="424" height="20" uuid="fe840341-0ef6-434d-9919-6d3f5129ebd7"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{product}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="20" width="424" height="20" uuid="2b5c5b43-2c50-4315-b235-ef5b26f1593c"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{pack_size}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="40" width="424" height="20" uuid="9e255d15-d99a-44b6-b22e-5c0d26139710"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{batch_size}+" "+$P{unit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="28" splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="79" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="79" uuid="c68d83a9-8650-4611-aaed-89d96ad602d8"/>
+				<subreportParameter name="udf">
+					<subreportParameterExpression><![CDATA[$P{product}.getUdfId()]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{product}.getUdfId().getRawMaterialRequirementList()))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "rm_bom.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="115">
+			<subreport>
+				<reportElement x="0" y="31" width="555" height="84" uuid="d1f34958-fa58-44fa-a4d6-16ffa5d75f02"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{product}.getUdfId().getPackagingMaterialRequirementList()))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pm_bom.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="50"/>
+	</summary>
+</jasperReport>

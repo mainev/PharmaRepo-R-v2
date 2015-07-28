@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="batch_pm_summary" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7e99270e-4783-4df5-adaa-82fa7bcd5e18">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="packaging_material_name" class="java.lang.Object">
+		<fieldDescription><![CDATA[packagingMaterial.description]]></fieldDescription>
+	</field>
+	<field name="required_qty" class="java.lang.Object">
+		<fieldDescription><![CDATA[requiredQuantity]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="65" y="3" width="336" height="20" uuid="813c5ba6-236e-4e4b-92ca-c822c3d553b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["PACKAGING MATERIALS"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="24" y="3" width="41" height="20" uuid="081cf873-310a-4f91-b03a-0dd3dd4cd130"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="12" y="25" width="530" height="1" uuid="5b9daf16-5ac4-4de7-9f64-91fef67ac339"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="401" y="3" width="123" height="20" uuid="b8ca578d-0205-4e27-acd1-b9f594748537"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["REQUIRED QUANTITY"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="24" y="0" width="41" height="15" uuid="569a540e-6a66-4040-bd0f-c22a3a473c67"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="65" y="0" width="336" height="15" uuid="db4a62a2-1841-4f4b-aa2e-6a0478c8ed6a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{packaging_material_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="401" y="0" width="123" height="15" uuid="beb11a16-f460-4a6a-a21e-b699d912e462"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{required_qty}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="24" y="15" width="500" height="1" uuid="ec0dd845-9202-493e-a19f-2b67be417c57"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

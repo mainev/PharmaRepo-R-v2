@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mbrinstant.controller.projection;
+package mbrinstant.mmd_module.controller.projection;
 
 import java.net.URL;
 import java.util.Date;
@@ -23,6 +23,7 @@ import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.service.main.ProductService;
 import mbrinstant.service.main.UnitService;
 import mbrinstant.utils.DateConverter;
+import mbrinstant.utils.UDFCalculator;
 
 /**
  *
@@ -70,6 +71,9 @@ public class NewBatchController implements Initializable {
             String batchNo = "";
 
             Mbr mbr = new Mbr(productId, batchSize, batchNo, mfgDate, expDate, poNo, unitId);
+            UDFCalculator udfC = new UDFCalculator();
+            udfC.calculateRawMaterialBatchReq(mbr);
+            udfC.calculatePackMatBatchReq(mbr);
             parentController.addBatchRecord(mbr);
             closeDialog();
         });

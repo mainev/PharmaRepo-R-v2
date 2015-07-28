@@ -53,6 +53,7 @@ public class MbrService {
     public Mbr createMbr(Product productId, double batchSize, Date mfgDate, Date expDate, String poNo, Unit unitId) {
 
         String batchNo = "batch1";
+         System.out.println("NOTE: batchNo is temporarily set to 'batch1' in the MbrService");
         Mbr mbr = new Mbr(productId, batchSize, batchNo, mfgDate, expDate,
                 poNo, unitId);
         String input = Serializer.serialize(mbr);
@@ -62,6 +63,18 @@ public class MbrService {
 
         return Serializer.<Mbr>deserialize(output, Mbr.class);
 
+    }
+    
+    public Mbr createMbr(Mbr mbr){
+        String batchNo = "batch1";
+        mbr.setBatchNo(batchNo);
+        String input = Serializer.serialize(mbr);
+        webResource = client.resource(BASE_URI + "/create");
+        ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input);
+        String output = response.getEntity(String.class);
+
+        return Serializer.<Mbr>deserialize(output, Mbr.class);
+        
     }
 
     public int getPrimaryPackagingQuantity(List<PackagingMaterialRequirement> pmrList, int bottleId) {

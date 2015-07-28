@@ -56,18 +56,8 @@ public class Product implements Serializable {
         this.packSizeId = packSizeId;
     }
 
-    
     public Product() {
     }
-
-//    public Udf getActiveUdf() {
-//        for (Udf u : udfList) {
-//            if (u.getIsActive()) {
-//                return u;
-//            }
-//        }
-//        return null;
-//    }
 
     public ManufacturingProcedure getManufacturingProcedureId() {
         return manufacturingProcedureId;
@@ -77,14 +67,6 @@ public class Product implements Serializable {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
 
-//    public List<Udf> getUdfList() {
-//        return udfList;
-//    }
-//
-//    public void setUdfList(List<Udf> udfList) {
-//        this.udfList = udfList;
-//    }
-
     public Udf getUdfId() {
         return udfId;
     }
@@ -93,7 +75,6 @@ public class Product implements Serializable {
         this.udfId = udfId;
     }
 
-    
     public Product(Integer id) {
         this.id = id;
     }

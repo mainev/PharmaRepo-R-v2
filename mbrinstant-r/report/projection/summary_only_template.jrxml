@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bill_of_materials" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c4743b5-99a7-423b-a81e-cdfbdab1c6d5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="batch_record_list" class="java.util.List"/>
+	<parameter name="batch_rm_list" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="batch_pm_list" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<field name="product" class="java.lang.Object">
+		<fieldDescription><![CDATA[productId]]></fieldDescription>
+	</field>
+	<field name="pack_size" class="java.lang.Object">
+		<fieldDescription><![CDATA[productId.packSizeId]]></fieldDescription>
+	</field>
+	<field name="batch_size" class="java.lang.Double">
+		<fieldDescription><![CDATA[batchSize]]></fieldDescription>
+	</field>
+	<field name="unit" class="java.lang.Object">
+		<fieldDescription><![CDATA[unitId]]></fieldDescription>
+	</field>
+	<variable name="batch_size_qty" class="java.lang.String">
+		<variableExpression><![CDATA[$F{batch_size}+" "+$F{unit}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="21">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="b780fb0b-61a7-4c73-82ec-769f6060d2f3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BATCH RECORD"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement x="29" y="20" width="85" height="15" uuid="ca0a93ae-20c7-480f-9a8c-7bce84ef0054"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pack size:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="35" width="85" height="15" uuid="08f1a2b7-1baa-4266-bb7c-a9b991dacb89"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Batch size:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="24" height="20" backcolor="#00CC99" uuid="42371c9e-73a9-4781-a41a-187857027769"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="0" width="85" height="20" uuid="88eaf488-27e2-45fb-b720-1efdf83f4b6d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Product:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="0" width="441" height="20" uuid="bf19e738-01d2-4552-b558-0a1bee15d7a0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="20" width="441" height="15" uuid="8b24ad3d-cdd5-4b04-aeb6-42b3cbb533dc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pack_size}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="35" width="441" height="15" uuid="2a982461-70b9-439b-a2fc-e13073870ce4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{batch_size_qty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="14">
+			<printWhenExpression><![CDATA[!$P{batch_rm_list}.isEmpty() || !$P{batch_pm_list}.isEmpty()]]></printWhenExpression>
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="14" uuid="23da6765-5a66-4d6f-ba0a-987b0f2d1b94"/>
+				<subreportParameter name="batch_rm_list">
+					<subreportParameterExpression><![CDATA[$P{batch_rm_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_pm_list">
+					<subreportParameterExpression><![CDATA[$P{batch_pm_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "summary_details.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

@@ -6,9 +6,6 @@
 package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
-import java.io.Serializable;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Unit;
 
@@ -16,8 +13,7 @@ import mbrinstant.entity.main.Unit;
  *
  * @author maine
  */
-public class PackagingMaterialRequirement  {
-
+public class PackagingMaterialRequirement {
 
     @Expose
     private Integer id;
@@ -27,17 +23,14 @@ public class PackagingMaterialRequirement  {
     private Double quantity;
     @Expose
     private Unit unitId;
-    
-     private double newQuantity;
-    
-    public PackagingMaterialRequirement(PackagingMaterial packagingMaterialId, double quantity, Unit unitId){
+
+    private double newQuantity;
+
+    public PackagingMaterialRequirement(PackagingMaterial packagingMaterialId, double quantity, Unit unitId) {
         this.packagingMaterialId = packagingMaterialId;
         this.quantity = quantity;
         this.unitId = unitId;
     }
-
-  
-   
 
     public double getNewQuantity() {
         return newQuantity;
@@ -113,7 +106,6 @@ public class PackagingMaterialRequirement  {
 //        }
 //        return true;
 //    }
-
     @Override
     public String toString() {
         return packagingMaterialId + " - " + quantity + " " + unitId;

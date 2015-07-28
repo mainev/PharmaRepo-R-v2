@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mbrinstant.service.sqlsvr;
+package mbrinstant.service.sqlsvr_copy;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -20,7 +20,7 @@ public class ItemService {
     public DefaultClientConfig defaultClientConfig;
     public Client client;
     public WebResource webResource;
-    public final String BASE_URI = "http://localhost:8080/RedServer-v2/webresources/sqlsvr/item";
+    public final String BASE_URI = "http://localhost:8080/RedServer-v2/webresources/sqlsvr_copy/itemc";
 
     public ItemService() {
         initClient();
@@ -32,6 +32,7 @@ public class ItemService {
         client = Client.create(defaultClientConfig);
     }
 
+    /*
     public String getItemUom(String itemCd) {
         webResource = client.resource(BASE_URI + "/item_uom");
 
@@ -43,4 +44,5 @@ public class ItemService {
 
         return jsonResult;
     }
+    */
 }

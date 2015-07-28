@@ -5,6 +5,7 @@
  */
 package mbrinstant.controls;
 
+import java.awt.Toolkit;
 import javafx.geometry.Pos;
 import org.controlsfx.control.Notifications;
 

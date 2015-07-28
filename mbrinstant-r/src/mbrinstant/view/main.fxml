@@ -8,11 +8,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="710.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.MainController">
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" prefHeight="710.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.MainController">
    <children>
       <BorderPane prefHeight="710.0" prefWidth="1366.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
-            <AnchorPane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER" />
+            <AnchorPane prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox fx:id="mainFooter" prefHeight="102.0" prefWidth="1366.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children></AnchorPane>
          </bottom>
          <left>
             <AnchorPane prefHeight="200.0" prefWidth="250.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
@@ -22,6 +25,8 @@
                         <ToggleButton fx:id="batchRecordsButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Batch Record" />
                         <ToggleButton fx:id="productButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Product" />
                         <ToggleButton fx:id="projectionButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Batch Projection" />
+                        <ToggleButton fx:id="reservationButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="MBR Reservation" />
+                        <ToggleButton fx:id="stockCardButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Stockcard" />
                         <ToggleButton fx:id="auditButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" text="Audit" />
                      </children>
                   </VBox>
@@ -36,7 +41,7 @@
             </AnchorPane>
          </center>
          <top>
-            <AnchorPane prefHeight="46.0" prefWidth="1366.0" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="mainHeader" prefHeight="46.0" prefWidth="1366.0" BorderPane.alignment="CENTER">
                <children>
                   <Text layoutX="5.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pharma">
                      <font>

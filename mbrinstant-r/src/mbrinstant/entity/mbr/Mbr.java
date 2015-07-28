@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
+import mbrinstant.utils.Quantity;
 
 /**
  *
@@ -18,6 +19,7 @@ import mbrinstant.entity.main.Unit;
  */
 @XmlRootElement
 public class Mbr implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Expose
     private Integer id;
@@ -35,9 +37,13 @@ public class Mbr implements Serializable {
     private Date expDate;
     @Expose
     private String poNo;
+    @Expose
+    private String status;
+    
+    
 
     public Mbr(Product productId, double batchSize, String batchNo, Date mfgDate, Date expDate,
-                String poNo, Unit unitId){
+            String poNo, Unit unitId) {
         this.productId = productId;
         this.batchSize = batchSize;
         this.batchNo = batchNo;
@@ -45,7 +51,9 @@ public class Mbr implements Serializable {
         this.expDate = expDate;
         this.poNo = poNo;
         this.unitId = unitId;
+        
     }
+
     public Mbr() {
     }
 
@@ -117,6 +125,16 @@ public class Mbr implements Serializable {
         this.poNo = poNo;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+   
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -141,5 +159,5 @@ public class Mbr implements Serializable {
     public String toString() {
         return "server.mbr.entity.Mbr[ id=" + id + " ]";
     }
-    
+
 }

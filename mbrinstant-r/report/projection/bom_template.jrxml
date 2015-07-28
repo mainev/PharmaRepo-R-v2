@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bill_of_materials" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c4743b5-99a7-423b-a81e-cdfbdab1c6d5">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="110"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="batch_record_list" class="java.util.List"/>
+	<parameter name="batch_rm_list" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="batch_pm_list" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<field name="product" class="java.lang.Object">
+		<fieldDescription><![CDATA[productId]]></fieldDescription>
+	</field>
+	<field name="pack_size" class="java.lang.Object">
+		<fieldDescription><![CDATA[productId.packSizeId]]></fieldDescription>
+	</field>
+	<field name="batch_size" class="java.lang.Double">
+		<fieldDescription><![CDATA[batchSize]]></fieldDescription>
+	</field>
+	<field name="unit" class="java.lang.Object">
+		<fieldDescription><![CDATA[unitId]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="30" uuid="47cb505a-a201-4554-ba74-dd251bc5f868"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BILL OF MATERIALS"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="10" width="555" height="16" uuid="85a6f90c-ce39-4223-be48-a3180f3d9942"/>
+				<subreportParameter name="product">
+					<subreportParameterExpression><![CDATA[$F{product}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="unit">
+					<subreportParameterExpression><![CDATA[$F{unit}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_size">
+					<subreportParameterExpression><![CDATA[$F{batch_size}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="pack_size">
+					<subreportParameterExpression><![CDATA[$F{pack_size}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "batch_bom_template.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="26" width="100" height="1" uuid="a2258703-e4ac-4f56-8a1d-d794e23cd0f5"/>
+			</break>
+		</band>
+	</detail>
+	<summary>
+		<band height="14">
+			<printWhenExpression><![CDATA[!$P{batch_rm_list}.isEmpty() || !$P{batch_pm_list}.isEmpty()]]></printWhenExpression>
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="14" uuid="23da6765-5a66-4d6f-ba0a-987b0f2d1b94"/>
+				<subreportParameter name="batch_rm_list">
+					<subreportParameterExpression><![CDATA[$P{batch_rm_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_pm_list">
+					<subreportParameterExpression><![CDATA[$P{batch_pm_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "summary_details.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

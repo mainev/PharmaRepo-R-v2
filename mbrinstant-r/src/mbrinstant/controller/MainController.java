@@ -15,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import mbrinstant.ScreenNavigator;
@@ -25,7 +27,7 @@ import mbrinstant.ScreenNavigator;
  * @author maine
  */
 public class MainController implements Initializable {
-    
+
     @FXML
     private ToggleButton batchRecordsButton;
     @FXML
@@ -35,8 +37,19 @@ public class MainController implements Initializable {
     @FXML
     private ToggleButton projectionButton;
     @FXML
+    private ToggleButton reservationButton;
+    @FXML
+    private ToggleButton stockCardButton;
+    @FXML
     private StackPane _mainStackPane;
-    
+
+    @FXML
+    private AnchorPane mainHeader;
+    @FXML
+    private HBox mainFooter;
+    @FXML
+    private AnchorPane mainAnchorPane;
+
     final ToggleGroup menuToggleGroup = new ToggleGroup();
 
     /**
@@ -46,14 +59,21 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setMenuButtonToggleGroup();
         addToggleGroupListener();
+
+//        ProgressIndicator progressIndicator = new ProgressIndicator();
+//        progressIndicator.setLayoutX(500);
+//        progressIndicator.setLayoutY(500);
+//        mainAnchorPane.getChildren().add(progressIndicator);
     }
-    
+
     private void addToggleGroupListener() {
         batchRecordsButton.setUserData(ScreenNavigator.BATCH_RECORD_SCREEN);
         productButton.setUserData(ScreenNavigator.PRODUCT_SCREEN);
         auditButton.setUserData(ScreenNavigator.AUDIT_LIST_FXML);
         projectionButton.setUserData(ScreenNavigator.PROJECTION_FXML);
-        
+        reservationButton.setUserData(ScreenNavigator.RESERVATION_FXML);
+        stockCardButton.setUserData(ScreenNavigator.STOCKCARD_LIST_FXML);
+
         menuToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov,
                     Toggle toggle, Toggle new_toggle) {
@@ -66,21 +86,23 @@ public class MainController implements Initializable {
             }
         });
     }
-    
+
     private void setMenuButtonToggleGroup() {
         batchRecordsButton.setToggleGroup(menuToggleGroup);
         productButton.setToggleGroup(menuToggleGroup);
         auditButton.setToggleGroup(menuToggleGroup);
         projectionButton.setToggleGroup(menuToggleGroup);
+        reservationButton.setToggleGroup(menuToggleGroup);
+        stockCardButton.setToggleGroup(menuToggleGroup);
     }
-    
+
     public void setScreen(Node node) {
         _mainStackPane.getChildren().setAll(node);
     }
-    
+
     public void closeApp() {
         Stage stage = (Stage) _mainStackPane.getScene().getWindow();
         stage.close();
     }
-    
+
 }

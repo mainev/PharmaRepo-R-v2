@@ -20,8 +20,10 @@ public class ScreenNavigator {
     public static final String BATCH_RECORD_SCREEN = "view/list.fxml";
     public static final String PRODUCT_SCREEN = "view/product/list.fxml";
     public static final String AUDIT_LIST_FXML = "view/audit/audit_list.fxml";
-     public static final String PROJECTION_FXML = "view/projection/projection_pane.fxml";
-  
+    public static final String PROJECTION_FXML = "mmd_module/view/projection/projection_pane.fxml";
+    public static final String RESERVATION_FXML = "mmd_module/view/reservation/reservation.fxml";
+    public static final String STOCKCARD_LIST_FXML = "mmd_module/view/stockcard/stockcard_list.fxml";
+
     private static MainController mainController;
 
     public static void setMainController(MainController mainController) {
@@ -36,7 +38,7 @@ public class ScreenNavigator {
                     )
             );
         } catch (IOException e) {
-               e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

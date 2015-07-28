@@ -21,11 +21,10 @@ public class ProductWizard {
 
     Stage mainStage = new Stage();
     public static String PRODUCT_WIZARD_LOCATION = "view/product_wizard.fxml";
-    static ProductWizardController mainController;
-    
+   // static ProductWizardController mainController;
 
     public ProductWizard() throws IOException {
-     
+
         Pane mainPane = loadMainPane();
         Scene scene = new Scene(mainPane);
 
@@ -37,13 +36,11 @@ public class ProductWizard {
     }
 
     private Pane loadMainPane() throws IOException {
-       
+
         FXMLLoader loader = new FXMLLoader();
         AnchorPane mainPane = (AnchorPane) loader.load(getClass().getResourceAsStream(PRODUCT_WIZARD_LOCATION));
-    
+
         return mainPane;
     }
 
-   
-   
 }

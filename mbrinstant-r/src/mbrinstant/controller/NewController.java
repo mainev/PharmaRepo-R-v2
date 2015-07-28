@@ -28,6 +28,7 @@ import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.service.main.ProductService;
 import mbrinstant.service.main.UnitService;
 import mbrinstant.service.mbr.MbrService;
+import mbrinstant.service.mbr.SMbrService;
 import mbrinstant.utils.DateConverter;
 
 /**
@@ -54,7 +55,7 @@ public class NewController implements Initializable {
     Button cancelButton;
 
     TextFieldWithSearch<Product> textFieldWithProductSearch;
-    MbrService mbrService = new MbrService();
+  //  MbrService mbrService = new MbrService();
     ProductService productService = new ProductService();
 
     /**
@@ -123,7 +124,7 @@ public class NewController implements Initializable {
         Date expDate = DateConverter.convertLocalDateToDate(mfgDateDatePicker.getValue().plusYears(productId.getShelfLife()));
         String poNo = poNoTextField.getText();
 
-        return mbrService.createMbr(productId, batchSize, mfgDate, expDate, poNo, unitId);
+        return SMbrService.createMbr(productId, batchSize, mfgDate, expDate, poNo, unitId);
     }
     
 

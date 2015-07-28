@@ -20,12 +20,24 @@ public class Client implements Serializable {
     private Short id;
     @Expose
     private String name;
+    @Expose
+    private String code;
     public Client() {
     }
 
     public Client(Short id) {
         this.id = id;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    
 
     public Short getId() {
         return id;
