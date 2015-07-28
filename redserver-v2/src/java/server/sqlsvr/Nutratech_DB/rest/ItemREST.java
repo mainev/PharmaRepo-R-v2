@@ -29,6 +29,7 @@ public class ItemREST  {
     @Context
     private UriInfo context;
 
+    /*
     @Inject
     private ItemFacade facade;
 
@@ -62,5 +63,14 @@ public class ItemREST  {
     public String getItemUom(@QueryParam("item_cd") String itemCd){
         return facade.selectItemUom(itemCd);
     }
-
+    
+//    @GET
+//    @Path("/copy_to_postgre")
+//    @Produces("application/json")
+//    public String create() {
+//        facade.create();
+//        return "items copied";
+//    }
+    
+    */
 }

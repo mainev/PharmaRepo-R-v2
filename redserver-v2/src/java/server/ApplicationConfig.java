@@ -50,9 +50,22 @@ public class ApplicationConfig extends Application {
         resources.add(server.pharma_red_v2.mbr.rest.PowderFillingREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.RawMaterialRequirementREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.UdfREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.CompanyCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemCategoryCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemClassCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemTypeCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.StockCardCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.WarehouseCREST.class);
+        resources.add(server.pharma_red_v2.transaction.rest.StockCardTxnREST.class);
         resources.add(server.sample.User2REST.class);
+        resources.add(server.sqlsvr.Nutratech_DB.rest.CompanyREST.class);
+        resources.add(server.sqlsvr.Nutratech_DB.rest.ItemCategoryREST.class);
+        resources.add(server.sqlsvr.Nutratech_DB.rest.ItemClassREST.class);
         resources.add(server.sqlsvr.Nutratech_DB.rest.ItemREST.class);
+        resources.add(server.sqlsvr.Nutratech_DB.rest.ItemTypeREST.class);
         resources.add(server.sqlsvr.Nutratech_DB.rest.StockCardREST.class);
+        resources.add(server.sqlsvr.Nutratech_DB.rest.WarehouseREST.class);
     }
     
 }

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.pharma_red_v2._main.entity;
+package server.pharma_red_v2.sqlsvr_copy.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,48 +15,48 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author maine
  */
-@Entity
-@Table(name = "client", schema="main")
+@Entity(name = "ItemClassC")
+@Table(name = "item_class", schema="sqlsvr_copy")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")})
-public class Client implements Serializable {
+public class ItemClassC implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    
-    @Size(max = 50)
-    @Column(name = "name")
-    private String name;
-    
-    @Size(max = 5)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "code")
     private String code;
-    
-    /*
-    @OneToMany(mappedBy = "clientId")
-    private List<RawMaterial> rawMaterialList;
-    @OneToMany(mappedBy = "clientId")
-    private List<Product> productList;
-    @OneToMany(mappedBy = "clientId")
-    private List<PackagingMaterial> packagingMaterialList;
-*/
-    public Client() {
+    @Size(max = 255)
+    @Column(name = "descs")
+    private String descs;
+    @OneToMany(mappedBy = "itemClassId")
+    private List<ItemCategoryC> itemCategoryList;
+
+    public ItemClassC() {
     }
 
-    public Client(Short id) {
+    public ItemClassC(Short id) {
         this.id = id;
+    }
+
+    public ItemClassC(Short id, String code) {
+        this.id = id;
+        this.code = code;
     }
 
     public Short getId() {
@@ -66,14 +67,6 @@ public class Client implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCode() {
         return code;
     }
@@ -81,37 +74,24 @@ public class Client implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    
-    
 
-    /*
-    @XmlTransient
-    public List<RawMaterial> getRawMaterialList() {
-        return rawMaterialList;
+    public String getDescs() {
+        return descs;
     }
 
-    public void setRawMaterialList(List<RawMaterial> rawMaterialList) {
-        this.rawMaterialList = rawMaterialList;
+    public void setDescs(String descs) {
+        this.descs = descs;
     }
 
     @XmlTransient
-    public List<Product> getProductList() {
-        return productList;
+    public List<ItemCategoryC> getItemCategoryList() {
+        return itemCategoryList;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setItemCategoryList(List<ItemCategoryC> itemCategoryList) {
+        this.itemCategoryList = itemCategoryList;
     }
 
-    @XmlTransient
-    public List<PackagingMaterial> getPackagingMaterialList() {
-        return packagingMaterialList;
-    }
-
-    public void setPackagingMaterialList(List<PackagingMaterial> packagingMaterialList) {
-        this.packagingMaterialList = packagingMaterialList;
-    }
-*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -122,10 +102,10 @@ public class Client implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Client)) {
+        if (!(object instanceof ItemClassC)) {
             return false;
         }
-        Client other = (Client) object;
+        ItemClassC other = (ItemClassC) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -134,7 +114,7 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Client[ id=" + id + " ]";
+        return "entity.ItemClass[ id=" + id + " ]";
     }
     
 }

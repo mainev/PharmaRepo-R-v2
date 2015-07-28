@@ -17,10 +17,12 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class User2Facade {
 
+    /*
    @PersistenceContext(unitName = "SampleServerPU")
     private EntityManager em;
 
     public List<SampleUser> findAll() {
         return em.createQuery("SELECT u from SampleUser u").getResultList();
     }
+    */
 }

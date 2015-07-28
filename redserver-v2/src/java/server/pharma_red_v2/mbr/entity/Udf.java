@@ -58,8 +58,6 @@ public class Udf implements Serializable {
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
     private Product productId;
 
-//    @Column(name = "is_active")
-//    private Boolean isActive;
     @OneToMany(mappedBy = "udfId")
     private List<PackagingMaterialRequirement> packagingMaterialRequirementList;
 

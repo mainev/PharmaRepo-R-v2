@@ -30,6 +30,7 @@ public class StockCardREST {
     @Context
     private UriInfo context;
 
+    /*
     @Inject
     private StockCardFacade facade;
 
@@ -49,4 +50,15 @@ public class StockCardREST {
        return facade.selectMaterialQuantity(itemCd);
     }
 
+    
+//    @GET
+//    @Path("/copy_to_postgre")
+//    @Produces("application/json")
+//    public String create() {
+//        facade.create();
+//        return "stock card copied to postgre";
+//    }
+    
+    
+    */
 }

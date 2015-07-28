@@ -27,7 +27,9 @@ public class StockCard implements Serializable {
     //unique identifier for this entity is the itemCd and auditDate
     //change this if necessary
     private static final long serialVersionUID = 1L;
+ 
     @Id
+    @Size(max = 20)
     @Column(name = "item_cd")
     private String itemCd;
     
@@ -35,6 +37,7 @@ public class StockCard implements Serializable {
     @Column(name = "audit_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date auditDate;
+    
     
     @Column(name = "mfg_date")
     @Temporal(TemporalType.DATE)
@@ -46,25 +49,80 @@ public class StockCard implements Serializable {
     
     @Column(name ="inout_mode")
     @Size(max = 1)
-    private char inOutMode;
+    private String inOutMode;
     
     @Column(name = "status")
     @Size(max = 10)
     private String status;
     
+   
     @Column(name = "qty")
-    private float qty;
+    private Double qty;
     
     @Column(name = "uom")
     @Size(max = 10)
     private String uom;
 
+    
     @Column(name = "company_cd")
     @Size(max = 5)
     private String companyCd;
+    
+    @Column(name = "warehouse_cd")
+    @Size(max = 10)
+    private String warehouseCd;
+    
+   
+    @Column(name = "unit_cost")
+    private Double unitCost;
+    
+    @Column(name = "lot_no")
+    @Size(max = 100)
+    private String lotNo;
+    
+    @Column(name = "control_no")
+    @Size(max = 20)
+    private String controlNo;
+    
+    
+    
 
     public StockCard() {
     }
+
+    public String getWarehouseCd() {
+        return warehouseCd;
+    }
+
+    public void setWarehouseCd(String warehouseCd) {
+        this.warehouseCd = warehouseCd;
+    }
+
+    public Double getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(Double unitCost) {
+        this.unitCost = unitCost;
+    }
+
+    public String getLotNo() {
+        return lotNo;
+    }
+
+    public void setLotNo(String lotNo) {
+        this.lotNo = lotNo;
+    }
+
+    public String getControlNo() {
+        return controlNo;
+    }
+
+    public void setControlNo(String controlNo) {
+        this.controlNo = controlNo;
+    }
+    
+    
 
     public Date getMfgDate() {
         return mfgDate;
@@ -91,11 +149,11 @@ public class StockCard implements Serializable {
         this.auditDate = auditDate;
     }
 
-    public char getInOutMode() {
+    public String getInOutMode() {
         return inOutMode;
     }
 
-    public void setInOutMode(char inOutMode) {
+    public void setInOutMode(String inOutMode) {
         this.inOutMode = inOutMode;
     }
 
@@ -107,11 +165,11 @@ public class StockCard implements Serializable {
         this.status = status;
     }
 
-    public float getQty() {
+    public Double getQty() {
         return qty;
     }
 
-    public void setQty(float qty) {
+    public void setQty(Double qty) {
         this.qty = qty;
     }
 
@@ -142,25 +200,25 @@ public class StockCard implements Serializable {
         this.itemCd = itemCd;
     }
 
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof StockCard)) {
-//            return false;
-//        }
-//        StockCard other = (StockCard) object;
-//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-//            return false;
-//        }
-//        return true;
-//    }
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (itemCd != null ? itemCd.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof StockCard)) {
+            return false;
+        }
+        StockCard other = (StockCard) object;
+        if ((this.itemCd == null && other.itemCd != null) || (this.itemCd != null && !this.itemCd.equals(other.itemCd))) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {

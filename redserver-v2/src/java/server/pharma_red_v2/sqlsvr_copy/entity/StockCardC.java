@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.pharma_red_v2.mbr.entity;
+package server.pharma_red_v2.sqlsvr_copy.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,20 +25,16 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import server.pharma_red_v2._main.entity.Product;
-import server.pharma_red_v2._main.entity.Unit;
 import server.pharma_red_v2.transaction.entity.StockCardTxn;
 
 /**
  *
  * @author maine
  */
-@Entity
-@Table(name = "mbr", schema="mbr")
+@Entity(name="StockCardC")
+@Table(name = "stock_card", schema="sqlsvr_copy")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Mbr.findAll", query = "SELECT m FROM Mbr m")})
-public class Mbr implements Serializable {
+public class StockCardC implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,21 +42,20 @@ public class Mbr implements Serializable {
     @Column(name = "id")
     private Integer id;
     
-    @JoinColumn(name = "product_id", referencedColumnName="id")
-    @ManyToOne
-    private Product productId;
+    @Size(max = 1)
+    @Column(name = "inout_mode")
+    private String inoutMode; 
     
-   @Column(name = "batch_size")
-    private Double batchSize;
-   
-    @Size(max = 10)
-    @Column(name = "batch_no")
-    private String batchNo;
+    @Column(name = "unit_cost")
+    private Double unitCost;
     
-   @JoinColumn(name = "unit_id", referencedColumnName = "id")
-   @ManyToOne
-    private Unit unitId;
-   
+    @Column(name = "qty")
+    private Double qty;
+    
+    @Size(max = 100)
+    @Column(name = "lot_no")
+    private String lotNo;
+    
     @Column(name = "mfg_date")
     @Temporal(TemporalType.DATE)
     private Date mfgDate;
@@ -69,21 +64,41 @@ public class Mbr implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date expDate;
     
-    @Size(max = 15)
-    @Column(name = "po_no")
-    private String poNo;
+    @Size(max = 20)
+    @Column(name = "control_no")
+    private String controlNo;
     
-    @OneToMany(mappedBy = "mbrId")
+    @Size(max = 10)
+    @Column(name = "status")
+    private String status;
+    
+    @Size(max = 10)
+    @Column(name = "uom")
+    private String uom;
+    
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    @ManyToOne
+    private CompanyC companyId;
+    
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    @ManyToOne
+    private ItemC itemId;
+    
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
+    @ManyToOne
+    private WarehouseC warehouseId;
+    
+    @OneToMany(mappedBy = "stockCardId")
     private List<StockCardTxn> stockCardTxnList;
     
-    @Column(name = "status")
-    @Size(max = 20)
-    private String status;
+    @Column(name = "stock_status")
+    @Size(max = 10)
+    private String stockStatus;
 
-    public Mbr() {
+    public StockCardC() {
     }
 
-    public Mbr(Integer id) {
+    public StockCardC(Integer id) {
         this.id = id;
     }
 
@@ -95,36 +110,36 @@ public class Mbr implements Serializable {
         this.id = id;
     }
 
-    public Product getProductId() {
-        return productId;
+    public String getInoutMode() {
+        return inoutMode;
     }
 
-    public void setProductId(Product productId) {
-        this.productId = productId;
+    public void setInoutMode(String inoutMode) {
+        this.inoutMode = inoutMode;
     }
 
-    public Double getBatchSize() {
-        return batchSize;
+    public Double getUnitCost() {
+        return unitCost;
     }
 
-    public void setBatchSize(Double batchSize) {
-        this.batchSize = batchSize;
+    public void setUnitCost(Double unitCost) {
+        this.unitCost = unitCost;
     }
 
-    public String getBatchNo() {
-        return batchNo;
+    public Double getQty() {
+        return qty;
     }
 
-    public void setBatchNo(String batchNo) {
-        this.batchNo = batchNo;
+    public void setQty(Double qty) {
+        this.qty = qty;
     }
 
-    public Unit getUnitId() {
-        return unitId;
+    public String getLotNo() {
+        return lotNo;
     }
 
-    public void setUnitId(Unit unitId) {
-        this.unitId = unitId;
+    public void setLotNo(String lotNo) {
+        this.lotNo = lotNo;
     }
 
     public Date getMfgDate() {
@@ -143,12 +158,12 @@ public class Mbr implements Serializable {
         this.expDate = expDate;
     }
 
-    public String getPoNo() {
-        return poNo;
+    public String getControlNo() {
+        return controlNo;
     }
 
-    public void setPoNo(String poNo) {
-        this.poNo = poNo;
+    public void setControlNo(String controlNo) {
+        this.controlNo = controlNo;
     }
 
     public String getStatus() {
@@ -158,9 +173,40 @@ public class Mbr implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    
 
-    @XmlTransient
+    public String getUom() {
+        return uom;
+    }
+
+    public void setUom(String uom) {
+        this.uom = uom;
+    }
+
+    public CompanyC getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(CompanyC companyId) {
+        this.companyId = companyId;
+    }
+
+    public ItemC getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(ItemC itemId) {
+        this.itemId = itemId;
+    }
+
+    public WarehouseC getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(WarehouseC warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+  
     public List<StockCardTxn> getStockCardTxnList() {
         return stockCardTxnList;
     }
@@ -169,7 +215,15 @@ public class Mbr implements Serializable {
         this.stockCardTxnList = stockCardTxnList;
     }
 
-   
+    public String getStockStatus() {
+        return stockStatus;
+    }
+
+    public void setStockStatus(String stockStatus) {
+        this.stockStatus = stockStatus;
+    }
+    
+    
     
     
 
@@ -183,10 +237,10 @@ public class Mbr implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Mbr)) {
+        if (!(object instanceof StockCardC)) {
             return false;
         }
-        Mbr other = (Mbr) object;
+        StockCardC other = (StockCardC) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -195,7 +249,7 @@ public class Mbr implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.Mbr[ id=" + id + " ]";
+        return "entity.StockCard[ id=" + id + " ]";
     }
     
 }
