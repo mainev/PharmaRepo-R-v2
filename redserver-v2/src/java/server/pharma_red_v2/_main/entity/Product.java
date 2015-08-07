@@ -69,7 +69,7 @@ public class Product implements Serializable {
 
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne
-    private Client clientId;
+    private Company clientId;
 
     @JoinColumn(name = "pack_size_id", referencedColumnName = "id")
     @ManyToOne
@@ -186,11 +186,11 @@ public class Product implements Serializable {
         this.classificationId = classificationId;
     }
 
-    public Client getClientId() {
+    public Company getClientId() {
         return clientId;
     }
 
-    public void setClientId(Client clientId) {
+    public void setClientId(Company clientId) {
         this.clientId = clientId;
     }
 

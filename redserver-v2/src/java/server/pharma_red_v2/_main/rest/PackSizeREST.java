@@ -7,13 +7,13 @@ package server.pharma_red_v2._main.rest;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 import server.pharma_red_v2._main.entity.PackSize;
 import server.pharma_red_v2._main.facade.PackSizeFacade;
 
@@ -28,15 +28,15 @@ public class PackSizeREST {
 
     @Context
     private UriInfo context;
-    
+
     @Inject
     private PackSizeFacade packSizeFacade;
 
-  @POST
-    @Path("/create")
+    @POST
+    @Path("/pst_new_pack_size")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public PackSize create(PackSize packSizeId) {
+    public PackSize createNewPackSize(PackSize packSizeId) {
         return packSizeFacade.create(packSizeId);
     }
 }

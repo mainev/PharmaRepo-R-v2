@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.sqlsvr.Nutratech_DB.entity;
+package server.pharma_red_v2._main.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,24 +20,47 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author maine
  */
-@Entity()
-@Table(name = "cf_company")
+@Entity
+@Table(name = "company", schema = "main")
 @XmlRootElement
 public class Company implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
+    @Column(name = "id")
+    private Short id;
+
+    @Size(max = 50)
+    @Column(name = "name")
+    private String name;
+
+    @Size(max = 5)
     @Column(name = "code")
     private String code;
-    
-    @Size(max = 100)
-    @Column(name = "descs")
-    private String descs;
-    
-  
+
     public Company() {
+    }
+
+    public Company(Short id) {
+        this.id = id;
+    }
+
+    public Short getId() {
+        return id;
+    }
+
+    public void setId(Short id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCode() {
@@ -47,20 +71,10 @@ public class Company implements Serializable {
         this.code = code;
     }
 
-    public String getDescs() {
-        return descs;
-    }
-
-    public void setDescs(String descs) {
-        this.descs = descs;
-    }
-
-  
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (code != null ? code.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -71,7 +85,7 @@ public class Company implements Serializable {
             return false;
         }
         Company other = (Company) object;
-        if ((this.code == null && other.code != null) || (this.code != null && !this.code.equals(other.code))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -79,7 +93,7 @@ public class Company implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Company[ id=" + code + " ]";
+        return "server._main.entity.Client[ id=" + id + " ]";
     }
-    
+
 }

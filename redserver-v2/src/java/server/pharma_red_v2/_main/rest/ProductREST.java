@@ -9,15 +9,16 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 import server.pharma_red_v2._main.entity.PackagingMaterial;
 import server.pharma_red_v2._main.entity.Product;
 import server.pharma_red_v2._main.facade.ProductFacade;
@@ -33,9 +34,12 @@ public class ProductREST {
 
     @Context
     private UriInfo context;
-    
+
     @Context
     private HttpServletRequest request;
+
+    @Context
+    private SecurityContext sc;
 
     @Inject
     private ProductFacade productFacade;
@@ -46,23 +50,21 @@ public class ProductREST {
     public ProductREST() {
     }
 
-    /**
-     * Retrieves representation of an instance of server._main.rest.ProductREST
-     *
-     * @return an instance of java.lang.String
-     */
     @GET
+    @Path("/g_product_list")
     @Produces("application/json")
-    public List<Product> findAll() {
-        System.out.println("context: "+context);
-        System.out.println("context: "+context.getBaseUri());
-             System.out.println("requestURL: "+request.getRequestURL());
-              System.out.println("remoteHost: "+request.getRemoteHost());
+    public List<Product> getProductList() {
         return productFacade.findAll();
     }
 
     @GET
-    @Path("/getprimarypackaging")
+    @Path("/g_is_code_valid")
+    public Boolean isCodeValid(@QueryParam("code") String code) {
+        return productFacade.isCodeUnique(code);
+    }
+
+    @GET
+    @Path("/g_primary_packg")
     @Produces("application/json")
     @Consumes("application/json")
     public PackagingMaterial getPrimaryPackaging(@QueryParam("productId") String productId) {
@@ -71,7 +73,7 @@ public class ProductREST {
     }
 
     @GET
-    @Path("/getsecondarypackaging")
+    @Path("/g_secondary_packg")
     @Produces("application/json")
     @Consumes("application/json")
     public PackagingMaterial getSecondaryPackaging(@QueryParam("productId") String productId) {
@@ -80,32 +82,25 @@ public class ProductREST {
     }
 
     @GET
+    @Path("/g_product_by_id")
     @Produces("application/json")
-    @Path("/find_by_id")
-    public Product findById(@QueryParam("id") String id) {
+    public Product getProductById(@QueryParam("id") String id) {
         int productId = Integer.parseInt(id);
 
         return productFacade.findById(productId);
     }
 
-    @GET
-    @Path("/codevalidation")
-    public Boolean isCodeUnique(@QueryParam("code") String code) {
-        return productFacade.isCodeUnique(code);
-    }
-
     @POST
-    @Path("/create")
+    @Path("/pst_new_product")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Product create(Product product) {
-
+    public Product createNewProduct(Product product) {
         return productFacade.create(product);
     }
 
     @POST
-    @Path("/create_primary_secondary_packaging")
-    public void create(@QueryParam("product_id") String product_id,
+    @Path("/pst_prim_sec_packg")
+    public void createPrimarySecondaryPackg(@QueryParam("product_id") String product_id,
             @QueryParam("primary_id") String primary_id,
             @QueryParam("secondary_id") String secondary_id) {
 

@@ -14,8 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,29 +23,28 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @Entity
-@Table(name = "packaging_material", schema="main")
+@Table(name = "packaging_material", schema = "main")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PackagingMaterial.findAll", query = "SELECT p FROM PackagingMaterial p")})
 public class PackagingMaterial implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Size(max = 15)
     @Column(name = "code")
     private String code;
-    
+
     @Size(max = 100)
     @Column(name = "description")
     private String description;
-    
+
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne
-    private Client clientId;
+    private Company clientId;
 
     public PackagingMaterial() {
     }
@@ -80,11 +77,11 @@ public class PackagingMaterial implements Serializable {
         this.description = description;
     }
 
-    public Client getClientId() {
+    public Company getClientId() {
         return clientId;
     }
 
-    public void setClientId(Client clientId) {
+    public void setClientId(Company clientId) {
         this.clientId = clientId;
     }
 
@@ -112,5 +109,5 @@ public class PackagingMaterial implements Serializable {
     public String toString() {
         return "server._main.entity.PackagingMaterial[ id=" + id + " ]";
     }
-    
+
 }

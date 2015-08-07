@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,22 +21,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @Entity
-@Table(name = "equipment", schema="main")
+@Table(name = "equipment", schema = "main")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e")})
 public class Equipment implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    
+
     @Size(max = 15)
     @Column(name = "code")
     private String code;
-    
+
     @Size(max = 100)
     @Column(name = "name")
     private String name;
@@ -98,5 +95,5 @@ public class Equipment implements Serializable {
     public String toString() {
         return "server._main.entity.Equipment[ id=" + id + " ]";
     }
-    
+
 }

@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,26 +21,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @Entity
-@Table(name = "container", schema="main")
+@Table(name = "container", schema = "main")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Container.findAll", query = "SELECT c FROM Container c")})
 public class Container implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    
+
     @Size(max = 20)
     @Column(name = "name")
     private String name;
-    
-    /*
-    @OneToMany(mappedBy = "containerId")
-    private List<PackSize> packSizeList;
-*/
+
     public Container() {
     }
 
@@ -65,16 +58,6 @@ public class Container implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    /*
-    @XmlTransient
-    public List<PackSize> getPackSizeList() {
-        return packSizeList;
-    }
-
-    public void setPackSizeList(List<PackSize> packSizeList) {
-        this.packSizeList = packSizeList;
-    }*/
 
     @Override
     public int hashCode() {
@@ -100,5 +83,5 @@ public class Container implements Serializable {
     public String toString() {
         return "server._main.entity.Container[ id=" + id + " ]";
     }
-    
+
 }

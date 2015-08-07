@@ -8,14 +8,11 @@ package server.pharma_red_v2._main.rest;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import server.pharma_red_v2._main.entity.PackagingMaterial;
 import server.pharma_red_v2._main.facade.PackagingMaterialFacade;
 
@@ -40,17 +37,11 @@ public class PackagingMaterialREST {
     public PackagingMaterialREST() {
     }
 
-    /**
-     * Retrieves representation of an instance of
-     * server._main.rest.PackagingMaterialREST
-     *
-     * @return an instance of java.lang.String
-     */
     @GET
+    @Path("/g_packg_material_list")
     @Produces("application/json")
-    public List<PackagingMaterial> findAll() {
+    public List<PackagingMaterial> getPackgMaterialList() {
         return packagingMaterialFacade.findAll();
     }
 
-   
 }

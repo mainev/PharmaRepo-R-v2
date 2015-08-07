@@ -3,44 +3,48 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.pharma_red_v2._main.entity;
+package server.pharma_red_v2.security.entity;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author maine
  */
 @Entity
-@Table(name = "area", schema = "main")
+@Table(name = "method", schema = "security")
 @XmlRootElement
-public class Area implements Serializable {
+public class Method implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Short id;
 
-    @Size(max = 50)
     @Column(name = "name")
+    @Size(max = 100)
     private String name;
 
-    public Area() {
-    }
+    @Column(name = "description")
+    @Size(max = 500)
+    private String description;
 
-    public Area(Short id) {
-        this.id = id;
+    @ManyToMany(mappedBy = "methodList")
+    private List<Role> roleList;
+
+    public Method() {
     }
 
     public Short getId() {
@@ -59,16 +63,23 @@ public class Area implements Serializable {
         this.name = name;
     }
 
-    /*
-     @XmlTransient
-     public List<Product> getProductList() {
-     return productList;
-     }
+    public String getDescription() {
+        return description;
+    }
 
-     public void setProductList(List<Product> productList) {
-     this.productList = productList;
-     }
-     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @XmlTransient
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -79,10 +90,10 @@ public class Area implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Area)) {
+        if (!(object instanceof Method)) {
             return false;
         }
-        Area other = (Area) object;
+        Method other = (Method) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +102,7 @@ public class Area implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Area[ id=" + id + " ]";
+        return "server.pharma_red_v2.security.entity.Method[ id=" + id + " ]";
     }
 
 }

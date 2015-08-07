@@ -8,14 +8,14 @@ package server.pharma_red_v2.mbr.rest;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 import server.pharma_red_v2.mbr.entity.Udf;
 import server.pharma_red_v2.mbr.facade.UdfFacade;
 
@@ -42,18 +42,18 @@ public class UdfREST {
 
     @GET
     @Produces("application/json")
-    @Path("/find_by_id")
-    public Udf findById(@QueryParam("id") String id) {
+    @Path("/g_udf_by_id")
+    public Udf getUdfById(@QueryParam("id") String id) {
         int udfId = Integer.parseInt(id);
 
         return udfFacade.findById(udfId);
     }
 
     @POST
-    @Path("/create")
+    @Path("/pst_new_udf")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Udf create(Udf udfId) {
+    public Udf createNewUdf(Udf udfId) {
 
         return udfFacade.createUdf(udfId);
     }

@@ -55,7 +55,7 @@ public class RawMaterial implements Serializable {
     
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne
-    private Client clientId;
+    private Company clientId;
 
     public RawMaterial() {
     }
@@ -104,11 +104,11 @@ public class RawMaterial implements Serializable {
         this.classificationId = classificationId;
     }
 
-    public Client getClientId() {
+    public Company getClientId() {
         return clientId;
     }
 
-    public void setClientId(Client clientId) {
+    public void setClientId(Company clientId) {
         this.clientId = clientId;
     }
 

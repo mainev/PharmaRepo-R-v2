@@ -43,37 +43,36 @@ public class StockCardCREST {
     }
 
     @GET
-    @Path("/get_stock_card_by_id")
-    @Produces("application/json")
-    public StockCardC getStockCardById(@QueryParam("id") String id) {
-        return facade.findById(Integer.parseInt(id));
-    }
-
-    @GET
-    @Path("/get_stock_card_by_item_cd")
+    @Path("/g_stock_card_by_item_cd")
     @Produces("application/json")
     public List<StockCardC> getStockCardByItemCd(@QueryParam("item_cd") String item_cd) {
         return facade.findStockCardByItemCd(item_cd);
     }
 
     @GET
-    @Path("/get_stock_card_by_company_cd_and_item_cd")
+    @Path("/g_stock_card_by_id")
+    @Produces("application/json")
+    public StockCardC getStockCardById(@QueryParam("id") String id) {
+        return facade.findById(Integer.parseInt(id));
+    }
+
+    @GET
+    @Path("/g_stock_card_by_company_cd_and_item_cd")
     @Produces("application/json")
     public List<StockCardC> getStockCardByCompanyCdAndItemCd(@QueryParam("company_cd") String company_cd, @QueryParam("item_cd") String item_cd) {
         return facade.findStockCardByCompanyCdAndItemCd(company_cd, item_cd);
     }
 
     @POST
-    @Path("/change_stock_card_status")
-    public void changeStockCardStatus(@QueryParam("stk_id") String stk_id) {
-        //System.out.println("hehe");
+    @Path("/pst_change_stock_card_status")
+    public void changeStockCardStatusToDepleted(@QueryParam("stk_id") String stk_id) {
         facade.updateStockCardStatusToDepleted(Integer.parseInt(stk_id));
     }
 
     @GET
-    @Path("/get_by_control_no")
+    @Path("/g_stockcard_by_control_no")
     @Produces("application/json")
-    public StockCardC getByControlNo(@QueryParam("control_no") String controlNo) {
+    public StockCardC getStockCardByControlNo(@QueryParam("control_no") String controlNo) {
         return facade.findByControlNo(controlNo);
     }
 

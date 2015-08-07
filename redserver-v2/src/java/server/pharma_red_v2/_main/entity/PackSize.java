@@ -14,8 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,29 +22,24 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @Entity
-@Table(name = "pack_size", schema="main")
+@Table(name = "pack_size", schema = "main")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PackSize.findAll", query = "SELECT p FROM PackSize p")})
 public class PackSize implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Column(name = "quantity")
     private double quantity;
-    
-    /*
-    @OneToMany(mappedBy = "packSizeId")
-    private List<Product> productList;
-    */
+
     @JoinColumn(name = "container_id", referencedColumnName = "id")
     @ManyToOne
     private Container containerId;
-    
+
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
     @ManyToOne
     private Unit unitId;
@@ -75,15 +68,14 @@ public class PackSize implements Serializable {
     }
 
     /*
-    @XmlTransient
-    public List<Product> getProductList() {
-        return productList;
-    }
+     @XmlTransient
+     public List<Product> getProductList() {
+     return productList;
+     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }*/
-
+     public void setProductList(List<Product> productList) {
+     this.productList = productList;
+     }*/
     public Container getContainerId() {
         return containerId;
     }
@@ -124,5 +116,5 @@ public class PackSize implements Serializable {
     public String toString() {
         return "server._main.entity.PackSize[ id=" + id + " ]";
     }
-    
+
 }

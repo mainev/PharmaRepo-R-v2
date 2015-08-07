@@ -9,19 +9,19 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import server.pharma_red_v2._main.entity.Client;
+import server.pharma_red_v2._main.entity.Company;
 
 /**
  *
  * @author maine
  */
 @Stateless
-public class ClientFacade {
+public class CompanyFacade {
 
-     @PersistenceContext(unitName = "RedServer-v2PU")
+    @PersistenceContext(unitName = "RedServer-v2PU")
     private EntityManager em;
 
-    public List<Client> findAll() {
-        return em.createQuery("SELECT c from Client c").getResultList();
+    public List<Company> findAll() {
+        return em.createQuery("SELECT c from Company c").getResultList();
     }
 }

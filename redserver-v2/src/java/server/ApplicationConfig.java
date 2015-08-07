@@ -23,15 +23,15 @@ public class ApplicationConfig extends Application {
     }
 
     /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
+     * Do not modify addRestResourceClasses() method. It is automatically
+     * populated with all resources defined in the project. If required, comment
+     * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(filter.AuthenticatorREST.class);
         resources.add(server.pharma_red_v2._main.rest.AreaREST.class);
         resources.add(server.pharma_red_v2._main.rest.ClassificationREST.class);
-        resources.add(server.pharma_red_v2._main.rest.ClientREST.class);
+        resources.add(server.pharma_red_v2._main.rest.CompanyREST.class);
         resources.add(server.pharma_red_v2._main.rest.ContainerREST.class);
         resources.add(server.pharma_red_v2._main.rest.EquipmentREST.class);
         resources.add(server.pharma_red_v2._main.rest.PackSizeREST.class);
@@ -50,6 +50,7 @@ public class ApplicationConfig extends Application {
         resources.add(server.pharma_red_v2.mbr.rest.PowderFillingREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.RawMaterialRequirementREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.UdfREST.class);
+        resources.add(server.pharma_red_v2.security.rest.UserREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.CompanyCREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemCREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemCategoryCREST.class);
@@ -58,14 +59,6 @@ public class ApplicationConfig extends Application {
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.StockCardCREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.WarehouseCREST.class);
         resources.add(server.pharma_red_v2.transaction.rest.StockCardTxnREST.class);
-        resources.add(server.sample.User2REST.class);
-        resources.add(server.sqlsvr.Nutratech_DB.rest.CompanyREST.class);
-        resources.add(server.sqlsvr.Nutratech_DB.rest.ItemCategoryREST.class);
-        resources.add(server.sqlsvr.Nutratech_DB.rest.ItemClassREST.class);
-        resources.add(server.sqlsvr.Nutratech_DB.rest.ItemREST.class);
-        resources.add(server.sqlsvr.Nutratech_DB.rest.ItemTypeREST.class);
-        resources.add(server.sqlsvr.Nutratech_DB.rest.StockCardREST.class);
-        resources.add(server.sqlsvr.Nutratech_DB.rest.WarehouseREST.class);
     }
-    
+
 }

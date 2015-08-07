@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,28 +21,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @Entity
-@Table(name = "classification", schema="main")
+@Table(name = "classification", schema = "main")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Classification.findAll", query = "SELECT c FROM Classification c")})
 public class Classification implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    
+
     @Size(max = 15)
     @Column(name = "description")
     private String description;
-    
-    /*
-    @OneToMany(mappedBy = "classificationId")
-    private List<RawMaterial> rawMaterialList;
-    @OneToMany(mappedBy = "classificationId")
-    private List<Product> productList;
-    */
 
     public Classification() {
     }
@@ -68,24 +58,24 @@ public class Classification implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-/*
-    @XmlTransient
-    public List<RawMaterial> getRawMaterialList() {
-        return rawMaterialList;
-    }
+    /*
+     @XmlTransient
+     public List<RawMaterial> getRawMaterialList() {
+     return rawMaterialList;
+     }
 
-    public void setRawMaterialList(List<RawMaterial> rawMaterialList) {
-        this.rawMaterialList = rawMaterialList;
-    }
+     public void setRawMaterialList(List<RawMaterial> rawMaterialList) {
+     this.rawMaterialList = rawMaterialList;
+     }
 
-    @XmlTransient
-    public List<Product> getProductList() {
-        return productList;
-    }
+     @XmlTransient
+     public List<Product> getProductList() {
+     return productList;
+     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }*/
+     public void setProductList(List<Product> productList) {
+     this.productList = productList;
+     }*/
 
     @Override
     public int hashCode() {
@@ -111,5 +101,5 @@ public class Classification implements Serializable {
     public String toString() {
         return "server._main.entity.Classification[ id=" + id + " ]";
     }
-    
+
 }
