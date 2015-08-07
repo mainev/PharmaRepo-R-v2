@@ -7,33 +7,35 @@ package mbrinstant.controller.product.ProductWizard;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import mbrinstant.controls.CustomTextField;
-import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomChoiceBox;
+import mbrinstant.controls.CustomTextField;
 import mbrinstant.controls.IntegerTextField;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Classification;
-import mbrinstant.entity.main.Client;
+import mbrinstant.entity.main.Company;
 import mbrinstant.entity.main.Container;
 import mbrinstant.entity.main.PackSize;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
-import mbrinstant.entity.mbr.Udf;
-import mbrinstant.service.main.AreaService;
-import mbrinstant.service.main.ClassificationService;
-import mbrinstant.service.main.ClientService;
-import mbrinstant.service.main.ContainerService;
-import mbrinstant.service.main.PackSizeService;
-import mbrinstant.service.main.ProductService;
-import mbrinstant.service.main.UnitService;
-import mbrinstant.service.mbr.ManufacturingProcedureService;
-import mbrinstant.service.mbr.UdfService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonAreaRestClient;
+import mbrinstant.rest_client.main.SingletonClassificationRestClient;
+import mbrinstant.rest_client.main.SingletonCompanyRestClient;
+import mbrinstant.rest_client.main.SingletonContainerRestClient;
+import mbrinstant.rest_client.main.SingletonPackSizeRestClient;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.mbr.SingletonMfgProcedureRestClient;
+import mbrinstant.rest_client.mbr.SingletonUdfRestClient;
 
 /**
  * FXML Controller class
@@ -55,7 +57,7 @@ public class MainDetailsController implements Initializable, PageController {
     @FXML
     CustomChoiceBox<Classification> classificationChoiceBox;
     @FXML
-    CustomChoiceBox<Client> clientChoiceBox;
+    CustomChoiceBox<Company> clientChoiceBox;
     @FXML
     CustomTextField vrNoTextField;
     @FXML
@@ -75,45 +77,50 @@ public class MainDetailsController implements Initializable, PageController {
     @FXML
     CustomChoiceBox<Unit> udfUnit;
 
-    //services
-    ClassificationService classificationService = new ClassificationService();
-    ClientService clientService = new ClientService();
-    AreaService areaService = new AreaService();
-    UnitService unitService = new UnitService();
-    ContainerService containerService = new ContainerService();
-    ProductService productService = new ProductService();
-    PackSizeService packSizeService = new PackSizeService();
-    UdfService udfService = new UdfService();
-    ManufacturingProcedureService manufacturingProcedureService = new ManufacturingProcedureService();
+    //rest client
+    SingletonProductRestClient productRestClient = SingletonProductRestClient.getInstance();
+    SingletonUnitRestClient unitRestClient = SingletonUnitRestClient.getInstance();
+    SingletonAreaRestClient areaRestClient = SingletonAreaRestClient.getInstance();
+    SingletonClassificationRestClient classfRestClient = SingletonClassificationRestClient.getInstance();
+    SingletonCompanyRestClient companyRestClient = SingletonCompanyRestClient.getInstance();
+    SingletonContainerRestClient containerService = SingletonContainerRestClient.getInstance();
+    SingletonPackSizeRestClient packSizeService = SingletonPackSizeRestClient.getInstance();
+    SingletonMfgProcedureRestClient manufacturingProcedureService = SingletonMfgProcedureRestClient.getInstance();
+    SingletonUdfRestClient udfService = SingletonUdfRestClient.getInstance();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        classificationChoiceBox.setItems(classificationService.getClassificationList());
-        clientChoiceBox.setItems(clientService.getClientList());
-        areaChoiceBox.setItems(areaService.getAreaList());
-        packSizeUnit.setItems(unitService.getUnitList());
-        packSizeContainer.setItems(containerService.getContainerList());
-        udfUnit.setItems(unitService.getUnitList());
-
-        initCodeTextField();
-        createValidator();
+        try {
+            initFields();
+            initCodeTextField();
+            createValidator();
+        } catch (ServerException ex) {
+            Logger.getLogger(MainDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public PackSize createFinalPackSize() {
-        return packSizeService.createPackSize(packSizeQty.getValue(), packSizeUnit.getValue(), packSizeContainer.getValue());
+    public void initFields() throws ServerException {
+        classificationChoiceBox.setItems(classfRestClient.getClassificationList());
+        clientChoiceBox.setItems(companyRestClient.getCompanyList());
+        areaChoiceBox.setItems(areaRestClient.getAreaList());
+        packSizeUnit.setItems(unitRestClient.getUnitList());
+        packSizeContainer.setItems(containerService.getContainerList());
+        udfUnit.setItems(unitRestClient.getUnitList());
+    }
+
+    public PackSize createFinalPackSize() throws ServerException {
+        return packSizeService.createNewPackSize(packSizeQty.getValue(), packSizeUnit.getValue(), packSizeContainer.getValue());
     }
     private Product finalProduct;
 
-   
-    public Product getFinalProduct() {
-        return productService.getProductById(finalProduct.getId());
+    public Product getFinalProduct() throws ServerException {
+        return productRestClient.getProductById(finalProduct.getId());
     }
 
-    public void createFinalProduct() {
+    public void createFinalProduct() throws ServerException {
         if (validator.validateFields()) {
             String code = productCodeTextField.getText();
             String brandName = brandNameTextField.getText();
@@ -122,27 +129,31 @@ public class MainDetailsController implements Initializable, PageController {
             short shelfLife = (short) shelfLifeTextField.getValue();
             Area areaId = areaChoiceBox.getValue();
             Classification classificationId = classificationChoiceBox.getValue();
-            Client clientId = clientChoiceBox.getValue();
+            Company clientId = clientChoiceBox.getValue();
             PackSize packSizeId = createFinalPackSize();
-            
-            finalProduct = productService.create(code, brandName, genericName, vrNo, shelfLife, areaId, classificationId, clientId, packSizeId);
-            System.out.println("product created in db: "+finalProduct);
-            udfService.createUdf(finalProduct.getId(), udfContent.getValue(), udfUnit.getValue());
-            manufacturingProcedureService.create(finalProduct);
+
+            finalProduct = productRestClient.createNewProduct(code, brandName, genericName, vrNo, shelfLife, areaId, classificationId, clientId, packSizeId);
+            System.out.println("product created in db: " + finalProduct);
+            udfService.createNewUdf(finalProduct.getId(), udfContent.getValue(), udfUnit.getValue());
+            manufacturingProcedureService.createNewMfgProcedure(finalProduct);
         }
     }
 
-    private void initCodeTextField() {
+    private void initCodeTextField() throws ServerException {
 
         productCodeTextField.textProperty().addListener((ob, ov, nv) -> {
             if (!nv.isEmpty()) {
-                if (productService.isCodeUnique(nv)) {
-                    codeValidationStatusLabel.setText("Code '" + nv + "' is available.");
-                    codeValidationStatusLabel.setTextFill(Color.web("green"));
+                try {
+                    if (productRestClient.isCodeValid(nv)) {
+                        codeValidationStatusLabel.setText("Code '" + nv + "' is available.");
+                        codeValidationStatusLabel.setTextFill(Color.web("green"));
 
-                } else {
-                    codeValidationStatusLabel.setText("Code '" + nv + "' is already used. Please use another code.");
-                    codeValidationStatusLabel.setTextFill(Color.web("red"));
+                    } else {
+                        codeValidationStatusLabel.setText("Code '" + nv + "' is already used. Please use another code.");
+                        codeValidationStatusLabel.setTextFill(Color.web("red"));
+                    }
+                } catch (ServerException ex) {
+                    Logger.getLogger(MainDetailsController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 codeValidationStatusLabel.setText(null);
@@ -175,7 +186,12 @@ public class MainDetailsController implements Initializable, PageController {
 
     @Override
     public boolean allFieldsValid() {
-        return validator.validateFields() && productService.isCodeUnique(productCodeTextField.getText());
+        try {
+            return validator.validateFields() && productRestClient.isCodeValid(productCodeTextField.getText());
+        } catch (ServerException ex) {
+            Logger.getLogger(MainDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override

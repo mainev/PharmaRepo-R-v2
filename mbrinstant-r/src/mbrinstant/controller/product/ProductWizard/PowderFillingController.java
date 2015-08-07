@@ -29,7 +29,8 @@ import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomTextArea;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.PowderFillingProcedure;
-import mbrinstant.service.mbr.PowderFillingService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.mbr.SingletonPowderFillingRestClient;
 
 /**
  * FXML Controller class
@@ -62,22 +63,25 @@ public class PowderFillingController implements Initializable, PageController {
     @FXML
     TableColumn colCheckedBy;
 
+    //rest client
+    SingletonPowderFillingRestClient powderFillingService = SingletonPowderFillingRestClient.getInstance();
+
     ConstraintValidator validator;
     ObservableList<PowderFillingProcedure> powderFillingList = FXCollections.observableArrayList();
-    PowderFillingService powderFillingService = new PowderFillingService();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         createValidator();
         initPowderFillingTable();
-        
-        addButton.setOnAction(e->{
-            if(validator.validateFields()){
+
+        addButton.setOnAction(e -> {
+            if (validator.validateFields()) {
                 PowderFillingProcedure proc = new PowderFillingProcedure(getStepInstruction(), containsEquipment(), getDoneBy(), getCheckedBy());
                 powderFillingList.add(proc);
             }
         });
-        
-         powderFillingList.addListener(new ListChangeListener() {
+
+        powderFillingList.addListener(new ListChangeListener() {
             @Override
             public void onChanged(ListChangeListener.Change c) {
                 short i = 1;
@@ -89,11 +93,11 @@ public class PowderFillingController implements Initializable, PageController {
             }
         });
     }
-    
-      public void createPackagingOperations(ManufacturingProcedure mfg){
-        if(!powderFillingList.isEmpty()){
-            for(PowderFillingProcedure p : powderFillingList){
-                powderFillingService.createPowderFilling(mfg.getId(), p);
+
+    public void createPackagingOperations(ManufacturingProcedure mfg) throws ServerException {
+        if (!powderFillingList.isEmpty()) {
+            for (PowderFillingProcedure p : powderFillingList) {
+                powderFillingService.createNewPowderFilling(mfg.getId(), p);
             }
         }
     }
@@ -117,7 +121,7 @@ public class PowderFillingController implements Initializable, PageController {
                 return new ActionCell();
             }
         });
-        
+
         colInstruction.setCellValueFactory(
                 new Callback<TableColumn.CellDataFeatures<PowderFillingProcedure, PowderFillingProcedure>, ObservableValue<PowderFillingProcedure>>() {
                     @Override
@@ -132,28 +136,27 @@ public class PowderFillingController implements Initializable, PageController {
                 return new InstructionCell();
             }
         });
-        
+
     }
-    
-     class InstructionCell extends TableCell<PowderFillingProcedure, PowderFillingProcedure> {
+
+    class InstructionCell extends TableCell<PowderFillingProcedure, PowderFillingProcedure> {
 
         @Override
         protected void updateItem(PowderFillingProcedure cp, boolean empty) {
             super.updateItem(cp, empty);
             if (cp != null) {
                 String instruction = cp.getInstruction();
-                if (cp.isRequiresEquipment()){
+                if (cp.isRequiresEquipment()) {
                     instruction = instruction + "\n\n(Contains powder filling procedure equipments)";
                 }
                 setGraphic(new Label(instruction));
-            }
-             else {
+            } else {
                 setGraphic(null);
             }
         }
     }
-    
-      class ActionCell extends TableCell<PowderFillingProcedure, Boolean> {
+
+    class ActionCell extends TableCell<PowderFillingProcedure, Boolean> {
 
         HBox hbox = new HBox();
         Button delete = new Button("Remove");
@@ -180,16 +183,20 @@ public class PowderFillingController implements Initializable, PageController {
             }
         }
     }
-    private String getCheckedBy(){
+
+    private String getCheckedBy() {
         return checkedBy.getText();
     }
-    private String getDoneBy(){
+
+    private String getDoneBy() {
         return doneBy.getText();
     }
-    private boolean containsEquipment(){
+
+    private boolean containsEquipment() {
         return requiresEquipmentCheckBox.isSelected();
     }
-    private String getStepInstruction(){
+
+    private String getStepInstruction() {
         return instruction.getText();
     }
 

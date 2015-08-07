@@ -5,9 +5,10 @@
  */
 package mbrinstant.controller.product;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,40 +18,30 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import mbrinstant.controls.MyNotifications;
-import mbrinstant.controls.TextFieldWithSearch;
-import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Product;
-import mbrinstant.entity.main.RawMaterial;
-import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.PackagingOperation;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
-import mbrinstant.entity.mbr.Udf;
-import mbrinstant.service.main.PackagingMaterialService;
-import mbrinstant.service.main.RawMaterialService;
-import mbrinstant.service.main.UnitService;
-import mbrinstant.service.mbr.EquipmentRequirementService;
-import mbrinstant.service.mbr.PackagingMaterialRequirementService;
-import mbrinstant.service.mbr.RawMaterialRequirementService;
-import mbrinstant.service.mbr.UdfService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
+import mbrinstant.rest_client.main.SingletonRawMaterialRestClient;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.mbr.SingletonEquipmentRequirementRestClient;
+import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
+import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;
+import mbrinstant.rest_client.mbr.SingletonUdfRestClient;
 
 /**
  * FXML Controller class
@@ -70,11 +61,6 @@ public class DetailsController implements Initializable {
     //raw material requirements pane
     @FXML
     HBox rmReqHbox;
-    TextFieldWithSearch<RawMaterial> rmReqTextField;
-    @FXML
-    TextField rmReqQty;
-    @FXML
-    ChoiceBox<Unit> rmReqUnit;
 
     @FXML
     TableView<RawMaterialRequirement> rawMaterialReqTable;
@@ -86,18 +72,10 @@ public class DetailsController implements Initializable {
     TableColumn<RawMaterialRequirement, String> colProductFormulationRMMaterial;
     @FXML
     TableColumn colProductFormulationRMAction;
-    @FXML
-    Button addRmReqButton;
-    //packaging material requirements pane
+
     @FXML
     HBox pmReqHbox;
-    TextFieldWithSearch<PackagingMaterial> pmReqTextField;
-    @FXML
-    TextField pmReqQty;
-    @FXML
-    ChoiceBox<Unit> pmReqUnit;
-    @FXML
-    Button addPmReqButton;
+
     @FXML
     TableView<PackagingMaterialRequirement> packagingMaterialReqTable;
     @FXML
@@ -141,73 +119,53 @@ public class DetailsController implements Initializable {
     TableColumn<EquipmentRequirement, String> colEquipmentRequirementName;
     /*END OF EQUIPMENT REQUIREMENTS PANE*/
 
+    //rest client
+    SingletonUnitRestClient unitRestClient = SingletonUnitRestClient.getInstance();
+    SingletonPackgMaterialRestClient packagingMaterialService = SingletonPackgMaterialRestClient.getInstance();
+    SingletonRawMaterialRestClient rawMaterialService = SingletonRawMaterialRestClient.getInstance();
+    SingletonEquipmentRequirementRestClient equipmentRequirementService = SingletonEquipmentRequirementRestClient.getInstance();
+    SingletonPackgMaterialRequirementRestClient pmReqService = SingletonPackgMaterialRequirementRestClient.getInstance();
+    SingletonRawMaterialRequirementRestClient rmReqService = SingletonRawMaterialRequirementRestClient.getInstance();
+    SingletonUdfRestClient udfService = SingletonUdfRestClient.getInstance();
+
     Product product;
-    RawMaterialService rawMaterialService = new RawMaterialService();
-    PackagingMaterialService packagingMaterialService = new PackagingMaterialService();
-    CompoundingProcedureTableFactory compoundingProcedureTableFactory = new CompoundingProcedureTableFactory();
-    EquipmentRequirementService equipmentRequirementService = new EquipmentRequirementService();
-    UnitService unitService = new UnitService();
-    RawMaterialRequirementService rmReqService = new RawMaterialRequirementService();
-    PackagingMaterialRequirementService pmReqService = new PackagingMaterialRequirementService();
-    UdfService udfService = new UdfService();
+
+    CompoundingProcedureTableFactory compoundingProcedureTableFactory;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        codeLabel.setText(product.getCode());
-        brandNameLabel.setText(product.getBrandName());
 
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                closeProductDetailsDialog();
-            }
-        });
+        try {
+            compoundingProcedureTableFactory = new CompoundingProcedureTableFactory();
 
-        initProductFormulationPane();
-        initCompoundingProcedurePane();
-        initEquipmentRequirementPane();
-        initPackagingProcedurePane();
+            codeLabel.setText(product.getCode());
+            brandNameLabel.setText(product.getBrandName());
+
+            closeButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    closeProductDetailsDialog();
+                }
+            });
+
+            initProductFormulationPane();
+            initCompoundingProcedurePane();
+            initEquipmentRequirementPane();
+            initPackagingProcedurePane();
+        } catch (ServerException ex) {
+            Logger.getLogger(DetailsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
-    private void initProductFormulationPane() {
-      //  initUdfChoiceBox();
+    private void initProductFormulationPane() throws ServerException {
+        //  initUdfChoiceBox();
         initRawMaterialRequirementTable();
         initPackagingMaterialRequirementTable();
 
-        //for adding new raw material requirement
-        rmReqTextField = new TextFieldWithSearch(rawMaterialService.getRawMaterialList());
-        rmReqTextField.setPrefWidth(200);
-        rmReqTextField.setTextFieldMargin(13, 0, 0, 0);
-        rmReqHbox.getChildren().add(1, rmReqTextField);
-        rmReqUnit.setItems(unitService.getUnitList());
-        addRmReqButton.setOnAction(e -> {
-            MyNotifications.displayWarning("function not implemented");
-//            RawMaterial rm = rmReqTextField.getSelectedItem();
-//            double qty = Double.parseDouble(rmReqQty.getText());
-//            Unit unit = rmReqUnit.getValue();
-//            rmReqService.createRawMaterialRequirement(product.getUdfId().getId(), rm, qty, unit, (short)0);
-//            initRawMaterialRequirementTable();
-        });
-
-        /*
-        //for adding packaging material requirement
-        pmReqTextField = new TextFieldWithSearch(packagingMaterialService.getPackagingMaterialList());
-        pmReqTextField.setPrefWidth(200);
-        pmReqTextField.setTextFieldMargin(13, 0, 0, 0);
-        pmReqHbox.getChildren().add(1, pmReqTextField);
-        pmReqUnit.setItems(unitService.getUnitList());
-        addPmReqButton.setOnAction(e -> {
-            PackagingMaterial pm = pmReqTextField.getSelectedItem();
-            double qty = Double.parseDouble(pmReqQty.getText());
-            Unit unit = pmReqUnit.getValue();
-            pmReqService.createPackagingMaterialRequirement(product.getUdfId().getId(), pm, qty, unit);
-            initPackagingMaterialRequirementTable();
-        });
-                */
     }
 
     private void initCompoundingProcedurePane() {
@@ -217,41 +175,19 @@ public class DetailsController implements Initializable {
         colCompoundingProcedureCheckedBy.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCheckedBy()));
 
         //this will set all cell factory & cell value factory for the following table cells of compounding procedure
-      
         initHeaderCell();
         initFooterCell();
         initDosageCell();
 
-        addCompoundingProcedureButton.setOnAction(e -> {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mbrinstant/view/compounding_procedure/new.fxml"));
-                mbrinstant.controller.compounding_procedure.NewController controller;
-                controller = new mbrinstant.controller.compounding_procedure.NewController();
-                controller.setProduct(product);
-                fxmlLoader.setController(controller);
-                Parent root1 = (Parent) fxmlLoader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Add Compounding Procedure");
-                stage.setResizable(false);
-                stage.setScene(new Scene(root1));
-                stage.show();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-
-            }
-        });
-
     }
 
-    private void initRawMaterialRequirementTable() {
-        rawMaterialReqTable.setItems(FXCollections.observableArrayList(rmReqService.getByUdfId(product.getUdfId().getId())));
+    private void initRawMaterialRequirementTable() throws ServerException {
+        rawMaterialReqTable.setItems(FXCollections.observableArrayList(rmReqService.getRawMaterialRequirementByUdfId(product.getUdfId().getId())));
     }
 
-    private void initPackagingMaterialRequirementTable() {
-        packagingMaterialReqTable.setItems(FXCollections.observableArrayList(pmReqService.getByUdfId(product.getUdfId().getId())));
+    private void initPackagingMaterialRequirementTable() throws ServerException {
+        packagingMaterialReqTable.setItems(FXCollections.observableArrayList(pmReqService.getPackgMaterialReqByUdfId(product.getUdfId().getId())));
     }
-
 
     public void closeProductDetailsDialog() {
         Stage stage = (Stage) closeButton.getScene().getWindow();
@@ -318,15 +254,12 @@ public class DetailsController implements Initializable {
         });
     }
 
-   
-
-
     public static String COMPOUNDING = "COMPOUNDING";
     public static String ENCAP = "ENCAPSULATION";
     public static String CODING = "CODING";
     public static String PACKG_PROC = "PACK'G PROCEDURE";
 
-    private void initEquipmentRequirementPane() {
+    private void initEquipmentRequirementPane() throws ServerException {
 
         initProcedureChoiceBox();
         initEquipmentRequirementTable();
@@ -337,16 +270,20 @@ public class DetailsController implements Initializable {
         procedureChoiceBox.getSelectionModel().selectFirst();
 
         procedureChoiceBox.valueProperty().addListener((ob, ov, nv) -> {
-            equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getAllEquipmentRequirement(product.getManufacturingProcedureId().getId(), procedureChoiceBox.getValue())));
+            try {
+                equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getEquipmentByMfgIdAndProcedureType(product.getManufacturingProcedureId().getId(), procedureChoiceBox.getValue())));
+            } catch (ServerException ex) {
+                Logger.getLogger(DetailsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
-    private void initEquipmentRequirementTable() {
+    private void initEquipmentRequirementTable() throws ServerException {
         int mfgId = product.getManufacturingProcedureId().getId();
-        equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getAllEquipmentRequirement(mfgId, procedureChoiceBox.getValue())));
+        equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getEquipmentByMfgIdAndProcedureType(mfgId, procedureChoiceBox.getValue())));
         colEquipmentRequirementCode.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipmentId().getCode()));
         colEquipmentRequirementName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipmentId().getName()));
-   }
+    }
 
     @FXML
     TableView<PackagingOperation> packgProcOperationTable;
@@ -368,11 +305,11 @@ public class DetailsController implements Initializable {
         operationStep.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getStepNumber()));
 
         operationProcedure.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PackagingOperation, PackagingOperation>, ObservableValue<PackagingOperation>>() {
-                    @Override
-                    public ObservableValue<PackagingOperation> call(TableColumn.CellDataFeatures<PackagingOperation, PackagingOperation> cp) {
-                        return new ReadOnlyObjectWrapper(cp.getValue());
-                    }
-                });
+            @Override
+            public ObservableValue<PackagingOperation> call(TableColumn.CellDataFeatures<PackagingOperation, PackagingOperation> cp) {
+                return new ReadOnlyObjectWrapper(cp.getValue());
+            }
+        });
 
         operationProcedure.setCellFactory(new Callback<TableColumn<PackagingOperation, PackagingOperation>, TableCell<PackagingOperation, PackagingOperation>>() {
             @Override

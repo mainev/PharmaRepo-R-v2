@@ -7,6 +7,8 @@ package mbrinstant.controller.product.ProductWizard;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -23,7 +25,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomComboBox;
 import mbrinstant.controls.NumberTextField;
@@ -32,9 +33,10 @@ import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.entity.mbr.Udf;
-import mbrinstant.service.main.RawMaterialService;
-import mbrinstant.service.main.UnitService;
-import mbrinstant.service.mbr.RawMaterialRequirementService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonRawMaterialRestClient;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;
 
 /**
  * FXML Controller class
@@ -61,44 +63,49 @@ public class RawMaterialRequirementController implements Initializable, PageCont
     @FXML
     SearchTextField<RawMaterial> rmTextField;
 
-    //service
-    RawMaterialService rmService = new RawMaterialService();
-    UnitService unitService = new UnitService();
-    RawMaterialRequirementService rmReqService = new RawMaterialRequirementService();
+    //rest client
+    SingletonUnitRestClient unitService = SingletonUnitRestClient.getInstance();
+    SingletonRawMaterialRestClient rmService = SingletonRawMaterialRestClient.getInstance();
+    SingletonRawMaterialRequirementRestClient rmReqService = SingletonRawMaterialRequirementRestClient.getInstance();
 
     ObservableList<RawMaterialRequirement> rmReqTemporaryList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        partComboBox.setItems(FXCollections.observableArrayList(null, (short)1, (short)2, (short)3));
-        rmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
-        rmTextField.setItems(rmService.getRawMaterialList());
-        rmTextField.setPromptText("Type raw material here");
-        rmReqUnit.setItems(unitService.getUnitList());
-        initRmReqTable();
 
-        addButton.setOnAction(e -> {
-            if (validator.validateFields()) {
-                
-                RawMaterialRequirement temp = new RawMaterialRequirement(getRawMaterial(), getQuantity(), getUnit(), getPart());
-           System.out.println("hashcode is: "+temp.hashCode());
-                rmReqTemporaryList.add(temp);
-                clearFields();
-            }
-        });
-        createValidator();
+        try {
+            partComboBox.setItems(FXCollections.observableArrayList(null, (short) 1, (short) 2, (short) 3));
+            rmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
+            rmTextField.setItems(rmService.getRawMaterialList());
+            rmTextField.setPromptText("Type raw material here");
+            rmReqUnit.setItems(unitService.getUnitList());
+            initRmReqTable();
 
-    }
-    
-    private short getPart(){
-        if(partComboBox.getValue()==null){
-            return 0;
+            addButton.setOnAction(e -> {
+                if (validator.validateFields()) {
+
+                    RawMaterialRequirement temp = new RawMaterialRequirement(getRawMaterial(), getQuantity(), getUnit(), getPart());
+                    System.out.println("hashcode is: " + temp.hashCode());
+                    rmReqTemporaryList.add(temp);
+                    clearFields();
+                }
+            });
+            createValidator();
+        } catch (ServerException ex) {
+            Logger.getLogger(RawMaterialRequirementController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else
-            return partComboBox.getValue();
+
     }
 
-    public void createRawMaterialRequirements(Udf udfId) {
+    private short getPart() {
+        if (partComboBox.getValue() == null) {
+            return 0;
+        } else {
+            return partComboBox.getValue();
+        }
+    }
+
+    public void createRawMaterialRequirements(Udf udfId) throws ServerException {
         if (allFieldsValid()) {
             for (RawMaterialRequirement rmReq : rmReqTemporaryList) {
                 rmReqService.createRawMaterialRequirement(udfId.getId(), rmReq);
@@ -128,8 +135,6 @@ public class RawMaterialRequirementController implements Initializable, PageCont
     private Unit getUnit() {
         return rmReqUnit.getValue();
     }
-    
-    
 
     private void initRmReqTable() {
         colRawMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().toString()));

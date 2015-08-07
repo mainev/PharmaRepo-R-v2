@@ -21,14 +21,14 @@ public abstract class Serializer {
 
     public static <T> ObservableList<T> deserializeList(String json, Class<T> typeClass) {
         ObservableList<T> observableList = FXCollections.observableArrayList();
-          Gson gson = new GsonBuilder().setDateFormat(pattern).create();
+        Gson gson = new GsonBuilder().setDateFormat(pattern).create();
         List<T> datasets = gson.fromJson(json, new ListOfJson(typeClass));
         datasets.forEach(rm -> observableList.add(rm));
 
         return observableList;
     }
 
-     public static <T> T deserialize(String jsonOutput, Class<T> typeClass) {
+    public static <T> T deserialize(String jsonOutput, Class<T> typeClass) {
         Gson gson = new GsonBuilder().setDateFormat(pattern).create();
         T data = gson.fromJson(jsonOutput, typeClass);
         return data;

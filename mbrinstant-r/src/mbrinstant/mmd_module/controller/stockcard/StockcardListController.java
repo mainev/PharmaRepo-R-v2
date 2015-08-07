@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.sqlsvr_copy.StockCardC;
 import mbrinstant.entity.transaction.StockCardTxn;
-import mbrinstant.service.sqlsvr_copy.SStockCardService;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
 import mbrinstant.utils.DateFormatter;
 
 /**
@@ -53,6 +53,9 @@ public class StockcardListController implements Initializable {
 
     SimpleBooleanProperty displayInfo = new SimpleBooleanProperty();
 
+    //rest client
+    SingletonStockCardRestClient stockCardRestClient = SingletonStockCardRestClient.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Bindings.bindBidirectional(displayInfo, stockCardInfo.visibleProperty());
@@ -76,7 +79,7 @@ public class StockcardListController implements Initializable {
         controlNoTextField.setOnAction(e -> {
 
             if (!controlNoTextField.getText().isEmpty()) {
-                StockCardC result = SStockCardService.fingByControlNo(controlNoTextField.getText());
+                StockCardC result = stockCardRestClient.getStockCardByControlNo(controlNoTextField.getText());
                 if (result != null) {
                     displayStockCardDetails(result);
                     displayInfo.setValue(Boolean.TRUE);

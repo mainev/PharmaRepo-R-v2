@@ -8,6 +8,8 @@ package mbrinstant.mmd_module.controller.projection;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -20,8 +22,9 @@ import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.Mbr;
-import mbrinstant.service.main.ProductService;
-import mbrinstant.service.main.UnitService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.utils.DateConverter;
 import mbrinstant.utils.UDFCalculator;
 
@@ -48,43 +51,47 @@ public class NewBatchController implements Initializable {
 
     ProjectionController parentController;
 
-    //services
-    ProductService productService = new ProductService();
-    UnitService unitService = new UnitService();
+    //rest client
+    SingletonProductRestClient productService = SingletonProductRestClient.getInstance();
+    SingletonUnitRestClient unitService = SingletonUnitRestClient.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initProductTextField();
-        initUnitComboBox();
+        try {
+            initProductTextField();
+            initUnitComboBox();
 
-        cancelButton.setOnAction(e -> {
-            closeDialog();
-        });
+            cancelButton.setOnAction(e -> {
+                closeDialog();
+            });
 
-        addButton.setOnAction(e -> {
-            Product productId = productTextField.getSelectedItem();
-            Double batchSize = Double.parseDouble(batchSizeTextField.getText());
-            Unit unitId = unitComboBox.getValue();
-            Date mfgDate = DateConverter.convertLocalDateToDate(mfgDateDatePicker.getValue());
-            Date expDate = DateConverter.convertLocalDateToDate(mfgDateDatePicker.getValue().plusYears(productId.getShelfLife()));
-            String poNo = poNoTextField.getText();
-            String batchNo = "";
+            addButton.setOnAction(e -> {
+                Product productId = productTextField.getSelectedItem();
+                Double batchSize = Double.parseDouble(batchSizeTextField.getText());
+                Unit unitId = unitComboBox.getValue();
+                Date mfgDate = DateConverter.convertLocalDateToDate(mfgDateDatePicker.getValue());
+                Date expDate = DateConverter.convertLocalDateToDate(mfgDateDatePicker.getValue().plusYears(productId.getShelfLife()));
+                String poNo = poNoTextField.getText();
+                String batchNo = "";
 
-            Mbr mbr = new Mbr(productId, batchSize, batchNo, mfgDate, expDate, poNo, unitId);
-            UDFCalculator udfC = new UDFCalculator();
-            udfC.calculateRawMaterialBatchReq(mbr);
-            udfC.calculatePackMatBatchReq(mbr);
-            parentController.addBatchRecord(mbr);
-            closeDialog();
-        });
+                Mbr mbr = new Mbr(productId, batchSize, batchNo, mfgDate, expDate, poNo, unitId);
+                UDFCalculator udfC = new UDFCalculator();
+                udfC.calculateRawMaterialBatchReq(mbr);
+                udfC.calculatePackMatBatchReq(mbr);
+                parentController.addBatchRecord(mbr);
+                closeDialog();
+            });
+        } catch (ServerException ex) {
+            Logger.getLogger(NewBatchController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
-    private void initUnitComboBox() {
+    private void initUnitComboBox() throws ServerException {
         unitComboBox.setItems(unitService.getUnitList());
     }
 
-    public void initProductTextField() {
+    public void initProductTextField() throws ServerException {
         productTextField.setItems(productService.getProductList());
     }
 

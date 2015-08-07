@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -40,11 +42,12 @@ import mbrinstant.ScreenNavigator;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.transaction.StockCardTxn;
+import mbrinstant.exception.ServerException;
 import mbrinstant.mmd_module.controller.reservation.MbrRequirementHandler.ControlledPackagingMaterial;
 import mbrinstant.mmd_module.controller.reservation.MbrRequirementHandler.ControlledRawMaterial;
-import mbrinstant.service.mbr.SMbrService;
-import mbrinstant.service.sqlsvr_copy.SStockCardService;
-import mbrinstant.service.transaction.SStockCardTxnService;
+import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
+import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -91,10 +94,19 @@ public class MaterialRequirementInfoController implements Initializable {
     ObservableList<ControlledRawMaterial> controlledRmList = FXCollections.observableArrayList();
     ObservableList<ControlledPackagingMaterial> controlledPmList = FXCollections.observableArrayList();
 
+    //rest client
+    SingletonMbrRestClient mbrRestClient = SingletonMbrRestClient.getInstance();
+    SingletonStockCardRestClient stockCardRestClient = SingletonStockCardRestClient.getInstance();
+    SingletonStockCardTxnRestClient stockCardTxnRestClient = SingletonStockCardTxnRestClient.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         //this will handle the allocation of materials
-        mbrHandler = new MbrRequirementHandler(mbr);
+        try {
+            mbrHandler = new MbrRequirementHandler(mbr);
+        } catch (Exception e) {
+        }
         controlledRmList = mbrHandler.getControlledRmList();
         controlledPmList = mbrHandler.getControlledPmList();
 
@@ -125,32 +137,36 @@ public class MaterialRequirementInfoController implements Initializable {
 
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.get() == ButtonType.OK) {
-                            MyNotifications.displayInformation("MATERIALS RESERVED!");
-                            System.out.println("depleted stockcard " + mbrHandler.getDepletedStockCardList());
-                            //saved all allocated raw materials to the database
-                            controlledRmList.forEach(crm -> {
-                                crm.getTxnList().forEach(txn -> {
-                                    SStockCardTxnService.postStockCardTxn(mbr.getId(), txn.getStockCard().getId(), txn);
+                            try {
+                                MyNotifications.displayInformation("MATERIALS RESERVED!");
+                                System.out.println("depleted stockcard " + mbrHandler.getDepletedStockCardList());
+                                //saved all allocated raw materials to the database
+                                controlledRmList.forEach(crm -> {
+                                    crm.getTxnList().forEach(txn -> {
+                                        stockCardTxnRestClient.createNewStockCardTxn(mbr.getId(), txn.getStockCard().getId(), txn);
+                                    });
                                 });
-                            });
-                            //saved all allocated packaging materials to the database
-                            controlledPmList.forEach(crm -> {
-                                crm.getTxnList().forEach(txn -> {
-                                    SStockCardTxnService.postStockCardTxn(mbr.getId(), txn.getStockCard().getId(), txn);
+                                //saved all allocated packaging materials to the database
+                                controlledPmList.forEach(crm -> {
+                                    crm.getTxnList().forEach(txn -> {
+                                        stockCardTxnRestClient.createNewStockCardTxn(mbr.getId(), txn.getStockCard().getId(), txn);
+                                    });
                                 });
-                            });
-                            //changed all depleted stockcard status in the database
-                            mbrHandler.getDepletedStockCardList()
-                            .forEach(d -> {
-                                SStockCardService.changeStockCardStatus(d.getId());
-                            });
-                            //change the mbr status to 'RESERVED'
-                            SMbrService.reserveMbr(mbr);
+                                //changed all depleted stockcard status in the database
+                                mbrHandler.getDepletedStockCardList()
+                                .forEach(d -> {
+                                    stockCardRestClient.changeStockCardStatusToDepleted(d.getId());
+                                });
+                                //change the mbr status to 'RESERVED'
+                                mbrRestClient.reserveBatch(mbr);
 
-                            //close the info window
-                            ScreenNavigator.loadScreen(ScreenNavigator.RESERVATION_FXML);
-                            Stage stage = (Stage) reserveButton.getScene().getWindow();
-                            stage.close();
+                                //close the info window
+                                ScreenNavigator.loadScreen(ScreenNavigator.RESERVATION_FXML);
+                                Stage stage = (Stage) reserveButton.getScene().getWindow();
+                                stage.close();
+                            } catch (ServerException ex) {
+                                Logger.getLogger(MaterialRequirementInfoController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                     } else {
                         MyNotifications.displayError("INSUFFICIENT MATERIALS!");

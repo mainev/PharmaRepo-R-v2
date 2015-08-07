@@ -32,16 +32,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import mbrinstant.controller.product.CompoundingProcedureTableFactory;
-import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.Dosage;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
-import mbrinstant.service.mbr.CompoundingProcedureService;
-import mbrinstant.service.mbr.DosageService;
-import mbrinstant.service.mbr.RawMaterialRequirementService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.mbr.SingletonCompoundingProcRestClient;
+import mbrinstant.rest_client.mbr.SingletonDosageRestClient;
+import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;
 
 /**
  * FXML Controller class
@@ -79,10 +80,10 @@ public class CompoundingProceduresController implements Initializable, PageContr
     public ObservableList<RawMaterialRequirement> rmReqList = FXCollections.observableArrayList();
     public ObservableList<CompoundingProcedure> compoundingProcedureList = FXCollections.observableArrayList();
 
-    //services
-    CompoundingProcedureService cpService = new CompoundingProcedureService();
-    DosageService dosService = new DosageService();
-    RawMaterialRequirementService rmReqService = new RawMaterialRequirementService();
+    //rest client
+    SingletonCompoundingProcRestClient cpRestClient = SingletonCompoundingProcRestClient.getInstance();
+    SingletonDosageRestClient dosageRestClient = SingletonDosageRestClient.getInstance();
+    SingletonRawMaterialRequirementRestClient rmReqService = SingletonRawMaterialRequirementRestClient.getInstance();
 
     @FXML
     HBox hbox;
@@ -145,24 +146,24 @@ public class CompoundingProceduresController implements Initializable, PageContr
         updateDosageAndCompoundingProcedureList();
     }
 
-    public void createCompoundingProcedures(ManufacturingProcedure mfgId, int udfId) {
+    public void createCompoundingProcedures(ManufacturingProcedure mfgId, int udfId) throws ServerException {
         if (allFieldsValid()) {
             for (CompoundingProcedure cp : compoundingProcedureList) {
                 List<Dosage> dosList = cp.getDosageList();
-                cp = cpService.createCompoundingProcedure(mfgId.getId(), cp);
+                cp = cpRestClient.createCompoundingProc(mfgId.getId(), cp);
                 for (Dosage dos : dosList) {
                     RawMaterialRequirement rmReq = dos.getRawMaterialRequirementId();
-                    rmReq = rmReqService.findByDetails(rmReq.getRawMaterialId().getId(), rmReq.getQuantity(), rmReq.getUnitId().getId(), udfId);
+                    rmReq = rmReqService.getRawMaterialRequirementByDetails(rmReq.getRawMaterialId().getId(), rmReq.getQuantity(), rmReq.getUnitId().getId(), udfId);
                     dos.setRawMaterialRequirementId(rmReq);
-                    dosService.createDosage(cp.getId(), dos);
-                } 
+                    dosageRestClient.createDosage(cp.getId(), dos);
+                }
             }
         }
     }
 
     private boolean isIn(RawMaterialRequirement rmReq) {
         for (RawMaterialRequirement rm : rmReqList) {
-            if (rm.hashCode()==(rmReq.hashCode())) {
+            if (rm.hashCode() == (rmReq.hashCode())) {
                 return true;
             }
         }

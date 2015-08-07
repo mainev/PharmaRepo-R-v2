@@ -52,14 +52,6 @@
                                                                                     </center>
                                                                                     <top>
                                                                                         <HBox fx:id="rmReqHbox" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #F4F4F4;" BorderPane.alignment="CENTER">
-                                                                                            <children>
-                                                                                                <Label text="Raw Material:" />
-                                                                                                <Label text="Quantity:" />
-                                                                                                <TextField fx:id="rmReqQty" prefWidth="80.0" />
-                                                                                                <Label text="Unit:" />
-                                                                                                <ChoiceBox fx:id="rmReqUnit" prefHeight="25.0" prefWidth="100.0" />
-                                                                                                <Button fx:id="addRmReqButton" mnemonicParsing="false" prefWidth="100.0" text="ADD" />
-                                                                                            </children>
                                                                                             <padding>
                                                                                                 <Insets left="10.0" right="10.0" />
                                                                                             </padding>
@@ -99,14 +91,6 @@
                                                                                     </center>
                                                                                     <top>
                                                                                         <HBox fx:id="pmReqHbox" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #F4F4F4;" BorderPane.alignment="CENTER">
-                                                                                            <children>
-                                                                                                <Label text="Packaging Material:" />
-                                                                                                <Label text="Quantity:" />
-                                                                                                <TextField fx:id="pmReqQty" prefWidth="80.0" />
-                                                                                                <Label text="Unit:" />
-                                                                                                <ChoiceBox fx:id="pmReqUnit" prefWidth="100.0" />
-                                                                                                <Button fx:id="addPmReqButton" mnemonicParsing="false" prefWidth="100.0" text="ADD" />
-                                                                                            </children>
                                                                                             <opaqueInsets>
                                                                                                 <Insets />
                                                                                             </opaqueInsets>
@@ -154,9 +138,6 @@
                                             </center>
                                             <top>
                                                 <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Button fx:id="addCompoundingProcedureButton" mnemonicParsing="false" prefWidth="100.0" text="ADD" />
-                                       </children>
                                        <padding>
                                           <Insets left="10.0" right="10.0" />
                                        </padding></HBox>

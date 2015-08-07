@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -30,16 +32,18 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import mbrinstant.ScreenNavigator;
+import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.mbr.MbrStatus;
-import mbrinstant.service.mbr.SMbrService;
-import mbrinstant.service.transaction.StockCardTxnService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.utils.DateConverter;
 
 /**
@@ -66,16 +70,30 @@ public class ReservationController implements Initializable {
 
     ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
 
-    StockCardTxnService stockCardTxnService = new StockCardTxnService();
+    //rest client
+    SingletonMbrRestClient mbrRestClient = SingletonMbrRestClient.getInstance();
+
+    //main anchor pane
+    @FXML
+    private AnchorPane mainPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initMbrRecordTable();
+        try {
+            if (isUserPermitted()) {
+                initMbrRecordTable();
+            } else {
+                CustomAlertDialog.showErrorAlert("", "ACCESS DENIED", "You are not allowed to access the content of this page.");
+                mainPane.setDisable(true);
+            }
+        } catch (ServerException ex) {
+            Logger.getLogger(ReservationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     private void initMbrRecordTable() {
-        mbrList = SMbrService.getMbrList();
-        mbrRecordTableView.setItems(mbrList);
+
         colBatchSize.setCellValueFactory(c -> new SimpleStringProperty("" + c.getValue().getBatchSize() + " " + c.getValue().getUnitId().getName()));
         colMfgDate.setCellValueFactory(c -> new SimpleObjectProperty(DateConverter.convertDateToLocalDate(c.getValue().getMfgDate())));
         colExpDate.setCellValueFactory(c -> new SimpleObjectProperty(DateConverter.convertDateToLocalDate(c.getValue().getExpDate())));
@@ -98,6 +116,21 @@ public class ReservationController implements Initializable {
                 return new ActionCell2();
             }
         });
+    }
+
+    /**
+     * This method will checks if the current user is allowed to use the main
+     * method of this controller which is the g_batch_list.
+     */
+    private boolean isUserPermitted() throws ServerException {
+
+        mbrList = mbrRestClient.getBatchList();
+        if (!mbrRestClient.getResponseHandler().isSuccessful()) {
+            return false;
+        }
+        mbrRecordTableView.setItems(mbrList);
+
+        return true;
     }
 
     public class ActionCell2 extends TableCell<Mbr, Mbr> {
@@ -159,14 +192,16 @@ public class ReservationController implements Initializable {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
+
                     try {
                         mbrRecordTableView.getSelectionModel().select(getTableRow().getIndex());
                         Mbr mbr = mbrRecordTableView.getSelectionModel().getSelectedItem();
-                        SMbrService.cancelReservation(mbr);
+                        mbrRestClient.cancelBatchReservation(mbr);
                         ScreenNavigator.loadScreen(ScreenNavigator.RESERVATION_FXML);
-                    } catch (IOException ex) {
-                        System.out.println(ex.getMessage());
+                    } catch (ServerException ex) {
+                        Logger.getLogger(ReservationController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 }
 
             });
@@ -179,15 +214,17 @@ public class ReservationController implements Initializable {
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
+
                     try {
                         mbrRecordTableView.getSelectionModel().select(getTableRow().getIndex());
                         Mbr mbr = mbrRecordTableView.getSelectionModel().getSelectedItem();
-                        SMbrService.dispenseMbrMaterials(mbr);
+                        mbrRestClient.dispenseBatchMaterials(mbr);
                         MyNotifications.displayInformation("Materials have been dispensed");
                         ScreenNavigator.loadScreen(ScreenNavigator.RESERVATION_FXML);
-                    } catch (IOException ex) {
-                        System.out.println(ex.getMessage());
+                    } catch (ServerException ex) {
+                        Logger.getLogger(ReservationController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 }
 
             });

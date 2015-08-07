@@ -8,6 +8,8 @@ package mbrinstant.controller.product.ProductWizard;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -24,17 +26,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.Udf;
-import mbrinstant.service.main.PackagingMaterialService;
-import mbrinstant.service.main.UnitService;
-import mbrinstant.service.mbr.PackagingMaterialRequirementService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
 
 /**
  * FXML Controller class
@@ -42,7 +45,6 @@ import mbrinstant.service.mbr.PackagingMaterialRequirementService;
  * @author maine
  */
 public class PackagingMaterialRequirementController implements Initializable, PageController {
-
 
     @FXML
     NumberTextField pmReqQty;
@@ -62,33 +64,38 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
     @FXML
     SearchTextField<PackagingMaterial> pmTextField;
 
+    //rest client
+    SingletonUnitRestClient unitService = SingletonUnitRestClient.getInstance();
+    SingletonPackgMaterialRestClient pmService = SingletonPackgMaterialRestClient.getInstance();
+    SingletonPackgMaterialRequirementRestClient pmReqService = SingletonPackgMaterialRequirementRestClient.getInstance();
+
     //service
-    PackagingMaterialService pmService = new PackagingMaterialService();
-    UnitService unitService = new UnitService();
-    PackagingMaterialRequirementService pmReqService = new PackagingMaterialRequirementService();
     ObservableList<PackagingMaterialRequirement> pmReqTemporaryList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        pmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
-        pmTextField.setItems(pmService.getPackagingMaterialList());
 
-    
+        try {
+            pmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
+            pmTextField.setItems(pmService.getPackgMaterialList());
 
-        pmReqUnit.setItems(unitService.getUnitList());
-        initRmReqTable();
+            pmReqUnit.setItems(unitService.getUnitList());
+            initRmReqTable();
 
-        addButton.setOnAction(e -> {
+            addButton.setOnAction(e -> {
 
-            if (validator.validateFields()) {
-                PackagingMaterialRequirement temp = new PackagingMaterialRequirement(getPackagingMaterial(), getQuantity(), getUnit());
-                pmReqTemporaryList.add(temp);
-                clearFields();
-            }else{
-                Toolkit.getDefaultToolkit().beep();
-            }
-        });
-        createValidator();
+                if (validator.validateFields()) {
+                    PackagingMaterialRequirement temp = new PackagingMaterialRequirement(getPackagingMaterial(), getQuantity(), getUnit());
+                    pmReqTemporaryList.add(temp);
+                    clearFields();
+                } else {
+                    Toolkit.getDefaultToolkit().beep();
+                }
+            });
+            createValidator();
+        } catch (ServerException ex) {
+            Logger.getLogger(PackagingMaterialRequirementController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void clearFields() {
@@ -166,11 +173,11 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
             }
         }
     }
-    
-    public void createPackagingMaterialRequirements(Udf udfId) {
+
+    public void createPackagingMaterialRequirements(Udf udfId) throws ServerException {
         if (allFieldsValid()) {
-            for(PackagingMaterialRequirement pmReq : pmReqTemporaryList){
-                pmReqService.createPackagingMaterialRequirement(udfId.getId(), pmReq);
+            for (PackagingMaterialRequirement pmReq : pmReqTemporaryList) {
+                pmReqService.createPackgMaterialRequirement(udfId.getId(), pmReq);
             }
         }
     }

@@ -36,7 +36,7 @@ public class Product implements Serializable {
     @Expose
     private Classification classificationId;
     @Expose
-    private Client clientId;
+    private Company clientId;
     @Expose
     private PackSize packSizeId;
     @Expose
@@ -44,7 +44,7 @@ public class Product implements Serializable {
     @Expose
     private ManufacturingProcedure manufacturingProcedureId;
 
-    public Product(String code, String brandName, String genericName, String vrNo, Short shelfLife, Area areaId, Classification classificationId, Client clientId, PackSize packSizeId) {
+    public Product(String code, String brandName, String genericName, String vrNo, Short shelfLife, Area areaId, Classification classificationId, Company clientId, PackSize packSizeId) {
         this.code = code;
         this.brandName = brandName;
         this.genericName = genericName;
@@ -143,11 +143,11 @@ public class Product implements Serializable {
         this.classificationId = classificationId;
     }
 
-    public Client getClientId() {
+    public Company getClientId() {
         return clientId;
     }
 
-    public void setClientId(Client clientId) {
+    public void setClientId(Company clientId) {
         this.clientId = clientId;
     }
 

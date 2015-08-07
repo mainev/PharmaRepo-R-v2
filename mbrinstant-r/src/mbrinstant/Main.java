@@ -5,32 +5,57 @@
  */
 package mbrinstant;
 
-import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import mbrinstant.controller.MainController;
+import mbrinstant.controller.login.LoginController;
+import mbrinstant.controls.MyNotifications;
+import mbrinstant.rest_client.main.SingletonAreaRestClient;
+import mbrinstant.rest_client.main.SingletonClassificationRestClient;
+import mbrinstant.rest_client.main.SingletonCompanyRestClient;
+import mbrinstant.rest_client.main.SingletonContainerRestClient;
+import mbrinstant.rest_client.main.SingletonEquipmentRestClient;
+import mbrinstant.rest_client.main.SingletonPackSizeRestClient;
+import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.rest_client.main.SingletonRawMaterialRestClient;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.mbr.SingletonBottlingProcedureRestClient;
+import mbrinstant.rest_client.mbr.SingletonCompoundingProcRestClient;
+import mbrinstant.rest_client.mbr.SingletonDosageRestClient;
+import mbrinstant.rest_client.mbr.SingletonEquipmentRequirementRestClient;
+import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
+import mbrinstant.rest_client.mbr.SingletonMfgProcedureRestClient;
+import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
+import mbrinstant.rest_client.mbr.SingletonPackgOperationRestClient;
+import mbrinstant.rest_client.mbr.SingletonPowderFillingRestClient;
+import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;
+import mbrinstant.rest_client.mbr.SingletonUdfRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonItemRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
+import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
+import mbrinstant.security.Authenticator;
+import mbrinstant.security.User;
 
 /**
  *
  * @author maine
  */
 public class Main extends Application {
-    
-      @Override
-    public void start(Stage stage) throws Exception {
-       //  setUserAgentStylesheet(STYLESHEET_CASPIAN);
-        Pane mainPane = loadMainPane();
-        Scene scene = new Scene(mainPane);
-       // stage.setResizable(false);
-        stage.setTitle("Pharma");
-        stage.setMaximized(true);
-        stage.setScene(scene);
-        stage.show();
+
+    // private Stage stage;
+    private User currentUser;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.loadLoginDialog();
     }
 
     /**
@@ -38,17 +63,144 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+
     }
 
-    private Pane loadMainPane() throws IOException {
-
-        FXMLLoader loader = new FXMLLoader();
-        AnchorPane mainPane = (AnchorPane) loader.load(getClass().getResourceAsStream(ScreenNavigator.MAIN));
-        MainController mainController = loader.getController();
-        ScreenNavigator.setMainController(mainController);
-
-        ScreenNavigator.loadScreen(ScreenNavigator.WELCOME_SCREEN);
-        return mainPane;
+    public User getCurrentUser() {
+        return currentUser;
     }
-    
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    /**
+     * *
+     * Returns true if the user is valid.
+     *
+     * @param emailAd
+     * @param pwd
+     * @return
+     * @throws java.lang.Exception
+     */
+    public boolean processLogin(String emailAd, String pwd)
+            throws Exception {
+
+        Authenticator authenticator = new Authenticator();
+        User user = authenticator.loginUser(emailAd, pwd);
+        if (user != null) {
+            //authentication success
+            this.setCurrentUser(user);
+            this.getCurrentUser().setPassword(pwd);
+
+            //configure all rest clients
+            SingletonMbrRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonProductRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonUnitRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonAreaRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonClassificationRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonCompanyRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonContainerRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonEquipmentRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonPackSizeRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonPackgMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonRawMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonBottlingProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonCompoundingProcRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonDosageRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonEquipmentRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonMfgProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonPackgMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonPackgOperationRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonPowderFillingRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonRawMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonUdfRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonItemRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonStockCardRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+            SingletonStockCardTxnRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+
+            loadMainPane();
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public void userLogout() {
+        this.currentUser = null;
+
+        //reset all rest clients
+        SingletonMbrRestClient.getInstance().destroy();
+        SingletonProductRestClient.getInstance().destroy();
+        SingletonUnitRestClient.getInstance().destroy();
+        SingletonAreaRestClient.getInstance().destroy();
+        SingletonClassificationRestClient.getInstance().destroy();
+        SingletonCompanyRestClient.getInstance().destroy();
+        SingletonContainerRestClient.getInstance().destroy();
+        SingletonEquipmentRestClient.getInstance().destroy();
+        SingletonPackSizeRestClient.getInstance().destroy();
+        SingletonPackgMaterialRestClient.getInstance().destroy();
+        SingletonRawMaterialRestClient.getInstance().destroy();
+        SingletonBottlingProcedureRestClient.getInstance().destroy();
+        SingletonCompoundingProcRestClient.getInstance().destroy();
+        SingletonDosageRestClient.getInstance().destroy();
+        SingletonEquipmentRequirementRestClient.getInstance().destroy();
+        SingletonMfgProcedureRestClient.getInstance().destroy();
+        SingletonPackgMaterialRequirementRestClient.getInstance().destroy();
+        SingletonPackgOperationRestClient.getInstance().destroy();
+        SingletonPowderFillingRestClient.getInstance().destroy();
+        SingletonRawMaterialRequirementRestClient.getInstance().destroy();
+        SingletonUdfRestClient.getInstance().destroy();
+        SingletonItemRestClient.getInstance().destroy();
+        SingletonStockCardRestClient.getInstance().destroy();
+        SingletonStockCardTxnRestClient.getInstance().destroy();
+
+        this.loadLoginDialog();
+        MyNotifications.displayConfirm("SUCCESSFULLY LOGGED OUT");
+    }
+
+    public void loadMainPane() {
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            MainController mainController = new MainController();
+            mainController.setApplication(this);
+            loader.setController(mainController);
+            AnchorPane mainPane = (AnchorPane) loader.load(getClass().getResourceAsStream(ScreenNavigator.MAIN));
+            ScreenNavigator.setMainController(mainController);
+            ScreenNavigator.loadScreen(ScreenNavigator.WELCOME_SCREEN);
+            Scene scene = new Scene(mainPane);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            // stage.setResizable(false);
+            stage.setTitle("Pharma");
+            stage.setMaximized(true);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadLoginDialog() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ScreenNavigator.LOGIN_SCREEN));
+            LoginController controller = new LoginController();
+            controller.setApplication(this);
+            fxmlLoader.setController(controller);
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Member Login");
+            stage.setResizable(false);
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

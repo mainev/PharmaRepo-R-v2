@@ -10,6 +10,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -43,13 +45,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import mbrinstant.Main;
 import mbrinstant.ScreenNavigator;
+import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.mbr.MbrStatus;
-import mbrinstant.service.main.ProductService;
-import mbrinstant.service.mbr.MbrService;
-import mbrinstant.service.mbr.SMbrService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.utils.DateConverter;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.PopOver;
@@ -61,55 +65,56 @@ import org.controlsfx.control.PopOver;
  */
 public class ListController implements Initializable {
 
-    @FXML
-    HBox _headerHBox;
+    private Main application;
 
     @FXML
-    TableView<Mbr> mbrRecordTable;
-    @FXML
-    TableColumn<Mbr, String> colProduct;
-//    @FXML
-//    TableColumn<Mbr, String> _colProductBrandName;
-    @FXML
-    TableColumn<Mbr, String> _colBatchNo;
-    @FXML
-    TableColumn<Mbr, String> _colBatchSize;
-    @FXML
-    TableColumn<Mbr, Short> _colShelfLife;
-    @FXML
-    TableColumn<Mbr, LocalDate> _colMfgDate;
-    @FXML
-    TableColumn<Mbr, LocalDate> _colExpDate;
-    @FXML
-    TableColumn<Mbr, String> _colPoNo;
+    private HBox _headerHBox;
 
     @FXML
-    TableColumn colAction;
+    private TableView<Mbr> mbrRecordTable;
+    @FXML
+    private TableColumn<Mbr, String> colProduct;
+    @FXML
+    private TableColumn<Mbr, String> _colBatchNo;
+    @FXML
+    private TableColumn<Mbr, String> _colBatchSize;
+    @FXML
+    private TableColumn<Mbr, Short> _colShelfLife;
+    @FXML
+    private TableColumn<Mbr, LocalDate> _colMfgDate;
+    @FXML
+    private TableColumn<Mbr, LocalDate> _colExpDate;
+    @FXML
+    private TableColumn<Mbr, String> _colPoNo;
 
     @FXML
-    TableColumn<Mbr, String> _colVrNo;
+    private TableColumn colAction;
 
     @FXML
-    TableColumn<Mbr, String> colStatus;
+    private TableColumn<Mbr, String> _colVrNo;
 
     @FXML
-    Button newButton;
+    private TableColumn<Mbr, String> colStatus;
+
+    @FXML
+    private Button newButton;
     @FXML
     private AnchorPane headerPane;
     @FXML
     private ToolBar topToolBar;
 
     @FXML
-    AnchorPane bottomPane;
+    private AnchorPane bottomPane;
 
-    MbrService mbrService = new MbrService();
-    ProductService productService = new ProductService();
+    //rest client
+    private SingletonMbrRestClient mbrRestClient = SingletonMbrRestClient.getInstance();
+    private SingletonProductRestClient productRestClient = SingletonProductRestClient.getInstance();
 
-    ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
+    private ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
 
     //for bottom settings
     @FXML
-    Button settingsButton;
+    private Button settingsButton;
     private PopOver popOver;
 
     //for search
@@ -118,43 +123,67 @@ public class ListController implements Initializable {
     @FXML
     private ComboBox categoryBox;
 
-    /**
-     * Initializes the controller class.
-     */
+    //parent pane
+    @FXML
+    private AnchorPane mainPane;
+
     @Override
-
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            //this method will also check if the user is permitted to access the method
+            if (isUserPermitted()) {
+                configBatchRecordTable();
 
-        initMbrListTableView();
+                popOver = createSettingsPopOver();
+                popOver.setContentNode(createSettingsPane());
+                settingsButton.setOnAction(e -> {
+                    if (popOver.isShowing()) {
+                        popOver.hide(Duration.ZERO);
+                    } else {
+                        popOver.show(settingsButton);
+                    }
+                });
 
-        popOver = createSettingsPopOver();
+                newButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        handleNewButton();
+                    }
+                });
 
-        popOver.setContentNode(createSettingsPane());
-        settingsButton.setOnAction(e -> {
-            if (popOver.isShowing()) {
-                popOver.hide(Duration.ZERO);
-            } else {
-                popOver.show(settingsButton);
+                //initialize fields for search operation
+                initSearchCategory();
+                initSearchTextField();
+
+                mbrList.addListener(new ListChangeListener() {
+                    @Override
+                    public void onChanged(ListChangeListener.Change c) {
+                        refreshTable(mbrRecordTable);
+                    }
+                });
+            } else {//disable all features
+                CustomAlertDialog.showErrorAlert("", "ACCESS DENIED", "You are not allowed to access the content of this page.");
+                mainPane.setDisable(true);
             }
-        });
+        } catch (ServerException ex) {
+            Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        newButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                handleNewButton();
-            }
-        });
+    }
 
-        //initialize fields for search operation
-        initSearchCategory();
-        initSearchTextField();
+    /**
+     * This method will checks if the current user is allowed to use the main
+     * method of this controller which is the g_batch_list.
+     */
+    private boolean isUserPermitted() throws ServerException {
 
-        mbrList.addListener(new ListChangeListener() {
-            @Override
-            public void onChanged(ListChangeListener.Change c) {
-                refreshTable(mbrRecordTable);
-            }
-        });
+        mbrList = mbrRestClient.getBatchList();
+        if (!mbrRestClient.getResponseHandler().isSuccessful()) {
+            return false;
+        }
+        mbrRecordTable.setItems(mbrList);
+
+        return true;
     }
 
     private void initSearchCategory() {
@@ -165,28 +194,32 @@ public class ListController implements Initializable {
 
         searchTextField.setOnAction(e -> {
             if (!searchTextField.getText().isEmpty() && (categoryBox.getSelectionModel().getSelectedItem() != null)) {
-                String inputText = searchTextField.getText();
-                String category = (String) categoryBox.getSelectionModel().getSelectedItem();
-                ObservableList<Mbr> resultList = FXCollections.observableArrayList();
-                switch (category) {
-                    case "Batch No":
-                        resultList = SMbrService.getMbrListByBatchNo(inputText);
-                        break;
-                    case "Product Code":
-                        resultList = SMbrService.getMbrListByProductCode(inputText);
-                        break;
-                    case "Area":
-                        resultList = SMbrService.getMbrListByProductArea(inputText);
-                        break;
-                    default:
-                        break;
-                }
+                try {
+                    String inputText = searchTextField.getText();
+                    String category = (String) categoryBox.getSelectionModel().getSelectedItem();
+                    ObservableList<Mbr> resultList = FXCollections.observableArrayList();
+                    switch (category) {
+                        case "Batch No":
+                            resultList = mbrRestClient.getBatchByBatchNo(inputText);
+                            break;
+                        case "Product Code":
+                            resultList = mbrRestClient.getBatchByProductCode(inputText);
+                            break;
+                        case "Area":
+                            resultList = mbrRestClient.getBatchByArea(inputText);
+                            break;
+                        default:
+                            break;
+                    }
 
-                if (!resultList.isEmpty()) {
-                    MyNotifications.displayInformation("Found " + resultList.size() + " results.");
-                    mbrList.setAll(resultList);
-                } else {
-                    MyNotifications.displayInformation("No results found.");
+                    if (!resultList.isEmpty()) {
+                        MyNotifications.displayInformation("Found " + resultList.size() + " results.");
+                        mbrList.setAll(resultList);
+                    } else {
+                        MyNotifications.displayInformation("No results found.");
+                    }
+                } catch (ServerException ex) {
+                    Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } else {
@@ -217,9 +250,12 @@ public class ListController implements Initializable {
                 while (change.next()) {
                     mbrList.clear();
                     for (MbrStatus s : change.getList()) {
-                        mbrList.addAll(SMbrService.getMbrListByStatus(s));
+                        try {
+                            mbrList.addAll(mbrRestClient.getBatchByStatus(s));
+                        } catch (ServerException ex) {
+                            Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-                    // mbrRecordTable.setItems(mbrList);
                     refreshTable(mbrRecordTable);
                 }
             }
@@ -239,9 +275,7 @@ public class ListController implements Initializable {
         return popOver;
     }
 
-    private void initMbrListTableView() {
-        mbrList = mbrService.getMbrList();
-        mbrRecordTable.setItems(mbrList);
+    private void configBatchRecordTable() {
 
         colProduct.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getProductId().toString()));
         _colBatchNo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBatchNo()));
@@ -298,15 +332,17 @@ public class ListController implements Initializable {
                 if (result.get() == ButtonType.OK) {
                     mbrRecordTable.getSelectionModel().select(getTableRow().getIndex());
                     Mbr mbr = mbrRecordTable.getSelectionModel().getSelectedItem();
+
                     try {
-                        SMbrService.releaseMbr(mbr);
-                    } catch (IOException ex) {
-                        System.out.println(ex.getMessage());
+                        mbrRestClient.printBatch(mbr);
+                    } catch (ServerException ex) {
+                        Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                     //close the info window
-                    ScreenNavigator.loadScreen(ScreenNavigator.BATCH_RECORD_SCREEN);
                     Stage stage = (Stage) release.getScene().getWindow();
                     stage.close();
+                    ScreenNavigator.loadScreen(ScreenNavigator.BATCH_RECORD_SCREEN);
 
                 }
 
@@ -411,4 +447,9 @@ public class ListController implements Initializable {
             ((TableColumn) (tableView.getColumns().get(i))).setVisible(true);
         }
     }
+
+    public Main getApplication() {
+        return application;
+    }
+
 }

@@ -8,6 +8,8 @@ package mbrinstant.controller.product;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -25,7 +27,8 @@ import javafx.util.Callback;
 import mbrinstant.controller.product.ProductWizard.ProductWizard;
 import mbrinstant.controls.CustomTextField;
 import mbrinstant.entity.main.Product;
-import mbrinstant.service.main.ProductService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
 
 /**
  * FXML Controller class
@@ -61,28 +64,33 @@ public class ListController implements Initializable {
     @FXML
     Button newProductButton;
 
-    ProductService productService = new ProductService();
+    //rest client
+    SingletonProductRestClient productRestClient = SingletonProductRestClient.getInstance();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initMbrListTableView();
 
-        newProductButton.setOnAction(e -> {
-            CustomTextField t = new CustomTextField();
-            try{
-                new ProductWizard();
-            }
-            catch(IOException ex){
-            }
+        try {
+            initMbrListTableView();
 
-        });
+            newProductButton.setOnAction(e -> {
+                CustomTextField t = new CustomTextField();
+                try {
+                    new ProductWizard();
+                } catch (IOException ex) {
+                }
+
+            });
+        } catch (ServerException ex) {
+            Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    private void initMbrListTableView() {
-        ObservableList<Product> productList = productService.getProductList();
+    private void initMbrListTableView() throws ServerException {
+        ObservableList<Product> productList = productRestClient.getProductList();
         productListTableView.setItems(productList);
 
         colProductCode.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCode()));

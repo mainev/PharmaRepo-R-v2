@@ -23,7 +23,7 @@ public class PackagingMaterial implements Serializable {
     @Expose
     private String description;
     @Expose
-    private Client clientId;
+    private Company clientId;
 
     public PackagingMaterial() {
     }
@@ -56,11 +56,11 @@ public class PackagingMaterial implements Serializable {
         this.description = description;
     }
 
-    public Client getClientId() {
+    public Company getClientId() {
         return clientId;
     }
 
-    public void setClientId(Client clientId) {
+    public void setClientId(Company clientId) {
         this.clientId = clientId;
     }
 

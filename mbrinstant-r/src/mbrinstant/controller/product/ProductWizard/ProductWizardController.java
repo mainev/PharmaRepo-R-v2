@@ -8,6 +8,8 @@ package mbrinstant.controller.product.ProductWizard;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +32,7 @@ import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.mbr.EquipmentLocations;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
+import mbrinstant.exception.ServerException;
 
 /**
  *
@@ -80,14 +83,14 @@ public class ProductWizardController implements Initializable {
 
     //controllers
     public static MainDetailsController mainDetailsController;
-   public RawMaterialRequirementController rmReqController;
-   public PackagingMaterialRequirementController pmReqController;
-   public CompoundingProceduresController cpcontroller;
-   public static EquipmentRequirementController equipReqController;
-   public PackagingOperationController packgOperationController;
-   public BottlingProcedureController bottlingProcedureController;
-   public PrimarySecondaryController primarySecondaryController;
-   public PowderFillingController powderFillingController;
+    public RawMaterialRequirementController rmReqController;
+    public PackagingMaterialRequirementController pmReqController;
+    public CompoundingProceduresController cpcontroller;
+    public static EquipmentRequirementController equipReqController;
+    public PackagingOperationController packgOperationController;
+    public BottlingProcedureController bottlingProcedureController;
+    public PrimarySecondaryController primarySecondaryController;
+    public PowderFillingController powderFillingController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -183,19 +186,23 @@ public class ProductWizardController implements Initializable {
         });
         finishButton.setOnAction(e -> {
             if (currentController.allFieldsValid()) {
-                mainDetailsController.createFinalProduct();
-                Product finalProduct = mainDetailsController.getFinalProduct();
-                rmReqController.createRawMaterialRequirements(finalProduct.getUdfId());
-                pmReqController.createPackagingMaterialRequirements(finalProduct.getUdfId());
-                cpcontroller.createCompoundingProcedures(finalProduct.getManufacturingProcedureId(), finalProduct.getUdfId().getId());
-                equipReqController.createEquipmentRequirements(finalProduct.getManufacturingProcedureId());
-                packgOperationController.createPackagingOperations(finalProduct.getManufacturingProcedureId());
-                bottlingProcedureController.createBottlingProcedures(finalProduct.getManufacturingProcedureId());
-                powderFillingController.createPackagingOperations(finalProduct.getManufacturingProcedureId());
-                primarySecondaryController.createPrimarySecondaryPackg(finalProduct, finalProduct.getUdfId().getId());
-                Stage stage = (Stage) finishButton.getScene().getWindow();
-                stage.close();
-                ScreenNavigator.loadScreen(ScreenNavigator.PRODUCT_SCREEN);
+                try {
+                    mainDetailsController.createFinalProduct();
+                    Product finalProduct = mainDetailsController.getFinalProduct();
+                    rmReqController.createRawMaterialRequirements(finalProduct.getUdfId());
+                    pmReqController.createPackagingMaterialRequirements(finalProduct.getUdfId());
+                    cpcontroller.createCompoundingProcedures(finalProduct.getManufacturingProcedureId(), finalProduct.getUdfId().getId());
+                    equipReqController.createEquipmentRequirements(finalProduct.getManufacturingProcedureId());
+                    packgOperationController.createPackagingOperations(finalProduct.getManufacturingProcedureId());
+                    bottlingProcedureController.createBottlingProcedures(finalProduct.getManufacturingProcedureId());
+                    powderFillingController.createPackagingOperations(finalProduct.getManufacturingProcedureId());
+                    primarySecondaryController.createPrimarySecondaryPackg(finalProduct, finalProduct.getUdfId().getId());
+                    Stage stage = (Stage) finishButton.getScene().getWindow();
+                    stage.close();
+                    ScreenNavigator.loadScreen(ScreenNavigator.PRODUCT_SCREEN);
+                } catch (ServerException ex) {
+                    Logger.getLogger(ProductWizardController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 MyNotifications.displayError("Please enter all required fields");
             }

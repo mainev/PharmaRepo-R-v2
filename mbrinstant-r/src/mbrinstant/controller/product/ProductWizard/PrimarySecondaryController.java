@@ -12,12 +12,13 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
-import mbrinstant.service.main.ProductService;
-import mbrinstant.service.mbr.PackagingMaterialRequirementService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
 
 /**
  * FXML Controller class
@@ -29,22 +30,22 @@ public class PrimarySecondaryController implements Initializable, PageController
     @FXML
     CustomChoiceBox<PackagingMaterialRequirement> primary;
     @FXML
-    CustomChoiceBox<PackagingMaterialRequirement>  secondary;
+    CustomChoiceBox<PackagingMaterialRequirement> secondary;
 
     private ConstraintValidator validator;
     ObservableList<PackagingMaterialRequirement> pmReqList = FXCollections.observableArrayList();
 
-    //services
-    PackagingMaterialRequirementService pmReqService = new PackagingMaterialRequirementService();
-    ProductService productService = new ProductService();
-    
+    //rest client
+    SingletonProductRestClient productRestClient = SingletonProductRestClient.getInstance();
+    SingletonPackgMaterialRequirementRestClient pmReqService = SingletonPackgMaterialRequirementRestClient.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        createValidator() ;
+        createValidator();
         primary.setItems(pmReqList);
         secondary.setItems(pmReqList);
-        
-        primary.getSelectionModel().selectedItemProperty().addListener((OB, OV, NV)->{
+
+        primary.getSelectionModel().selectedItemProperty().addListener((OB, OV, NV) -> {
             System.out.println(NV);
         });
 
@@ -59,22 +60,22 @@ public class PrimarySecondaryController implements Initializable, PageController
             }
         });
     }
-    
-     public void createPrimarySecondaryPackg(Product productId, int udfId) {
+
+    public void createPrimarySecondaryPackg(Product productId, int udfId) throws ServerException {
         if (allFieldsValid()) {
             PackagingMaterialRequirement primaryPackg = primary.getValue();
             PackagingMaterialRequirement secondaryPackg = secondary.getValue();
-            primaryPackg = pmReqService.findByDetails(
+            primaryPackg = pmReqService.getPackgMaterialReqByDetails(
                     primaryPackg.getPackagingMaterialId().getId(),
-                    primaryPackg.getQuantity(), 
+                    primaryPackg.getQuantity(),
                     primaryPackg.getUnitId().getId(), udfId);
-            secondaryPackg = pmReqService.findByDetails(
+            secondaryPackg = pmReqService.getPackgMaterialReqByDetails(
                     secondaryPackg.getPackagingMaterialId().getId(),
                     secondaryPackg.getQuantity(),
                     secondaryPackg.getUnitId().getId(),
                     udfId);
-            
-            productService.createPrimarySecondaryPackaging(productId.getId(), primaryPackg.getId(), secondaryPackg.getId());          
+
+            productRestClient.createPrimarySecondaryPackg(productId.getId(), primaryPackg.getId(), secondaryPackg.getId());
         }
     }
 

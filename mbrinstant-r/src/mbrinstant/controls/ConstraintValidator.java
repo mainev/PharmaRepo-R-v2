@@ -29,7 +29,7 @@ public class ConstraintValidator {
     public boolean validateFields() {
         if (!nodes.isEmpty()) {
             for (Object n : nodes) {
-                if (!validate(n)) {
+                if (!isValid(n)) {
                     Toolkit.getDefaultToolkit().beep();
                     return false;
                 }
@@ -45,7 +45,7 @@ public class ConstraintValidator {
      * @param n - contains value to be validated
      * @return Returns true if the object's value is valid
      */
-    public boolean validate(Object n) {
+    public boolean isValid(Object n) {
         //objects are classified based on their class
         if (n.getClass() == CustomTextField.class) {
             CustomTextField n1 = (CustomTextField) n;

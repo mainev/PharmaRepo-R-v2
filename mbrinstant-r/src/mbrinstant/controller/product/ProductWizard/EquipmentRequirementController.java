@@ -8,6 +8,8 @@ package mbrinstant.controller.product.ProductWizard;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,15 +25,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.Equipment;
-import mbrinstant.entity.mbr.EquipmentLocations;
 import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
-import mbrinstant.service.main.EquipmentService;
-import mbrinstant.service.mbr.EquipmentRequirementService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonEquipmentRestClient;
+import mbrinstant.rest_client.mbr.SingletonEquipmentRequirementRestClient;
 
 /**
  * FXML Controller class
@@ -39,59 +41,61 @@ import mbrinstant.service.mbr.EquipmentRequirementService;
  * @author maine
  */
 public class EquipmentRequirementController implements Initializable, PageController {
-    @FXML
-            SearchTextField<Equipment> equipmentTextField;
-    @FXML
-            CustomChoiceBox procedureChoiceBox;
-    @FXML
-            Button addEquipmentButton;
-    
-    @FXML
-            TableView<EquipmentRequirement> equipmentReqTable;
-    @FXML
-            TableColumn colAction;
-    @FXML
-            TableColumn colEquipment;
-    @FXML
-            TableColumn colProcedure;
-    
 
-    
+    @FXML
+    SearchTextField<Equipment> equipmentTextField;
+    @FXML
+    CustomChoiceBox procedureChoiceBox;
+    @FXML
+    Button addEquipmentButton;
+
+    @FXML
+    TableView<EquipmentRequirement> equipmentReqTable;
+    @FXML
+    TableColumn colAction;
+    @FXML
+    TableColumn colEquipment;
+    @FXML
+    TableColumn colProcedure;
+
     ConstraintValidator validator;
     ObservableList<EquipmentRequirement> equipmentRequirementList = FXCollections.observableArrayList();
-  
-    //services
-    EquipmentService equipmentService = new EquipmentService();
-    EquipmentRequirementService erService = new EquipmentRequirementService();
-    
+
+    //rest client
+    SingletonEquipmentRestClient equipmentRestClient = SingletonEquipmentRestClient.getInstance();
+    SingletonEquipmentRequirementRestClient equipmentReqRestClient = SingletonEquipmentRequirementRestClient.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        initEquipmentRequirementTable();
-        equipmentTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
-        equipmentTextField.setItems(equipmentService.getEquipmentList());
-       
-        addEquipmentButton.setOnAction(e->{
-            if(validator.validateFields()){
-                EquipmentRequirement temp = new EquipmentRequirement(getSelectedEquipment(),getProcedure());
-                equipmentRequirementList.add(temp);
-            }else{
-            Toolkit.getDefaultToolkit().beep();
-            }
-        });
-        createValidator();
-        
-        
+
+        try {
+            initEquipmentRequirementTable();
+            equipmentTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
+            equipmentTextField.setItems(equipmentRestClient.getEquipmentList());
+
+            addEquipmentButton.setOnAction(e -> {
+                if (validator.validateFields()) {
+                    EquipmentRequirement temp = new EquipmentRequirement(getSelectedEquipment(), getProcedure());
+                    equipmentRequirementList.add(temp);
+                } else {
+                    Toolkit.getDefaultToolkit().beep();
+                }
+            });
+            createValidator();
+        } catch (ServerException ex) {
+            Logger.getLogger(EquipmentRequirementController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
-    public void createEquipmentRequirements(ManufacturingProcedure mfg){
-        for(EquipmentRequirement er : equipmentRequirementList){
-            erService.createEquipmentRequirement(mfg.getId(), er);
+
+    public void createEquipmentRequirements(ManufacturingProcedure mfg) throws ServerException {
+        for (EquipmentRequirement er : equipmentRequirementList) {
+            equipmentReqRestClient.createEquipmentRequirement(mfg.getId(), er);
         }
     }
-    
-    private void initEquipmentRequirementTable(){
-         equipmentReqTable.setItems(equipmentRequirementList);
+
+    private void initEquipmentRequirementTable() {
+        equipmentReqTable.setItems(equipmentRequirementList);
         colAction.setSortable(false);
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
@@ -111,8 +115,8 @@ public class EquipmentRequirementController implements Initializable, PageContro
         });
 
     }
-    
-     public class ActionCell extends TableCell<EquipmentRequirement, Boolean> {
+
+    public class ActionCell extends TableCell<EquipmentRequirement, Boolean> {
 
         HBox hbox = new HBox();
         Button delete = new Button("Remove");
@@ -140,27 +144,24 @@ public class EquipmentRequirementController implements Initializable, PageContro
         }
     }
 
-    
-    private Equipment getSelectedEquipment(){
+    private Equipment getSelectedEquipment() {
         return equipmentTextField.getSelectedItem();
     }
-    
-    private String getProcedure(){
+
+    private String getProcedure() {
         return procedureChoiceBox.getValue().toString();
     }
-    
-   
 
     @Override
     public void createValidator() {
         validator = new ConstraintValidator(
-        equipmentTextField,
-        procedureChoiceBox);
+                equipmentTextField,
+                procedureChoiceBox);
     }
 
     @Override
     public boolean allFieldsValid() {
-       // return validator.validateFields();
+        // return validator.validateFields();
         return !equipmentRequirementList.isEmpty();
     }
 

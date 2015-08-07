@@ -11,7 +11,7 @@ import java.util.List;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.MbrStatus;
 import mbrinstant.entity.transaction.StockCardTxn;
-import mbrinstant.service.main.UnitService;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.utils.MetricCalculator;
 import mbrinstant.utils.Quantity;
 
@@ -185,8 +185,9 @@ public class StockCardC {
         this.stockCardTxnList = stockCardTxnList;
     }
 
-    public Unit getEquivalentUnit(String unitName) {
-        List<Unit> unitList = new UnitService().getUnitList();
+    public Unit getEquivalentUnit(String unitName) throws Exception {
+
+        List<Unit> unitList = SingletonUnitRestClient.getInstance().getUnitList();
         for (Unit u : unitList) {
             if (u.getName().toUpperCase().trim().equals(unitName.toUpperCase().trim())) {
                 return u;
@@ -195,11 +196,11 @@ public class StockCardC {
         return null;//throw exception
     }
 
-    public Quantity getStockQuantity() {
+    public Quantity getStockQuantity() throws Exception {
         return new Quantity(qty, getEquivalentUnit(uom).getName());
     }
 
-    public Quantity getAvailableQuantity() {
+    public Quantity getAvailableQuantity() throws Exception {
         Quantity used = new Quantity();
         for (StockCardTxn stxn : stockCardTxnList) {
             String stat = stxn.getMbrId().getStatus();

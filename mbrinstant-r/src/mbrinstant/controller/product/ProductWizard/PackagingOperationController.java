@@ -5,7 +5,6 @@
  */
 package mbrinstant.controller.product.ProductWizard;
 
-import java.awt.Toolkit;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -23,12 +22,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.IntegerTextField;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.PackagingOperation;
-import mbrinstant.service.mbr.PackagingOperationService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.mbr.SingletonPackgOperationRestClient;
 
 /**
  * FXML Controller class
@@ -62,20 +62,20 @@ public class PackagingOperationController implements Initializable, PageControll
     Button addButton;
 
     ObservableList<PackagingOperation> packagingProcedureList = FXCollections.observableArrayList();
-    
-    //services
-    PackagingOperationService packagingOperationService = new PackagingOperationService();
+
+    //rest client
+    SingletonPackgOperationRestClient packagingOperationService = SingletonPackgOperationRestClient.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-       
+
         initPackagingProcedureTable();
-        
+
         //set properties for validator
         part.setMinValue(1);
         part.setMaxValue(2);
-        
+
         addButton.setOnAction(e -> {
             if (validator.validateFields()) {
                 PackagingOperation ppo = new PackagingOperation(getContent(), getPart(), getDoneBy(), getCheckedBy());
@@ -95,16 +95,17 @@ public class PackagingOperationController implements Initializable, PageControll
             }
         });
 
-         createValidator();
+        createValidator();
     }
 
-    public void createPackagingOperations(ManufacturingProcedure mfg){
-        if(!packagingProcedureList.isEmpty()){
-            for(PackagingOperation ppo : packagingProcedureList){
-                packagingOperationService.createPackagingOperation(mfg.getId(), ppo);
+    public void createPackagingOperations(ManufacturingProcedure mfg) throws ServerException {
+        if (!packagingProcedureList.isEmpty()) {
+            for (PackagingOperation ppo : packagingProcedureList) {
+                packagingOperationService.createNewPackgOperation(mfg.getId(), ppo);
             }
         }
     }
+
     private void initPackagingProcedureTable() {
         packagingOperationTable.setItems(packagingProcedureList);
 
@@ -185,7 +186,7 @@ public class PackagingOperationController implements Initializable, PageControll
 
     @Override
     public boolean allFieldsValid() {
-        //advance to next page if 
+        //advance to next page if
         return !packagingProcedureList.isEmpty();
     }
 

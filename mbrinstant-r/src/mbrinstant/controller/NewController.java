@@ -8,6 +8,8 @@ package mbrinstant.controller;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,10 +27,10 @@ import mbrinstant.controls.TextFieldWithSearch;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.Mbr;
-import mbrinstant.service.main.ProductService;
-import mbrinstant.service.main.UnitService;
-import mbrinstant.service.mbr.MbrService;
-import mbrinstant.service.mbr.SMbrService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.utils.DateConverter;
 
 /**
@@ -55,52 +57,50 @@ public class NewController implements Initializable {
     Button cancelButton;
 
     TextFieldWithSearch<Product> textFieldWithProductSearch;
-  //  MbrService mbrService = new MbrService();
-    ProductService productService = new ProductService();
 
-    /**
-     * Initializes the controller class.
-     */
+    //rest client
+    SingletonProductRestClient productRestClient = SingletonProductRestClient.getInstance();
+    SingletonUnitRestClient unitRestClient = SingletonUnitRestClient.getInstance();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initTextFieldWithProductSearch();
-        setUnits();
 
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                handleCancelButton();
-            }
-        });
+        try {
+            initTextFieldWithProductSearch();
+            setChoiceBoxUnit();
+            cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    handleCancelButton();
+                }
+            });
 
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                handleAddButton();
-            }
-        });
+            addButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    handleAddButton();
+                }
+            });
+        } catch (ServerException ex) {
+            Logger.getLogger(NewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * *
      * Assign product items that is searchable in the text field.
      */
-    private void initTextFieldWithProductSearch() {
+    private void initTextFieldWithProductSearch() throws ServerException {
 
-        ObservableList<Product> productList = new ProductService().getProductList();
+        ObservableList<Product> productList = productRestClient.getProductList();
         textFieldWithProductSearch = new TextFieldWithSearch(productList);
         textFieldWithProductSearch.setAlignment(Pos.CENTER);
         gridPane.add(textFieldWithProductSearch, 1, 0);
 
-//        textFieldWithProductSearch.listViewSelectedItemProperty().addListener((ob, ov, nv) -> {
-//            if (nv != null) {
-//            }
-//
-//        });
     }
 
-    private void setUnits() {
-        unitsChoiceBox.setItems(new UnitService().getUnitList());
+    private void setChoiceBoxUnit() throws ServerException {
+        unitsChoiceBox.setItems(unitRestClient.getUnitList());
     }
 
     private void handleCancelButton() {
@@ -110,13 +110,18 @@ public class NewController implements Initializable {
     }
 
     private void handleAddButton() {
-        createMbr();
+        try {
+            createMbr();
+        } catch (Exception e) {
+        }
         Stage stage = (Stage) gridPane.getScene().getWindow();
         stage.close();
         ScreenNavigator.loadScreen(ScreenNavigator.BATCH_RECORD_SCREEN);
     }
 
-    private Mbr createMbr() {
+    private Mbr createMbr() throws Exception {
+        SingletonMbrRestClient mbrRestClient = SingletonMbrRestClient.getInstance();
+
         Product productId = textFieldWithProductSearch.getSelectedItem();
         Double batchSize = Double.parseDouble(batchSizeTextField.getText());
         Unit unitId = unitsChoiceBox.getValue();
@@ -124,8 +129,8 @@ public class NewController implements Initializable {
         Date expDate = DateConverter.convertLocalDateToDate(mfgDateDatePicker.getValue().plusYears(productId.getShelfLife()));
         String poNo = poNoTextField.getText();
 
-        return SMbrService.createMbr(productId, batchSize, mfgDate, expDate, poNo, unitId);
+        return mbrRestClient.createNewBatch(productId, batchSize, mfgDate, expDate, poNo, unitId);
+
     }
-    
 
 }

@@ -23,6 +23,7 @@ public class ScreenNavigator {
     public static final String PROJECTION_FXML = "mmd_module/view/projection/projection_pane.fxml";
     public static final String RESERVATION_FXML = "mmd_module/view/reservation/reservation.fxml";
     public static final String STOCKCARD_LIST_FXML = "mmd_module/view/stockcard/stockcard_list.fxml";
+    public static final String LOGIN_SCREEN = "view/login/login.fxml";
 
     private static MainController mainController;
 
@@ -30,15 +31,18 @@ public class ScreenNavigator {
         ScreenNavigator.mainController = mainController;
     }
 
+    public static MainController getMainController() {
+        return mainController;
+    }
+
     public static void loadScreen(String fxml) {
+
         try {
-            mainController.setScreen(
-                    FXMLLoader.load(
-                            ScreenNavigator.class.getResource(fxml)
-                    )
-            );
+
+            mainController.setScreen(FXMLLoader.load(ScreenNavigator.class.getResource(fxml)));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }

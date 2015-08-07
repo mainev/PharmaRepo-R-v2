@@ -23,11 +23,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.ConstraintValidator;
+import mbrinstant.controls.CustomTextArea;
 import mbrinstant.entity.mbr.BottlingProcedure;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
-import mbrinstant.service.mbr.BottlingProcedureService;
+import mbrinstant.exception.ServerException;
+import mbrinstant.rest_client.mbr.SingletonBottlingProcedureRestClient;
 
 /**
  * FXML Controller class
@@ -52,8 +53,8 @@ public class BottlingProcedureController implements Initializable, PageControlle
 
     ObservableList<BottlingProcedure> bottlingProcedureList = FXCollections.observableArrayList();
 
-    //services
-    BottlingProcedureService bottlingProcedureService = new BottlingProcedureService();
+    //rest client
+    SingletonBottlingProcedureRestClient bottlingProcedureRestClient = SingletonBottlingProcedureRestClient.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -83,10 +84,10 @@ public class BottlingProcedureController implements Initializable, PageControlle
         });
     }
 
-    public void createBottlingProcedures(ManufacturingProcedure mfg) {
+    public void createBottlingProcedures(ManufacturingProcedure mfg) throws ServerException {
         if (!bottlingProcedureList.isEmpty()) {
             for (BottlingProcedure bp : bottlingProcedureList) {
-                bottlingProcedureService.createBottlingProcedure(mfg.getId(), bp);
+                bottlingProcedureRestClient.createBottlingProcedure(mfg.getId(), bp);
             }
         }
     }
@@ -150,7 +151,7 @@ public class BottlingProcedureController implements Initializable, PageControlle
 
     @Override
     public boolean allFieldsValid() {
-        //advance to next page if 
+        //advance to next page if
         return !bottlingProcedureList.isEmpty();
     }
 

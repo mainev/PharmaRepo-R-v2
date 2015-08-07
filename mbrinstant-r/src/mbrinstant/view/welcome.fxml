@@ -9,9 +9,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1116.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.WelcomeController">
    <children>
-      <BorderPane layoutX="80.0" layoutY="64.0" prefHeight="610.0" prefWidth="1140.0" style="-fx-background-color: silver;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutX="80.0" layoutY="64.0" prefHeight="610.0" prefWidth="1140.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <Text fill="#fff6f6" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME" BorderPane.alignment="CENTER">
+            <Text fill="#bcbcbc" strokeType="OUTSIDE" strokeWidth="0.0" text="WELCOME" BorderPane.alignment="CENTER">
                <font>
                   <Font size="69.0" />
                </font>

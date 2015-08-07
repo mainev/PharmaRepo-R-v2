@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
-import mbrinstant.service.main.UnitService;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.utils.MetricCalculator;
 import mbrinstant.utils.Quantity;
 
@@ -29,14 +29,6 @@ public class BatchRm {
     private ObservableList<Quantity> quantityList = FXCollections.observableArrayList();
     private Quantity requiredQuantity = new Quantity();//calculated qty of all items in the map
 
-//    public Quantity countReserved(List<StockCardTxn> list) {
-//        Quantity result = new Quantity();
-//        for (StockCardTxn stc : list) {
-//            Quantity a = new Quantity(stc.getQty(), stc.getUnitId().getName());
-//            result = MetricCalculator.add(result, a);
-//        }
-//        return result;
-//    }
     private Quantity computeRequiredQuantity() {
         Quantity result = new Quantity();
         for (Quantity q : quantityList) {
@@ -45,25 +37,9 @@ public class BatchRm {
         return result;
     }
 
-//    private Quantity countRemainingQuantity(){
-//        Quantity result = new Quantity();
-//
-//        result = metricC.subtract(stockQuantity, metricC.add(requiredQuantity, reserved));
-//        return result;
-//    }
-//    public Quantity countStockQuantity(List<StockCardC> list) {
-//        Quantity result = new Quantity();
-//
-//        for (StockCardC stk : list) {
-//            Unit qtyUnit = getEquivalentUnit(stk.getUom());
-//            double qtyVal = stk.getQty();
-//            result = MetricCalculator.add(result, new Quantity(qtyVal, qtyUnit.getName()));
-//        }
-//
-//        return result;
-//    }
-    public Unit getEquivalentUnit(String unitName) {
-        List<Unit> unitList = new UnitService().getUnitList();
+    public Unit getEquivalentUnit(String unitName) throws Exception {
+
+        List<Unit> unitList = SingletonUnitRestClient.getInstance().getUnitList();
         for (Unit u : unitList) {
             if (u.getName().toUpperCase().trim().equals(unitName.toUpperCase().trim())) {
                 return u;

@@ -15,8 +15,8 @@ import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.entity.sqlsvr_copy.StockCardC;
 import mbrinstant.entity.transaction.StockCardTxn;
-import mbrinstant.service.main.UnitService;
-import mbrinstant.service.sqlsvr_copy.SStockCardService;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
 import mbrinstant.utils.MetricCalculator;
 import mbrinstant.utils.Quantity;
 import mbrinstant.utils.UDFCalculator;
@@ -28,6 +28,8 @@ import mbrinstant.utils.UDFCalculator;
 public class MbrRequirementHandler {
 
     public boolean MATERIALS_AVAILABLE = true;
+
+    SingletonStockCardRestClient stockCardRestClient = SingletonStockCardRestClient.getInstance();
 
     public enum Status {
 
@@ -168,7 +170,7 @@ public class MbrRequirementHandler {
     }
 
     //mbr product formulation must already be computed
-    public MbrRequirementHandler(Mbr mbr) {
+    public MbrRequirementHandler(Mbr mbr) throws Exception {
         String companyCd = mbr.getProductId().getClientId().getCode();
         UDFCalculator udfCalculator = new UDFCalculator();
         udfCalculator.calculateRawMaterialBatchReq(mbr);
@@ -177,7 +179,7 @@ public class MbrRequirementHandler {
         List<PackagingMaterialRequirement> pmReqList = mbr.getProductId().getUdfId().getPackagingMaterialRequirementList();
         for (RawMaterialRequirement rmReq : rmReqList) {
 
-            List<StockCardC> availableStocks = SStockCardService.getStockCardByCompanyCdAndItemCd(companyCd, rmReq.getRawMaterialId().getCode());
+            List<StockCardC> availableStocks = stockCardRestClient.getStockCardByCompanyCdAndItemCd(companyCd, rmReq.getRawMaterialId().getCode());
             ObservableList<StockCardTxn> txnList = FXCollections.observableArrayList();
             Quantity overallAvailableQty = new Quantity();
             if (availableStocks.isEmpty()) {
@@ -245,7 +247,7 @@ public class MbrRequirementHandler {
 
         for (PackagingMaterialRequirement pmReq : pmReqList) {
 
-            List<StockCardC> availableStocks = SStockCardService.getStockCardByCompanyCdAndItemCd(companyCd, pmReq.getPackagingMaterialId().getCode());
+            List<StockCardC> availableStocks = stockCardRestClient.getStockCardByCompanyCdAndItemCd(companyCd, pmReq.getPackagingMaterialId().getCode());
             ObservableList<StockCardTxn> txnList = FXCollections.observableArrayList();
             Quantity overallAvailableQty = new Quantity();
             if (availableStocks.isEmpty()) {
@@ -313,8 +315,8 @@ public class MbrRequirementHandler {
 
     }
 
-    public Unit getEquivalentUnit(String unitName) {
-        List<Unit> unitList = new UnitService().getUnitList();
+    public Unit getEquivalentUnit(String unitName) throws Exception {
+        List<Unit> unitList = SingletonUnitRestClient.getInstance().getUnitList();
         for (Unit u : unitList) {
             if (u.getName().toUpperCase().trim().equals(unitName.toUpperCase().trim())) {
                 return u;

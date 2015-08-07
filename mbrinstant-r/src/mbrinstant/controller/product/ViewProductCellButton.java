@@ -5,7 +5,6 @@
  */
 package mbrinstant.controller.product;
 
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -21,10 +20,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mbrinstant.entity.main.Product;
-import mbrinstant.service.main.ProductService;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
 
 /**
  * Modified version of jewelsea JavaFX sample TableView with Add Buttons sources
+ *
  * @web https://gist.github.com/jewelsea/3081826
  *
  * @author maine
@@ -86,18 +86,18 @@ public class ViewProductCellButton extends TableCell<Product, Boolean> {
 
             DetailsController controller = new DetailsController();
             fxmlLoader.setController(controller);
-            controller.setProduct(new ProductService().getProductById(product.getId()));
+            controller.setProduct(SingletonProductRestClient.getInstance().getProductById(product.getId()));
 
             Parent root1 = (Parent) fxmlLoader.load();
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-          
+
             stage.setTitle("Product Details");
             stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
         }

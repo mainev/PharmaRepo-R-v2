@@ -27,7 +27,7 @@ public class RawMaterial implements Serializable {
     @Expose
     private Classification classificationId;
     @Expose
-    private Client clientId;
+    private Company clientId;
 
     public RawMaterial() {
     }
@@ -76,11 +76,11 @@ public class RawMaterial implements Serializable {
         this.classificationId = classificationId;
     }
 
-    public Client getClientId() {
+    public Company getClientId() {
         return clientId;
     }
 
-    public void setClientId(Client clientId) {
+    public void setClientId(Company clientId) {
         this.clientId = clientId;
     }
 
