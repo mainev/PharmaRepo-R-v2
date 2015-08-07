@@ -17,15 +17,6 @@ COMMENT ON DATABASE pharma_red_v2 IS 'new version of pharma_red with the same st
 
 
 --
--- Name: audit; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA audit;
-
-
-ALTER SCHEMA audit OWNER TO postgres;
-
---
 -- Name: main; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -49,6 +40,15 @@ CREATE SCHEMA mbr;
 
 
 ALTER SCHEMA mbr OWNER TO postgres;
+
+--
+-- Name: security; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA security;
+
+
+ALTER SCHEMA security OWNER TO postgres;
 
 --
 -- Name: sqlsvr_copy; Type: SCHEMA; Schema: -; Owner: postgres
@@ -89,88 +89,11 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
-SET search_path = audit, pg_catalog;
+SET search_path = main, pg_catalog;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: audit; Type: TABLE; Schema: audit; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE audit (
-    id integer NOT NULL,
-    user_id smallint,
-    machine character varying(20),
-    datetime timestamp without time zone,
-    action character varying(10),
-    field character varying(20),
-    pc_login_name character varying(20)
-);
-
-
-ALTER TABLE audit.audit OWNER TO postgres;
-
---
--- Name: audit_id_seq; Type: SEQUENCE; Schema: audit; Owner: postgres
---
-
-CREATE SEQUENCE audit_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE audit.audit_id_seq OWNER TO postgres;
-
---
--- Name: audit_id_seq; Type: SEQUENCE OWNED BY; Schema: audit; Owner: postgres
---
-
-ALTER SEQUENCE audit_id_seq OWNED BY audit.id;
-
-
---
--- Name: user; Type: TABLE; Schema: audit; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE "user" (
-    id integer NOT NULL,
-    username character varying(10),
-    first_name character varying(100),
-    last_name character varying(100),
-    password character varying(12),
-    "position" character varying(100)
-);
-
-
-ALTER TABLE audit."user" OWNER TO postgres;
-
---
--- Name: user_id_seq; Type: SEQUENCE; Schema: audit; Owner: postgres
---
-
-CREATE SEQUENCE user_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE audit.user_id_seq OWNER TO postgres;
-
---
--- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: audit; Owner: postgres
---
-
-ALTER SEQUENCE user_id_seq OWNED BY "user".id;
-
-
-SET search_path = main, pg_catalog;
 
 --
 -- Name: area; Type: TABLE; Schema: main; Owner: postgres; Tablespace: 
@@ -239,17 +162,17 @@ ALTER SEQUENCE classification_id_seq OWNED BY classification.id;
 
 
 --
--- Name: client; Type: TABLE; Schema: main; Owner: postgres; Tablespace: 
+-- Name: company; Type: TABLE; Schema: main; Owner: postgres; Tablespace: 
 --
 
-CREATE TABLE client (
+CREATE TABLE company (
     id smallint NOT NULL,
     name character varying(50),
     code character varying(5)
 );
 
 
-ALTER TABLE main.client OWNER TO postgres;
+ALTER TABLE main.company OWNER TO postgres;
 
 --
 -- Name: client_id_seq; Type: SEQUENCE; Schema: main; Owner: postgres
@@ -269,7 +192,7 @@ ALTER TABLE main.client_id_seq OWNER TO postgres;
 -- Name: client_id_seq; Type: SEQUENCE OWNED BY; Schema: main; Owner: postgres
 --
 
-ALTER SEQUENCE client_id_seq OWNED BY client.id;
+ALTER SEQUENCE client_id_seq OWNED BY company.id;
 
 
 --
@@ -1003,6 +926,328 @@ ALTER TABLE mbr.udf_id_seq OWNER TO postgres;
 ALTER SEQUENCE udf_id_seq OWNED BY udf.id;
 
 
+SET search_path = security, pg_catalog;
+
+--
+-- Name: role_method; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE role_method (
+    id smallint NOT NULL,
+    role_id smallint,
+    method_id smallint
+);
+
+
+ALTER TABLE security.role_method OWNER TO postgres;
+
+--
+-- Name: TABLE role_method; Type: COMMENT; Schema: security; Owner: postgres
+--
+
+COMMENT ON TABLE role_method IS 'mapping of role and method table';
+
+
+--
+-- Name: access_right_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE access_right_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.access_right_id_seq OWNER TO postgres;
+
+--
+-- Name: access_right_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE access_right_id_seq OWNED BY role_method.id;
+
+
+--
+-- Name: audit; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE audit (
+    id integer NOT NULL,
+    user_id smallint,
+    machine character varying(20),
+    datetime timestamp without time zone,
+    action character varying(10),
+    field character varying(20),
+    pc_login_name character varying(20)
+);
+
+
+ALTER TABLE security.audit OWNER TO postgres;
+
+--
+-- Name: audit_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE audit_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.audit_id_seq OWNER TO postgres;
+
+--
+-- Name: audit_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE audit_id_seq OWNED BY audit.id;
+
+
+--
+-- Name: group; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "group" (
+    id smallint NOT NULL,
+    group_name character varying(20)
+);
+
+
+ALTER TABLE security."group" OWNER TO postgres;
+
+--
+-- Name: TABLE "group"; Type: COMMENT; Schema: security; Owner: postgres
+--
+
+COMMENT ON TABLE "group" IS 'internal classification of users';
+
+
+--
+-- Name: group_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.group_id_seq OWNER TO postgres;
+
+--
+-- Name: group_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE group_id_seq OWNED BY "group".id;
+
+
+--
+-- Name: user_role; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE user_role (
+    id smallint NOT NULL,
+    user_id integer,
+    role_id smallint
+);
+
+
+ALTER TABLE security.user_role OWNER TO postgres;
+
+--
+-- Name: TABLE user_role; Type: COMMENT; Schema: security; Owner: postgres
+--
+
+COMMENT ON TABLE user_role IS 'mapping of user and role';
+
+
+--
+-- Name: group_role_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE group_role_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.group_role_id_seq OWNER TO postgres;
+
+--
+-- Name: group_role_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE group_role_id_seq OWNED BY user_role.id;
+
+
+--
+-- Name: role; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE role (
+    id smallint NOT NULL,
+    role_name character varying(20) NOT NULL
+);
+
+
+ALTER TABLE security.role OWNER TO postgres;
+
+--
+-- Name: id_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE id_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.id_id_seq OWNER TO postgres;
+
+--
+-- Name: id_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE id_id_seq OWNED BY role.id;
+
+
+--
+-- Name: method; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE method (
+    id smallint NOT NULL,
+    name character varying(100) NOT NULL,
+    description character varying(500)
+);
+
+
+ALTER TABLE security.method OWNER TO postgres;
+
+--
+-- Name: method_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE method_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.method_id_seq OWNER TO postgres;
+
+--
+-- Name: method_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE method_id_seq OWNED BY method.id;
+
+
+--
+-- Name: user; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "user" (
+    id integer NOT NULL,
+    email_ad character varying(100),
+    first_name character varying(100),
+    last_name character varying(100),
+    "position" character varying(100),
+    password character(100)
+);
+
+
+ALTER TABLE security."user" OWNER TO postgres;
+
+--
+-- Name: COLUMN "user".email_ad; Type: COMMENT; Schema: security; Owner: postgres
+--
+
+COMMENT ON COLUMN "user".email_ad IS 'serves as username';
+
+
+--
+-- Name: user_group; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE user_group (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id smallint NOT NULL
+);
+
+
+ALTER TABLE security.user_group OWNER TO postgres;
+
+--
+-- Name: user_group_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE user_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.user_group_id_seq OWNER TO postgres;
+
+--
+-- Name: user_group_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE user_group_id_seq OWNED BY user_group.id;
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.user_id_seq OWNER TO postgres;
+
+--
+-- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE user_id_seq OWNED BY "user".id;
+
+
+--
+-- Name: user_roles; Type: VIEW; Schema: security; Owner: postgres
+--
+
+CREATE VIEW user_roles AS
+ SELECT u.email_ad,
+    u.password,
+    g.group_name
+   FROM ((user_group ug
+     JOIN "user" u ON ((u.id = ug.user_id)))
+     JOIN "group" g ON ((g.id = ug.group_id)));
+
+
+ALTER TABLE security.user_roles OWNER TO postgres;
+
 SET search_path = sqlsvr_copy, pg_catalog;
 
 --
@@ -1296,22 +1541,6 @@ ALTER TABLE transaction.stock_card_txn_id_seq OWNER TO postgres;
 ALTER SEQUENCE stock_card_txn_id_seq OWNED BY stock_card_txn.id;
 
 
-SET search_path = audit, pg_catalog;
-
---
--- Name: id; Type: DEFAULT; Schema: audit; Owner: postgres
---
-
-ALTER TABLE ONLY audit ALTER COLUMN id SET DEFAULT nextval('audit_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: audit; Owner: postgres
---
-
-ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regclass);
-
-
 SET search_path = main, pg_catalog;
 
 --
@@ -1332,7 +1561,7 @@ ALTER TABLE ONLY classification ALTER COLUMN id SET DEFAULT nextval('classificat
 -- Name: id; Type: DEFAULT; Schema: main; Owner: postgres
 --
 
-ALTER TABLE ONLY client ALTER COLUMN id SET DEFAULT nextval('client_id_seq'::regclass);
+ALTER TABLE ONLY company ALTER COLUMN id SET DEFAULT nextval('client_id_seq'::regclass);
 
 
 --
@@ -1449,6 +1678,64 @@ ALTER TABLE ONLY powder_filling_procedure ALTER COLUMN id SET DEFAULT nextval('p
 ALTER TABLE ONLY raw_material_requirement ALTER COLUMN id SET DEFAULT nextval('raw_material_requirement_id_seq'::regclass);
 
 
+SET search_path = security, pg_catalog;
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY audit ALTER COLUMN id SET DEFAULT nextval('audit_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY "group" ALTER COLUMN id SET DEFAULT nextval('group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY method ALTER COLUMN id SET DEFAULT nextval('method_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY role ALTER COLUMN id SET DEFAULT nextval('id_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY role_method ALTER COLUMN id SET DEFAULT nextval('access_right_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY user_group ALTER COLUMN id SET DEFAULT nextval('user_group_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY user_role ALTER COLUMN id SET DEFAULT nextval('group_role_id_seq'::regclass);
+
+
 SET search_path = sqlsvr_copy, pg_catalog;
 
 --
@@ -1509,34 +1796,6 @@ SET search_path = transaction, pg_catalog;
 ALTER TABLE ONLY stock_card_txn ALTER COLUMN id SET DEFAULT nextval('stock_card_txn_id_seq'::regclass);
 
 
-SET search_path = audit, pg_catalog;
-
---
--- Data for Name: audit; Type: TABLE DATA; Schema: audit; Owner: postgres
---
-
-
-
---
--- Name: audit_id_seq; Type: SEQUENCE SET; Schema: audit; Owner: postgres
---
-
-SELECT pg_catalog.setval('audit_id_seq', 1, false);
-
-
---
--- Data for Name: user; Type: TABLE DATA; Schema: audit; Owner: postgres
---
-
-
-
---
--- Name: user_id_seq; Type: SEQUENCE SET; Schema: audit; Owner: postgres
---
-
-SELECT pg_catalog.setval('user_id_seq', 1, false);
-
-
 SET search_path = main, pg_catalog;
 
 --
@@ -1577,23 +1836,23 @@ SELECT pg_catalog.setval('classification_id_seq', 3, true);
 
 
 --
--- Data for Name: client; Type: TABLE DATA; Schema: main; Owner: postgres
---
-
-INSERT INTO client VALUES (1, 'VACCINE', '01');
-INSERT INTO client VALUES (2, 'APT-FIGHT', '02');
-INSERT INTO client VALUES (3, 'PRO-BIOTICS', '03');
-INSERT INTO client VALUES (4, 'APT-HEALTH', '04');
-INSERT INTO client VALUES (5, 'BIOCARE(PET CARE)', '05');
-INSERT INTO client VALUES (6, 'NUTRATECH', '07');
-INSERT INTO client VALUES (7, '100 TDB', '08');
-
-
---
 -- Name: client_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
 --
 
 SELECT pg_catalog.setval('client_id_seq', 7, true);
+
+
+--
+-- Data for Name: company; Type: TABLE DATA; Schema: main; Owner: postgres
+--
+
+INSERT INTO company VALUES (1, 'VACCINE', '01');
+INSERT INTO company VALUES (2, 'APT-FIGHT', '02');
+INSERT INTO company VALUES (3, 'PRO-BIOTICS', '03');
+INSERT INTO company VALUES (4, 'APT-HEALTH', '04');
+INSERT INTO company VALUES (5, 'BIOCARE(PET CARE)', '05');
+INSERT INTO company VALUES (6, 'NUTRATECH', '07');
+INSERT INTO company VALUES (7, '100 TDB', '08');
 
 
 --
@@ -1644,13 +1903,14 @@ INSERT INTO pack_size VALUES (33, 20, 7, 1);
 INSERT INTO pack_size VALUES (34, 20, 7, 2);
 INSERT INTO pack_size VALUES (35, 4, 3, 4);
 INSERT INTO pack_size VALUES (36, 56, 11, 4);
+INSERT INTO pack_size VALUES (37, 800, 2, 1);
 
 
 --
 -- Name: pack_size_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pack_size_id_seq', 36, true);
+SELECT pg_catalog.setval('pack_size_id_seq', 37, true);
 
 
 --
@@ -1680,13 +1940,14 @@ INSERT INTO product VALUES (61, '26', 'Cattleya', 'Vit B, C, D, and E', 2, 3, 'F
 INSERT INTO product VALUES (62, '30', 'GLUTASEP', 'Glutaraldehyde 50% + Benzalkonium Chloride 80%', 2, 3, 'VRM-14-224', 3, 1, 35);
 INSERT INTO product VALUES (63, 'p09', 'brand v', 'gen v', 1, 3, 'vr 5', 4, 6, 31);
 INSERT INTO product VALUES (64, 'huj', 'bb', 'bb', 2, 2, 'bb', 5, 3, 36);
+INSERT INTO product VALUES (65, 'MP1', 'MY PRODUCT', 'MY PRODUCT', 1, 6, 'VRFDEC', 5, 8, 37);
 
 
 --
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
 --
 
-SELECT pg_catalog.setval('product_id_seq', 64, true);
+SELECT pg_catalog.setval('product_id_seq', 65, true);
 
 
 --
@@ -2001,13 +2262,14 @@ INSERT INTO compounding_procedure VALUES (29, 1, 'asdasda', false, NULL, NULL, 6
 INSERT INTO compounding_procedure VALUES (30, 1, 'first compounding procedure..', true, NULL, NULL, 62);
 INSERT INTO compounding_procedure VALUES (31, 1, 'content 1', true, NULL, NULL, 63);
 INSERT INTO compounding_procedure VALUES (32, 1, 'gtgtgtg', true, NULL, NULL, 64);
+INSERT INTO compounding_procedure VALUES (33, 1, 'HEHE AMBOT OI', true, NULL, NULL, 65);
 
 
 --
 -- Name: compounding_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('compounding_procedure_id_seq', 32, true);
+SELECT pg_catalog.setval('compounding_procedure_id_seq', 33, true);
 
 
 --
@@ -2025,13 +2287,15 @@ INSERT INTO dosage VALUES (28, 67, 1, 29);
 INSERT INTO dosage VALUES (29, 68, 1, 29);
 INSERT INTO dosage VALUES (30, 70, 1, 30);
 INSERT INTO dosage VALUES (31, 74, 1, 31);
+INSERT INTO dosage VALUES (32, 77, 1, 33);
+INSERT INTO dosage VALUES (33, 78, 1, 33);
 
 
 --
 -- Name: dosage_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('dosage_id_seq', 31, true);
+SELECT pg_catalog.setval('dosage_id_seq', 33, true);
 
 
 --
@@ -2048,6 +2312,8 @@ INSERT INTO equipment_requirement VALUES (21, 61, 1, 'COMPOUNDING');
 INSERT INTO equipment_requirement VALUES (22, 62, 1, 'COMPOUNDING');
 INSERT INTO equipment_requirement VALUES (23, 63, 1, 'COMPOUNDING');
 INSERT INTO equipment_requirement VALUES (24, 64, 1, 'ENCAPSULATION');
+INSERT INTO equipment_requirement VALUES (25, 65, 1, 'COMPOUNDING');
+INSERT INTO equipment_requirement VALUES (26, 65, 3, 'COMPOUNDING');
 
 
 --
@@ -2061,7 +2327,7 @@ SELECT pg_catalog.setval('equipment_requirement_coding_equipment_id_seq', 1, fal
 -- Name: equipment_requirement_coding_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 24, true);
+SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 26, true);
 
 
 --
@@ -2084,6 +2350,7 @@ INSERT INTO manufacturing_procedure VALUES (61);
 INSERT INTO manufacturing_procedure VALUES (62);
 INSERT INTO manufacturing_procedure VALUES (63);
 INSERT INTO manufacturing_procedure VALUES (64);
+INSERT INTO manufacturing_procedure VALUES (65);
 
 
 --
@@ -2098,15 +2365,20 @@ SELECT pg_catalog.setval('manufacturing_procedure_id_seq', 4, true);
 --
 
 INSERT INTO mbr VALUES (74, 58, 1000, 'batch1', 3, '2015-07-29', '2018-07-29', 'dded', 'PENDING');
-INSERT INTO mbr VALUES (75, 59, 1500, 'batch1', 3, '2016-07-12', '2019-07-12', 'fsf', 'PENDING');
 INSERT INTO mbr VALUES (73, 59, 1000, 'batch1', 3, '2015-07-25', '2018-07-25', 'ded', 'DISPENSED');
+INSERT INTO mbr VALUES (76, 58, 1000, 'batch1', 3, '2015-07-29', '2018-07-29', 'gtghb', 'PENDING');
+INSERT INTO mbr VALUES (77, 61, 100, 'batch1', 7, '2015-08-28', '2018-08-28', 'dddfef', 'PENDING');
+INSERT INTO mbr VALUES (78, 62, 1000, 'batch1', 3, '2016-08-27', '2019-08-27', 'defvc', 'PENDING');
+INSERT INTO mbr VALUES (75, 59, 1500, 'batch1', 3, '2016-07-12', '2019-07-12', 'fsf', 'DISPENSED');
+INSERT INTO mbr VALUES (80, 64, 89, 'batch1', 9, '2015-08-28', '2020-08-28', 'HYGB', 'PENDING');
+INSERT INTO mbr VALUES (79, 59, 100, 'batch1', 3, '2015-08-22', '2018-08-22', 'frgvc', 'PENDING');
 
 
 --
 -- Name: mbr_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('mbr_id_seq', 75, true);
+SELECT pg_catalog.setval('mbr_id_seq', 80, true);
 
 
 --
@@ -2122,13 +2394,14 @@ INSERT INTO packaging_material_requirement VALUES (44, 8, 1, 3, 61);
 INSERT INTO packaging_material_requirement VALUES (45, 8, 1, 9, 62);
 INSERT INTO packaging_material_requirement VALUES (46, 8, 1, 9, 63);
 INSERT INTO packaging_material_requirement VALUES (47, 8, 1, 7, 64);
+INSERT INTO packaging_material_requirement VALUES (48, 8, 1, 9, 65);
 
 
 --
 -- Name: packaging_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 47, true);
+SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 48, true);
 
 
 --
@@ -2158,6 +2431,7 @@ INSERT INTO packaging_operation VALUES (32, 1, 'asda', 61, 1, ' asd', 'asd');
 INSERT INTO packaging_operation VALUES (33, 1, '1st packaging procedure', 62, 1, '-------------	', '------------------');
 INSERT INTO packaging_operation VALUES (34, 1, 'pack opt 1', 63, 1, '', '');
 INSERT INTO packaging_operation VALUES (35, 1, 'hybb', 64, 2, '', '');
+INSERT INTO packaging_operation VALUES (36, 1, 'AMBOT', 65, 2, '', '');
 
 
 --
@@ -2171,7 +2445,7 @@ SELECT pg_catalog.setval('packaging_procedure_id_seq', 5, true);
 -- Name: packaging_procedure_operation_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 35, true);
+SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 36, true);
 
 
 --
@@ -2194,6 +2468,7 @@ INSERT INTO primary_secondary_packaging VALUES (61, 44, 44);
 INSERT INTO primary_secondary_packaging VALUES (62, 45, 45);
 INSERT INTO primary_secondary_packaging VALUES (63, 46, 46);
 INSERT INTO primary_secondary_packaging VALUES (64, 47, 47);
+INSERT INTO primary_secondary_packaging VALUES (65, 48, 48);
 
 
 --
@@ -2237,13 +2512,15 @@ INSERT INTO raw_material_requirement VALUES (73, 102, 1, 5, 62, 0);
 INSERT INTO raw_material_requirement VALUES (74, 6, 100, 2, 63, 0);
 INSERT INTO raw_material_requirement VALUES (75, 6, 56, 5, 64, 0);
 INSERT INTO raw_material_requirement VALUES (76, 205, 10, 7, 58, 0);
+INSERT INTO raw_material_requirement VALUES (77, 6, 14, 2, 65, 0);
+INSERT INTO raw_material_requirement VALUES (78, 9, 34, 2, 65, 0);
 
 
 --
 -- Name: raw_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('raw_material_requirement_id_seq', 76, true);
+SELECT pg_catalog.setval('raw_material_requirement_id_seq', 78, true);
 
 
 --
@@ -2259,6 +2536,7 @@ INSERT INTO udf VALUES (61, 5, 5);
 INSERT INTO udf VALUES (62, 1, 3);
 INSERT INTO udf VALUES (63, 5, 2);
 INSERT INTO udf VALUES (64, 5, 11);
+INSERT INTO udf VALUES (65, 1, 2);
 
 
 --
@@ -2266,6 +2544,184 @@ INSERT INTO udf VALUES (64, 5, 11);
 --
 
 SELECT pg_catalog.setval('udf_id_seq', 2, true);
+
+
+SET search_path = security, pg_catalog;
+
+--
+-- Name: access_right_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('access_right_id_seq', 10, true);
+
+
+--
+-- Data for Name: audit; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+
+
+--
+-- Name: audit_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('audit_id_seq', 1, false);
+
+
+--
+-- Data for Name: group; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO "group" VALUES (2, 'USER');
+INSERT INTO "group" VALUES (1, 'ADMIN');
+
+
+--
+-- Name: group_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('group_id_seq', 3, true);
+
+
+--
+-- Name: group_role_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('group_role_id_seq', 4, true);
+
+
+--
+-- Name: id_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('id_id_seq', 2, true);
+
+
+--
+-- Data for Name: method; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO method VALUES (2, 'g_login', 'Login method');
+INSERT INTO method VALUES (4, 'g_batch_by_batch_no', 'Search batch by batch no');
+INSERT INTO method VALUES (5, 'g_batch_by_product_code', 'Search batch by product code');
+INSERT INTO method VALUES (6, 'g_batch_by_area', 'Search batch by area');
+INSERT INTO method VALUES (3, 'g_batch_by_stat', 'Search batch record by status');
+INSERT INTO method VALUES (1, 'g_batch_list', 'Search all batch records');
+INSERT INTO method VALUES (7, 'pst_new_batch', 'Create new batch');
+INSERT INTO method VALUES (8, 'pst_reserve_mbr', 'Reserve batch');
+INSERT INTO method VALUES (9, 'pst_cancel_reservation', 'Cancel batch reservation');
+INSERT INTO method VALUES (10, 'pst_print_batch', 'Print batch');
+INSERT INTO method VALUES (11, 'pst_dispense_batch_material', 'Dispense batch materials. This will set the batch status to ''DISPENSED''');
+INSERT INTO method VALUES (12, 'g_product_list', 'Search product list');
+INSERT INTO method VALUES (13, 'g_is_code_valid', 'Checks if product code is valid');
+INSERT INTO method VALUES (14, 'g_product_by_id', 'Search product by id');
+INSERT INTO method VALUES (15, 'g_primary_packg', 'Search product''s primary packaging material');
+INSERT INTO method VALUES (16, 'g_secondary_packg', 'Search product''s secondary packaging material');
+INSERT INTO method VALUES (17, 'pst_new_product', 'Create new product');
+INSERT INTO method VALUES (18, 'pst_prim_sec_packg', 'Set product''s primary and secondary packaging material');
+INSERT INTO method VALUES (19, 'g_area_list', 'Search all areas');
+INSERT INTO method VALUES (20, 'g_classification_list', 'Search all material classification');
+INSERT INTO method VALUES (21, 'g_company_list', 'View company list');
+INSERT INTO method VALUES (22, 'g_container_list', 'View container list');
+INSERT INTO method VALUES (23, 'g_equipment_list', 'View equipment list');
+INSERT INTO method VALUES (24, 'pst_new_pack_size', 'Create new packaging size');
+INSERT INTO method VALUES (25, 'g_packg_material_list', 'View packaging material list');
+INSERT INTO method VALUES (26, 'g_raw_material_list', 'View raw material list');
+INSERT INTO method VALUES (27, 'pst_new_bottling_proc', 'Create new bottling procedure');
+INSERT INTO method VALUES (28, 'pst_new_compounding_proc', 'Create new compounding procedure');
+INSERT INTO method VALUES (29, 'pst_new_dosage', 'Create new dosage in compounding procedure');
+INSERT INTO method VALUES (30, 'g_find_by_mfg_id_and_procedure', 'Get equipment by mfg and procedure');
+INSERT INTO method VALUES (31, 'pst_create_new_equip_req', 'Create new equipment requirement');
+INSERT INTO method VALUES (33, 'pst_new_mfg_proc', 'Create new manufacturing procedure');
+INSERT INTO method VALUES (34, 'pst_packg_material_req', 'Create new packaging material requirement');
+INSERT INTO method VALUES (35, 'g_packg_material_req_by_udf_id', 'Search packaging material requirement by udf id');
+INSERT INTO method VALUES (36, 'g_packg_material_req_by_details', 'Get packaging material by details');
+INSERT INTO method VALUES (37, 'pst_create_new_packg_operation', 'Create new packaging operation');
+INSERT INTO method VALUES (38, 'pst_new_powder_filling', 'Create new powder filling procedure');
+INSERT INTO method VALUES (39, 'pst_new_raw_material_rew', 'Create new raw material requirement');
+INSERT INTO method VALUES (40, 'g_raw_material_req_by_udf_id', 'Search raw material requirement by udf id');
+INSERT INTO method VALUES (41, 'g_raw_material_req_by_details', 'Search raw material requirement by details');
+INSERT INTO method VALUES (42, 'g_udf_by_id', 'Search udf by id');
+INSERT INTO method VALUES (43, 'pst_new_udf', 'Create new udf');
+INSERT INTO method VALUES (44, 'g_stock_card_by_item_cd', 'Search stock card by item code');
+INSERT INTO method VALUES (45, 'g_stock_card_by_id', 'Search stockcard by id');
+INSERT INTO method VALUES (46, 'g_stock_card_by_company_cd_and_item_cd', 'Search stockcard by company code and item code');
+INSERT INTO method VALUES (47, 'pst_change_stock_card_status', 'Set stockcard status to depleted');
+INSERT INTO method VALUES (48, 'g_stockcard_by_control_no', 'Search stockcard by control no');
+INSERT INTO method VALUES (49, 'g_reserved_approved_by_item_cd', 'Search reserved and approved stockcard transaction');
+INSERT INTO method VALUES (50, 'g_reserved_approved_by_item_cd_company_cd', 'Search reserved and approved stock card transaction by item code and company code');
+INSERT INTO method VALUES (51, 'pst_new_stock_card_txn', 'Create new stockcard transaction
+');
+
+
+--
+-- Name: method_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('method_id_seq', 51, true);
+
+
+--
+-- Data for Name: role; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO role VALUES (1, 'MMD_ROLE');
+INSERT INTO role VALUES (2, 'RND_ROLE');
+
+
+--
+-- Data for Name: role_method; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO role_method VALUES (2, 1, 1);
+INSERT INTO role_method VALUES (3, 1, 3);
+INSERT INTO role_method VALUES (4, 1, 4);
+INSERT INTO role_method VALUES (5, 1, 5);
+INSERT INTO role_method VALUES (6, 1, 6);
+INSERT INTO role_method VALUES (7, 1, 8);
+INSERT INTO role_method VALUES (8, 1, 9);
+INSERT INTO role_method VALUES (9, 1, 11);
+INSERT INTO role_method VALUES (10, 1, 12);
+
+
+--
+-- Data for Name: user; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO "user" VALUES (2, 'mainevillarias@gmail.com', 'Marie Charmaine', 'Villarias', 'programmer', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
+INSERT INTO "user" VALUES (3, 'starlightlynx@gmail.com', 'HAWKE', 'HAWKE', 'CHAMPION', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
+INSERT INTO "user" VALUES (4, 'rnduser@gmail.com', 'Marie', 'Woodland', 'MANAGER', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
+
+
+--
+-- Data for Name: user_group; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO user_group VALUES (2, 2, 1);
+INSERT INTO user_group VALUES (3, 3, 2);
+INSERT INTO user_group VALUES (8, 4, 2);
+
+
+--
+-- Name: user_group_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('user_group_id_seq', 8, true);
+
+
+--
+-- Name: user_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('user_id_seq', 4, true);
+
+
+--
+-- Data for Name: user_role; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO user_role VALUES (3, 3, 1);
+INSERT INTO user_role VALUES (4, 4, 2);
 
 
 SET search_path = sqlsvr_copy, pg_catalog;
@@ -2709,39 +3165,16 @@ SET search_path = transaction, pg_catalog;
 INSERT INTO stock_card_txn VALUES (59, 1, 4.5999999999999996, 7, 73);
 INSERT INTO stock_card_txn VALUES (60, 66, 9, 7, 73);
 INSERT INTO stock_card_txn VALUES (61, 67, 1000, 9, 73);
+INSERT INTO stock_card_txn VALUES (62, 1, 6.9000000000000004, 7, 75);
+INSERT INTO stock_card_txn VALUES (63, 66, 13.5, 7, 75);
+INSERT INTO stock_card_txn VALUES (64, 67, 1500, 9, 75);
 
 
 --
 -- Name: stock_card_txn_id_seq; Type: SEQUENCE SET; Schema: transaction; Owner: postgres
 --
 
-SELECT pg_catalog.setval('stock_card_txn_id_seq', 61, true);
-
-
-SET search_path = audit, pg_catalog;
-
---
--- Name: audit_pkey; Type: CONSTRAINT; Schema: audit; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY audit
-    ADD CONSTRAINT audit_pkey PRIMARY KEY (id);
-
-
---
--- Name: user_pkey; Type: CONSTRAINT; Schema: audit; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY "user"
-    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
-
-
---
--- Name: user_username_key; Type: CONSTRAINT; Schema: audit; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY "user"
-    ADD CONSTRAINT user_username_key UNIQUE (username);
+SELECT pg_catalog.setval('stock_card_txn_id_seq', 67, true);
 
 
 SET search_path = main, pg_catalog;
@@ -2766,7 +3199,7 @@ ALTER TABLE ONLY classification
 -- Name: client_pkey; Type: CONSTRAINT; Schema: main; Owner: postgres; Tablespace: 
 --
 
-ALTER TABLE ONLY client
+ALTER TABLE ONLY company
     ADD CONSTRAINT client_pkey PRIMARY KEY (id);
 
 
@@ -2940,6 +3373,104 @@ ALTER TABLE ONLY udf
     ADD CONSTRAINT udf_pkey PRIMARY KEY (id);
 
 
+SET search_path = security, pg_catalog;
+
+--
+-- Name: access_right_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role_method
+    ADD CONSTRAINT access_right_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: audit_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY audit
+    ADD CONSTRAINT audit_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: group_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "group"
+    ADD CONSTRAINT group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: group_role_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY user_role
+    ADD CONSTRAINT group_role_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: id_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role
+    ADD CONSTRAINT id_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: id_role_name_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role
+    ADD CONSTRAINT id_role_name_key UNIQUE (role_name);
+
+
+--
+-- Name: method_name_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY method
+    ADD CONSTRAINT method_name_key UNIQUE (name);
+
+
+--
+-- Name: method_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY method
+    ADD CONSTRAINT method_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: role_method_role_id_method_id_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role_method
+    ADD CONSTRAINT role_method_role_id_method_id_key UNIQUE (role_id, method_id);
+
+
+--
+-- Name: user_group_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY user_group
+    ADD CONSTRAINT user_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "user"
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_username_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "user"
+    ADD CONSTRAINT user_username_key UNIQUE (email_ad);
+
+
 SET search_path = sqlsvr_copy, pg_catalog;
 
 --
@@ -3056,16 +3587,6 @@ ALTER TABLE ONLY stock_card_txn
     ADD CONSTRAINT stock_card_txn_pkey PRIMARY KEY (id);
 
 
-SET search_path = audit, pg_catalog;
-
---
--- Name: audit_user_id_fkey; Type: FK CONSTRAINT; Schema: audit; Owner: postgres
---
-
-ALTER TABLE ONLY audit
-    ADD CONSTRAINT audit_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
-
-
 SET search_path = main, pg_catalog;
 
 --
@@ -3089,7 +3610,7 @@ ALTER TABLE ONLY pack_size
 --
 
 ALTER TABLE ONLY packaging_material
-    ADD CONSTRAINT packaging_material_client_id_fkey FOREIGN KEY (client_id) REFERENCES client(id);
+    ADD CONSTRAINT packaging_material_client_id_fkey FOREIGN KEY (client_id) REFERENCES company(id);
 
 
 --
@@ -3113,7 +3634,7 @@ ALTER TABLE ONLY product
 --
 
 ALTER TABLE ONLY product
-    ADD CONSTRAINT product_client_id_fkey FOREIGN KEY (client_id) REFERENCES client(id);
+    ADD CONSTRAINT product_client_id_fkey FOREIGN KEY (client_id) REFERENCES company(id);
 
 
 --
@@ -3137,7 +3658,7 @@ ALTER TABLE ONLY raw_material
 --
 
 ALTER TABLE ONLY raw_material
-    ADD CONSTRAINT raw_material_client_id_fkey FOREIGN KEY (client_id) REFERENCES client(id);
+    ADD CONSTRAINT raw_material_client_id_fkey FOREIGN KEY (client_id) REFERENCES company(id);
 
 
 SET search_path = mbr, pg_catalog;
@@ -3316,6 +3837,64 @@ ALTER TABLE ONLY udf
 
 ALTER TABLE ONLY udf
     ADD CONSTRAINT udf_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES main.unit(id);
+
+
+SET search_path = security, pg_catalog;
+
+--
+-- Name: audit_user_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY audit
+    ADD CONSTRAINT audit_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
+
+
+--
+-- Name: group_access_method_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY role_method
+    ADD CONSTRAINT group_access_method_id_fkey FOREIGN KEY (method_id) REFERENCES method(id);
+
+
+--
+-- Name: group_role_role_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY user_role
+    ADD CONSTRAINT group_role_role_id_fkey FOREIGN KEY (role_id) REFERENCES role(id);
+
+
+--
+-- Name: role_access_role_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY role_method
+    ADD CONSTRAINT role_access_role_id_fkey FOREIGN KEY (role_id) REFERENCES role(id);
+
+
+--
+-- Name: user_group_group_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY user_group
+    ADD CONSTRAINT user_group_group_id_fkey FOREIGN KEY (group_id) REFERENCES "group"(id);
+
+
+--
+-- Name: user_group_user_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY user_group
+    ADD CONSTRAINT user_group_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
+
+
+--
+-- Name: user_role_user_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY user_role
+    ADD CONSTRAINT user_role_user_id_fkey FOREIGN KEY (user_id) REFERENCES "user"(id);
 
 
 SET search_path = sqlsvr_copy, pg_catalog;
