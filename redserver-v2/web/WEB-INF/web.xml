@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
+        <url-pattern>/webresources/mbr/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
+        <url-pattern>/webresources/security/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
+        <url-pattern>/webresources/sqlsvr_copy/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
+        <url-pattern>/webresources/transaction/*</url-pattern>
+    </filter-mapping>
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
+
+    <filter>
+        <filter-name>authorizationFilter</filter-name>
+        <filter-class>filter.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authorizationFilter</filter-name>
+        <url-pattern>/webresources/main/*</url-pattern>
+    </filter-mapping>
+   
+    
+   
+    <security-constraint>
+        <display-name>SecurityConstraintForAll</display-name>
+        <web-resource-collection>
+            <web-resource-name>pharma_red_v2_SecurityConstraint</web-resource-name>
+            <description>Security constraint for all methods</description>
+            <url-pattern>/webresources/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Allow ADMIN and User roles for this method</description>
+            <role-name>ADMIN</role-name>
+            <role-name>USER</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <!--
+    <security-constraint>
+        <display-name>AuthenticatorConstraint</display-name>
+        <web-resource-collection>
+            <web-resource-name>authenticate</web-resource-name>
+            <description/>
+            <url-pattern>/webresources/authenticate/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>USER</role-name>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    -->
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>pharmaSecurityRealm</realm-name>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>USER</role-name>
+    </security-role>
+    <security-role>
+        <description>roles that allow all methods</description>
+        <role-name>ADMIN</role-name>
+    </security-role>
+   
+    </web-app>
