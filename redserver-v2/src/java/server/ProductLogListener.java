@@ -21,6 +21,6 @@ public class ProductLogListener {
 
     @PostLoad
     private void onLoad(Object object) {
-        // System.out.println("loading object "+object);
+
     }
 }

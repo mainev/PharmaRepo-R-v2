@@ -38,14 +38,8 @@ public class RawMaterialRequirementREST {
     public RawMaterialRequirementREST() {
     }
 
-    @GET
-    @Produces("application/json")
-    public List<RawMaterialRequirement> findAll() {
-        return rmReqFacade.findAll();
-    }
-
     @POST
-    @Path("/pst_new_raw_material_rew")
+    @Path("/pst_new_raw_material_req")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public RawMaterialRequirement createRawMaterialRequirement(@QueryParam("udf_id") String udf_id, RawMaterialRequirement rmReq) {

@@ -54,6 +54,9 @@ public class ProductREST {
     @Path("/g_product_list")
     @Produces("application/json")
     public List<Product> getProductList() {
+        System.out.println(request.getMethod());
+        System.out.println(request.getPathInfo());
+        System.out.println(request.getRequestURI());
         return productFacade.findAll();
     }
 

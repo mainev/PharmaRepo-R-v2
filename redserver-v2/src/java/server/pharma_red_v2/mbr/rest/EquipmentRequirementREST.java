@@ -43,14 +43,8 @@ public class EquipmentRequirementREST {
 
     @GET
     @Produces("application/json")
-    public List<EquipmentRequirement> getJson() {
-        return equipmentRequirementFacade.findAll();
-    }
-
-    @GET
-    @Produces("application/json")
     @Path("/g_find_by_mfg_id_and_procedure")
-    public List<EquipmentRequirement> getEquipmentByMfgIdAndProcedureType(@QueryParam("mfgId") String mfgId, @QueryParam("procedure") String procedure) {
+    public List<EquipmentRequirement> getEquipmentReqByMfgIdAndProcedureType(@QueryParam("mfgId") String mfgId, @QueryParam("procedure") String procedure) {
         int manufacturingId = Integer.parseInt(mfgId);
 
         return equipmentRequirementFacade.findAllByManufacturingIdAndProcedure(manufacturingId, procedure);

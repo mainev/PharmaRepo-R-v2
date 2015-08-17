@@ -63,7 +63,7 @@ public class PackagingMaterialRequirementREST {
     @Path("/g_packg_material_req_by_details")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public PackagingMaterialRequirement getPackgMaterialReqByUdfId(@QueryParam("pm_id") String pm_id,
+    public PackagingMaterialRequirement getPackgMaterialReqByUdfIdAndDetails(@QueryParam("pm_id") String pm_id,
             @QueryParam("qty") String qty,
             @QueryParam("unit_id") String unit_id,
             @QueryParam("udf_id") String udf_id) {

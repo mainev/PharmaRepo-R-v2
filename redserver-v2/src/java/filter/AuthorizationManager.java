@@ -7,6 +7,7 @@ package filter;
 
 import server.pharma_red_v2.security.entity.Method;
 import server.pharma_red_v2.security.entity.Role;
+import server.pharma_red_v2.security.entity.SubMethod;
 import server.pharma_red_v2.security.entity.User;
 
 /**
@@ -21,10 +22,12 @@ public class AuthorizationManager {
         // for (Group1 g : user.getGroupList()) {
         for (Role r : user.getRoleList()) {
             for (Method m : r.getMethodList()) {
-
-                if (m.getName().equals(methodName)) {
-                    return true;
+                for (SubMethod sub : m.getSubMethodList()) {
+                    if (sub.getUri().equals(methodName)) {
+                        return true;
+                    }
                 }
+
             }
         }
         // }

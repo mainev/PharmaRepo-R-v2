@@ -7,13 +7,12 @@ package server.pharma_red_v2.security.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -25,52 +24,49 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author maine
  */
 @Entity
-@Table(name = "method", schema = "security")
+@Table(name = "sub_method", schema = "security")
 @XmlRootElement
-public class Method implements Serializable {
+public class SubMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Short id;
+    private Integer id;
 
-    @Column(name = "name")
-    @Size(max = 100)
-    private String name;
+    @Size(max = 200)
+    @Column(name = "uri")
+    private String uri;
 
-    @Column(name = "description")
     @Size(max = 500)
+    @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "methodList")
-    private List<Role> roleList;
+    @ManyToMany(mappedBy = "subMethodList")
+    private List<Method> methodList;
 
-    @ManyToMany
-    @JoinTable(name = "method_sub_method", schema = "security",
-            joinColumns = {
-                @JoinColumn(name = "method_id", referencedColumnName = "id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "sub_method_id", referencedColumnName = "id")})
-    private List<SubMethod> subMethodList;
-
-    public Method() {
+    public SubMethod() {
     }
 
-    public Short getId() {
-        return id;
-    }
-
-    public void setId(Short id) {
+    public SubMethod(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getDescription() {
@@ -82,20 +78,12 @@ public class Method implements Serializable {
     }
 
     @XmlTransient
-    public List<Role> getRoleList() {
-        return roleList;
+    public List<Method> getMethodList() {
+        return methodList;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
-    }
-
-    public List<SubMethod> getSubMethodList() {
-        return subMethodList;
-    }
-
-    public void setSubMethodList(List<SubMethod> subMethodList) {
-        this.subMethodList = subMethodList;
+    public void setMethodList(List<Method> methodList) {
+        this.methodList = methodList;
     }
 
     @Override
@@ -108,10 +96,10 @@ public class Method implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Method)) {
+        if (!(object instanceof SubMethod)) {
             return false;
         }
-        Method other = (Method) object;
+        SubMethod other = (SubMethod) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -120,7 +108,7 @@ public class Method implements Serializable {
 
     @Override
     public String toString() {
-        return "server.pharma_red_v2.security.entity.Method[ id=" + id + " ]";
+        return "server.pharma_red_v2.security.entity.SubMethod[ id=" + id + " ]";
     }
 
 }

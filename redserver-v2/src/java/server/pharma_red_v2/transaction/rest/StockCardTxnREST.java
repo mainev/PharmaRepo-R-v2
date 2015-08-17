@@ -39,12 +39,6 @@ public class StockCardTxnREST {
     }
 
     @GET
-    @Produces("application/json")
-    public List<StockCardTxn> getAll() {
-        return facade.selectAll();
-    }
-
-    @GET
     @Path("/g_reserved_approved_by_item_cd")
     @Produces("application/json")
     public List<StockCardTxn> getReservedAndApprovedtByItemCd(@QueryParam("item_cd") String item_cd) {

@@ -37,8 +37,9 @@ public class StockCardCREST {
     }
 
     @GET
+    @Path("/g_stock_card_list")
     @Produces("application/json")
-    public List<StockCardC> getAll() {
+    public List<StockCardC> getStockCardList() {
         return facade.selectAll();
     }
 
@@ -64,7 +65,7 @@ public class StockCardCREST {
     }
 
     @POST
-    @Path("/pst_change_stock_card_status")
+    @Path("/pst_change_stock_card_status_to_depleted")
     public void changeStockCardStatusToDepleted(@QueryParam("stk_id") String stk_id) {
         facade.updateStockCardStatusToDepleted(Integer.parseInt(stk_id));
     }

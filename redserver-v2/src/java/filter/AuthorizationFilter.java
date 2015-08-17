@@ -30,6 +30,11 @@ public class AuthorizationFilter implements Filter {
 
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize(); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("finalized!!!!!!!!!!");
+    }
     @EJB
     UserFacade userFacade;
 
@@ -39,42 +44,41 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest rq = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        System.out.println("FILTERING USER CREDENTIALS....");
-        System.out.println("**************************************");
-
+        //    System.out.println("FILTERING USER CREDENTIALS....");
+        //    System.out.println("**************************************");
         if (rq.getHeader("authorization") != null) {
-            System.out.println("AUTHENTICATION SUCCESS!!!");
+            //     System.out.println("AUTHENTICATION SUCCESS!!!");
 
             String userName = rq.getUserPrincipal().getName();
-            String methodName = rq.getParameter("method");
-
-            if (methodName == null) {
-                System.out.println("ERROR");
-                System.out.println("HttpStatusCode: 400");
-                res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
+            String methodName = rq.getPathInfo();
+//
+//            if (methodName == null) {
+//                System.out.println("ERROR");
+//                System.out.println("HttpStatusCode: 400");
+//                res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                return;
+//            }
 
             User user = userFacade.findByUsername(userName);
 
             AuthorizationManager authManager = new AuthorizationManager();
             //all USERS are filtered except for ADMIN
             if (authManager.isUserAuthorized(user, methodName) || user.isAdmin()) {
-                System.out.println("User is authorized to use " + methodName);
+                System.out.println("User is authorized to use " + rq.getPathInfo());
                 chain.doFilter(request, response);
-
             } else {
                 //if user is not authorized ....
                 res.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 System.out.println("USER IS NOT AUTHORIZED TO USE " + methodName);
             }
         }
-        System.out.println("**************************************");
+        //    System.out.println("**************************************");
 
     }
 
     @Override
     public void destroy() {
+        System.out.println("destroyed");
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -46,7 +46,7 @@ public class UserREST {
      */
 
     @GET
-    @Path("/find_all")
+    @Path("/g_user_list")
     @Produces("application/json")
     public List<User> getAllUsers() {
         return userFacade.findAll();
