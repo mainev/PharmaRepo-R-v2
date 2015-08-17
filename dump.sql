@@ -1156,6 +1156,88 @@ ALTER SEQUENCE method_id_seq OWNED BY method.id;
 
 
 --
+-- Name: method_sub_method; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE method_sub_method (
+    id integer NOT NULL,
+    method_id integer,
+    sub_method_id integer
+);
+
+
+ALTER TABLE security.method_sub_method OWNER TO postgres;
+
+--
+-- Name: TABLE method_sub_method; Type: COMMENT; Schema: security; Owner: postgres
+--
+
+COMMENT ON TABLE method_sub_method IS 'mapping of main method and sub method';
+
+
+--
+-- Name: method_sub_method_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE method_sub_method_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.method_sub_method_id_seq OWNER TO postgres;
+
+--
+-- Name: method_sub_method_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE method_sub_method_id_seq OWNED BY method_sub_method.id;
+
+
+--
+-- Name: sub_method; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sub_method (
+    id integer NOT NULL,
+    uri character varying(200),
+    description character varying(500)
+);
+
+
+ALTER TABLE security.sub_method OWNER TO postgres;
+
+--
+-- Name: TABLE sub_method; Type: COMMENT; Schema: security; Owner: postgres
+--
+
+COMMENT ON TABLE sub_method IS 'uri paths';
+
+
+--
+-- Name: submethod_id_seq; Type: SEQUENCE; Schema: security; Owner: postgres
+--
+
+CREATE SEQUENCE submethod_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE security.submethod_id_seq OWNER TO postgres;
+
+--
+-- Name: submethod_id_seq; Type: SEQUENCE OWNED BY; Schema: security; Owner: postgres
+--
+
+ALTER SEQUENCE submethod_id_seq OWNED BY sub_method.id;
+
+
+--
 -- Name: user; Type: TABLE; Schema: security; Owner: postgres; Tablespace: 
 --
 
@@ -1705,6 +1787,13 @@ ALTER TABLE ONLY method ALTER COLUMN id SET DEFAULT nextval('method_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
 --
 
+ALTER TABLE ONLY method_sub_method ALTER COLUMN id SET DEFAULT nextval('method_sub_method_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
 ALTER TABLE ONLY role ALTER COLUMN id SET DEFAULT nextval('id_id_seq'::regclass);
 
 
@@ -1713,6 +1802,13 @@ ALTER TABLE ONLY role ALTER COLUMN id SET DEFAULT nextval('id_id_seq'::regclass)
 --
 
 ALTER TABLE ONLY role_method ALTER COLUMN id SET DEFAULT nextval('access_right_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY sub_method ALTER COLUMN id SET DEFAULT nextval('submethod_id_seq'::regclass);
 
 
 --
@@ -1904,13 +2000,14 @@ INSERT INTO pack_size VALUES (34, 20, 7, 2);
 INSERT INTO pack_size VALUES (35, 4, 3, 4);
 INSERT INTO pack_size VALUES (36, 56, 11, 4);
 INSERT INTO pack_size VALUES (37, 800, 2, 1);
+INSERT INTO pack_size VALUES (38, 500, 6, 2);
 
 
 --
 -- Name: pack_size_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pack_size_id_seq', 37, true);
+SELECT pg_catalog.setval('pack_size_id_seq', 38, true);
 
 
 --
@@ -1941,13 +2038,15 @@ INSERT INTO product VALUES (62, '30', 'GLUTASEP', 'Glutaraldehyde 50% + Benzalko
 INSERT INTO product VALUES (63, 'p09', 'brand v', 'gen v', 1, 3, 'vr 5', 4, 6, 31);
 INSERT INTO product VALUES (64, 'huj', 'bb', 'bb', 2, 2, 'bb', 5, 3, 36);
 INSERT INTO product VALUES (65, 'MP1', 'MY PRODUCT', 'MY PRODUCT', 1, 6, 'VRFDEC', 5, 8, 37);
+INSERT INTO product VALUES (66, 'p090', 'brand milk', 'milk', 2, 6, 'vrmilk', 5, 2, 38);
+INSERT INTO product VALUES (67, 'p90', 'nido', 'milk', 1, 6, 'vrgg', 5, 2, 37);
 
 
 --
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
 --
 
-SELECT pg_catalog.setval('product_id_seq', 65, true);
+SELECT pg_catalog.setval('product_id_seq', 67, true);
 
 
 --
@@ -2263,13 +2362,14 @@ INSERT INTO compounding_procedure VALUES (30, 1, 'first compounding procedure..'
 INSERT INTO compounding_procedure VALUES (31, 1, 'content 1', true, NULL, NULL, 63);
 INSERT INTO compounding_procedure VALUES (32, 1, 'gtgtgtg', true, NULL, NULL, 64);
 INSERT INTO compounding_procedure VALUES (33, 1, 'HEHE AMBOT OI', true, NULL, NULL, 65);
+INSERT INTO compounding_procedure VALUES (34, 1, 'compound milk', true, NULL, NULL, 67);
 
 
 --
 -- Name: compounding_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('compounding_procedure_id_seq', 33, true);
+SELECT pg_catalog.setval('compounding_procedure_id_seq', 34, true);
 
 
 --
@@ -2289,13 +2389,14 @@ INSERT INTO dosage VALUES (30, 70, 1, 30);
 INSERT INTO dosage VALUES (31, 74, 1, 31);
 INSERT INTO dosage VALUES (32, 77, 1, 33);
 INSERT INTO dosage VALUES (33, 78, 1, 33);
+INSERT INTO dosage VALUES (34, 79, 1, 34);
 
 
 --
 -- Name: dosage_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('dosage_id_seq', 33, true);
+SELECT pg_catalog.setval('dosage_id_seq', 34, true);
 
 
 --
@@ -2314,6 +2415,7 @@ INSERT INTO equipment_requirement VALUES (23, 63, 1, 'COMPOUNDING');
 INSERT INTO equipment_requirement VALUES (24, 64, 1, 'ENCAPSULATION');
 INSERT INTO equipment_requirement VALUES (25, 65, 1, 'COMPOUNDING');
 INSERT INTO equipment_requirement VALUES (26, 65, 3, 'COMPOUNDING');
+INSERT INTO equipment_requirement VALUES (27, 67, 2, 'ENCAPSULATION');
 
 
 --
@@ -2327,7 +2429,7 @@ SELECT pg_catalog.setval('equipment_requirement_coding_equipment_id_seq', 1, fal
 -- Name: equipment_requirement_coding_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 26, true);
+SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 27, true);
 
 
 --
@@ -2351,6 +2453,8 @@ INSERT INTO manufacturing_procedure VALUES (62);
 INSERT INTO manufacturing_procedure VALUES (63);
 INSERT INTO manufacturing_procedure VALUES (64);
 INSERT INTO manufacturing_procedure VALUES (65);
+INSERT INTO manufacturing_procedure VALUES (66);
+INSERT INTO manufacturing_procedure VALUES (67);
 
 
 --
@@ -2364,6 +2468,13 @@ SELECT pg_catalog.setval('manufacturing_procedure_id_seq', 4, true);
 -- Data for Name: mbr; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
+INSERT INTO mbr VALUES (81, 59, 800, 'batch1', 3, '2016-08-26', '2019-08-26', 'hhh', 'PRINTED');
+INSERT INTO mbr VALUES (84, 59, 100, 'batch1', 3, '2017-08-25', '2020-08-25', 'dd', 'PENDING');
+INSERT INTO mbr VALUES (85, 59, 5000, 'batch1', 3, '2018-08-25', '2021-08-25', 'po09', 'DISPENSED');
+INSERT INTO mbr VALUES (83, 59, 100, 'batch1', 3, '2015-08-15', '2018-08-15', 'ddd', 'PENDING');
+INSERT INTO mbr VALUES (86, 65, 800, 'batch1', 3, '2015-08-22', '2020-08-22', 'DDD', 'PENDING');
+INSERT INTO mbr VALUES (82, 59, 100, 'batch1', 3, '2015-08-29', '2018-08-29', 'rrr4', 'RESERVED');
+INSERT INTO mbr VALUES (79, 59, 100, 'batch1', 3, '2015-08-22', '2018-08-22', 'frgvc', 'DISPENSED');
 INSERT INTO mbr VALUES (74, 58, 1000, 'batch1', 3, '2015-07-29', '2018-07-29', 'dded', 'PENDING');
 INSERT INTO mbr VALUES (73, 59, 1000, 'batch1', 3, '2015-07-25', '2018-07-25', 'ded', 'DISPENSED');
 INSERT INTO mbr VALUES (76, 58, 1000, 'batch1', 3, '2015-07-29', '2018-07-29', 'gtghb', 'PENDING');
@@ -2371,14 +2482,13 @@ INSERT INTO mbr VALUES (77, 61, 100, 'batch1', 7, '2015-08-28', '2018-08-28', 'd
 INSERT INTO mbr VALUES (78, 62, 1000, 'batch1', 3, '2016-08-27', '2019-08-27', 'defvc', 'PENDING');
 INSERT INTO mbr VALUES (75, 59, 1500, 'batch1', 3, '2016-07-12', '2019-07-12', 'fsf', 'DISPENSED');
 INSERT INTO mbr VALUES (80, 64, 89, 'batch1', 9, '2015-08-28', '2020-08-28', 'HYGB', 'PENDING');
-INSERT INTO mbr VALUES (79, 59, 100, 'batch1', 3, '2015-08-22', '2018-08-22', 'frgvc', 'PENDING');
 
 
 --
 -- Name: mbr_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('mbr_id_seq', 80, true);
+SELECT pg_catalog.setval('mbr_id_seq', 86, true);
 
 
 --
@@ -2395,13 +2505,14 @@ INSERT INTO packaging_material_requirement VALUES (45, 8, 1, 9, 62);
 INSERT INTO packaging_material_requirement VALUES (46, 8, 1, 9, 63);
 INSERT INTO packaging_material_requirement VALUES (47, 8, 1, 7, 64);
 INSERT INTO packaging_material_requirement VALUES (48, 8, 1, 9, 65);
+INSERT INTO packaging_material_requirement VALUES (49, 8, 1, 9, 67);
 
 
 --
 -- Name: packaging_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 48, true);
+SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 49, true);
 
 
 --
@@ -2432,6 +2543,7 @@ INSERT INTO packaging_operation VALUES (33, 1, '1st packaging procedure', 62, 1,
 INSERT INTO packaging_operation VALUES (34, 1, 'pack opt 1', 63, 1, '', '');
 INSERT INTO packaging_operation VALUES (35, 1, 'hybb', 64, 2, '', '');
 INSERT INTO packaging_operation VALUES (36, 1, 'AMBOT', 65, 2, '', '');
+INSERT INTO packaging_operation VALUES (37, 1, 'content 1', 67, 1, '', '');
 
 
 --
@@ -2445,7 +2557,7 @@ SELECT pg_catalog.setval('packaging_procedure_id_seq', 5, true);
 -- Name: packaging_procedure_operation_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 36, true);
+SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 37, true);
 
 
 --
@@ -2469,6 +2581,7 @@ INSERT INTO primary_secondary_packaging VALUES (62, 45, 45);
 INSERT INTO primary_secondary_packaging VALUES (63, 46, 46);
 INSERT INTO primary_secondary_packaging VALUES (64, 47, 47);
 INSERT INTO primary_secondary_packaging VALUES (65, 48, 48);
+INSERT INTO primary_secondary_packaging VALUES (67, 49, 49);
 
 
 --
@@ -2514,13 +2627,14 @@ INSERT INTO raw_material_requirement VALUES (75, 6, 56, 5, 64, 0);
 INSERT INTO raw_material_requirement VALUES (76, 205, 10, 7, 58, 0);
 INSERT INTO raw_material_requirement VALUES (77, 6, 14, 2, 65, 0);
 INSERT INTO raw_material_requirement VALUES (78, 9, 34, 2, 65, 0);
+INSERT INTO raw_material_requirement VALUES (79, 6, 1111, 2, 67, 1);
 
 
 --
 -- Name: raw_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('raw_material_requirement_id_seq', 78, true);
+SELECT pg_catalog.setval('raw_material_requirement_id_seq', 79, true);
 
 
 --
@@ -2537,6 +2651,8 @@ INSERT INTO udf VALUES (62, 1, 3);
 INSERT INTO udf VALUES (63, 5, 2);
 INSERT INTO udf VALUES (64, 5, 11);
 INSERT INTO udf VALUES (65, 1, 2);
+INSERT INTO udf VALUES (66, 1, 5);
+INSERT INTO udf VALUES (67, 1, 2);
 
 
 --
@@ -2552,7 +2668,7 @@ SET search_path = security, pg_catalog;
 -- Name: access_right_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('access_right_id_seq', 10, true);
+SELECT pg_catalog.setval('access_right_id_seq', 17, true);
 
 
 --
@@ -2587,78 +2703,108 @@ SELECT pg_catalog.setval('group_id_seq', 3, true);
 -- Name: group_role_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('group_role_id_seq', 4, true);
+SELECT pg_catalog.setval('group_role_id_seq', 6, true);
 
 
 --
 -- Name: id_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('id_id_seq', 2, true);
+SELECT pg_catalog.setval('id_id_seq', 4, true);
 
 
 --
 -- Data for Name: method; Type: TABLE DATA; Schema: security; Owner: postgres
 --
 
-INSERT INTO method VALUES (2, 'g_login', 'Login method');
-INSERT INTO method VALUES (4, 'g_batch_by_batch_no', 'Search batch by batch no');
-INSERT INTO method VALUES (5, 'g_batch_by_product_code', 'Search batch by product code');
-INSERT INTO method VALUES (6, 'g_batch_by_area', 'Search batch by area');
-INSERT INTO method VALUES (3, 'g_batch_by_stat', 'Search batch record by status');
-INSERT INTO method VALUES (1, 'g_batch_list', 'Search all batch records');
-INSERT INTO method VALUES (7, 'pst_new_batch', 'Create new batch');
-INSERT INTO method VALUES (8, 'pst_reserve_mbr', 'Reserve batch');
-INSERT INTO method VALUES (9, 'pst_cancel_reservation', 'Cancel batch reservation');
-INSERT INTO method VALUES (10, 'pst_print_batch', 'Print batch');
-INSERT INTO method VALUES (11, 'pst_dispense_batch_material', 'Dispense batch materials. This will set the batch status to ''DISPENSED''');
-INSERT INTO method VALUES (12, 'g_product_list', 'Search product list');
-INSERT INTO method VALUES (13, 'g_is_code_valid', 'Checks if product code is valid');
-INSERT INTO method VALUES (14, 'g_product_by_id', 'Search product by id');
-INSERT INTO method VALUES (15, 'g_primary_packg', 'Search product''s primary packaging material');
-INSERT INTO method VALUES (16, 'g_secondary_packg', 'Search product''s secondary packaging material');
-INSERT INTO method VALUES (17, 'pst_new_product', 'Create new product');
-INSERT INTO method VALUES (18, 'pst_prim_sec_packg', 'Set product''s primary and secondary packaging material');
-INSERT INTO method VALUES (19, 'g_area_list', 'Search all areas');
-INSERT INTO method VALUES (20, 'g_classification_list', 'Search all material classification');
-INSERT INTO method VALUES (21, 'g_company_list', 'View company list');
-INSERT INTO method VALUES (22, 'g_container_list', 'View container list');
-INSERT INTO method VALUES (23, 'g_equipment_list', 'View equipment list');
-INSERT INTO method VALUES (24, 'pst_new_pack_size', 'Create new packaging size');
-INSERT INTO method VALUES (25, 'g_packg_material_list', 'View packaging material list');
-INSERT INTO method VALUES (26, 'g_raw_material_list', 'View raw material list');
-INSERT INTO method VALUES (27, 'pst_new_bottling_proc', 'Create new bottling procedure');
-INSERT INTO method VALUES (28, 'pst_new_compounding_proc', 'Create new compounding procedure');
-INSERT INTO method VALUES (29, 'pst_new_dosage', 'Create new dosage in compounding procedure');
-INSERT INTO method VALUES (30, 'g_find_by_mfg_id_and_procedure', 'Get equipment by mfg and procedure');
-INSERT INTO method VALUES (31, 'pst_create_new_equip_req', 'Create new equipment requirement');
-INSERT INTO method VALUES (33, 'pst_new_mfg_proc', 'Create new manufacturing procedure');
-INSERT INTO method VALUES (34, 'pst_packg_material_req', 'Create new packaging material requirement');
-INSERT INTO method VALUES (35, 'g_packg_material_req_by_udf_id', 'Search packaging material requirement by udf id');
-INSERT INTO method VALUES (36, 'g_packg_material_req_by_details', 'Get packaging material by details');
-INSERT INTO method VALUES (37, 'pst_create_new_packg_operation', 'Create new packaging operation');
-INSERT INTO method VALUES (38, 'pst_new_powder_filling', 'Create new powder filling procedure');
-INSERT INTO method VALUES (39, 'pst_new_raw_material_rew', 'Create new raw material requirement');
-INSERT INTO method VALUES (40, 'g_raw_material_req_by_udf_id', 'Search raw material requirement by udf id');
-INSERT INTO method VALUES (41, 'g_raw_material_req_by_details', 'Search raw material requirement by details');
-INSERT INTO method VALUES (42, 'g_udf_by_id', 'Search udf by id');
-INSERT INTO method VALUES (43, 'pst_new_udf', 'Create new udf');
-INSERT INTO method VALUES (44, 'g_stock_card_by_item_cd', 'Search stock card by item code');
-INSERT INTO method VALUES (45, 'g_stock_card_by_id', 'Search stockcard by id');
-INSERT INTO method VALUES (46, 'g_stock_card_by_company_cd_and_item_cd', 'Search stockcard by company code and item code');
-INSERT INTO method VALUES (47, 'pst_change_stock_card_status', 'Set stockcard status to depleted');
-INSERT INTO method VALUES (48, 'g_stockcard_by_control_no', 'Search stockcard by control no');
-INSERT INTO method VALUES (49, 'g_reserved_approved_by_item_cd', 'Search reserved and approved stockcard transaction');
-INSERT INTO method VALUES (50, 'g_reserved_approved_by_item_cd_company_cd', 'Search reserved and approved stock card transaction by item code and company code');
-INSERT INTO method VALUES (51, 'pst_new_stock_card_txn', 'Create new stockcard transaction
+INSERT INTO method VALUES (53, 'view_batch_record', 'View batch record');
+INSERT INTO method VALUES (54, 'create_new_batch', 'Create new batch');
+INSERT INTO method VALUES (55, 'view_product_list', 'View product list');
+INSERT INTO method VALUES (56, 'create_new_product', 'Create new product');
+INSERT INTO method VALUES (57, 'access_batch_projection', 'Access batch projection');
+INSERT INTO method VALUES (58, 'print_batch_projection
+', 'Print projection (bom)');
+INSERT INTO method VALUES (60, 'check_material_availability
+', 'Check the batch material requirements availability
 ');
+INSERT INTO method VALUES (59, 'mmd_view_batch_record', 'Allow user to access the mmd batch management which only includes viewing all batch record
+');
+INSERT INTO method VALUES (61, 'cancel_reservation', 'Cancel material reservation. This will remove allocation of materials for the specified batch.');
+INSERT INTO method VALUES (62, 'dispense_batch_materials', 'Dispense all material requirements for the selected batch');
+INSERT INTO method VALUES (63, 'print_product_formulation', 'Print the product formulation of the selected batch');
+INSERT INTO method VALUES (64, 'reserve_material_req', 'Allocate available materials (reserve) for the selected batch');
 
 
 --
 -- Name: method_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('method_id_seq', 51, true);
+SELECT pg_catalog.setval('method_id_seq', 64, true);
+
+
+--
+-- Data for Name: method_sub_method; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO method_sub_method VALUES (2, 53, 1);
+INSERT INTO method_sub_method VALUES (3, 53, 20);
+INSERT INTO method_sub_method VALUES (4, 53, 21);
+INSERT INTO method_sub_method VALUES (5, 53, 19);
+INSERT INTO method_sub_method VALUES (6, 53, 22);
+INSERT INTO method_sub_method VALUES (7, 54, 35);
+INSERT INTO method_sub_method VALUES (8, 54, 57);
+INSERT INTO method_sub_method VALUES (9, 54, 23);
+INSERT INTO method_sub_method VALUES (10, 54, 1);
+INSERT INTO method_sub_method VALUES (11, 55, 35);
+INSERT INTO method_sub_method VALUES (12, 55, 39);
+INSERT INTO method_sub_method VALUES (13, 55, 44);
+INSERT INTO method_sub_method VALUES (14, 55, 31);
+INSERT INTO method_sub_method VALUES (15, 55, 13);
+INSERT INTO method_sub_method VALUES (16, 56, 4);
+INSERT INTO method_sub_method VALUES (17, 56, 6);
+INSERT INTO method_sub_method VALUES (18, 56, 2);
+INSERT INTO method_sub_method VALUES (19, 56, 57);
+INSERT INTO method_sub_method VALUES (20, 56, 9);
+INSERT INTO method_sub_method VALUES (21, 56, 42);
+INSERT INTO method_sub_method VALUES (22, 56, 12);
+INSERT INTO method_sub_method VALUES (23, 56, 29);
+INSERT INTO method_sub_method VALUES (24, 56, 36);
+INSERT INTO method_sub_method VALUES (25, 56, 28);
+INSERT INTO method_sub_method VALUES (26, 56, 40);
+INSERT INTO method_sub_method VALUES (27, 56, 56);
+INSERT INTO method_sub_method VALUES (28, 56, 18);
+INSERT INTO method_sub_method VALUES (29, 56, 39);
+INSERT INTO method_sub_method VALUES (30, 56, 43);
+INSERT INTO method_sub_method VALUES (31, 56, 30);
+INSERT INTO method_sub_method VALUES (32, 56, 7);
+INSERT INTO method_sub_method VALUES (33, 56, 45);
+INSERT INTO method_sub_method VALUES (34, 56, 10);
+INSERT INTO method_sub_method VALUES (35, 56, 14);
+INSERT INTO method_sub_method VALUES (36, 56, 33);
+INSERT INTO method_sub_method VALUES (37, 56, 32);
+INSERT INTO method_sub_method VALUES (38, 56, 3);
+INSERT INTO method_sub_method VALUES (39, 56, 41);
+INSERT INTO method_sub_method VALUES (40, 56, 35);
+INSERT INTO method_sub_method VALUES (41, 56, 34);
+INSERT INTO method_sub_method VALUES (42, 57, 35);
+INSERT INTO method_sub_method VALUES (43, 57, 57);
+INSERT INTO method_sub_method VALUES (44, 59, 1);
+INSERT INTO method_sub_method VALUES (45, 60, 49);
+INSERT INTO method_sub_method VALUES (46, 60, 57);
+INSERT INTO method_sub_method VALUES (47, 61, 25);
+INSERT INTO method_sub_method VALUES (48, 61, 1);
+INSERT INTO method_sub_method VALUES (49, 62, 27);
+INSERT INTO method_sub_method VALUES (50, 62, 1);
+INSERT INTO method_sub_method VALUES (51, 64, 54);
+INSERT INTO method_sub_method VALUES (52, 64, 24);
+INSERT INTO method_sub_method VALUES (53, 64, 1);
+
+
+--
+-- Name: method_sub_method_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('method_sub_method_id_seq', 53, true);
 
 
 --
@@ -2667,21 +2813,89 @@ SELECT pg_catalog.setval('method_id_seq', 51, true);
 
 INSERT INTO role VALUES (1, 'MMD_ROLE');
 INSERT INTO role VALUES (2, 'RND_ROLE');
+INSERT INTO role VALUES (3, 'unauthorized_user');
+INSERT INTO role VALUES (4, 'tester');
 
 
 --
 -- Data for Name: role_method; Type: TABLE DATA; Schema: security; Owner: postgres
 --
 
-INSERT INTO role_method VALUES (2, 1, 1);
-INSERT INTO role_method VALUES (3, 1, 3);
-INSERT INTO role_method VALUES (4, 1, 4);
-INSERT INTO role_method VALUES (5, 1, 5);
-INSERT INTO role_method VALUES (6, 1, 6);
-INSERT INTO role_method VALUES (7, 1, 8);
-INSERT INTO role_method VALUES (8, 1, 9);
-INSERT INTO role_method VALUES (9, 1, 11);
-INSERT INTO role_method VALUES (10, 1, 12);
+INSERT INTO role_method VALUES (13, 3, 53);
+INSERT INTO role_method VALUES (14, 3, 55);
+INSERT INTO role_method VALUES (15, 3, 57);
+INSERT INTO role_method VALUES (16, 3, 59);
+
+
+--
+-- Data for Name: sub_method; Type: TABLE DATA; Schema: security; Owner: postgres
+--
+
+INSERT INTO sub_method VALUES (1, '/mbr/mbr/g_batch_list', 'View batch list');
+INSERT INTO sub_method VALUES (2, '/main/area/g_area_list', 'View area list');
+INSERT INTO sub_method VALUES (3, '/mbr/bottling_procedure/pst_new_bottling_proc', 'Create bottling procedure');
+INSERT INTO sub_method VALUES (4, '/main/classification/g_classification_list', 'View classification list');
+INSERT INTO sub_method VALUES (5, '/sqlsvr_copy/companyc/g_companyc_list', 'View all companyc list');
+INSERT INTO sub_method VALUES (6, '/main/client/g_company_list', 'View company list');
+INSERT INTO sub_method VALUES (7, '/mbr/compounding_procedure/pst_new_compounding_proc', 'Create compounding procedure');
+INSERT INTO sub_method VALUES (8, '/mbr/compounding_procedure/find_by_mfg_id', 'Search compounding procedure by mfg_id');
+INSERT INTO sub_method VALUES (9, '/main/container/g_container_list', 'View container list');
+INSERT INTO sub_method VALUES (10, '/mbr/dosage/pst_new_dosage', 'Create dosage');
+INSERT INTO sub_method VALUES (11, '/mbr/dosage/find_by_cp_id', 'Search compounding procedure by id');
+INSERT INTO sub_method VALUES (12, '/main/equipment/g_equipment_list', 'View equipment list');
+INSERT INTO sub_method VALUES (13, '/mbr/equipment_requirement/g_find_by_mfg_id_and_procedure', 'Search equipment requirement by mfg_id and procedure');
+INSERT INTO sub_method VALUES (14, '/mbr/equipment_requirement/pst_create_new_equip_req', 'Create equipment requirement');
+INSERT INTO sub_method VALUES (15, '/sqlsvr_copy/itemc/g_itemc_list', 'View all item in sqlsvr_copy');
+INSERT INTO sub_method VALUES (16, '/sqlsvr_copy/item_category_c/g_item_category_list', 'View all item category list');
+INSERT INTO sub_method VALUES (17, '/sqlsvr_copy/item_type_c/g_item_type_list', 'View all item type');
+INSERT INTO sub_method VALUES (18, '/mbr/manufacturing_procedure/pst_new_mfg_proc', 'Create mfg procedure');
+INSERT INTO sub_method VALUES (19, '/mbr/mbr/g_batch_by_stat', 'Search batch by status');
+INSERT INTO sub_method VALUES (20, '/mbr/mbr/g_batch_by_batch_no', 'Search batch by batch no');
+INSERT INTO sub_method VALUES (21, '/mbr/mbr/g_batch_by_product_code', 'Search batch by product code');
+INSERT INTO sub_method VALUES (22, '/mbr/mbr/g_batch_by_area', 'Search batch by area');
+INSERT INTO sub_method VALUES (23, '/mbr/mbr/pst_new_batch', 'Create new batch');
+INSERT INTO sub_method VALUES (24, '/mbr/mbr/pst_reserve_mbr', 'Update batch status to ''RESERVED''');
+INSERT INTO sub_method VALUES (25, '/mbr/mbr/pst_cancel_reservation', 'Update batch status to ''PENDING''');
+INSERT INTO sub_method VALUES (26, '/mbr/mbr/pst_print_batch', 'Update batch statys to ''PRINTED''/''RELEASED''');
+INSERT INTO sub_method VALUES (27, '/mbr/mbr/pst_dispense_batch_material', 'Update batch status to ''DISPENSED''');
+INSERT INTO sub_method VALUES (28, '/main/pack_size/pst_new_pack_size', 'Create new pack size');
+INSERT INTO sub_method VALUES (29, '/main/packaging_material/g_packg_material_list', 'View all packg material');
+INSERT INTO sub_method VALUES (30, '/mbr/packaging_material_requirement/pst_packg_material_req', 'Create packg material requirement');
+INSERT INTO sub_method VALUES (31, '/mbr/packaging_material_requirement/g_packg_material_req_by_udf_id', 'Search packg materials by udf_id');
+INSERT INTO sub_method VALUES (32, '/mbr/packaging_material_requirement/g_packg_material_req_by_details', 'Search packg material by qty, unit, and udf_id');
+INSERT INTO sub_method VALUES (33, '/mbr/packaging_operation/pst_create_new_packg_operation', 'Create packg operation');
+INSERT INTO sub_method VALUES (34, '/mbr/powder_filling/pst_new_powder_filling', 'Create powder filling procedure');
+INSERT INTO sub_method VALUES (35, '/main/product/g_product_list', 'View product list');
+INSERT INTO sub_method VALUES (36, '/main/product/g_is_code_valid', 'Checks if entered product code is valid');
+INSERT INTO sub_method VALUES (37, '/main/product/g_primary_packg', 'Search product''s primary packg material');
+INSERT INTO sub_method VALUES (38, '/main/product/g_secondary_packg', 'Search product''s secondary packg material');
+INSERT INTO sub_method VALUES (39, '/main/product/g_product_by_id', 'Search product by id');
+INSERT INTO sub_method VALUES (40, '/main/product/pst_new_product', 'Create product');
+INSERT INTO sub_method VALUES (41, '/main/product/pst_prim_sec_packg', 'Set product''s primary and secondary packg material');
+INSERT INTO sub_method VALUES (42, '/main/raw_material/g_raw_material_list', 'View raw material list');
+INSERT INTO sub_method VALUES (43, '/mbr/raw_material_requirement/pst_new_raw_material_req', 'Create raw material requirement');
+INSERT INTO sub_method VALUES (44, '/mbr/raw_material_requirement/g_raw_material_req_by_udf_id', 'Search raw material by udf_id');
+INSERT INTO sub_method VALUES (45, '/mbr/raw_material_requirement/g_raw_material_req_by_details', 'Search raw material by details');
+INSERT INTO sub_method VALUES (46, '/sqlsvr_copy/stock_card_c/g_stock_card_list', 'View stockcardc list');
+INSERT INTO sub_method VALUES (47, '/sqlsvr_copy/stock_card_c/g_stock_card_by_item_cd', 'Search stockcard by item code');
+INSERT INTO sub_method VALUES (48, '/sqlsvr_copy/stock_card_c/g_stock_card_by_id', 'Search stockcard by id');
+INSERT INTO sub_method VALUES (49, '/sqlsvr_copy/stock_card_c/g_stock_card_by_company_cd_and_item_cd', 'Search stockcard by company code and item code');
+INSERT INTO sub_method VALUES (50, '/sqlsvr_copy/stock_card_c/pst_change_stock_card_status_to_depleted', 'Update stockcard status to depleted');
+INSERT INTO sub_method VALUES (51, '/sqlsvr_copy/stock_card_c/g_stockcard_by_control_no', 'Search by stockcard control_no');
+INSERT INTO sub_method VALUES (52, '/transaction/stock_card_txn/g_reserved_approved_by_item_cd', 'Search reserved and approved stockcard by item code');
+INSERT INTO sub_method VALUES (53, '/transaction/stock_card_txn/g_reserved_approved_by_item_cd_company_cd', 'Search reserved and approved stockcard by item code and company code');
+INSERT INTO sub_method VALUES (54, '/transaction/stock_card_txn/pst_new_stock_card_txn', 'Create stockcard transaction (issuance)');
+INSERT INTO sub_method VALUES (55, '/mbr/udf/g_udf_by_id', 'Search udf by id');
+INSERT INTO sub_method VALUES (56, '/mbr/udf/pst_new_udf', 'Create new udf');
+INSERT INTO sub_method VALUES (57, '/main/unit/g_unit_list', 'View unit list');
+INSERT INTO sub_method VALUES (58, '/security/user/g_user_list', 'View all users');
+
+
+--
+-- Name: submethod_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
+--
+
+SELECT pg_catalog.setval('submethod_id_seq', 58, true);
 
 
 --
@@ -2691,6 +2905,8 @@ INSERT INTO role_method VALUES (10, 1, 12);
 INSERT INTO "user" VALUES (2, 'mainevillarias@gmail.com', 'Marie Charmaine', 'Villarias', 'programmer', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
 INSERT INTO "user" VALUES (3, 'starlightlynx@gmail.com', 'HAWKE', 'HAWKE', 'CHAMPION', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
 INSERT INTO "user" VALUES (4, 'rnduser@gmail.com', 'Marie', 'Woodland', 'MANAGER', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
+INSERT INTO "user" VALUES (5, 'tester', 'charmaine', 'vill', 'programmer', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
+INSERT INTO "user" VALUES (6, 'tester2', 'na', 'na', 'na', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8                                    ');
 
 
 --
@@ -2700,20 +2916,22 @@ INSERT INTO "user" VALUES (4, 'rnduser@gmail.com', 'Marie', 'Woodland', 'MANAGER
 INSERT INTO user_group VALUES (2, 2, 1);
 INSERT INTO user_group VALUES (3, 3, 2);
 INSERT INTO user_group VALUES (8, 4, 2);
+INSERT INTO user_group VALUES (9, 5, 2);
+INSERT INTO user_group VALUES (10, 6, 2);
 
 
 --
 -- Name: user_group_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('user_group_id_seq', 8, true);
+SELECT pg_catalog.setval('user_group_id_seq', 10, true);
 
 
 --
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('user_id_seq', 4, true);
+SELECT pg_catalog.setval('user_id_seq', 6, true);
 
 
 --
@@ -2722,6 +2940,8 @@ SELECT pg_catalog.setval('user_id_seq', 4, true);
 
 INSERT INTO user_role VALUES (3, 3, 1);
 INSERT INTO user_role VALUES (4, 4, 2);
+INSERT INTO user_role VALUES (5, 5, 3);
+INSERT INTO user_role VALUES (6, 6, 4);
 
 
 SET search_path = sqlsvr_copy, pg_catalog;
@@ -3168,13 +3388,25 @@ INSERT INTO stock_card_txn VALUES (61, 67, 1000, 9, 73);
 INSERT INTO stock_card_txn VALUES (62, 1, 6.9000000000000004, 7, 75);
 INSERT INTO stock_card_txn VALUES (63, 66, 13.5, 7, 75);
 INSERT INTO stock_card_txn VALUES (64, 67, 1500, 9, 75);
+INSERT INTO stock_card_txn VALUES (68, 1, 3.6800000000000002, 7, 81);
+INSERT INTO stock_card_txn VALUES (69, 66, 7.2000000000000002, 7, 81);
+INSERT INTO stock_card_txn VALUES (70, 67, 800, 9, 81);
+INSERT INTO stock_card_txn VALUES (71, 1, 460, 6, 79);
+INSERT INTO stock_card_txn VALUES (72, 66, 900, 6, 79);
+INSERT INTO stock_card_txn VALUES (73, 67, 100, 9, 79);
+INSERT INTO stock_card_txn VALUES (80, 1, 23, 7, 85);
+INSERT INTO stock_card_txn VALUES (81, 66, 45, 7, 85);
+INSERT INTO stock_card_txn VALUES (82, 67, 5000, 9, 85);
+INSERT INTO stock_card_txn VALUES (83, 1, 460, 6, 82);
+INSERT INTO stock_card_txn VALUES (84, 66, 900, 6, 82);
+INSERT INTO stock_card_txn VALUES (85, 67, 100, 9, 82);
 
 
 --
 -- Name: stock_card_txn_id_seq; Type: SEQUENCE SET; Schema: transaction; Owner: postgres
 --
 
-SELECT pg_catalog.setval('stock_card_txn_id_seq', 67, true);
+SELECT pg_catalog.setval('stock_card_txn_id_seq', 85, true);
 
 
 SET search_path = main, pg_catalog;
@@ -3440,11 +3672,43 @@ ALTER TABLE ONLY method
 
 
 --
+-- Name: method_sub_method_method_id_sub_method_id_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY method_sub_method
+    ADD CONSTRAINT method_sub_method_method_id_sub_method_id_key UNIQUE (method_id, sub_method_id);
+
+
+--
+-- Name: method_sub_method_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY method_sub_method
+    ADD CONSTRAINT method_sub_method_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: role_method_role_id_method_id_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY role_method
     ADD CONSTRAINT role_method_role_id_method_id_key UNIQUE (role_id, method_id);
+
+
+--
+-- Name: submethod_pkey; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sub_method
+    ADD CONSTRAINT submethod_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: submethod_uri_key; Type: CONSTRAINT; Schema: security; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sub_method
+    ADD CONSTRAINT submethod_uri_key UNIQUE (uri);
 
 
 --
@@ -3863,6 +4127,22 @@ ALTER TABLE ONLY role_method
 
 ALTER TABLE ONLY user_role
     ADD CONSTRAINT group_role_role_id_fkey FOREIGN KEY (role_id) REFERENCES role(id);
+
+
+--
+-- Name: method_sub_method_method_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY method_sub_method
+    ADD CONSTRAINT method_sub_method_method_id_fkey FOREIGN KEY (method_id) REFERENCES method(id);
+
+
+--
+-- Name: method_sub_method_sub_method_id_fkey; Type: FK CONSTRAINT; Schema: security; Owner: postgres
+--
+
+ALTER TABLE ONLY method_sub_method
+    ADD CONSTRAINT method_sub_method_sub_method_id_fkey FOREIGN KEY (sub_method_id) REFERENCES sub_method(id);
 
 
 --
