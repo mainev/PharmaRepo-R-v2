@@ -29,7 +29,7 @@ import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomTextArea;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.PowderFillingProcedure;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonPowderFillingRestClient;
 
 /**

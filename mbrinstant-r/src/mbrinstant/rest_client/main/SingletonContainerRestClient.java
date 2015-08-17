@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import mbrinstant.entity.main.Container;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;
@@ -60,7 +60,7 @@ public class SingletonContainerRestClient {
      * DBMethodName: g_container_list
      *
      * @return
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public ObservableList<Container> getContainerList() throws ServerException {
         ObservableList<Container> list = FXCollections.observableArrayList();

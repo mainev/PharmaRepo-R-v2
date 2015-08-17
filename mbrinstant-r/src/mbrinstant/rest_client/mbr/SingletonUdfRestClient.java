@@ -18,7 +18,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.Udf;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;

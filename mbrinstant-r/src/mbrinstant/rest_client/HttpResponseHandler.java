@@ -5,7 +5,7 @@
  */
 package mbrinstant.rest_client;
 
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 
 /**
  *
@@ -48,7 +48,7 @@ public class HttpResponseHandler {
                 case 204:
                     setMessage("NO CONTENT");
                     setDescription("Server request successful. No data is needed to be received.");
-                    break;
+
                 case 205:
                     setMessage("RESET CONTENT");
                     setDescription("A reset of previous content is requested from the server.");
@@ -94,7 +94,7 @@ public class HttpResponseHandler {
                 case 405:
                     setMessage("METHOD NOT ALLOWED");
                     setDescription("The requested method is not allowed.");
-                    break;
+                    throw new ServerException(code);
                 default:
                     setMessage("SYSTEM/CLIENT ERROR");
                     setDescription("A system error has occured. Report is advised.");
@@ -110,7 +110,7 @@ public class HttpResponseHandler {
             }
             //create exception handler here...
         }
-        System.out.println("HTTP Status \n" + this.toString());
+        System.out.println("HTTP Status \n" + this.toString() + "\n");
         return result;
     }
 

@@ -20,7 +20,7 @@ import javax.net.ssl.SSLContext;
 import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;
@@ -67,9 +67,9 @@ public class SingletonRawMaterialRequirementRestClient {
      */
     public RawMaterialRequirement createRawMaterialRequirement(int udfId, RawMaterialRequirement rmReq) throws ServerException {
         String input = Serializer.serialize(rmReq);
-        webResource = client.resource(BASE_URI + "/pst_new_raw_material_rew");
+        webResource = client.resource(BASE_URI + "/pst_new_raw_material_req");
         ClientResponse response = webResource
-                .queryParam("method", "pst_new_raw_material_rew")
+                .queryParam("method", "pst_new_raw_material_req")
                 .queryParam("udf_id", String.valueOf(udfId))
                 .type("application/json")
                 .post(ClientResponse.class, input);

@@ -5,6 +5,7 @@
  */
 package mbrinstant.controller.product;
 
+import mbrinstant.controller.product.CompoundingProcedureTableFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -34,7 +35,7 @@ import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.PackagingOperation;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonRawMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;

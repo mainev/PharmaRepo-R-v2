@@ -23,7 +23,7 @@ import mbrinstant.entity.main.Classification;
 import mbrinstant.entity.main.PackSize;
 import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Product;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;
@@ -86,7 +86,7 @@ public class SingletonProductRestClient {
      *
      * @param code
      * @return
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public boolean isCodeValid(String code) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_is_code_valid");

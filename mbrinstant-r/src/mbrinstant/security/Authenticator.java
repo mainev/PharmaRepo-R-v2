@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;
@@ -45,33 +45,6 @@ public class Authenticator {
         client = Client.create(defaultClientConfig);
     }
 
-    /*
-     public User loginUser(String emailAd, String pwd) {
-     try {
-     webResource = client.resource(BASE_URI);
-     ClientResponse response = webResource
-     .queryParam("emaid_ad", emailAd)
-     .queryParam("pwd", Encryptor.encrypt(pwd))
-     .type("application/json")
-     .get(ClientResponse.class);
-     responseHandler.setCode(response.getStatus());
-     responseHandler.isSuccessful();
-
-     //if the server did not return any matching user from the database
-     if (response.getStatus() != 200) {
-     return null;
-     }
-
-     String output = response.getEntity(String.class);
-     return Serializer.<User>deserialize(output, User.class);
-
-     } catch (NoSuchAlgorithmException e) {
-     //create exception handler here...
-     MyNotifications.displayError("SYSTEM ERROR:PASSWORD ENCRYPTION FAILED");
-     return null;
-     }
-     }
-     */
     //login without password hashing
     public User loginUser(String emailAd, String pwd) {
         try {

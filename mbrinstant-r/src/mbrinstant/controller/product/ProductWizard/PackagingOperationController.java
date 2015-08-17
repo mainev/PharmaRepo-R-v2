@@ -27,7 +27,7 @@ import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.IntegerTextField;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.PackagingOperation;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonPackgOperationRestClient;
 
 /**

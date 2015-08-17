@@ -27,7 +27,7 @@ import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.mbr.MbrStatus;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;
@@ -71,7 +71,7 @@ public class SingletonMbrRestClient {
      *
      * @return
      * @throws mbrinstant.exception.ClientException
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public ObservableList<Mbr> getBatchList() throws ServerException {
         webResource = client.resource(BASE_URI + "/g_batch_list");
@@ -92,7 +92,7 @@ public class SingletonMbrRestClient {
      *
      * @param status
      * @return
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public ObservableList<Mbr> getBatchByStatus(MbrStatus status) throws ServerException {
         ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
@@ -116,7 +116,7 @@ public class SingletonMbrRestClient {
      *
      * @param batchNo
      * @return
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public ObservableList<Mbr> getBatchByBatchNo(String batchNo) throws ServerException {
         ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
@@ -192,7 +192,7 @@ public class SingletonMbrRestClient {
      * @param poNo
      * @param unitId
      * @return
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public Mbr createNewBatch(Product productId, double batchSize, Date mfgDate, Date expDate, String poNo, Unit unitId) throws ServerException {
 
@@ -221,7 +221,7 @@ public class SingletonMbrRestClient {
      *
      * @param mbr
      * @return
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public Mbr createNewBatch(Mbr mbr) throws ServerException {
         String batchNo = "batch1";
@@ -246,7 +246,7 @@ public class SingletonMbrRestClient {
      * DBMethodName: pst_reserve_mbr
      *
      * @param mbr
-     * @throws mbrinstant.exception.ServerException
+     * @throws mbrinstant.exceptions.ServerException
      */
     public void reserveBatch(Mbr mbr) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_reserve_mbr");

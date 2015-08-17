@@ -25,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import mbrinstant.FXMLLocations;
 import mbrinstant.ScreenNavigator;
 import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.MyNotifications;
@@ -32,7 +33,7 @@ import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.mbr.EquipmentLocations;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 
 /**
  *
@@ -199,7 +200,7 @@ public class ProductWizardController implements Initializable {
                     primarySecondaryController.createPrimarySecondaryPackg(finalProduct, finalProduct.getUdfId().getId());
                     Stage stage = (Stage) finishButton.getScene().getWindow();
                     stage.close();
-                    ScreenNavigator.loadScreen(ScreenNavigator.PRODUCT_SCREEN);
+                    ScreenNavigator.loadScreen(FXMLLocations.PRODUCT_LIST);
                 } catch (ServerException ex) {
                     Logger.getLogger(ProductWizardController.class.getName()).log(Level.SEVERE, null, ex);
                 }

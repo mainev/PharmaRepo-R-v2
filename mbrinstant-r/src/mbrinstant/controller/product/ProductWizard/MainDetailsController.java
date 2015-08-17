@@ -26,7 +26,7 @@ import mbrinstant.entity.main.Container;
 import mbrinstant.entity.main.PackSize;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonAreaRestClient;
 import mbrinstant.rest_client.main.SingletonClassificationRestClient;
 import mbrinstant.rest_client.main.SingletonCompanyRestClient;

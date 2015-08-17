@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="900.0" styleClass="main-pane" stylesheets="@../../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.ard_batch_management.ListController">
+    <children>
+      <BorderPane prefHeight="644.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <AnchorPane fx:id="detailsPane" visible="false">
+               <children>
+                    <BorderPane prefHeight="564.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                        <center>
+                            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <children>
+                                    <TableView fx:id="mbrRecordTable" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <columns>
+                                    <TableColumn fx:id="colAction" prefWidth="100.0" text="Action" />
+                                    <TableColumn fx:id="colStatus" prefWidth="130.0" text="Status" />
+                                            <TableColumn fx:id="_colBatchNo" prefWidth="102.0" text="Batch No">
+                                                 <cellValueFactory>
+                                                    <PropertyValueFactory property="" />
+                                                </cellValueFactory>
+                                            </TableColumn>
+                                            <TableColumn fx:id="colProduct" prefWidth="400.0" text="Product">
+                                                
+                                                <cellValueFactory>
+                                                    <PropertyValueFactory property="" />
+                                                </cellValueFactory>
+                                            </TableColumn>
+                                            <TableColumn fx:id="_colBatchSize" prefWidth="100.0" text="Batch Size">
+                                                 <cellValueFactory>
+                                                    <PropertyValueFactory property="" />
+                                                 
+                                                </cellValueFactory>
+                                            </TableColumn>
+                                            <TableColumn fx:id="_colShelfLife" prefWidth="75.0" text="Shelf Life">
+                                                 <cellValueFactory>
+                                                    <PropertyValueFactory property="" />
+                                                </cellValueFactory>
+                                            </TableColumn>
+                                            <TableColumn fx:id="_colMfgDate" prefWidth="126.0" text="Mfg Date">
+                                                 <cellValueFactory>
+                                                    <PropertyValueFactory property="" />
+                                                </cellValueFactory>
+                                            </TableColumn>
+                                            <TableColumn fx:id="_colExpDate" prefWidth="119.0" text="Exp Date" />
+                                            <TableColumn fx:id="_colPoNo" prefWidth="129.0" text="PO No" />
+                                            <TableColumn fx:id="_colVrNo" prefWidth="75.0" text="VR/FR No." />
+                                        </columns>
+                                    </TableView>
+                                </children>
+                            </AnchorPane>
+                        </center>
+                     <bottom>
+                            <AnchorPane fx:id="bottomPane" prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
+                           <children>
+                              <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="1116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <items>
+                                    <Button fx:id="settingsButton" mnemonicParsing="false" text="Settings" />
+                                 </items>
+                              </ToolBar>
+                           </children>
+                            </AnchorPane>
+                     </bottom>
+                     <top>
+                        <BorderPane prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <right>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="405.0" spacing="10.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label text="Search:">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                    <ComboBox fx:id="categoryBox" prefWidth="150.0" promptText="Select category" />
+                                    <TextField fx:id="searchTextField" prefHeight="25.0" prefWidth="131.0" promptText="Type keyword..." />
+                                 </children>
+                                 <padding>
+                                    <Insets left="5.0" right="5.0" />
+                                 </padding>
+                              </HBox>
+                           </right>
+                        </BorderPane>
+                     </top>
+                    </BorderPane>
+               </children>
+            </AnchorPane>
+         </center>
+         <top>
+            <VBox prefHeight="80.0">
+               <children>
+                  <AnchorPane prefHeight="80.0">
+                     <children>
+                        <Text fill="#003926" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Batch Records" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font name="Segoe UI Semilight" size="48.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="newButton" layoutX="834.0" layoutY="42.0" mnemonicParsing="false" onAction="#showCreateNewBatchDialog" prefWidth="100.0" styleClass="btn" text="New" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <ProgressIndicator fx:id="progressIcon" layoutX="302.0" layoutY="43.0" prefHeight="23.0" prefWidth="27.0" visible="false" />
+                     </children>
+                  </AnchorPane>
+                  <Separator prefWidth="200.0" />
+               </children>
+            </VBox>
+         </top>
+      </BorderPane>
+    </children>
+</AnchorPane>

@@ -31,7 +31,7 @@ import mbrinstant.controls.SearchTextField;
 import mbrinstant.entity.main.Equipment;
 import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonEquipmentRestClient;
 import mbrinstant.rest_client.mbr.SingletonEquipmentRequirementRestClient;
 

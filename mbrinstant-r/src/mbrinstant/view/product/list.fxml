@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ListController">
+<AnchorPane fx:id="mainPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="900.0" styleClass="main-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ListController">
    <children>
-      <BorderPane layoutX="80.0" layoutY="64.0" prefHeight="610.0" prefWidth="1140.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutX="80.0" layoutY="64.0" prefHeight="644.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <AnchorPane prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: gray;" BorderPane.alignment="CENTER">
+            <VBox>
                <children>
-                  <HBox fx:id="_headerHBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="1140.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
+                  <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label text="Search" />
-                        <TextField prefWidth="200.0" />
-                     </children></HBox>
-               </children></AnchorPane>
+                        <Text fill="#003926" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Product" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font name="Segoe UI Semilight" size="48.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="newProductButton" layoutX="189.0" layoutY="47.0" mnemonicParsing="false" onAction="#showProductWizard" prefWidth="100.0" text="New" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <ProgressIndicator fx:id="progressIcon" layoutX="173.0" layoutY="46.0" prefHeight="23.0" prefWidth="27.0" visible="false" />
+                     </children>
+                  </AnchorPane>
+                  <Separator prefWidth="200.0" />
+               </children>
+            </VBox>
          </top>
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="detailsPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <TableView fx:id="productListTableView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1116.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="productListTableView" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="colAction" prefWidth="100.0" text="Action" />
                       <TableColumn fx:id="colProductCode" prefWidth="132.0" text="Product Code" />
@@ -40,19 +46,6 @@
                </children>
             </AnchorPane>
          </center>
-         <bottom>
-            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button fx:id="newProductButton" mnemonicParsing="false" prefWidth="100.0" text="New" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </HBox>
-         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

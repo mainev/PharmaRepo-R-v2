@@ -5,6 +5,9 @@
  */
 package mbrinstant.controller.product;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +22,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import mbrinstant.FXMLLocations;
 import mbrinstant.entity.main.Product;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonProductRestClient;
 
 /**
@@ -81,25 +86,22 @@ public class ViewProductCellButton extends TableCell<Product, Boolean> {
     }
 
     private void showProductDetailsDialog(Product product) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mbrinstant/view/product/details.fxml"));
 
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXMLLocations.VIEW_PRODUCT_DIALOG));
             DetailsController controller = new DetailsController();
             fxmlLoader.setController(controller);
             controller.setProduct(SingletonProductRestClient.getInstance().getProductById(product.getId()));
-
             Parent root1 = (Parent) fxmlLoader.load();
-
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-
             stage.setTitle("Product Details");
             stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-
+        } catch (ServerException | IOException ex) {
+            Logger.getLogger(ViewProductCellButton.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 }

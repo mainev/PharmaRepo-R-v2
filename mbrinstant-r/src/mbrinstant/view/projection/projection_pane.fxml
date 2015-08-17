@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.projection.ProjectionController">
+   <children>
+      <BorderPane layoutX="116.0" layoutY="125.0" prefHeight="644.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane prefHeight="80.0" prefWidth="900.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                     <children>
+                        <Button fx:id="printButton" mnemonicParsing="false" onAction="#showPrintMaterialsDialog" prefWidth="100.0" text="Print" />
+                      
+                        <Button fx:id="newButton" mnemonicParsing="false" prefWidth="100.0" text="New" />
+                     </children>
+                  </HBox>
+                  <Text fill="#003926" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Batch Projection" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0">
+                     <font>
+                        <Font name="Segoe UI Semilight" size="48.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane>
+               <children>
+                  <SplitPane dividerPositions="0.5421903052064632" prefHeight="564.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <BorderPane prefHeight="583.0" prefWidth="707.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <TableView fx:id="batchRecordTable" prefHeight="553.0" prefWidth="632.0" BorderPane.alignment="CENTER">
+                                      <columns>
+                                          <TableColumn fx:id="colAction" prefWidth="150.0" />
+                                        <TableColumn fx:id="colProduct" prefWidth="300.0" text="Product">
+                                              <cellValueFactory>
+                                                  <PropertyValueFactory property="productId" />
+                                              </cellValueFactory>
+                                            
+                                        </TableColumn>
+                                        <TableColumn fx:id="colBatchSize" prefWidth="75.0" text="Batch Size">
+                                            <cellValueFactory>
+                                                <PropertyValueFactory property="" />
+                                            </cellValueFactory>
+                                        </TableColumn>
+                                      </columns>
+                                    </TableView>
+                                 </center>
+                                 <top>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="483.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label text="Batch Records" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="5.0" right="5.0" />
+                                       </padding>
+                                    </HBox>
+                                 </top>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="583.0" prefWidth="461.0">
+                           <children>
+                              <BorderPane prefHeight="583.0" prefWidth="401.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <center>
+                                    <TabPane prefHeight="583.0" prefWidth="470.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                                      <tabs>
+                                        <Tab text="Raw Material">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <TableView fx:id="batchRmTable" layoutX="7.0" layoutY="21.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="524.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <columns>
+                                                            <TableColumn fx:id="colBatchRm" prefWidth="300.0" text="Item">
+                                                                <cellValueFactory>
+                                                                    <PropertyValueFactory property="rawMaterial" />
+                                                                </cellValueFactory>
+                                                            </TableColumn>
+                                                            <TableColumn fx:id="colRmRequiredQty" prefWidth="100.0" text="Required Qty">
+                                                                <cellValueFactory>
+                                                                    <PropertyValueFactory property="requiredQuantity" />
+                                                                </cellValueFactory>
+                                                            </TableColumn>
+                                                        </columns>
+                                                      </TableView>
+                                                   </children>
+                                                </AnchorPane>
+                                          </content>
+                                        </Tab>
+                                        <Tab text="Packaging Material">
+                                          <content>
+                                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <TableView fx:id="batchPmTable" layoutX="38.0" layoutY="29.0" prefHeight="524.0" prefWidth="401.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <columns>
+                                                          <TableColumn fx:id="colBatchPm" prefWidth="300.0" text="Item">
+                                                                <cellValueFactory>
+                                                                    <PropertyValueFactory property="packagingMaterial" />
+                                                                </cellValueFactory>
+                                                            </TableColumn>
+                                                          <TableColumn fx:id="colPmRequiredQty" prefWidth="100.0" text="Required Qty">
+                                                                <cellValueFactory>
+                                                                    <PropertyValueFactory property="requiredQuantity" />
+                                                                </cellValueFactory>
+                                                            </TableColumn>
+                                                        </columns>
+                                                      </TableView>
+                                                   </children>
+                                                </AnchorPane>
+                                          </content>
+                                        </Tab>
+                                      </tabs>
+                                    </TabPane>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

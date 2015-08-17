@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="644.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.mmd_batch_management.MmdBatchManagementController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox>
+               <children>
+                  <AnchorPane prefHeight="80.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Text fill="#003926" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Batch Management" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font name="Segoe UI Semilight" size="48.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                  <Separator prefWidth="200.0" />
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="mbrRecordTableView" prefHeight="564.0" prefWidth="1116.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="colAction2" prefWidth="150.0" />
+                        <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status">
+                             <cellValueFactory>
+                              <PropertyValueFactory property="status" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colProduct" prefWidth="400.0" text="Product">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="productId" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colBatchNo" prefWidth="100.0" text="Batch No">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="batchNo" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colBatchSize" prefWidth="100.0" text="Batch Size">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colShelfLife" prefWidth="75.0" text="Shelf Life">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colMfgDate" prefWidth="120.0" text="Mfg Date">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colExpDate" prefWidth="120.0" text="Exp Date" />
+                        <TableColumn fx:id="colPoNo" prefWidth="100.0" text="PO No">
+                             <cellValueFactory>
+                              <PropertyValueFactory property="poNo" />
+                           </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn fx:id="colVrNo" prefWidth="75.0" text="VR/FR No.">
+                             <cellValueFactory>
+                              <PropertyValueFactory property="" />
+                           </cellValueFactory>
+                        </TableColumn>
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

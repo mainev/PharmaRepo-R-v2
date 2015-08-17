@@ -23,6 +23,10 @@ public class CustomAlertDialog {
 
     }
 
+    public static void showAccessDeniedDialog() {
+        showErrorAlert("Access Denied", "ACCESS DENIED", "You are not allowed to access this feature.");
+    }
+
     public static void showExceptionDialog(Exception e) {
         ExceptionDialog dlg = new ExceptionDialog(e);
         dlg.show();

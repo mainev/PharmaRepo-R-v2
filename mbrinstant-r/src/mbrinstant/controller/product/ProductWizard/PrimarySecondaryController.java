@@ -16,7 +16,7 @@ import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonProductRestClient;
 import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
 

@@ -14,8 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import mbrinstant.controller.MainController;
-import mbrinstant.controller.login.LoginController;
+import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.rest_client.main.SingletonAreaRestClient;
 import mbrinstant.rest_client.main.SingletonClassificationRestClient;
@@ -42,6 +41,8 @@ import mbrinstant.rest_client.sqlsvr_copy.SingletonItemRestClient;
 import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
 import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
 import mbrinstant.security.Authenticator;
+import mbrinstant.security.LoginController;
+import mbrinstant.security.SingletonAuthorizationManager;
 import mbrinstant.security.User;
 
 /**
@@ -50,7 +51,6 @@ import mbrinstant.security.User;
  */
 public class Main extends Application {
 
-    // private Stage stage;
     private User currentUser;
 
     @Override
@@ -63,7 +63,6 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-
     }
 
     public User getCurrentUser() {
@@ -74,6 +73,8 @@ public class Main extends Application {
         this.currentUser = currentUser;
     }
 
+    public boolean USER_AUTHORIZED;
+
     /**
      * *
      * Returns true if the user is valid.
@@ -83,7 +84,7 @@ public class Main extends Application {
      * @return
      * @throws java.lang.Exception
      */
-    public boolean processLogin(String emailAd, String pwd)
+    public void processLogin(String emailAd, String pwd)
             throws Exception {
 
         Authenticator authenticator = new Authenticator();
@@ -93,38 +94,45 @@ public class Main extends Application {
             this.setCurrentUser(user);
             this.getCurrentUser().setPassword(pwd);
 
-            //configure all rest clients
-            SingletonMbrRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonProductRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonUnitRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonAreaRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonClassificationRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonCompanyRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonContainerRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonEquipmentRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonPackSizeRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonPackgMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonRawMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonBottlingProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonCompoundingProcRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonDosageRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonEquipmentRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonMfgProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonPackgMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonPackgOperationRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonPowderFillingRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonRawMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonUdfRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonItemRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonStockCardRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-            SingletonStockCardTxnRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-
-            loadMainPane();
-            return true;
+            USER_AUTHORIZED = true;
         } else {
-            return false;
+            USER_AUTHORIZED = false;
         }
 
+    }
+
+    public void configureUser() {
+        String emailAd = currentUser.getEmailAd();
+        String pwd = currentUser.getPassword();
+
+        //configure all rest clients
+        SingletonMbrRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonProductRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonUnitRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonAreaRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonClassificationRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonCompanyRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonContainerRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonEquipmentRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonPackSizeRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonPackgMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonRawMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonBottlingProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonCompoundingProcRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonDosageRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonEquipmentRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonMfgProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonPackgMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonPackgOperationRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonPowderFillingRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonRawMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonUdfRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonItemRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonStockCardRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonStockCardTxnRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonAuthorizationManager.getInstance().setUsernameAndPassword(emailAd, pwd);
+
+        loadMainPane();
     }
 
     public void userLogout() {
@@ -155,6 +163,7 @@ public class Main extends Application {
         SingletonItemRestClient.getInstance().destroy();
         SingletonStockCardRestClient.getInstance().destroy();
         SingletonStockCardTxnRestClient.getInstance().destroy();
+        SingletonAuthorizationManager.getInstance().destroy();
 
         this.loadLoginDialog();
         MyNotifications.displayConfirm("SUCCESSFULLY LOGGED OUT");
@@ -162,32 +171,32 @@ public class Main extends Application {
 
     public void loadMainPane() {
         try {
-
             FXMLLoader loader = new FXMLLoader();
             MainController mainController = new MainController();
             mainController.setApplication(this);
             loader.setController(mainController);
-            AnchorPane mainPane = (AnchorPane) loader.load(getClass().getResourceAsStream(ScreenNavigator.MAIN));
+            AnchorPane mainPane = (AnchorPane) loader.load(getClass().getResourceAsStream(FXMLLocations.MAIN));
             ScreenNavigator.setMainController(mainController);
-            ScreenNavigator.loadScreen(ScreenNavigator.WELCOME_SCREEN);
+            ScreenNavigator.loadScreen(FXMLLocations.WELCOME_SCREEN);
             Scene scene = new Scene(mainPane);
+            scene.getStylesheets().add(this.getClass().getResource("css/main.css").toExternalForm());
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-
-            // stage.setResizable(false);
-            stage.setTitle("Pharma");
-            stage.setMaximized(true);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setResizable(false);
+            stage.setTitle("Pharma System");
+            //  stage.setMaximized(true);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            CustomAlertDialog.showExceptionDialog(e);
         }
 
     }
 
     private void loadLoginDialog() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(ScreenNavigator.LOGIN_SCREEN));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXMLLocations.LOGIN_SCREEN));
             LoginController controller = new LoginController();
             controller.setApplication(this);
             fxmlLoader.setController(controller);
@@ -197,10 +206,11 @@ public class Main extends Application {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Member Login");
             stage.setResizable(false);
-            stage.setScene(new Scene(root1));
+            Scene scene = new Scene(root1);
+            stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            CustomAlertDialog.showExceptionDialog(e);
         }
     }
 }

@@ -8,7 +8,7 @@
 <?import mbrinstant.controls.*?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="mbrinstant.controller.product.ProductWizard.PrimarySecondaryController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="750.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="mbrinstant.rnd_module.controller.product.ProductWizard.PrimarySecondaryController">
    <children>
       <GridPane hgap="10.0" prefHeight="550.0" prefWidth="750.0" vgap="10.0" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
         <columnConstraints>

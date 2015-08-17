@@ -21,7 +21,7 @@ public class ProductWizard {
 
     Stage mainStage = new Stage();
     public static String PRODUCT_WIZARD_LOCATION = "view/product_wizard.fxml";
-   // static ProductWizardController mainController;
+    // static ProductWizardController mainController;
 
     public ProductWizard() throws IOException {
 

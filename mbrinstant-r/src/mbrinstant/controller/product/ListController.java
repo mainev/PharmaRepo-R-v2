@@ -15,20 +15,26 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import mbrinstant.controller.product.ProductWizard.ProductWizard;
-import mbrinstant.controls.CustomTextField;
+import mbrinstant.animations.FadeInUpTransition;
+import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.entity.main.Product;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.controller.product.ProductWizard.ProductWizard;
+import mbrinstant.security.SingletonAuthorizationManager;
 
 /**
  * FXML Controller class
@@ -66,33 +72,77 @@ public class ListController implements Initializable {
 
     //rest client
     SingletonProductRestClient productRestClient = SingletonProductRestClient.getInstance();
+    private SingletonAuthorizationManager authManager = SingletonAuthorizationManager.getInstance();
 
-    /**
-     * Initializes the controller class.
-     */
+    //methods
+    private final String MAIN_METHOD_NAME = "view_product_list";
+    private final String CREATE_NEW_PRODUCT = "create_new_product";
+
+    @FXML
+    private AnchorPane mainPane;
+    @FXML
+    private AnchorPane detailsPane;
+    @FXML
+    private ProgressIndicator progressIcon;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         try {
-            initMbrListTableView();
-
-            newProductButton.setOnAction(e -> {
-                CustomTextField t = new CustomTextField();
-                try {
-                    new ProductWizard();
-                } catch (IOException ex) {
-                }
-
-            });
+            if (authManager.isUserPermitted(MAIN_METHOD_NAME)) {
+                productControllerService.start();
+                productControllerService.setOnRunning((event) -> {
+                    progressIcon.setVisible(true);
+                });
+                productControllerService.setOnSucceeded((event) -> {
+                    progressIcon.setVisible(false);
+                    detailsPane.setVisible(true);
+                    new FadeInUpTransition(detailsPane).play();
+                });
+            } else {
+                CustomAlertDialog.showAccessDeniedDialog();
+                mainPane.setDisable(true);
+            }
         } catch (ServerException ex) {
             Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void initMbrListTableView() throws ServerException {
-        ObservableList<Product> productList = productRestClient.getProductList();
-        productListTableView.setItems(productList);
+    @FXML
+    private void showProductWizard() {
+        try {
+            if (authManager.isUserPermitted(CREATE_NEW_PRODUCT)) {
+                try {
+                    new ProductWizard();
+                } catch (IOException ex) {
+                    CustomAlertDialog.showExceptionDialog(ex);
+                }
+            } else {
+                CustomAlertDialog.showAccessDeniedDialog();
+            }
+        } catch (ServerException ex) {
+            Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }
+    private final Service productControllerService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    configureProductTable();
+
+                    Thread.sleep(0);
+                    return null;
+                }
+            };
+        }
+    };
+
+    private void configureProductTable() throws ServerException {
+        ObservableList<Product> productList = productRestClient.getProductList();
+
+        productListTableView.setItems(productList);
         colProductCode.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCode()));
         colBrandName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBrandName()));
         colGenericName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getGenericName()));

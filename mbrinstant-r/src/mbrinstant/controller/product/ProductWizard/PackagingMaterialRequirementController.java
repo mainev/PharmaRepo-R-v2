@@ -34,7 +34,7 @@ import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.Udf;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;

@@ -39,7 +39,7 @@ import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.Dosage;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
-import mbrinstant.exception.ServerException;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonCompoundingProcRestClient;
 import mbrinstant.rest_client.mbr.SingletonDosageRestClient;
 import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;

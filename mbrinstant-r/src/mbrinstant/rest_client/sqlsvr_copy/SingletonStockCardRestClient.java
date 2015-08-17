@@ -10,10 +10,14 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.entity.sqlsvr_copy.StockCardC;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;
@@ -45,9 +49,28 @@ public class SingletonStockCardRestClient {
                             getHostnameVerifier(), sslContext));
 
             client = Client.create(defaultClientConfig);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            CustomAlertDialog.showExceptionDialog(e);
         }
+    }
+
+    /**
+     * DBMethodName : g_stock_card_list
+     *
+     * @param itemCd
+     * @return
+     */
+    public List<StockCardC> getStockCardList() throws ServerException {
+        webResource = client.resource(BASE_URI + "/g_stock_card_list");
+        ClientResponse response = webResource
+                .queryParam("method", "g_stock_card_list")
+                .accept("application/json").get(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            return Serializer.<StockCardC>deserializeList(jsonOutput, StockCardC.class);
+        }
+        return null;
     }
 
     /**
@@ -56,14 +79,18 @@ public class SingletonStockCardRestClient {
      * @param itemCd
      * @return
      */
-    public List<StockCardC> getStockCardByItemCd(String itemCd) {
+    public List<StockCardC> getStockCardByItemCd(String itemCd) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_stock_card_by_item_cd");
         ClientResponse response = webResource
                 .queryParam("method", "g_stock_card_by_item_cd")
                 .queryParam("item_cd", itemCd)
                 .accept("application/json").get(ClientResponse.class);
-        String jsonOutput = response.getEntity(String.class);
-        return Serializer.<StockCardC>deserializeList(jsonOutput, StockCardC.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            return Serializer.<StockCardC>deserializeList(jsonOutput, StockCardC.class);
+        }
+        return null;
     }
 
     /**
@@ -72,14 +99,18 @@ public class SingletonStockCardRestClient {
      * @param id
      * @return
      */
-    public StockCardC getStockCardById(int id) {
+    public StockCardC getStockCardById(int id) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_stock_card_by_id");
         ClientResponse response = webResource
                 .queryParam("method", "g_stock_card_by_id")
                 .queryParam("id", String.valueOf(id))
                 .accept("application/json").get(ClientResponse.class);
-        String jsonOutput = response.getEntity(String.class);
-        return Serializer.<StockCardC>deserialize(jsonOutput, StockCardC.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            return Serializer.<StockCardC>deserialize(jsonOutput, StockCardC.class);
+        }
+        return null;
     }
 
     /**
@@ -89,29 +120,37 @@ public class SingletonStockCardRestClient {
      * @param itemCd
      * @return
      */
-    public List<StockCardC> getStockCardByCompanyCdAndItemCd(String companyCd, String itemCd) {
+    public List<StockCardC> getStockCardByCompanyCdAndItemCd(String companyCd, String itemCd) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_stock_card_by_company_cd_and_item_cd");
         ClientResponse response = webResource
                 .queryParam("method", "g_stock_card_by_company_cd_and_item_cd")
                 .queryParam("company_cd", companyCd)
                 .queryParam("item_cd", itemCd)
                 .accept("application/json").get(ClientResponse.class);
-        String jsonOutput = response.getEntity(String.class);
-        return Serializer.<StockCardC>deserializeList(jsonOutput, StockCardC.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            return Serializer.<StockCardC>deserializeList(jsonOutput, StockCardC.class);
+        }
+        return null;
     }
 
     /**
-     * DBMethodName : pst_change_stock_card_status
+     * DBMethodName : pst_change_stock_card_status_to_depleted
      *
      * @param stk_id
      */
     //change stockcard status to depleted
-    public void changeStockCardStatusToDepleted(int stk_id) {
-        webResource = client.resource(BASE_URI + "/pst_change_stock_card_status");
-        webResource
-                .queryParam("method", "pst_change_stock_card_status")
+    public void changeStockCardStatusToDepleted(int stk_id) throws ServerException {
+        webResource = client.resource(BASE_URI + "/pst_change_stock_card_status_to_depleted");
+        ClientResponse response = webResource
+                .queryParam("method", "pst_change_stock_card_status_to_depleted")
                 .queryParam("stk_id", String.valueOf(stk_id))
                 .accept("application/json").post(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            System.out.println("Stockcard status successfully updated.");
+        }
 
     }
 
@@ -121,19 +160,20 @@ public class SingletonStockCardRestClient {
      * @param controlNo
      * @return
      */
-    public StockCardC getStockCardByControlNo(String controlNo) {
-        try {
-            webResource = client.resource(BASE_URI + "/g_stockcard_by_control_no");
-            ClientResponse response = webResource
-                    .queryParam("method", "g_stockcard_by_control_no")
-                    .queryParam("control_no", controlNo)
-                    .accept("application/json").get(ClientResponse.class);
+    public StockCardC getStockCardByControlNo(String controlNo) throws ServerException {
+
+        webResource = client.resource(BASE_URI + "/g_stockcard_by_control_no");
+        ClientResponse response = webResource
+                .queryParam("method", "g_stockcard_by_control_no")
+                .queryParam("control_no", controlNo)
+                .accept("application/json").get(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful() && response.getStatus() != 204) {
             String jsonOutput = response.getEntity(String.class);
             return Serializer.<StockCardC>deserialize(jsonOutput, StockCardC.class);
-        } catch (Exception e) {
-
-            return null;
         }
+        return null;
+
     }
 
     public static SingletonStockCardRestClient getInstance() {

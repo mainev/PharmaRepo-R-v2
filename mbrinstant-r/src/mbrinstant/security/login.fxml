@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" minWidth="-Infinity" prefHeight="240.0" prefWidth="500.0" styleClass="dark-pane" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="200.0" layoutY="50.0" minWidth="-Infinity" prefHeight="240.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="emailAd" layoutX="160.0" layoutY="99.0" prefWidth="300.0" promptText="Email Address" text="mainevillarias@gmail.com">
+                     <padding>
+                        <Insets right="30.0" />
+                     </padding>
+                  </TextField>
+                  <PasswordField fx:id="password" layoutX="160.0" layoutY="142.0" prefWidth="300.0" promptText="Password" text="password" />
+                  <Text fill="WHITE" layoutX="50.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome">
+                     <font>
+                        <Font name="Segoe UI Semilight" size="43.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="382.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="please login">
+                     <font>
+                        <Font name="Segoe UI Semilight" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="22.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email / Username">
+                     <font>
+                        <Font name="Segoe UI Semilight" size="16.0" />
+                     </font>
+                  </Text>
+                  <Text fill="WHITE" layoutX="22.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+                     <font>
+                        <Font name="Segoe UI Semilight" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" styleClass="dark-pane" BorderPane.alignment="CENTER">
+              <items>
+                <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Close" />
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefWidth="100.0" text="Login" />
+              </items>
+            </ToolBar>
+         </bottom>
+         <top>
+            <HBox alignment="CENTER" prefHeight="10.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
