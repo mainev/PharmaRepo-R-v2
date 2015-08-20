@@ -1,9 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="635.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.audit.AuditListController" />
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="644.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.audit.AuditListController">
+   <children>
+      <BorderPane prefHeight="635.0" prefWidth="1116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox prefHeight="83.0" prefWidth="1116.0" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane prefHeight="83.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="#003926" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="page-title" text="Audit Trail" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0">
+                           <font>
+                              <Font name="Segoe UI Semilight" size="48.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+                  <Separator prefWidth="200.0" />
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane layoutX="161.0" layoutY="102.0" prefHeight="552.0" prefWidth="1116.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <center>
+                        <AnchorPane prefHeight="561.0" prefWidth="550.0" style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER">
+                           <children>
+                              <TableView fx:id="auditTable" prefHeight="552.0" prefWidth="916.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                <columns>
+                                  <TableColumn fx:id="colAction" prefWidth="70.0" text="Action" />
+                                  <TableColumn fx:id="colTable" prefWidth="100.0" text="Table" />
+                                    <TableColumn fx:id="colDatetime" prefWidth="200.0" text="Datetime" />
+                                    <TableColumn fx:id="colUsername" prefWidth="150.0" text="Username" />
+                                    <TableColumn fx:id="colMethod" prefWidth="60.0" text="Method" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </center>
+                     <right>
+                        <AnchorPane prefHeight="561.0" prefWidth="378.0" style="-fx-border-color: lightgray;" BorderPane.alignment="CENTER">
+                           <children>
+                              <TabPane prefHeight="590.0" prefWidth="378.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <tabs>
+                                    <Tab closable="false" text="Data Capture">
+                                       <content>
+                                          <TableView fx:id="dataCaptureTable" layoutX="-18.0" layoutY="14.0" prefHeight="561.0" prefWidth="378.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="colFieldName" prefWidth="100.0" text="Field" />
+                                              <TableColumn fx:id="colBefore" prefWidth="130.0" text="Before" />
+                                                <TableColumn fx:id="colAfter" prefWidth="130.0" text="After" />
+                                            </columns>
+                                          </TableView>
+                                       </content>
+                                    </Tab>
+                                 </tabs>
+                              </TabPane>
+                           </children></AnchorPane>
+                     </right>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -6,8 +6,8 @@
 package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
-import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Unit;
+import mbrinstant.entity.sqlsvr_copy.Item;
 
 /**
  *
@@ -18,16 +18,16 @@ public class PackagingMaterialRequirement {
     @Expose
     private Integer id;
     @Expose
-    private PackagingMaterial packagingMaterialId;
-    @Expose
     private Double quantity;
     @Expose
     private Unit unitId;
+    @Expose
+    private Item itemId;
 
     private double newQuantity;
 
-    public PackagingMaterialRequirement(PackagingMaterial packagingMaterialId, double quantity, Unit unitId) {
-        this.packagingMaterialId = packagingMaterialId;
+    public PackagingMaterialRequirement(Item itemId, double quantity, Unit unitId) {
+        this.itemId = itemId;
         this.quantity = quantity;
         this.unitId = unitId;
     }
@@ -55,14 +55,6 @@ public class PackagingMaterialRequirement {
         this.id = id;
     }
 
-    public PackagingMaterial getPackagingMaterialId() {
-        return packagingMaterialId;
-    }
-
-    public void setPackagingMaterialId(PackagingMaterial packagingMaterialId) {
-        this.packagingMaterialId = packagingMaterialId;
-    }
-
     public Double getQuantity() {
         return quantity;
     }
@@ -79,36 +71,17 @@ public class PackagingMaterialRequirement {
         this.unitId = unitId;
     }
 
-//    /*
-//     public Udf getUdfId() {
-//     return udfId;
-//     }
-//
-//     public void setUdfId(Udf udfId) {
-//     this.udfId = udfId;
-//     }*/
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof PackagingMaterialRequirement)) {
-//            return false;
-//        }
-//        PackagingMaterialRequirement other = (PackagingMaterialRequirement) object;
-//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-//            return false;
-//        }
-//        return true;
-//    }
+    public Item getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Item itemId) {
+        this.itemId = itemId;
+    }
+
     @Override
     public String toString() {
-        return packagingMaterialId + " - " + quantity + " " + unitId;
+        return itemId + " - " + quantity + " " + unitId;
     }
 
 }

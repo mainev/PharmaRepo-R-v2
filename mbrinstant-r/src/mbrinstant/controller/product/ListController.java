@@ -29,11 +29,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import mbrinstant.animations.FadeInUpTransition;
+import mbrinstant.controller.product.ProductWizard.ProductWizard;
 import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.entity.main.Product;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonProductRestClient;
-import mbrinstant.controller.product.ProductWizard.ProductWizard;
 import mbrinstant.security.SingletonAuthorizationManager;
 
 /**
@@ -146,7 +146,7 @@ public class ListController implements Initializable {
         colProductCode.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCode()));
         colBrandName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getBrandName()));
         colGenericName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getGenericName()));
-        colClientName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getClientId().getName()));
+        colClientName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCompanyId().getDescs()));
         colVrNo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getVrNo()));
         colShelfLife.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getShelfLife()));
         colArea.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getAreaId().getName()));

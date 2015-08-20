@@ -29,14 +29,14 @@ import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomComboBox;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.controls.SearchTextField;
-import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.entity.mbr.Udf;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.exceptions.ServerException;
-import mbrinstant.rest_client.main.SingletonRawMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonItemRestClient;
 
 /**
  * FXML Controller class
@@ -61,11 +61,11 @@ public class RawMaterialRequirementController implements Initializable, PageCont
     TableColumn<RawMaterialRequirement, String> colRawMaterial;
 
     @FXML
-    SearchTextField<RawMaterial> rmTextField;
+    SearchTextField<Item> rmTextField;
 
     //rest client
     SingletonUnitRestClient unitService = SingletonUnitRestClient.getInstance();
-    SingletonRawMaterialRestClient rmService = SingletonRawMaterialRestClient.getInstance();
+    SingletonItemRestClient itemRestClient = SingletonItemRestClient.getInstance();
     SingletonRawMaterialRequirementRestClient rmReqService = SingletonRawMaterialRequirementRestClient.getInstance();
 
     ObservableList<RawMaterialRequirement> rmReqTemporaryList = FXCollections.observableArrayList();
@@ -76,7 +76,7 @@ public class RawMaterialRequirementController implements Initializable, PageCont
         try {
             partComboBox.setItems(FXCollections.observableArrayList(null, (short) 1, (short) 2, (short) 3));
             rmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
-            rmTextField.setItems(rmService.getRawMaterialList());
+            rmTextField.setItems(itemRestClient.getRawMaterialList());
             rmTextField.setPromptText("Type raw material here");
             rmReqUnit.setItems(unitService.getUnitList());
             initRmReqTable();
@@ -120,7 +120,7 @@ public class RawMaterialRequirementController implements Initializable, PageCont
         partComboBox.setValue(null);
     }
 
-    private RawMaterial getRawMaterial() {
+    private Item getRawMaterial() {
 
         return rmTextField.getSelectedItem();
     }

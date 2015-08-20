@@ -11,7 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import mbrinstant.entity.main.PackagingMaterial;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.utils.MetricCalculator;
 import mbrinstant.utils.Quantity;
 
@@ -21,7 +21,7 @@ import mbrinstant.utils.Quantity;
  */
 public class BatchPm {
 
-    PackagingMaterial packagingMaterial;
+    private Item packagingMaterial;
     private ObservableList<Quantity> quantityList = FXCollections.observableArrayList();
     private Quantity requiredQuantity = new Quantity();//calculated qty of all items in the map
 
@@ -68,11 +68,11 @@ public class BatchPm {
         qtyMap.remove(hashcode);
     }
 
-    public PackagingMaterial getPackagingMaterial() {
+    public Item getPackagingMaterial() {
         return packagingMaterial;
     }
 
-    public void setPackagingMaterial(PackagingMaterial packagingMaterial) {
+    public void setPackagingMaterial(Item packagingMaterial) {
         this.packagingMaterial = packagingMaterial;
     }
 

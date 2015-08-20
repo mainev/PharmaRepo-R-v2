@@ -14,6 +14,7 @@ import java.util.List;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import mbrinstant.entity.transaction.StockCardTxn;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
 import mbrinstant.utils.Serializer;
@@ -58,7 +59,6 @@ public class SingletonStockCardTxnRestClient {
     public List<StockCardTxn> getReservedAndApprovedtByItemCd(String itemCd) {
         webResource = client.resource(BASE_URI + "/g_reserved_approved_by_item_cd");
         ClientResponse response = webResource
-                .queryParam("method", "g_reserved_approved_by_item_cd")
                 .queryParam("item_cd", itemCd)
                 .accept("application/json").get(ClientResponse.class);
         String jsonOutput = response.getEntity(String.class);
@@ -75,7 +75,6 @@ public class SingletonStockCardTxnRestClient {
     public List<StockCardTxn> getReservedAndApprovedtByItemCdAndCompanyCd(String itemCd, String companyCd) {
         webResource = client.resource(BASE_URI + "/g_reserved_approved_by_item_cd_company_cd");
         ClientResponse response = webResource
-                .queryParam("method", "g_reserved_approved_by_item_cd_company_cd")
                 .queryParam("item_cd", itemCd)
                 .queryParam(("company_cd"), companyCd)
                 .accept("application/json").get(ClientResponse.class);
@@ -96,7 +95,6 @@ public class SingletonStockCardTxnRestClient {
         System.out.println("serialized txn : " + input);
         webResource = client.resource(BASE_URI + "/pst_new_stock_card_txn");
         ClientResponse response = webResource
-                .queryParam("method", "pst_new_stock_card_txn")
                 .queryParam("mbr_id", String.valueOf(mbrId))
                 .queryParam("stk_id", String.valueOf(stkId))
                 .type("application/json")
@@ -105,6 +103,17 @@ public class SingletonStockCardTxnRestClient {
 
         return Serializer.<StockCardTxn>deserialize(output, StockCardTxn.class);
 
+    }
+
+    public void deleteStockCardTxn(int stkId) throws ServerException {
+        webResource = client.resource(BASE_URI + "/pst_delete_stock_card_txn");
+        ClientResponse response = webResource
+                .queryParam("stk_id", String.valueOf(stkId))
+                .accept("application/json").post(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            System.out.println("batch stockcard transaction successfully deleted");
+        }
     }
 
     public static SingletonStockCardTxnRestClient getInstance() {

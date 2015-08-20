@@ -25,6 +25,14 @@ public class StockCardTxn {
     @Expose
     private Mbr mbrId;
 
+    //for audit entry
+    @Expose
+    private int stock_card_id;
+    @Expose
+    private short unit_id;
+    @Expose
+    private int mbr_id;
+
     private StockCardC stockCard;//must not be serialized
 
     public StockCardTxn() {
@@ -74,13 +82,30 @@ public class StockCardTxn {
         this.mbrId = mbrId;
     }
 
-//    public int getStkId() {
-//        return stkId;
-//    }
-//
-//    public void setStkId(int stkId) {
-//        this.stkId = stkId;
-//    }
+    public int getStock_card_id() {
+        return stock_card_id;
+    }
+
+    public void setStock_card_id(int stock_card_id) {
+        this.stock_card_id = stock_card_id;
+    }
+
+    public short getUnit_id() {
+        return unit_id;
+    }
+
+    public void setUnit_id(short unit_id) {
+        this.unit_id = unit_id;
+    }
+
+    public int getMbr_id() {
+        return mbr_id;
+    }
+
+    public void setMbr_id(int mbr_id) {
+        this.mbr_id = mbr_id;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

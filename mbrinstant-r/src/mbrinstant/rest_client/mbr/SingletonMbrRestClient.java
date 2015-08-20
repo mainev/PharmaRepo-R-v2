@@ -10,7 +10,6 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -27,6 +26,7 @@ import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.mbr.MbrStatus;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
+import mbrinstant.entity.transaction.StockCardTxn;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -66,17 +66,9 @@ public class SingletonMbrRestClient {
 
     }
 
-    /**
-     * DB Method name: g_batch_list
-     *
-     * @return
-     * @throws mbrinstant.exception.ClientException
-     * @throws mbrinstant.exceptions.ServerException
-     */
     public ObservableList<Mbr> getBatchList() throws ServerException {
         webResource = client.resource(BASE_URI + "/g_batch_list");
         ClientResponse response = webResource
-                .queryParam("method", "g_batch_list")
                 .accept("application/json")
                 .get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
@@ -87,19 +79,11 @@ public class SingletonMbrRestClient {
         return null;
     }
 
-    /**
-     * DB Method name: g_batch_by_stat
-     *
-     * @param status
-     * @return
-     * @throws mbrinstant.exceptions.ServerException
-     */
     public ObservableList<Mbr> getBatchByStatus(MbrStatus status) throws ServerException {
         ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
 
         webResource = client.resource(BASE_URI + "/g_batch_by_stat");
         ClientResponse response = webResource
-                .queryParam("method", "g_batch_by_stat")
                 .queryParam("mbr_status", status.toString())
                 .accept("application/json").get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
@@ -111,19 +95,11 @@ public class SingletonMbrRestClient {
         return mbrList;
     }
 
-    /**
-     * DB Method name: g_batch_by_batch_no
-     *
-     * @param batchNo
-     * @return
-     * @throws mbrinstant.exceptions.ServerException
-     */
     public ObservableList<Mbr> getBatchByBatchNo(String batchNo) throws ServerException {
         ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
 
         webResource = client.resource(BASE_URI + "/g_batch_by_batch_no");
         ClientResponse response = webResource
-                .queryParam("method", "g_batch_by_batch_no")
                 .queryParam("batch_no", batchNo)
                 .accept("application/json").get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
@@ -135,18 +111,11 @@ public class SingletonMbrRestClient {
         return mbrList;
     }
 
-    /**
-     * DBMethodName: g_batch_by_product_code
-     *
-     * @param productCode
-     * @return
-     */
     public ObservableList<Mbr> getBatchByProductCode(String productCode) throws ServerException {
         ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
 
         webResource = client.resource(BASE_URI + "/g_batch_by_product_code");
         ClientResponse response = webResource
-                .queryParam("method", "g_batch_by_product_code")
                 .queryParam("product_code", productCode)
                 .accept("application/json").get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
@@ -158,18 +127,11 @@ public class SingletonMbrRestClient {
         return mbrList;
     }
 
-    /**
-     * DBMethodName: g_batch_by_area
-     *
-     * @param productArea
-     * @return
-     */
     public ObservableList<Mbr> getBatchByArea(String productArea) throws ServerException {
         ObservableList<Mbr> mbrList = FXCollections.observableArrayList();
 
         webResource = client.resource(BASE_URI + "/g_batch_by_area");
         ClientResponse response = webResource
-                .queryParam("method", "g_batch_by_area")
                 .queryParam("product_area", productArea)
                 .accept("application/json").get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
@@ -181,19 +143,6 @@ public class SingletonMbrRestClient {
         return mbrList;
     }
 
-    /**
-     * *
-     * DBMethodName: pst_new_batch
-     *
-     * @param productId
-     * @param batchSize
-     * @param mfgDate
-     * @param expDate
-     * @param poNo
-     * @param unitId
-     * @return
-     * @throws mbrinstant.exceptions.ServerException
-     */
     public Mbr createNewBatch(Product productId, double batchSize, Date mfgDate, Date expDate, String poNo, Unit unitId) throws ServerException {
 
         String batchNo = "batch1";
@@ -205,7 +154,6 @@ public class SingletonMbrRestClient {
         String input = Serializer.serialize(mbr);
         webResource = client.resource(BASE_URI + "/pst_new_batch");
         ClientResponse response = webResource
-                .queryParam("method", "pst_new_batch")
                 .type("application/json").post(ClientResponse.class, input);
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
@@ -216,13 +164,6 @@ public class SingletonMbrRestClient {
         return null;
     }
 
-    /**
-     * DBMethodName: pst_new_batch
-     *
-     * @param mbr
-     * @return
-     * @throws mbrinstant.exceptions.ServerException
-     */
     public Mbr createNewBatch(Mbr mbr) throws ServerException {
         String batchNo = "batch1";
         System.out.println("NOTE: batchNo is temporarily set to 'batch1' in the MbrRestClient");
@@ -232,7 +173,6 @@ public class SingletonMbrRestClient {
         String input = Serializer.serialize(mbr);
         webResource = client.resource(BASE_URI + "/pst_new_batch");
         ClientResponse response = webResource
-                .queryParam("method", "pst_new_batch")
                 .type("application/json").post(ClientResponse.class, input);
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
@@ -242,16 +182,9 @@ public class SingletonMbrRestClient {
         return null;
     }
 
-    /**
-     * DBMethodName: pst_reserve_mbr
-     *
-     * @param mbr
-     * @throws mbrinstant.exceptions.ServerException
-     */
     public void reserveBatch(Mbr mbr) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_reserve_mbr");
         ClientResponse response = webResource
-                .queryParam("method", "pst_reserve_mbr")
                 .queryParam("mbr_id", String.valueOf(mbr.getId()))
                 .type("application/json").post(ClientResponse.class
                 );
@@ -261,16 +194,9 @@ public class SingletonMbrRestClient {
         }
     }
 
-    /**
-     * DBMethodName: pst_cancel_reservation
-     *
-     * @param mbr
-     * @throws IOException
-     */
     public void cancelBatchReservation(Mbr mbr) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_cancel_reservation");
         ClientResponse response = webResource
-                .queryParam("method", "pst_cancel_reservation")
                 .queryParam("mbr_id", String.valueOf(mbr.getId()))
                 .type("application/json").post(ClientResponse.class
                 );
@@ -280,16 +206,9 @@ public class SingletonMbrRestClient {
         }
     }
 
-    /**
-     * DBMethodName: pst_print_batch
-     *
-     * @param mbr
-     * @throws IOException
-     */
     public void printBatch(Mbr mbr) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_print_batch");
         ClientResponse response = webResource
-                .queryParam("method", "pst_print_batch")
                 .queryParam("mbr_id", String.valueOf(mbr.getId()))
                 .type("application/json").post(ClientResponse.class
                 );
@@ -300,16 +219,9 @@ public class SingletonMbrRestClient {
 
     }
 
-    /**
-     * DBMethodName: pst_dispense_batch_material
-     *
-     * @param mbr
-     * @throws IOException
-     */
     public void dispenseBatchMaterials(Mbr mbr) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_dispense_batch_material");
         ClientResponse response = webResource
-                .queryParam("method", "pst_dispense_batch_material")
                 .queryParam("mbr_id", String.valueOf(mbr.getId()))
                 .type("application/json").post(ClientResponse.class
                 );
@@ -318,11 +230,27 @@ public class SingletonMbrRestClient {
             System.out.println("Batch " + mbr.getBatchNo() + " printed.");
         }
 
+    }
+
+    public ObservableList<StockCardTxn> getBatchStockCardTxnList(int mbrId) throws ServerException {
+        ObservableList<StockCardTxn> txnList = FXCollections.observableArrayList();
+
+        webResource = client.resource(BASE_URI + "/g_batch_stock_card_txn_list");
+        ClientResponse response = webResource
+                .queryParam("mbr_id", String.valueOf(mbrId))
+                .accept("application/json").get(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            txnList = Serializer.<StockCardTxn>deserializeList(jsonOutput, StockCardTxn.class);
+        }
+
+        return txnList;
     }
 
     public int getPrimaryPackagingQuantity(List<PackagingMaterialRequirement> pmrList, int bottleId) {
         for (PackagingMaterialRequirement bpmr : pmrList) {
-            if (bpmr.getPackagingMaterialId().getId() == bottleId) {
+            if (bpmr.getItemId().getId() == bottleId) {
                 return (int) bpmr.getNewQuantity();
             }
         }
@@ -331,7 +259,7 @@ public class SingletonMbrRestClient {
 
     public int getSecondaryPackagingQuantity(List<PackagingMaterialRequirement> pmrList, int cBoxId) {
         for (PackagingMaterialRequirement pmr : pmrList) {
-            if (pmr.getPackagingMaterialId().getId() == cBoxId) {
+            if (pmr.getItemId().getId() == cBoxId) {
                 return (int) pmr.getNewQuantity();
             }
         }

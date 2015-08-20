@@ -21,21 +21,21 @@ import mbrinstant.controls.IntegerTextField;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Classification;
-import mbrinstant.entity.main.Company;
 import mbrinstant.entity.main.Container;
 import mbrinstant.entity.main.PackSize;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
+import mbrinstant.entity.sqlsvr_copy.Company;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonAreaRestClient;
 import mbrinstant.rest_client.main.SingletonClassificationRestClient;
-import mbrinstant.rest_client.main.SingletonCompanyRestClient;
 import mbrinstant.rest_client.main.SingletonContainerRestClient;
 import mbrinstant.rest_client.main.SingletonPackSizeRestClient;
 import mbrinstant.rest_client.main.SingletonProductRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.rest_client.mbr.SingletonMfgProcedureRestClient;
 import mbrinstant.rest_client.mbr.SingletonUdfRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonCompanyRestClient;
 
 /**
  * FXML Controller class

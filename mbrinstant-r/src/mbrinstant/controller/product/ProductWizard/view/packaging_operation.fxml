@@ -12,7 +12,7 @@
 <?import org.controlsfx.control.*?>
 <?import mbrinstant.controls.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.rnd_module.controller.product.ProductWizard.PackagingOperationController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.PackagingOperationController">
    <children>
       <SplitPane dividerPositions="0.5985401459854015" layoutX="115.0" layoutY="130.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>

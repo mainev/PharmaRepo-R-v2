@@ -34,7 +34,7 @@
                                                                                                 <TableColumn fx:id="colProductFormulationRMAction" prefWidth="200.0" text="Action" />
                                                                                                 <TableColumn fx:id="colProductFormulationRMMaterial" prefWidth="300.0" text="Material">
                                                                                                     <cellValueFactory>
-                                                                                                        <PropertyValueFactory property="rawMaterialId" /> 
+                                                                                                        <PropertyValueFactory property="itemId" /> 
                                                                                                     </cellValueFactory>
                                                                                                 </TableColumn>
                                                                                                 <TableColumn fx:id="colProductFormulationRMQty" prefWidth="100.0" text="Quantity">
@@ -73,7 +73,7 @@
                                                                                                 <TableColumn prefWidth="200.0" text="Action" />
                                                                                                 <TableColumn fx:id="colProductFormulationPMMaterial" prefWidth="300.0" text="Material">
                                                                                                     <cellValueFactory>
-                                                                                                        <PropertyValueFactory property="packagingMaterialId" />
+                                                                                                        <PropertyValueFactory property="itemId" />
                                                                                                     </cellValueFactory>
                                                                                                 </TableColumn>
                                                                                                 <TableColumn fx:id="colProductFormulationPMQty" prefWidth="100.0" text="Quantity">

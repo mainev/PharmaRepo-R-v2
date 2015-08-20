@@ -153,7 +153,7 @@ public class CompoundingProceduresController implements Initializable, PageContr
                 cp = cpRestClient.createCompoundingProc(mfgId.getId(), cp);
                 for (Dosage dos : dosList) {
                     RawMaterialRequirement rmReq = dos.getRawMaterialRequirementId();
-                    rmReq = rmReqService.getRawMaterialRequirementByDetails(rmReq.getRawMaterialId().getId(), rmReq.getQuantity(), rmReq.getUnitId().getId(), udfId);
+                    rmReq = rmReqService.getRawMaterialRequirementByDetails(rmReq.getItemId().getId(), rmReq.getQuantity(), rmReq.getUnitId().getId(), udfId);
                     dos.setRawMaterialRequirementId(rmReq);
                     dosageRestClient.createDosage(cp.getId(), dos);
                 }

@@ -5,7 +5,6 @@
  */
 package mbrinstant.controller.product;
 
-import mbrinstant.controller.product.CompoundingProcedureTableFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -36,8 +35,6 @@ import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.PackagingOperation;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.exceptions.ServerException;
-import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
-import mbrinstant.rest_client.main.SingletonRawMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.rest_client.mbr.SingletonEquipmentRequirementRestClient;
 import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
@@ -52,86 +49,85 @@ import mbrinstant.rest_client.mbr.SingletonUdfRestClient;
 public class DetailsController implements Initializable {
 
     @FXML
-    Button closeButton;
+    private Button closeButton;
     @FXML
-    Label codeLabel;
+    private Label codeLabel;
     @FXML
-    Label brandNameLabel;
+    private Label brandNameLabel;
 
     /*PRODUCT FORMULATION*/
     //raw material requirements pane
     @FXML
-    HBox rmReqHbox;
+    private HBox rmReqHbox;
 
     @FXML
-    TableView<RawMaterialRequirement> rawMaterialReqTable;
+    private TableView<RawMaterialRequirement> rawMaterialReqTable;
     @FXML
-    TableColumn<RawMaterialRequirement, String> colProductFormulationRMUnit;
+    private TableColumn<RawMaterialRequirement, String> colProductFormulationRMUnit;
     @FXML
-    TableColumn<RawMaterialRequirement, Double> colProductFormulationRMQty;
+    private TableColumn<RawMaterialRequirement, Double> colProductFormulationRMQty;
     @FXML
-    TableColumn<RawMaterialRequirement, String> colProductFormulationRMMaterial;
+    private TableColumn<RawMaterialRequirement, String> colProductFormulationRMMaterial;
     @FXML
-    TableColumn colProductFormulationRMAction;
+    private TableColumn colProductFormulationRMAction;
 
     @FXML
-    HBox pmReqHbox;
+    private HBox pmReqHbox;
 
     @FXML
-    TableView<PackagingMaterialRequirement> packagingMaterialReqTable;
+    private TableView<PackagingMaterialRequirement> packagingMaterialReqTable;
     @FXML
-    TableColumn<PackagingMaterialRequirement, String> colProductFormulationPMMaterial;
+    private TableColumn<PackagingMaterialRequirement, String> colProductFormulationPMMaterial;
     @FXML
-    TableColumn<PackagingMaterialRequirement, Double> colProductFormulationPMQty;
+    private TableColumn<PackagingMaterialRequirement, Double> colProductFormulationPMQty;
     @FXML
-    TableColumn<PackagingMaterialRequirement, String> colProductFormulationPMUnit;
+    private TableColumn<PackagingMaterialRequirement, String> colProductFormulationPMUnit;
 
     /* END OF PRODUCT FORMULATION*/
 
     /*COMPOUNDING PROCEDURE PANE*/
     @FXML
-    TableView<CompoundingProcedure> compoundingProcedureTableView;
+    private TableView<CompoundingProcedure> compoundingProcedureTableView;
     @FXML
-    TableColumn<CompoundingProcedure, CompoundingProcedure> colCompoundingProcedureHeader;
+    private TableColumn<CompoundingProcedure, CompoundingProcedure> colCompoundingProcedureHeader;
     @FXML
-    TableColumn<CompoundingProcedure, Short> colCompoundingProcedureStep;
+    private TableColumn<CompoundingProcedure, Short> colCompoundingProcedureStep;
     @FXML
-    TableColumn<CompoundingProcedure, CompoundingProcedure> colCompoundingProcedureFooter;
+    private TableColumn<CompoundingProcedure, CompoundingProcedure> colCompoundingProcedureFooter;
     @FXML
-    TableColumn<CompoundingProcedure, String> colCompoundingProcedureCheckedBy;
+    private TableColumn<CompoundingProcedure, String> colCompoundingProcedureCheckedBy;
     @FXML
-    TableColumn<CompoundingProcedure, String> colCompoundingProcedureDoneBy;
+    private TableColumn<CompoundingProcedure, String> colCompoundingProcedureDoneBy;
     @FXML
-    TableColumn colCompoundingProcedureAction;
+    private TableColumn colCompoundingProcedureAction;
     @FXML
-    TableColumn<CompoundingProcedure, CompoundingProcedure> colCompoundingProcedureDosageList;
+    private TableColumn<CompoundingProcedure, CompoundingProcedure> colCompoundingProcedureDosageList;
     @FXML
-    Button addCompoundingProcedureButton;
+    private Button addCompoundingProcedureButton;
     /*END OF COMPOUNDING PROCEDURE PANE*/
 
     /*EQUIPMENT REQUIREMENTS PANE*/
     @FXML
-    ChoiceBox<String> procedureChoiceBox;
+    private ChoiceBox<String> procedureChoiceBox;
     @FXML
-    TableView<EquipmentRequirement> equipmentRequirementTable;
+    private TableView<EquipmentRequirement> equipmentRequirementTable;
     @FXML
-    TableColumn<EquipmentRequirement, String> colEquipmentRequirementCode;
+    private TableColumn<EquipmentRequirement, String> colEquipmentRequirementCode;
     @FXML
-    TableColumn<EquipmentRequirement, String> colEquipmentRequirementName;
+    private TableColumn<EquipmentRequirement, String> colEquipmentRequirementName;
     /*END OF EQUIPMENT REQUIREMENTS PANE*/
 
     //rest client
-    SingletonUnitRestClient unitRestClient = SingletonUnitRestClient.getInstance();
-    SingletonPackgMaterialRestClient packagingMaterialService = SingletonPackgMaterialRestClient.getInstance();
-    SingletonRawMaterialRestClient rawMaterialService = SingletonRawMaterialRestClient.getInstance();
-    SingletonEquipmentRequirementRestClient equipmentRequirementService = SingletonEquipmentRequirementRestClient.getInstance();
-    SingletonPackgMaterialRequirementRestClient pmReqService = SingletonPackgMaterialRequirementRestClient.getInstance();
-    SingletonRawMaterialRequirementRestClient rmReqService = SingletonRawMaterialRequirementRestClient.getInstance();
-    SingletonUdfRestClient udfService = SingletonUdfRestClient.getInstance();
+    private SingletonUnitRestClient unitRestClient = SingletonUnitRestClient.getInstance();
 
-    Product product;
+    private SingletonEquipmentRequirementRestClient equipmentRequirementService = SingletonEquipmentRequirementRestClient.getInstance();
+    private SingletonPackgMaterialRequirementRestClient pmReqService = SingletonPackgMaterialRequirementRestClient.getInstance();
+    private SingletonRawMaterialRequirementRestClient rmReqService = SingletonRawMaterialRequirementRestClient.getInstance();
+    private SingletonUdfRestClient udfService = SingletonUdfRestClient.getInstance();
 
-    CompoundingProcedureTableFactory compoundingProcedureTableFactory;
+    private Product product;
+
+    private CompoundingProcedureTableFactory compoundingProcedureTableFactory;
 
     /**
      * Initializes the controller class.

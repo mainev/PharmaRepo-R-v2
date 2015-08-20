@@ -6,6 +6,7 @@
 package mbrinstant.rest_client.sqlsvr_copy;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
@@ -13,10 +14,15 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import mbrinstant.entity.sqlsvr_copy.Item;
+import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
+import mbrinstant.utils.Serializer;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 
 /**
@@ -27,7 +33,7 @@ public class SingletonItemRestClient {
 
     private Client client;
     private WebResource webResource;
-    public String BASE_URI = "https://localhost:8181/RedServer-v2/webresources/sqlsvr_copy/itemc";
+    public String BASE_URI = "https://localhost:8181/RedServer-v2/webresources/sqlsvr_copy/item";
     private final HttpResponseHandler responseHandler = new HttpResponseHandler();
     private SSLContext sslContext = null;
 
@@ -49,6 +55,34 @@ public class SingletonItemRestClient {
             Logger.getLogger(SingletonItemRestClient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public ObservableList<Item> getPackgMaterialList() throws ServerException {
+        ObservableList<Item> packgMaterialList = FXCollections.observableArrayList();
+        webResource = client.resource(BASE_URI + "/g_pm_item_list");
+        ClientResponse response = webResource
+                .accept("application/json").get(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            packgMaterialList = Serializer.<Item>deserializeList(jsonOutput, Item.class);
+        }
+
+        return packgMaterialList;
+    }
+
+    public ObservableList<Item> getRawMaterialList() throws ServerException {
+        ObservableList<Item> packgMaterialList = FXCollections.observableArrayList();
+        webResource = client.resource(BASE_URI + "/g_rm_item_list");
+        ClientResponse response = webResource
+                .accept("application/json").get(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            packgMaterialList = Serializer.<Item>deserializeList(jsonOutput, Item.class);
+        }
+
+        return packgMaterialList;
     }
 
     public static SingletonItemRestClient getInstance() {

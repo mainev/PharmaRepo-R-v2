@@ -11,7 +11,7 @@ import com.google.gson.annotations.Expose;
  *
  * @author maine
  */
-public class ItemC {
+public class Item {
 
     @Expose
     private Integer id;
@@ -26,10 +26,10 @@ public class ItemC {
     @Expose
     private ItemTypeC itemTypeId;
 
-    public ItemC() {
+    public Item() {
     }
 
-    public ItemC(Integer id) {
+    public Item(Integer id) {
         this.id = id;
     }
 
@@ -91,10 +91,10 @@ public class ItemC {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemC)) {
+        if (!(object instanceof Item)) {
             return false;
         }
-        ItemC other = (ItemC) object;
+        Item other = (Item) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -103,7 +103,7 @@ public class ItemC {
 
     @Override
     public String toString() {
-        return "entity.Item[ id=" + id + " ]";
+        return itemCd + " : " + descs;
     }
 
 }

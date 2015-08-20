@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mbrinstant.rest_client.main;
+package mbrinstant.rest_client.audit;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -14,6 +14,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import mbrinstant.controls.CustomAlertDialog;
+import mbrinstant.entity.audit.AuditTrail;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -24,15 +26,15 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
  *
  * @author maine
  */
-public class SingletonCompanyRestClient {
+public class SingletonAuditRestClient {
 
     private Client client;
     private WebResource webResource;
-    private final String BASE_URI = "https://localhost:8181/RedServer-v2/webresources/main/client";
+    private final String BASE_URI = "https://localhost:8181/RedServer-v2/webresources/audit/audit";
     private final HttpResponseHandler responseHandler = new HttpResponseHandler();
     private SSLContext sslContext = null;
 
-    private SingletonCompanyRestClient() {
+    private SingletonAuditRestClient() {
         try {
             SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
             sslContext = SSLContext.getInstance("SSL");
@@ -47,36 +49,31 @@ public class SingletonCompanyRestClient {
             client = Client.create(defaultClientConfig);
         } catch (Exception e) {
             e.printStackTrace();
+            CustomAlertDialog.showExceptionDialog(e);
         }
     }
 
-    /**
-     * DBMethodName: g_company_list
-     *
-     * @return
-     */
-    public ObservableList<mbrinstant.entity.main.Company> getCompanyList() throws ServerException {
-        ObservableList<mbrinstant.entity.main.Company> companyList = FXCollections.observableArrayList();
-        webResource = client.resource(BASE_URI + "/g_company_list");
+    public ObservableList<AuditTrail> getAuditList() throws ServerException {
+        ObservableList<AuditTrail> list = FXCollections.observableArrayList();
+        webResource = client.resource(BASE_URI + "/g_audit_list");
         ClientResponse response = webResource
-                .queryParam("method", "g_company_list")
                 .accept("application/json").get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
             String jsonOutput = response.getEntity(String.class);
-            companyList = Serializer.<mbrinstant.entity.main.Company>deserializeList(jsonOutput, mbrinstant.entity.main.Company.class);
-
+            list = Serializer.<AuditTrail>deserializeList(jsonOutput, AuditTrail.class);
         }
-        return companyList;
+
+        return list;
     }
 
-    public static SingletonCompanyRestClient getInstance() {
-        return SingletonCompanyRestClientHolder.INSTANCE;
+    public static SingletonAuditRestClient getInstance() {
+        return SingletonAuditRestClientHolder.INSTANCE;
     }
 
-    private static class SingletonCompanyRestClientHolder {
+    private static class SingletonAuditRestClientHolder {
 
-        private static final SingletonCompanyRestClient INSTANCE = new SingletonCompanyRestClient();
+        private static final SingletonAuditRestClient INSTANCE = new SingletonAuditRestClient();
     }
 
     public HttpResponseHandler getResponseHandler() {

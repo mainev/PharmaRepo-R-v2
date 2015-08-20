@@ -30,14 +30,14 @@ import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.NumberTextField;
 import mbrinstant.controls.SearchTextField;
-import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.Udf;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.exceptions.ServerException;
-import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonItemRestClient;
 
 /**
  * FXML Controller class
@@ -62,11 +62,11 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
     TableColumn<PackagingMaterialRequirement, String> colQuantity;
 
     @FXML
-    SearchTextField<PackagingMaterial> pmTextField;
+    SearchTextField<Item> pmTextField;
 
     //rest client
     SingletonUnitRestClient unitService = SingletonUnitRestClient.getInstance();
-    SingletonPackgMaterialRestClient pmService = SingletonPackgMaterialRestClient.getInstance();
+    SingletonItemRestClient itemRestClient = SingletonItemRestClient.getInstance();
     SingletonPackgMaterialRequirementRestClient pmReqService = SingletonPackgMaterialRequirementRestClient.getInstance();
 
     //service
@@ -77,7 +77,7 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
 
         try {
             pmTextField.setTextFieldMargin(new Insets(13, 0, 0, 0));
-            pmTextField.setItems(pmService.getPackgMaterialList());
+            pmTextField.setItems(itemRestClient.getPackgMaterialList());
 
             pmReqUnit.setItems(unitService.getUnitList());
             initRmReqTable();
@@ -104,7 +104,7 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
         pmReqUnit.setValue(null);
     }
 
-    private PackagingMaterial getPackagingMaterial() {
+    private Item getPackagingMaterial() {
 
         return pmTextField.getSelectedItem();
     }
@@ -121,7 +121,7 @@ public class PackagingMaterialRequirementController implements Initializable, Pa
     }
 
     private void initRmReqTable() {
-        colPackagingMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPackagingMaterialId().toString()));
+        colPackagingMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getItemId().toString()));
         colQuantity.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getQuantity() + " " + c.getValue().getUnitId()));
 
         colAction.setSortable(false);

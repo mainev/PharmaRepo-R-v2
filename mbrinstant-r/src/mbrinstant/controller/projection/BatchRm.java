@@ -12,8 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.utils.MetricCalculator;
 import mbrinstant.utils.Quantity;
@@ -24,7 +24,7 @@ import mbrinstant.utils.Quantity;
  */
 public class BatchRm {
 
-    RawMaterial rawMaterial;
+    private Item rawMaterial;
 
     private ObservableList<Quantity> quantityList = FXCollections.observableArrayList();
     private Quantity requiredQuantity = new Quantity();//calculated qty of all items in the map
@@ -87,11 +87,11 @@ public class BatchRm {
 
     }
 
-    public RawMaterial getRawMaterial() {
+    public Item getRawMaterial() {
         return rawMaterial;
     }
 
-    public void setRawMaterial(RawMaterial rawMaterial) {
+    public void setRawMaterial(Item rawMaterial) {
         this.rawMaterial = rawMaterial;
     }
 

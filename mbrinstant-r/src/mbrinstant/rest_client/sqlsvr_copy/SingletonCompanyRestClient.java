@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mbrinstant.rest_client.main;
+package mbrinstant.rest_client.sqlsvr_copy;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -18,7 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import mbrinstant.entity.main.RawMaterial;
+import mbrinstant.entity.sqlsvr_copy.Company;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -29,15 +29,15 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
  *
  * @author maine
  */
-public class SingletonRawMaterialRestClient {
+public class SingletonCompanyRestClient {
 
     private Client client;
     private WebResource webResource;
-    public final String BASE_URI = "https://localhost:8181/RedServer-v2/webresources/main/raw_material";
+    public String BASE_URI = "https://localhost:8181/RedServer-v2/webresources/sqlsvr_copy/company";
     private final HttpResponseHandler responseHandler = new HttpResponseHandler();
     private SSLContext sslContext = null;
 
-    private SingletonRawMaterialRestClient() {
+    private SingletonCompanyRestClient() {
 
         try {
             SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
@@ -51,39 +51,32 @@ public class SingletonRawMaterialRestClient {
                             getHostnameVerifier(), sslContext));
 
             client = Client.create(defaultClientConfig);
-        } catch (NoSuchAlgorithmException | KeyManagementException ex) {
-            Logger.getLogger(SingletonRawMaterialRestClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (KeyManagementException | NoSuchAlgorithmException ex) {
+            Logger.getLogger(SingletonItemRestClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
-    /**
-     * DBMethodName: g_raw_material_list
-     *
-     * @return
-     */
-    public ObservableList<RawMaterial> getRawMaterialList() throws ServerException {
-        ObservableList<RawMaterial> list = FXCollections.observableArrayList();
-        webResource = client.resource(BASE_URI + "/g_raw_material_list");
+    public ObservableList<Company> getCompanyList() throws ServerException {
+        ObservableList<Company> list = FXCollections.observableArrayList();
+        webResource = client.resource(BASE_URI + "/g_company_list");
         ClientResponse response = webResource
-                .queryParam("method", "g_raw_material_list")
                 .accept("application/json").get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
             String jsonOutput = response.getEntity(String.class);
-            list = Serializer.<RawMaterial>deserializeList(jsonOutput, RawMaterial.class);
+            list = Serializer.<Company>deserializeList(jsonOutput, Company.class);
         }
 
         return list;
     }
 
-    public static SingletonRawMaterialRestClient getInstance() {
-        return SingletonRawMaterialRestClientHolder.INSTANCE;
+    public static SingletonCompanyRestClient getInstance() {
+        return SingletonCompanyRestClientHolder.INSTANCE;
     }
 
-    private static class SingletonRawMaterialRestClientHolder {
+    private static class SingletonCompanyRestClientHolder {
 
-        private static final SingletonRawMaterialRestClient INSTANCE = new SingletonRawMaterialRestClient();
+        private static final SingletonCompanyRestClient INSTANCE = new SingletonCompanyRestClient();
     }
 
     public HttpResponseHandler getResponseHandler() {

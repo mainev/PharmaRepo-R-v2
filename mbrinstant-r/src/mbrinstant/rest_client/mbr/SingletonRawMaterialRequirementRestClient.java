@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -91,14 +91,13 @@ public class SingletonRawMaterialRequirementRestClient {
      * @param part
      * @return
      */
-    public RawMaterialRequirement createRawMaterialRequirement(int udfId, RawMaterial rawMaterialId, double quantity, Unit unitId, short part)
+    public RawMaterialRequirement createRawMaterialRequirement(int udfId, Item itemId, double quantity, Unit unitId, short part)
             throws ServerException {
-        RawMaterialRequirement rmReq = new RawMaterialRequirement(rawMaterialId, quantity, unitId, part);
+        RawMaterialRequirement rmReq = new RawMaterialRequirement(itemId, quantity, unitId, part);
 
         String input = Serializer.serialize(rmReq);
-        webResource = client.resource(BASE_URI + "/pst_new_raw_material_rew");
+        webResource = client.resource(BASE_URI + "/pst_new_raw_material_req");
         ClientResponse response = webResource
-                .queryParam("method", "pst_new_raw_material_rew")
                 .queryParam("udf_id", String.valueOf(udfId))
                 .type("application/json")
                 .post(ClientResponse.class, input);

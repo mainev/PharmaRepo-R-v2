@@ -48,7 +48,7 @@ public class HttpResponseHandler {
                 case 204:
                     setMessage("NO CONTENT");
                     setDescription("Server request successful. No data is needed to be received.");
-
+                    break;
                 case 205:
                     setMessage("RESET CONTENT");
                     setDescription("A reset of previous content is requested from the server.");

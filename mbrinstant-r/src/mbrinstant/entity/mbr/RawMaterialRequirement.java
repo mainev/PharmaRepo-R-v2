@@ -6,31 +6,31 @@
 package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
-import mbrinstant.entity.main.RawMaterial;
 import mbrinstant.entity.main.Unit;
+import mbrinstant.entity.sqlsvr_copy.Item;
 
 /**
  *
  * @author maine
  */
-public class RawMaterialRequirement{
+public class RawMaterialRequirement {
 
     @Expose
     private Integer id;
-    @Expose
-    private RawMaterial rawMaterialId;
     @Expose
     private Double quantity;
     @Expose
     private Unit unitId;
     @Expose
     private short part;
-    
+    @Expose
+    private Item itemId;
+
     private double newQuantity;
     private String newUnit;
-    
-    public RawMaterialRequirement(RawMaterial rawMaterialId, double quantity, Unit unitId, short part){
-        this.rawMaterialId = rawMaterialId;
+
+    public RawMaterialRequirement(Item itemId, double quantity, Unit unitId, short part) {
+        this.itemId = itemId;
         this.quantity = quantity;
         this.unitId = unitId;
         this.part = part;
@@ -44,7 +44,6 @@ public class RawMaterialRequirement{
         this.part = part;
     }
 
-    
     public double getNewQuantity() {
         return newQuantity;
     }
@@ -76,14 +75,6 @@ public class RawMaterialRequirement{
         this.id = id;
     }
 
-    public RawMaterial getRawMaterialId() {
-        return rawMaterialId;
-    }
-
-    public void setRawMaterialId(RawMaterial rawMaterialId) {
-        this.rawMaterialId = rawMaterialId;
-    }
-
     public Double getQuantity() {
         return quantity;
     }
@@ -100,42 +91,22 @@ public class RawMaterialRequirement{
         this.unitId = unitId;
     }
 
-    /*
+    public Item getItemId() {
+        return itemId;
+    }
 
-     public Udf getUdfId() {
-     return udfId;
-     }
-
-     public void setUdfId(Udf udfId) {
-     this.udfId = udfId;
-     }*/
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof RawMaterialRequirement)) {
-//            return false;
-//        }
-//        RawMaterialRequirement other = (RawMaterialRequirement) object;
-//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-//            return false;
-//        }
-//        return true;
-//    }
+    public void setItemId(Item itemId) {
+        this.itemId = itemId;
+    }
 
     @Override
     public String toString() {
         String p = "";
-        if(part > 0)
-            p = " (Part "+part+")";
-        
-        return rawMaterialId + " - " + quantity + " " + unitId + p;
+        if (part > 0) {
+            p = " (Part " + part + ")";
+        }
+
+        return itemId + " - " + quantity + " " + unitId + p;
     }
 
 }

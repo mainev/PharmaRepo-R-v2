@@ -42,9 +42,9 @@ public class StockCardC {
     @Expose
     private String uom;
     @Expose
-    private CompanyC companyId;
+    private Company companyId;
     @Expose
-    private ItemC itemId;
+    private Item itemId;
     @Expose
     private WarehouseC warehouseId;
     @Expose
@@ -141,19 +141,19 @@ public class StockCardC {
         this.uom = uom;
     }
 
-    public CompanyC getCompanyId() {
+    public Company getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(CompanyC companyId) {
+    public void setCompanyId(Company companyId) {
         this.companyId = companyId;
     }
 
-    public ItemC getItemId() {
+    public Item getItemId() {
         return itemId;
     }
 
-    public void setItemId(ItemC itemId) {
+    public void setItemId(Item itemId) {
         this.itemId = itemId;
     }
 

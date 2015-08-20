@@ -138,24 +138,24 @@ public class ProjectionController implements Initializable {
         List<PackagingMaterialRequirement> pmReqList = mbr.getProductId().getUdfId().getPackagingMaterialRequirementList();
 
         for (RawMaterialRequirement rmReq : rmReqList) {
-            BatchRm bRm = batchRmMap.get(rmReq.getRawMaterialId().getCode());
+            BatchRm bRm = batchRmMap.get(rmReq.getItemId().getItemCd());
             if (bRm == null) {
                 bRm = new BatchRm();
-                bRm.setRawMaterial(rmReq.getRawMaterialId());
+                bRm.setRawMaterial(rmReq.getItemId());
                 batchRmList.add(bRm);
-                batchRmMap.put(rmReq.getRawMaterialId().getCode(), bRm);
+                batchRmMap.put(rmReq.getItemId().getItemCd(), bRm);
             }
             Quantity next = new Quantity(rmReq.getNewQuantity(), rmReq.getNewUnit());
             bRm.addToMap(String.valueOf(rmReq.hashCode()), next);
         }
 
         for (PackagingMaterialRequirement pmReq : pmReqList) {
-            BatchPm bPm = batchPmMap.get(pmReq.getPackagingMaterialId().getCode());
+            BatchPm bPm = batchPmMap.get(pmReq.getItemId().getItemCd());
             if (bPm == null) {
                 bPm = new BatchPm();
-                bPm.setPackagingMaterial(pmReq.getPackagingMaterialId());
+                bPm.setPackagingMaterial(pmReq.getItemId());
                 batchPmList.add(bPm);
-                batchPmMap.put(pmReq.getPackagingMaterialId().getCode(), bPm);
+                batchPmMap.put(pmReq.getItemId().getItemCd(), bPm);
             }
             Quantity next = new Quantity(pmReq.getNewQuantity(), pmReq.getUnitId().getName());
             bPm.addToMap(String.valueOf(pmReq.hashCode()), next);
@@ -206,16 +206,16 @@ public class ProjectionController implements Initializable {
                 List<PackagingMaterialRequirement> pmReqList = mbr.getProductId().getUdfId().getPackagingMaterialRequirementList();
 
                 for (RawMaterialRequirement rmr : rmReqList) {
-                    BatchRm brm = getBatchRm(rmr.getRawMaterialId().getCode());
+                    BatchRm brm = getBatchRm(rmr.getItemId().getItemCd());
                     brm.removeFromMap(String.valueOf(rmr.hashCode()));
-                    batchRmMap.remove(rmr.getRawMaterialId().getCode());
+                    batchRmMap.remove(rmr.getItemId().getItemCd());
                 }
 
                 for (PackagingMaterialRequirement pmReq : pmReqList) {
-                    BatchPm bpm = getBatchPm(pmReq.getPackagingMaterialId().getCode());
-                    System.out.println("removing " + batchPmMap.get(pmReq.getPackagingMaterialId().getCode()));
+                    BatchPm bpm = getBatchPm(pmReq.getItemId().getItemCd());
+                    System.out.println("removing " + batchPmMap.get(pmReq.getItemId().getItemCd()));
                     bpm.removeFromMap(String.valueOf(pmReq.hashCode()));
-                    batchPmMap.remove(pmReq.getPackagingMaterialId().getCode());
+                    batchPmMap.remove(pmReq.getItemId().getItemCd());
                 }
 
                 batchRecordList.remove(getTableRow().getIndex());
@@ -249,7 +249,7 @@ public class ProjectionController implements Initializable {
 
     private BatchRm getBatchRm(String rmCode) {
         for (BatchRm br : batchRmList) {
-            if (br.getRawMaterial().getCode().equals(rmCode)) {
+            if (br.getRawMaterial().getItemCd().equals(rmCode)) {
                 return br;
             }
         }
@@ -258,7 +258,7 @@ public class ProjectionController implements Initializable {
 
     private BatchPm getBatchPm(String pmCode) {
         for (BatchPm br : batchPmList) {
-            if (br.getPackagingMaterial().getCode().equals(pmCode)) {
+            if (br.getPackagingMaterial().getItemCd().equals(pmCode)) {
                 return br;
             }
         }

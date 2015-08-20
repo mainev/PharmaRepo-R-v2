@@ -66,11 +66,11 @@ public class PrimarySecondaryController implements Initializable, PageController
             PackagingMaterialRequirement primaryPackg = primary.getValue();
             PackagingMaterialRequirement secondaryPackg = secondary.getValue();
             primaryPackg = pmReqService.getPackgMaterialReqByDetails(
-                    primaryPackg.getPackagingMaterialId().getId(),
+                    primaryPackg.getItemId().getId(),
                     primaryPackg.getQuantity(),
                     primaryPackg.getUnitId().getId(), udfId);
             secondaryPackg = pmReqService.getPackgMaterialReqByDetails(
-                    secondaryPackg.getPackagingMaterialId().getId(),
+                    secondaryPackg.getItemId().getId(),
                     secondaryPackg.getQuantity(),
                     secondaryPackg.getUnitId().getId(),
                     udfId);

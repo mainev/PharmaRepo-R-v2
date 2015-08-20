@@ -121,7 +121,7 @@ public class CompoundingProcedureTableFactory {
             dosageTable.setPrefWidth(500);
 
             percent.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getPercentMultiplier())));
-            rawMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getRawMaterialRequirementId().getRawMaterialId().getName()));
+            rawMaterial.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getRawMaterialRequirementId().getItemId().getDescs()));
         }
 
         //Display text area if row is not empty

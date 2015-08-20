@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
-import mbrinstant.utils.Quantity;
 
 /**
  *
@@ -39,8 +38,12 @@ public class Mbr implements Serializable {
     private String poNo;
     @Expose
     private String status;
-    
-    
+
+    //added fields for audit tracking
+    @Expose
+    private int product_id;
+    @Expose
+    private short unit_id;
 
     public Mbr(Product productId, double batchSize, String batchNo, Date mfgDate, Date expDate,
             String poNo, Unit unitId) {
@@ -51,7 +54,9 @@ public class Mbr implements Serializable {
         this.expDate = expDate;
         this.poNo = poNo;
         this.unitId = unitId;
-        
+        //for audit entry
+        this.product_id = productId.getId();
+        this.unit_id = unitId.getId();
     }
 
     public Mbr() {
@@ -133,7 +138,21 @@ public class Mbr implements Serializable {
         this.status = status;
     }
 
-   
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+
+    public short getUnit_id() {
+        return unit_id;
+    }
+
+    public void setUnit_id(short unit_id) {
+        this.unit_id = unit_id;
+    }
 
     @Override
     public int hashCode() {

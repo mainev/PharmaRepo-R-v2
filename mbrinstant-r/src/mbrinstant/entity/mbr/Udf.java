@@ -17,6 +17,7 @@ import mbrinstant.entity.main.Unit;
  */
 @XmlRootElement
 public class Udf implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Expose
     private Integer id;
@@ -25,9 +26,9 @@ public class Udf implements Serializable {
     @Expose
     private Unit unitId;
 //    private Boolean isActive;
-    @Expose(serialize=false)
+    @Expose(serialize = false)
     private List<PackagingMaterialRequirement> packagingMaterialRequirementList;
-    @Expose(serialize=false)
+    @Expose(serialize = false)
     private List<RawMaterialRequirement> rawMaterialRequirementList;
 
     public Udf(Double content, Unit unitId) {
@@ -35,14 +36,12 @@ public class Udf implements Serializable {
         this.unitId = unitId;
     }
 
-    
     public Udf(int id, Double content, Unit unitId) {
         this.id = id;
         this.content = content;
         this.unitId = unitId;
     }
 
-    
     public Udf() {
     }
 
@@ -75,14 +74,14 @@ public class Udf implements Serializable {
     }
 
     /*
-    public Integer getProductId() {
-        return productId;
-    }
+     public Integer getProductId() {
+     return productId;
+     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-*/
+     public void setProductId(Integer productId) {
+     this.productId = productId;
+     }
+     */
 //    public Boolean getIsActive() {
 //        return isActive;
 //    }
@@ -90,8 +89,6 @@ public class Udf implements Serializable {
 //    public void setIsActive(Boolean isActive) {
 //        this.isActive = isActive;
 //    }
-
-    
     public List<PackagingMaterialRequirement> getPackagingMaterialRequirementList() {
         return packagingMaterialRequirementList;
     }
@@ -100,7 +97,6 @@ public class Udf implements Serializable {
         this.packagingMaterialRequirementList = packagingMaterialRequirementList;
     }
 
- 
     public List<RawMaterialRequirement> getRawMaterialRequirementList() {
         return rawMaterialRequirementList;
     }
@@ -131,7 +127,7 @@ public class Udf implements Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(content)+" "+unitId;
+        return String.valueOf(content) + " " + unitId;
     }
-    
+
 }

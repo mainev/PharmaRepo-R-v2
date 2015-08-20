@@ -39,13 +39,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import mbrinstant.FXMLLocations;
 import mbrinstant.ScreenNavigator;
+import mbrinstant.controller.mmd_batch_management.MbrRequirementHelper.ControlledPackagingMaterial;
+import mbrinstant.controller.mmd_batch_management.MbrRequirementHelper.ControlledRawMaterial;
 import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.transaction.StockCardTxn;
 import mbrinstant.exceptions.ServerException;
-import mbrinstant.controller.mmd_batch_management.MbrRequirementHelper.ControlledPackagingMaterial;
-import mbrinstant.controller.mmd_batch_management.MbrRequirementHelper.ControlledRawMaterial;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
 import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
@@ -226,6 +226,7 @@ public class MaterialRequirementInfoController implements Initializable {
                         JasperViewer.viewReport(jasperPrint, false);
                     } catch (JRException ex) {
                         ex.printStackTrace();
+                        CustomAlertDialog.showExceptionDialog(ex);
                     }
 
                     Thread.sleep(1000);

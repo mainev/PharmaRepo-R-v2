@@ -8,6 +8,8 @@ package mbrinstant.controller.mmd_batch_management;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -44,8 +46,10 @@ import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.mbr.MbrStatus;
+import mbrinstant.entity.transaction.StockCardTxn;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
+import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
 import mbrinstant.security.SingletonAuthorizationManager;
 import mbrinstant.utils.DateConverter;
 
@@ -75,6 +79,7 @@ public class MmdBatchManagementController implements Initializable {
 
     //rest client
     SingletonMbrRestClient mbrRestClient = SingletonMbrRestClient.getInstance();
+    SingletonStockCardTxnRestClient stockCardTxnRestClient = SingletonStockCardTxnRestClient.getInstance();
     private SingletonAuthorizationManager authManager = SingletonAuthorizationManager.getInstance();
 
     //method names
@@ -171,7 +176,13 @@ public class MmdBatchManagementController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
+                List<StockCardTxn> txnList = mbrRestClient.getBatchStockCardTxnList(batch.getId());
 
+                Iterator<StockCardTxn> txnListIterator = txnList.iterator();
+                while (txnListIterator.hasNext()) {
+                    StockCardTxn txn = txnListIterator.next();
+                    stockCardTxnRestClient.deleteStockCardTxn(txn.getId());
+                }
                 mbrRestClient.cancelBatchReservation(batch);
                 ScreenNavigator.loadScreen(FXMLLocations.MMD_BATCH_MANAGEMENT_VIEW);
 

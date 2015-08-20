@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import mbrinstant.controls.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.rnd_module.controller.product.ProductWizard.BottlingProcedureController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mbrinstant.controller.product.ProductWizard.BottlingProcedureController">
    <children>
       <SplitPane dividerPositions="0.3905109489051095" layoutX="334.0" layoutY="142.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>

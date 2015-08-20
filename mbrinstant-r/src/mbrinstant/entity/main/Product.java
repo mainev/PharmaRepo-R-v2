@@ -10,6 +10,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
 import mbrinstant.entity.mbr.Udf;
+import mbrinstant.entity.sqlsvr_copy.Company;
 
 /**
  *
@@ -36,7 +37,7 @@ public class Product implements Serializable {
     @Expose
     private Classification classificationId;
     @Expose
-    private Company clientId;
+    private Company companyId;
     @Expose
     private PackSize packSizeId;
     @Expose
@@ -44,7 +45,7 @@ public class Product implements Serializable {
     @Expose
     private ManufacturingProcedure manufacturingProcedureId;
 
-    public Product(String code, String brandName, String genericName, String vrNo, Short shelfLife, Area areaId, Classification classificationId, Company clientId, PackSize packSizeId) {
+    public Product(String code, String brandName, String genericName, String vrNo, Short shelfLife, Area areaId, Classification classificationId, Company companyId, PackSize packSizeId) {
         this.code = code;
         this.brandName = brandName;
         this.genericName = genericName;
@@ -52,7 +53,7 @@ public class Product implements Serializable {
         this.shelfLife = shelfLife;
         this.areaId = areaId;
         this.classificationId = classificationId;
-        this.clientId = clientId;
+        this.companyId = companyId;
         this.packSizeId = packSizeId;
     }
 
@@ -143,12 +144,12 @@ public class Product implements Serializable {
         this.classificationId = classificationId;
     }
 
-    public Company getClientId() {
-        return clientId;
+    public Company getCompanyId() {
+        return companyId;
     }
 
-    public void setClientId(Company clientId) {
-        this.clientId = clientId;
+    public void setCompanyId(Company companyId) {
+        this.companyId = companyId;
     }
 
     public PackSize getPackSizeId() {

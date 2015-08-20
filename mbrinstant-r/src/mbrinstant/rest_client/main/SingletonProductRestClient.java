@@ -21,8 +21,9 @@ import javax.net.ssl.SSLContext;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Classification;
 import mbrinstant.entity.main.PackSize;
-import mbrinstant.entity.main.PackagingMaterial;
 import mbrinstant.entity.main.Product;
+import mbrinstant.entity.sqlsvr_copy.Company;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -61,11 +62,6 @@ public class SingletonProductRestClient {
 
     }
 
-    /**
-     * DBMethodName: g_product_list
-     *
-     * @return
-     */
     public ObservableList<Product> getProductList() throws ServerException {
         ObservableList<Product> productList = FXCollections.observableArrayList();
         webResource = client.resource(BASE_URI + "/g_product_list");
@@ -133,7 +129,7 @@ public class SingletonProductRestClient {
      * @param productId
      * @return
      */
-    public PackagingMaterial getPrimaryPackaging(Product productId) throws ServerException {
+    public Item getPrimaryPackaging(Product productId) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_primary_packg");
         ClientResponse response = webResource
                 .queryParam("method", "g_primary_packg")
@@ -143,7 +139,7 @@ public class SingletonProductRestClient {
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
             String jsonOutput = response.getEntity(String.class);
-            return Serializer.<PackagingMaterial>deserialize(jsonOutput, PackagingMaterial.class);
+            return Serializer.<Item>deserialize(jsonOutput, Item.class);
         }
 
         return null;
@@ -156,7 +152,7 @@ public class SingletonProductRestClient {
      * @param productId
      * @return
      */
-    public PackagingMaterial getSecondaryPackaging(Product productId) throws ServerException {
+    public Item getSecondaryPackaging(Product productId) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_secondary_packg");
         ClientResponse response = webResource
                 .queryParam("method", "g_secondary_packg")
@@ -166,7 +162,7 @@ public class SingletonProductRestClient {
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
             String jsonOutput = response.getEntity(String.class);
-            return Serializer.<PackagingMaterial>deserialize(jsonOutput, PackagingMaterial.class);
+            return Serializer.<Item>deserialize(jsonOutput, Item.class);
         }
         return null;
 
@@ -182,13 +178,13 @@ public class SingletonProductRestClient {
      * @param shelfLife
      * @param areaId
      * @param classificationId
-     * @param clientId
+     * @param companyId
      * @param packSizeId
      * @return
      */
     public Product createNewProduct(String code, String brandName, String genericName, String vrNo,
-            Short shelfLife, Area areaId, Classification classificationId, mbrinstant.entity.main.Company clientId, PackSize packSizeId) throws ServerException {
-        Product p = new Product(code, brandName, genericName, vrNo, shelfLife, areaId, classificationId, clientId, packSizeId);
+            Short shelfLife, Area areaId, Classification classificationId, Company companyId, PackSize packSizeId) throws ServerException {
+        Product p = new Product(code, brandName, genericName, vrNo, shelfLife, areaId, classificationId, companyId, packSizeId);
         String input = Serializer.serialize(p);
         webResource = client.resource(BASE_URI + "/pst_new_product");
         ClientResponse response = webResource

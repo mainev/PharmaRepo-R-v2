@@ -3,29 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mbrinstant.entity.main;
+package mbrinstant.entity.sqlsvr_copy;
 
 import com.google.gson.annotations.Expose;
-import java.io.Serializable;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author maine
  */
-@XmlRootElement
-public class Company implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Company {
     @Expose
     private Short id;
     @Expose
-    private String name;
-    @Expose
     private String code;
+    @Expose
+    private String descs;
+
     public Company() {
     }
 
     public Company(Short id) {
+        this.id = id;
+    }
+
+    public Company(Short id, String code) {
+        this.id = id;
+        this.code = code;
+    }
+
+    public Short getId() {
+        return id;
+    }
+
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -36,53 +46,15 @@ public class Company implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    
-    
 
-    public Short getId() {
-        return id;
+    public String getDescs() {
+        return descs;
     }
 
-    public void setId(Short id) {
-        this.id = id;
+    public void setDescs(String descs) {
+        this.descs = descs;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /*
-    @XmlTransient
-    public List<RawMaterial> getRawMaterialList() {
-        return rawMaterialList;
-    }
-
-    public void setRawMaterialList(List<RawMaterial> rawMaterialList) {
-        this.rawMaterialList = rawMaterialList;
-    }
-
-    @XmlTransient
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
-    @XmlTransient
-    public List<PackagingMaterial> getPackagingMaterialList() {
-        return packagingMaterialList;
-    }
-
-    public void setPackagingMaterialList(List<PackagingMaterial> packagingMaterialList) {
-        this.packagingMaterialList = packagingMaterialList;
-    }
-*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -105,7 +77,7 @@ public class Company implements Serializable {
 
     @Override
     public String toString() {
-        return name;
+        return "entity.CompanyC[ id=" + id + " ]";
     }
     
 }

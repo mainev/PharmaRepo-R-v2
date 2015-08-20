@@ -7,8 +7,6 @@ package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -17,15 +15,14 @@ import javax.xml.bind.annotation.XmlTransient;
 //@XmlRootElement
 public class Dosage implements Serializable {
 
-   // private static final long serialVersionUID = 1L;
     @Expose
     private Integer id;
     @Expose
     private RawMaterialRequirement rawMaterialRequirementId;
     @Expose
     private Double percentMultiplier;
-    
-    public Dosage(RawMaterialRequirement rawMaterialRequirementId, double percentMultiplier){
+
+    public Dosage(RawMaterialRequirement rawMaterialRequirementId, double percentMultiplier) {
         this.rawMaterialRequirementId = rawMaterialRequirementId;
         this.percentMultiplier = percentMultiplier;
     }
@@ -53,17 +50,14 @@ public class Dosage implements Serializable {
         this.rawMaterialRequirementId = rawMaterialRequirementId;
     }
 
-   
     public Double getQuantity() {
         return rawMaterialRequirementId.getNewQuantity() * percentMultiplier;
-       // return quantity;
+        // return quantity;
     }
 
 //    public void setQuantity(Double quantity) {
 //        this.quantity = quantity;
 //    }
-
-  
     public String getUnit() {
         return rawMaterialRequirementId.getNewUnit();
     }
@@ -71,7 +65,6 @@ public class Dosage implements Serializable {
 //    public void setUnit(String unit) {
 //        this.unit = unit;
 //    }
-
     public Double getPercentMultiplier() {
         return percentMultiplier;
     }
@@ -80,15 +73,6 @@ public class Dosage implements Serializable {
         this.percentMultiplier = percentMultiplier;
     }
 
-    /*
-
-     public CompoundingProcedure getCompoundingProcedureId() {
-     return compoundingProcedureId;
-     }
-
-     public void setCompoundingProcedureId(CompoundingProcedure compoundingProcedureId) {
-     this.compoundingProcedureId = compoundingProcedureId;
-     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,7 +95,7 @@ public class Dosage implements Serializable {
 
     @Override
     public String toString() {
-        return rawMaterialRequirementId + " qty: "+ percentMultiplier;
+        return rawMaterialRequirementId + " qty: " + percentMultiplier;
     }
 
 }

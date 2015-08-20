@@ -171,7 +171,7 @@ public class MbrRequirementHelper {
 
     //mbr product formulation must already be computed
     public MbrRequirementHelper(Mbr mbr) throws Exception {
-        String companyCd = mbr.getProductId().getClientId().getCode();
+        String companyCd = mbr.getProductId().getCompanyId().getCode();
         UDFCalculator udfCalculator = new UDFCalculator();
         udfCalculator.calculateRawMaterialBatchReq(mbr);
         udfCalculator.calculatePackMatBatchReq(mbr);
@@ -179,7 +179,7 @@ public class MbrRequirementHelper {
         List<PackagingMaterialRequirement> pmReqList = mbr.getProductId().getUdfId().getPackagingMaterialRequirementList();
         for (RawMaterialRequirement rmReq : rmReqList) {
 
-            List<StockCardC> availableStocks = stockCardRestClient.getStockCardByCompanyCdAndItemCd(companyCd, rmReq.getRawMaterialId().getCode());
+            List<StockCardC> availableStocks = stockCardRestClient.getStockCardByCompanyCdAndItemCd(companyCd, rmReq.getItemId().getId());
             ObservableList<StockCardTxn> txnList = FXCollections.observableArrayList();
             Quantity overallAvailableQty = new Quantity();
             if (availableStocks.isEmpty()) {
@@ -200,8 +200,13 @@ public class MbrRequirementHelper {
                         stxn.setQty(requiredQty.getValue());
                         stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
                         stxn.setStockCard(stk);
-                        // stxn.setStkId(stk.getId());
                         txnList.add(stxn);
+
+                        //for audit entry
+                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                        stxn.setMbr_id(mbr.getId());
+                        stxn.setStock_card_id(stk.getId());
+
                         System.out.println("RESERVED TXN: " + stxn);
                         System.out.println();
                         requiredQty.setValue(0);
@@ -213,8 +218,13 @@ public class MbrRequirementHelper {
                         stxn.setQty(requiredQty.getValue());
                         stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
                         stxn.setStockCard(stk);
-                        //  stxn.setStkId(stk.getId());
                         txnList.add(stxn);
+
+                        //for audit entry
+                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                        stxn.setMbr_id(mbr.getId());
+                        stxn.setStock_card_id(stk.getId());
+
                         System.out.println("RESERVED TXN: " + stxn);
                         System.out.println();
                         requiredQty.setValue(0);
@@ -226,8 +236,13 @@ public class MbrRequirementHelper {
                         stxn.setQty(availableQty.getValue());
                         stxn.setUnitId(getEquivalentUnit(availableQty.getUnit()));
                         stxn.setStockCard(stk);
-                        //   stxn.setStkId(stk.getId());
                         txnList.add(stxn);
+
+                        //for audit entry
+                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                        stxn.setMbr_id(mbr.getId());
+                        stxn.setStock_card_id(stk.getId());
+
                         requiredQty = MetricCalculator.subtract(requiredQty, availableQty);
                         System.out.println("RESERVED TXN: " + stxn);
                         depletedStockCardList.add(stk);
@@ -247,7 +262,7 @@ public class MbrRequirementHelper {
 
         for (PackagingMaterialRequirement pmReq : pmReqList) {
 
-            List<StockCardC> availableStocks = stockCardRestClient.getStockCardByCompanyCdAndItemCd(companyCd, pmReq.getPackagingMaterialId().getCode());
+            List<StockCardC> availableStocks = stockCardRestClient.getStockCardByCompanyCdAndItemCd(companyCd, pmReq.getItemId().getId());
             ObservableList<StockCardTxn> txnList = FXCollections.observableArrayList();
             Quantity overallAvailableQty = new Quantity();
             if (availableStocks.isEmpty()) {
@@ -268,8 +283,13 @@ public class MbrRequirementHelper {
                         stxn.setQty(requiredQty.getValue());
                         stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
                         stxn.setStockCard(stk);
-                        //  stxn.setStkId(stk.getId());
                         txnList.add(stxn);
+
+                        //for audit entry
+                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                        stxn.setMbr_id(mbr.getId());
+                        stxn.setStock_card_id(stk.getId());
+
                         System.out.println("RESERVED TXN: " + stxn);
                         System.out.println();
                         requiredQty.setValue(0);
@@ -281,8 +301,13 @@ public class MbrRequirementHelper {
                         stxn.setQty(requiredQty.getValue());
                         stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
                         stxn.setStockCard(stk);
-                        //  stxn.setStkId(stk.getId());
                         txnList.add(stxn);
+
+                        //for audit entry
+                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                        stxn.setMbr_id(mbr.getId());
+                        stxn.setStock_card_id(stk.getId());
+
                         System.out.println("RESERVED TXN: " + stxn);
                         System.out.println();
                         requiredQty.setValue(0);
@@ -294,8 +319,13 @@ public class MbrRequirementHelper {
                         stxn.setQty(availableQty.getValue());
                         stxn.setUnitId(getEquivalentUnit(availableQty.getUnit()));
                         stxn.setStockCard(stk);
-                        //   stxn.setStkId(stk.getId());
                         txnList.add(stxn);
+
+                        //for audit entry
+                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                        stxn.setMbr_id(mbr.getId());
+                        stxn.setStock_card_id(stk.getId());
+
                         requiredQty = MetricCalculator.subtract(requiredQty, availableQty);
                         System.out.println("RESERVED TXN: " + stxn);
                         depletedStockCardList.add(stk);

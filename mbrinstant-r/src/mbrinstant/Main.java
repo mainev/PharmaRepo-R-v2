@@ -16,15 +16,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
+import mbrinstant.rest_client.audit.SingletonAuditRestClient;
 import mbrinstant.rest_client.main.SingletonAreaRestClient;
 import mbrinstant.rest_client.main.SingletonClassificationRestClient;
-import mbrinstant.rest_client.main.SingletonCompanyRestClient;
 import mbrinstant.rest_client.main.SingletonContainerRestClient;
 import mbrinstant.rest_client.main.SingletonEquipmentRestClient;
 import mbrinstant.rest_client.main.SingletonPackSizeRestClient;
-import mbrinstant.rest_client.main.SingletonPackgMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonProductRestClient;
-import mbrinstant.rest_client.main.SingletonRawMaterialRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.rest_client.mbr.SingletonBottlingProcedureRestClient;
 import mbrinstant.rest_client.mbr.SingletonCompoundingProcRestClient;
@@ -37,6 +35,7 @@ import mbrinstant.rest_client.mbr.SingletonPackgOperationRestClient;
 import mbrinstant.rest_client.mbr.SingletonPowderFillingRestClient;
 import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;
 import mbrinstant.rest_client.mbr.SingletonUdfRestClient;
+import mbrinstant.rest_client.sqlsvr_copy.SingletonCompanyRestClient;
 import mbrinstant.rest_client.sqlsvr_copy.SingletonItemRestClient;
 import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
 import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
@@ -115,8 +114,6 @@ public class Main extends Application {
         SingletonContainerRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonEquipmentRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonPackSizeRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-        SingletonPackgMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-        SingletonRawMaterialRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonBottlingProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonCompoundingProcRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonDosageRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
@@ -131,6 +128,7 @@ public class Main extends Application {
         SingletonStockCardRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonStockCardTxnRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonAuthorizationManager.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonAuditRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
 
         loadMainPane();
     }
@@ -148,8 +146,6 @@ public class Main extends Application {
         SingletonContainerRestClient.getInstance().destroy();
         SingletonEquipmentRestClient.getInstance().destroy();
         SingletonPackSizeRestClient.getInstance().destroy();
-        SingletonPackgMaterialRestClient.getInstance().destroy();
-        SingletonRawMaterialRestClient.getInstance().destroy();
         SingletonBottlingProcedureRestClient.getInstance().destroy();
         SingletonCompoundingProcRestClient.getInstance().destroy();
         SingletonDosageRestClient.getInstance().destroy();
@@ -164,6 +160,7 @@ public class Main extends Application {
         SingletonStockCardRestClient.getInstance().destroy();
         SingletonStockCardTxnRestClient.getInstance().destroy();
         SingletonAuthorizationManager.getInstance().destroy();
+        SingletonAuditRestClient.getInstance().destroy();
 
         this.loadLoginDialog();
         MyNotifications.displayConfirm("SUCCESSFULLY LOGGED OUT");
@@ -185,7 +182,7 @@ public class Main extends Application {
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setResizable(false);
             stage.setTitle("Pharma System");
-            //  stage.setMaximized(true);
+            // stage.setMaximized(true);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
