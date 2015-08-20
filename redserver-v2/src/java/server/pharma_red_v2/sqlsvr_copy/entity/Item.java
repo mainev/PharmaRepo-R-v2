@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -27,44 +25,45 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author maine
  */
-@Entity(name = "ItemC")
+@Entity(name = "Item")
 @Table(name = "item", schema = "sqlsvr_copy")
 @XmlRootElement
-public class ItemC implements Serializable {
+public class Item implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Size(max = 20)
-    @Column(name ="item_cd")
+    @Column(name = "item_cd")
     private String itemCd;
-    
+
     @Size(max = 255)
     @Column(name = "descs")
     private String descs;
-    
+
     @Size(max = 255)
     @Column(name = "remarks")
     private String remarks;
-    
+
     @JoinColumn(name = "item_category_id", referencedColumnName = "id")
     @ManyToOne
     private ItemCategoryC itemCategoryId;
-    
+
     @JoinColumn(name = "item_type_id", referencedColumnName = "id")
     @ManyToOne
     private ItemTypeC itemTypeId;
-    
+
     @OneToMany(mappedBy = "itemId")
     private List<StockCardC> stockCardList;
 
-    public ItemC() {
+    public Item() {
     }
 
-    public ItemC(Integer id) {
+    public Item(Integer id) {
         this.id = id;
     }
 
@@ -84,7 +83,6 @@ public class ItemC implements Serializable {
         this.itemCd = itemCd;
     }
 
-    
     public String getDescs() {
         return descs;
     }
@@ -136,10 +134,10 @@ public class ItemC implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ItemC)) {
+        if (!(object instanceof Item)) {
             return false;
         }
-        ItemC other = (ItemC) object;
+        Item other = (Item) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -150,5 +148,5 @@ public class ItemC implements Serializable {
     public String toString() {
         return "entity.Item[ id=" + id + " ]";
     }
-    
+
 }

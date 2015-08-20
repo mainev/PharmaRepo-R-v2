@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -29,19 +30,23 @@ import javax.xml.bind.annotation.XmlTransient;
 public class BottlingProcedure implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
 
+    @Expose
     @Column(name = "content")
     @Size(max = 1000)
     private String content;
 
+    @Expose
     @Column(name = "step_number")
     private Short stepNumber;
 
+    @Expose
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
@@ -79,7 +84,6 @@ public class BottlingProcedure implements Serializable {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;

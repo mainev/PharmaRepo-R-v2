@@ -42,10 +42,10 @@ public class RawMaterialRequirementFacade {
                 .setParameter("id", udfId).getResultList();
     }
 
-    public RawMaterialRequirement findByDetails(int rmId, double qty, short unitId, int udfId) {
-        List<RawMaterialRequirement> list = em.createQuery("select r from RawMaterialRequirement r where r.udfId.id = :udfId and r.rawMaterialId.id = :rmId and r.quantity = :qty and r.unitId.id = :unitId")
+    public RawMaterialRequirement findByDetails(int itemId, double qty, short unitId, int udfId) {
+        List<RawMaterialRequirement> list = em.createQuery("select r from RawMaterialRequirement r where r.udfId.id = :udfId and r.itemId.id = :itemId and r.quantity = :qty and r.unitId.id = :unitId")
                 .setParameter("udfId", udfId)
-                .setParameter("rmId", rmId)
+                .setParameter("itemId", itemId)
                 .setParameter("qty", qty)
                 .setParameter("unitId", unitId)
                 .getResultList();

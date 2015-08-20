@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2._main.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -27,19 +28,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PackSize implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
 
+    @Expose
     @Column(name = "quantity")
     private double quantity;
 
+    @Expose
     @JoinColumn(name = "container_id", referencedColumnName = "id")
     @ManyToOne
     private Container containerId;
 
+    @Expose
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
     @ManyToOne
     private Unit unitId;

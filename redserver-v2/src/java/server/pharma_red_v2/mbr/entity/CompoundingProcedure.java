@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -14,10 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -29,38 +27,45 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author maine
  */
 @Entity
-@Table(name = "compounding_procedure", schema="mbr")
+@Table(name = "compounding_procedure", schema = "mbr")
 @XmlRootElement
-public class CompoundingProcedure implements Serializable,  Comparable<CompoundingProcedure> {
+public class CompoundingProcedure implements Serializable, Comparable<CompoundingProcedure> {
+
+    @Expose
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
+    @Expose
     @Column(name = "step_number")
     private Short stepNumber;
-    
+
+    @Expose
     @Size(max = 500)
     @Column(name = "header")
     private String header;
-    
+
+    @Expose
     @Column(name = "footer")
     private Boolean footer;
-    
+
+    @Expose
     @Size(max = 100)
     @Column(name = "done_by")
     private String doneBy;
-    
+
+    @Expose
     @Size(max = 100)
     @Column(name = "checked_by")
     private String checkedBy;
-    
+
     @OneToMany(mappedBy = "compoundingProcedureId")
     private List<Dosage> dosageList;
-    
-    
+
+    @Expose
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
@@ -76,8 +81,6 @@ public class CompoundingProcedure implements Serializable,  Comparable<Compoundi
     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
-    
-    
 
     public CompoundingProcedure(Integer id) {
         this.id = id;
@@ -140,14 +143,14 @@ public class CompoundingProcedure implements Serializable,  Comparable<Compoundi
     }
 
     /*
-    public ManufacturingProcedure getManufacturingProcedureId() {
-        return manufacturingProcedureId;
-    }
+     public ManufacturingProcedure getManufacturingProcedureId() {
+     return manufacturingProcedureId;
+     }
 
-    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-        this.manufacturingProcedureId = manufacturingProcedureId;
-    }
-*/
+     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+     this.manufacturingProcedureId = manufacturingProcedureId;
+     }
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -172,8 +175,8 @@ public class CompoundingProcedure implements Serializable,  Comparable<Compoundi
     public String toString() {
         return "server.mbr.entity.CompoundingProcedure[ id=" + id + " ]";
     }
-    
-     @Override
+
+    @Override
     public int compareTo(CompoundingProcedure cp) {
         short comparedNumber = cp.getStepNumber();
         if (stepNumber < comparedNumber) {
@@ -184,5 +187,5 @@ public class CompoundingProcedure implements Serializable,  Comparable<Compoundi
             return -1;
         }
     }
-    
+
 }

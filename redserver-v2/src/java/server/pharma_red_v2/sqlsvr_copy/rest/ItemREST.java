@@ -13,32 +13,46 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import server.pharma_red_v2.sqlsvr_copy.entity.ItemC;
-import server.pharma_red_v2.sqlsvr_copy.facade.ItemCFacade;
+import server.pharma_red_v2.sqlsvr_copy.entity.Item;
+import server.pharma_red_v2.sqlsvr_copy.facade.ItemFacade;
 
 /**
  * REST Web Service
  *
  * @author maine
  */
-@Path("sqlsvr_copy/itemc")
+@Path("sqlsvr_copy/item")
 @RequestScoped
-public class ItemCREST {
+public class ItemREST {
 
     @Context
     private UriInfo context;
 
     @Inject
-    private ItemCFacade itemCFacade;
+    private ItemFacade itemCFacade;
 
-    public ItemCREST() {
+    public ItemREST() {
     }
 
     @GET
-    @Path("/g_itemc_list")
+    @Path("/g_item_list")
     @Produces("application/json")
-    public List<ItemC> getAll() {
+    public List<Item> getAll() {
         return itemCFacade.selectAll();
+    }
+
+    @GET
+    @Path("/g_rm_item_list")
+    @Produces("application/json")
+    public List<Item> getRawMaterialList() {
+        return itemCFacade.selectAllRawMaterial();
+    }
+
+    @GET
+    @Path("/g_pm_item_list")
+    @Produces("application/json")
+    public List<Item> getPackgMaterialList() {
+        return itemCFacade.selectAllPackgMaterial();
     }
 
 }

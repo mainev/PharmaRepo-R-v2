@@ -13,31 +13,31 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import server.pharma_red_v2.sqlsvr_copy.entity.CompanyC;
-import server.pharma_red_v2.sqlsvr_copy.facade.CompanyCFacade;
+import server.pharma_red_v2.sqlsvr_copy.entity.Company;
+import server.pharma_red_v2.sqlsvr_copy.facade.CompanyFacade;
 
 /**
  * REST Web Service
  *
  * @author maine
  */
-@Path("sqlsvr_copy/companyc")
+@Path("sqlsvr_copy/company")
 @RequestScoped
-public class CompanyCREST {
+public class CompanyREST {
 
     @Context
     private UriInfo context;
 
     @Inject
-    private CompanyCFacade companyFacadeC;
+    private CompanyFacade companyFacadeC;
 
-    public CompanyCREST() {
+    public CompanyREST() {
     }
 
     @GET
-    @Path("/g_companyc_list")
+    @Path("/g_company_list")
     @Produces("application/json")
-    public List<CompanyC> getAll() {
+    public List<Company> getCompanyList() {
         return companyFacadeC.selectAll();
     }
 

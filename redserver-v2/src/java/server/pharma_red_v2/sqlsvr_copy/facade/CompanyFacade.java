@@ -9,37 +9,37 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import server.pharma_red_v2.sqlsvr_copy.entity.CompanyC;
+import server.pharma_red_v2.sqlsvr_copy.entity.Company;
 
 /**
  *
  * @author maine
  */
 @Stateless
-public class CompanyCFacade {
+public class CompanyFacade {
 
     @PersistenceContext(unitName = "RedServer-v2PU")
     private EntityManager em;
 
-    public List<CompanyC> selectAll() {
-        return em.createQuery("Select c from CompanyC c").getResultList();
+    public List<Company> selectAll() {
+        return em.createQuery("Select c from Company c").getResultList();
     }
-    
-    public void insert(CompanyC company){
+
+    public void insert(Company company) {
         em.persist(company);
     }
-    
-    public void insertAll(List<CompanyC> cList){
-        for(CompanyC c : cList){
+
+    public void insertAll(List<Company> cList) {
+        for (Company c : cList) {
             em.persist(c);
         }
     }
-    
-    public CompanyC findByCode(String code){
-        
-        return (CompanyC)em.createQuery("Select c from CompanyC c where c.code = :code")
+
+    public Company findByCode(String code) {
+
+        return (Company) em.createQuery("Select c from Company c where c.code = :code")
                 .setParameter("code", code)
                 .getSingleResult();
     }
-    
+
 }

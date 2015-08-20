@@ -45,7 +45,7 @@ public class ItemTypeC implements Serializable {
     @Column(name = "descs")
     private String descs;
     @OneToMany(mappedBy = "itemTypeId")
-    private List<ItemC> itemList;
+    private List<Item> itemList;
 
     public ItemTypeC() {
     }
@@ -84,11 +84,11 @@ public class ItemTypeC implements Serializable {
     }
 
     @XmlTransient
-    public List<ItemC> getItemList() {
+    public List<Item> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<ItemC> itemList) {
+    public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
     }
 

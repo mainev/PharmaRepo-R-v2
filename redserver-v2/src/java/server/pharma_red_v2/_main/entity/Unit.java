@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2._main.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -12,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,26 +22,23 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author maine
  */
 @Entity
-@Table(name = "unit", schema="main")
+@Table(name = "unit", schema = "main")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Unit.findAll", query = "SELECT u FROM Unit u")})
 public class Unit implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    
+
+    @Expose
     @Size(max = 15)
     @Column(name = "name")
     private String name;
-    
-    /*
-    @OneToMany(mappedBy = "unitId")
-    private List<PackSize> packSizeList;
-*/
+
     public Unit() {
     }
 
@@ -67,15 +63,14 @@ public class Unit implements Serializable {
     }
 
     /*
-    @XmlTransient
-    public List<PackSize> getPackSizeList() {
-        return packSizeList;
-    }
+     @XmlTransient
+     public List<PackSize> getPackSizeList() {
+     return packSizeList;
+     }
 
-    public void setPackSizeList(List<PackSize> packSizeList) {
-        this.packSizeList = packSizeList;
-    }*/
-
+     public void setPackSizeList(List<PackSize> packSizeList) {
+     this.packSizeList = packSizeList;
+     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -100,5 +95,5 @@ public class Unit implements Serializable {
     public String toString() {
         return "server._main.entity.Unit[ id=" + id + " ]";
     }
-    
+
 }

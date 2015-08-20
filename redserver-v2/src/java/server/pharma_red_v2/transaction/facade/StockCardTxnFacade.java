@@ -37,8 +37,8 @@ public class StockCardTxnFacade {
                 .setParameter("stat2", "APPROVED")
                 .getResultList();
     }
-    
-     public List<StockCardTxn> findReservedAndApprovedByItemCdAndCompanyCd(String itemCd, String companyCd) {
+
+    public List<StockCardTxn> findReservedAndApprovedByItemCdAndCompanyCd(String itemCd, String companyCd) {
         return em.createQuery("Select s from StockCardTxn s where s.stockCardId.itemId.itemCd = :itemCd and s.stockCardId.companyId.code = :companyCd and (s.mbrId.status = :stat or s.mbrId.status = :stat2)")
                 .setParameter("itemCd", itemCd)
                 .setParameter("companyCd", companyCd)
@@ -60,5 +60,14 @@ public class StockCardTxnFacade {
         em.persist(txn);
         em.flush();
         return em.find(StockCardTxn.class, txn.getId());
+    }
+
+    public void deleteStockCardTxn(int stkId) {
+        StockCardTxn txn = em.find(StockCardTxn.class, stkId);
+        em.remove(txn);
+    }
+
+    public StockCardTxn findById(int id) {
+        return em.find(StockCardTxn.class, id);
     }
 }

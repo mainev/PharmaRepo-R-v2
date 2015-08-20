@@ -28,17 +28,17 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(data_retriever.ExcelReader.class);
         resources.add(filter.AuthenticatorREST.class);
+        resources.add(filter.ServerInterceptor.class);
         resources.add(server.pharma_red_v2._main.rest.AreaREST.class);
         resources.add(server.pharma_red_v2._main.rest.ClassificationREST.class);
-        resources.add(server.pharma_red_v2._main.rest.CompanyREST.class);
         resources.add(server.pharma_red_v2._main.rest.ContainerREST.class);
         resources.add(server.pharma_red_v2._main.rest.EquipmentREST.class);
         resources.add(server.pharma_red_v2._main.rest.PackSizeREST.class);
-        resources.add(server.pharma_red_v2._main.rest.PackagingMaterialREST.class);
         resources.add(server.pharma_red_v2._main.rest.ProductREST.class);
-        resources.add(server.pharma_red_v2._main.rest.RawMaterialREST.class);
         resources.add(server.pharma_red_v2._main.rest.UnitREST.class);
+        resources.add(server.pharma_red_v2.audit.AuditREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.BottlingProcedureREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.CompoundingProcedureREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.DosageREST.class);
@@ -51,10 +51,10 @@ public class ApplicationConfig extends Application {
         resources.add(server.pharma_red_v2.mbr.rest.RawMaterialRequirementREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.UdfREST.class);
         resources.add(server.pharma_red_v2.security.rest.UserREST.class);
-        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.CompanyCREST.class);
-        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.CompanyREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemCategoryCREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemClassCREST.class);
+        resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.ItemTypeCREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.StockCardCREST.class);
         resources.add(server.pharma_red_v2.sqlsvr_copy.rest.WarehouseCREST.class);

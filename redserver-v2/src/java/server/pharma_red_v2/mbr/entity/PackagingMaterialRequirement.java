@@ -5,10 +5,9 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,57 +15,51 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import server.pharma_red_v2._main.entity.PackagingMaterial;
 import server.pharma_red_v2._main.entity.Unit;
+import server.pharma_red_v2.sqlsvr_copy.entity.Item;
 
 /**
  *
  * @author maine
  */
 @Entity
-@Table(name = "packaging_material_requirement", schema="mbr")
+@Table(name = "packaging_material_requirement", schema = "mbr")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PackagingMaterialRequirement.findAll", query = "SELECT p FROM PackagingMaterialRequirement p")})
 public class PackagingMaterialRequirement implements Serializable {
-    
-  
-    
+
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
-    @JoinColumn(name = "packaging_material_id", referencedColumnName = "id")
+
+    @Expose
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
     @ManyToOne
-    private PackagingMaterial packagingMaterialId;
-    
-     @Column(name = "quantity")
+    private Item itemId;
+
+    @Expose
+    @Column(name = "quantity")
     private Double quantity;
-     
-   @JoinColumn(name = "unit_id", referencedColumnName = "id")
-   @ManyToOne
+
+    @Expose
+    @JoinColumn(name = "unit_id", referencedColumnName = "id")
+    @ManyToOne
     private Unit unitId;
-    
-   
+
+    @Expose
     @JoinColumn(name = "udf_id", referencedColumnName = "id")
     @ManyToOne
     private Udf udfId;
-   
 
     public PackagingMaterialRequirement() {
     }
 
-    
     @XmlTransient
     public Udf getUdfId() {
         return udfId;
@@ -75,8 +68,6 @@ public class PackagingMaterialRequirement implements Serializable {
     public void setUdfId(Udf udfId) {
         this.udfId = udfId;
     }
-    
-    
 
     public PackagingMaterialRequirement(Integer id) {
         this.id = id;
@@ -88,14 +79,6 @@ public class PackagingMaterialRequirement implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public PackagingMaterial getPackagingMaterialId() {
-        return packagingMaterialId;
-    }
-
-    public void setPackagingMaterialId(PackagingMaterial packagingMaterialId) {
-        this.packagingMaterialId = packagingMaterialId;
     }
 
     public Double getQuantity() {
@@ -114,14 +97,13 @@ public class PackagingMaterialRequirement implements Serializable {
         this.unitId = unitId;
     }
 
-    /*
-    public Udf getUdfId() {
-        return udfId;
+    public Item getItemId() {
+        return itemId;
     }
 
-    public void setUdfId(Udf udfId) {
-        this.udfId = udfId;
-    }*/
+    public void setItemId(Item itemId) {
+        this.itemId = itemId;
+    }
 
     @Override
     public int hashCode() {
@@ -148,6 +130,4 @@ public class PackagingMaterialRequirement implements Serializable {
         return "server.mbr.entity.PackagingMaterialRequirement[ id=" + id + " ]";
     }
 
-
-    
 }

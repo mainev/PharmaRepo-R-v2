@@ -9,6 +9,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,9 +20,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
-import server.pharma_red_v2._main.entity.PackagingMaterial;
 import server.pharma_red_v2._main.entity.Product;
 import server.pharma_red_v2._main.facade.ProductFacade;
+import server.pharma_red_v2.sqlsvr_copy.entity.Item;
 
 /**
  * REST Web Service
@@ -37,6 +38,9 @@ public class ProductREST {
 
     @Context
     private HttpServletRequest request;
+
+    @Context
+    private HttpServletResponse response;
 
     @Context
     private SecurityContext sc;
@@ -57,6 +61,9 @@ public class ProductREST {
         System.out.println(request.getMethod());
         System.out.println(request.getPathInfo());
         System.out.println(request.getRequestURI());
+
+        response.setHeader("table_name", "product");
+
         return productFacade.findAll();
     }
 
@@ -70,7 +77,7 @@ public class ProductREST {
     @Path("/g_primary_packg")
     @Produces("application/json")
     @Consumes("application/json")
-    public PackagingMaterial getPrimaryPackaging(@QueryParam("productId") String productId) {
+    public Item getPrimaryPackaging(@QueryParam("productId") String productId) {
         Integer product_id = Integer.parseInt(productId);
         return productFacade.getPrimaryPackaging(product_id);
     }
@@ -79,7 +86,7 @@ public class ProductREST {
     @Path("/g_secondary_packg")
     @Produces("application/json")
     @Consumes("application/json")
-    public PackagingMaterial getSecondaryPackaging(@QueryParam("productId") String productId) {
+    public Item getSecondaryPackaging(@QueryParam("productId") String productId) {
         Integer product_id = Integer.parseInt(productId);
         return productFacade.getSecondaryPackaging(product_id);
     }

@@ -5,10 +5,13 @@
  */
 package server.pharma_red_v2.mbr.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,6 +24,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 import server.pharma_red_v2.mbr.entity.Mbr;
 import server.pharma_red_v2.mbr.facade.MbrFacade;
+import server.pharma_red_v2.transaction.entity.StockCardTxn;
 
 /**
  * REST Web Service
@@ -37,7 +41,9 @@ public class MbrREST {
     @Inject
     private MbrFacade mbrFacade;
     @Context
-    HttpServletRequest request;
+    private HttpServletRequest request;
+    @Context
+    private HttpServletResponse response;
 
     public MbrREST() {
     }
@@ -87,19 +93,38 @@ public class MbrREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Mbr createNewBatch(Mbr mbr) {
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "mbr");
+        response.setHeader("action", "INSERT");
         return mbrFacade.create(mbr);
     }
 
     @POST
     @Path("/pst_reserve_mbr")
-    public void reserveBatch(@QueryParam("mbr_id") String mbr_id) {
-        mbrFacade.reserveMbr(Integer.parseInt(mbr_id));
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mbr reserveBatch(@QueryParam("mbr_id") String mbr_id) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        String json = gson.toJson(mbrFacade.findById(Integer.parseInt(mbr_id)));
+        System.out.println("output from rest: " + json);
+        response.setHeader("old_value", json);
+        response.setHeader("table_name", "mbr");
+        response.setHeader("action", "UPDATE");
+        return mbrFacade.reserveMbr(Integer.parseInt(mbr_id));
     }
 
     @POST
     @Path("/pst_cancel_reservation")
-    public void cancelBatchReservation(@QueryParam("mbr_id") String mbr_id) {
-        mbrFacade.cancelReservation(Integer.parseInt(mbr_id));
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mbr cancelBatchReservation(@QueryParam("mbr_id") String mbr_id) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        String json = gson.toJson(mbrFacade.findById(Integer.parseInt(mbr_id)));
+        System.out.println("output from rest: " + json);
+        response.setHeader("old_value", json);
+        response.setHeader("table_name", "mbr");
+        response.setHeader("action", "UPDATE");
+        return mbrFacade.cancelReservation(Integer.parseInt(mbr_id));
     }
 
     @POST
@@ -112,5 +137,13 @@ public class MbrREST {
     @Path("/pst_dispense_batch_material")
     public void dispenseBatchMaterials(@QueryParam("mbr_id") String mbr_id) {
         mbrFacade.dispenseMbrMaterials(Integer.parseInt(mbr_id));
+    }
+
+    @GET
+    @Path("/g_batch_stock_card_txn_list")
+    @Produces("application/json")
+    public List<StockCardTxn> getBatchStockCardTxnList(@QueryParam("mbr_id") String mbr_id) {
+        Mbr batch = mbrFacade.findById(Integer.parseInt(mbr_id));
+        return batch.getStockCardTxnList();
     }
 }

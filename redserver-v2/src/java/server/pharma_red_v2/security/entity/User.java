@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -52,9 +51,6 @@ public class User implements Serializable {
     @Size(max = 100)
     @Column(name = "password")
     private String password;
-
-    @OneToMany(mappedBy = "userId")
-    private List<Audit> auditList;
 
     @ManyToMany
     @JoinTable(name = "user_group", schema = "security",
@@ -147,15 +143,6 @@ public class User implements Serializable {
 
     public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;
-    }
-
-    @XmlTransient
-    public List<Audit> getAuditList() {
-        return auditList;
-    }
-
-    public void setAuditList(List<Audit> auditList) {
-        this.auditList = auditList;
     }
 
     @Override

@@ -3,25 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.pharma_red_v2._main.entity;
+package server.pharma_red_v2.sqlsvr_copy.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author maine
  */
-@Entity
-@Table(name = "company", schema = "main")
+@Entity(name = "Company")
+@Table(name = "company", schema = "sqlsvr_copy")
 @XmlRootElement
 public class Company implements Serializable {
 
@@ -31,20 +35,27 @@ public class Company implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-
-    @Size(max = 50)
-    @Column(name = "name")
-    private String name;
-
-    @Size(max = 5)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
     @Column(name = "code")
     private String code;
+    @Size(max = 100)
+    @Column(name = "descs")
+    private String descs;
+    @OneToMany(mappedBy = "companyId")
+    private List<StockCardC> stockCardList;
 
     public Company() {
     }
 
     public Company(Short id) {
         this.id = id;
+    }
+
+    public Company(Short id, String code) {
+        this.id = id;
+        this.code = code;
     }
 
     public Short getId() {
@@ -55,20 +66,29 @@ public class Company implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getDescs() {
+        return descs;
+    }
+
+    public void setDescs(String descs) {
+        this.descs = descs;
+    }
+
+    @XmlTransient
+    public List<StockCardC> getStockCardList() {
+        return stockCardList;
+    }
+
+    public void setStockCardList(List<StockCardC> stockCardList) {
+        this.stockCardList = stockCardList;
     }
 
     @Override
@@ -93,7 +113,7 @@ public class Company implements Serializable {
 
     @Override
     public String toString() {
-        return "server._main.entity.Client[ id=" + id + " ]";
+        return "entity.CompanyC[ id=" + id + " ]";
     }
 
 }

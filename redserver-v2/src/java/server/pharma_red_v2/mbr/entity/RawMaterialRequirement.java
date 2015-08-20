@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,47 +15,49 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import server.pharma_red_v2._main.entity.RawMaterial;
 import server.pharma_red_v2._main.entity.Unit;
+import server.pharma_red_v2.sqlsvr_copy.entity.Item;
 
 /**
  *
  * @author maine
  */
 @Entity
-@Table(name = "raw_material_requirement", schema="mbr")
+@Table(name = "raw_material_requirement", schema = "mbr")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "RawMaterialRequirement.findAll", query = "SELECT r FROM RawMaterialRequirement r")})
 public class RawMaterialRequirement implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
-   @JoinColumn(name = "raw_material_id", referencedColumnName = "id")
-   @ManyToOne
-    private RawMaterial rawMaterialId;
-    
-   @Column(name = "quantity")
+
+    @Expose
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    @ManyToOne
+    private Item itemId;
+
+    @Expose
+    @Column(name = "quantity")
     private Double quantity;
-   
+
+    @Expose
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
     @ManyToOne
     private Unit unitId;
-    
-    
+
+    @Expose
     @JoinColumn(name = "udf_id", referencedColumnName = "id")
     @ManyToOne
     private Udf udfId;
-    
+
+    @Expose
     @Column(name = "part")
     private short part;
 
@@ -69,8 +72,6 @@ public class RawMaterialRequirement implements Serializable {
         this.part = part;
     }
 
-    
-    
     @XmlTransient
     public Udf getUdfId() {
         return udfId;
@@ -79,8 +80,6 @@ public class RawMaterialRequirement implements Serializable {
     public void setUdfId(Udf udfId) {
         this.udfId = udfId;
     }
-    
-    
 
     public RawMaterialRequirement(Integer id) {
         this.id = id;
@@ -92,14 +91,6 @@ public class RawMaterialRequirement implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public RawMaterial getRawMaterialId() {
-        return rawMaterialId;
-    }
-
-    public void setRawMaterialId(RawMaterial rawMaterialId) {
-        this.rawMaterialId = rawMaterialId;
     }
 
     public Double getQuantity() {
@@ -117,16 +108,14 @@ public class RawMaterialRequirement implements Serializable {
     public void setUnitId(Unit unitId) {
         this.unitId = unitId;
     }
-    
-    /*
 
-    public Udf getUdfId() {
-        return udfId;
+    public Item getItemId() {
+        return itemId;
     }
 
-    public void setUdfId(Udf udfId) {
-        this.udfId = udfId;
-    }*/
+    public void setItemId(Item itemId) {
+        this.itemId = itemId;
+    }
 
     @Override
     public int hashCode() {
@@ -152,5 +141,5 @@ public class RawMaterialRequirement implements Serializable {
     public String toString() {
         return "server.mbr.entity.RawMaterialRequirement[ id=" + id + " ]";
     }
-    
+
 }

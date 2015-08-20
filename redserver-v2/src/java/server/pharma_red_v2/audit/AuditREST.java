@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.pharma_red_v2._main.rest;
+package server.pharma_red_v2.audit;
 
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
@@ -13,32 +13,32 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import server.pharma_red_v2._main.entity.Company;
-import server.pharma_red_v2._main.facade.CompanyFacade;
 
 /**
  * REST Web Service
  *
  * @author maine
  */
-@Path("main/client")
+@Path("audit/audit")
 @RequestScoped
-public class CompanyREST {
+public class AuditREST {
 
     @Context
     private UriInfo context;
 
     @Inject
-    private CompanyFacade clientFacade;
+    private AuditFacade auditFacade;
 
-    public CompanyREST() {
+    /**
+     * Creates a new instance of AuditREST
+     */
+    public AuditREST() {
     }
 
     @GET
-    @Path("/g_company_list")
     @Produces("application/json")
-    public List<Company> getCompanyList() {
-        return clientFacade.findAll();
+    @Path("/g_audit_list")
+    public List<AuditTrail> getAuditList() {
+        return auditFacade.findAll();
     }
-
 }

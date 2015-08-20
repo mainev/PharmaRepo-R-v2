@@ -16,81 +16,79 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import server.pharma_red_v2.transaction.entity.StockCardTxn;
 
 /**
  *
  * @author maine
  */
-@Entity(name="StockCardC")
-@Table(name = "stock_card", schema="sqlsvr_copy")
+@Entity(name = "StockCardC")
+@Table(name = "stock_card", schema = "sqlsvr_copy")
 @XmlRootElement
 public class StockCardC implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Size(max = 1)
     @Column(name = "inout_mode")
-    private String inoutMode; 
-    
+    private String inoutMode;
+
     @Column(name = "unit_cost")
     private Double unitCost;
-    
+
     @Column(name = "qty")
     private Double qty;
-    
+
     @Size(max = 100)
     @Column(name = "lot_no")
     private String lotNo;
-    
+
     @Column(name = "mfg_date")
     @Temporal(TemporalType.DATE)
     private Date mfgDate;
-    
+
     @Column(name = "exp_date")
     @Temporal(TemporalType.DATE)
     private Date expDate;
-    
+
     @Size(max = 20)
     @Column(name = "control_no")
     private String controlNo;
-    
+
     @Size(max = 10)
     @Column(name = "status")
     private String status;
-    
+
     @Size(max = 10)
     @Column(name = "uom")
     private String uom;
-    
+
     @JoinColumn(name = "company_id", referencedColumnName = "id")
     @ManyToOne
-    private CompanyC companyId;
-    
+    private Company companyId;
+
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     @ManyToOne
-    private ItemC itemId;
-    
+    private Item itemId;
+
     @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     @ManyToOne
     private WarehouseC warehouseId;
-    
+
     @OneToMany(mappedBy = "stockCardId")
     private List<StockCardTxn> stockCardTxnList;
-    
+
     @Column(name = "stock_status")
     @Size(max = 10)
     private String stockStatus;
@@ -182,19 +180,19 @@ public class StockCardC implements Serializable {
         this.uom = uom;
     }
 
-    public CompanyC getCompanyId() {
+    public Company getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(CompanyC companyId) {
+    public void setCompanyId(Company companyId) {
         this.companyId = companyId;
     }
 
-    public ItemC getItemId() {
+    public Item getItemId() {
         return itemId;
     }
 
-    public void setItemId(ItemC itemId) {
+    public void setItemId(Item itemId) {
         this.itemId = itemId;
     }
 
@@ -206,7 +204,6 @@ public class StockCardC implements Serializable {
         this.warehouseId = warehouseId;
     }
 
-  
     public List<StockCardTxn> getStockCardTxnList() {
         return stockCardTxnList;
     }
@@ -222,10 +219,6 @@ public class StockCardC implements Serializable {
     public void setStockStatus(String stockStatus) {
         this.stockStatus = stockStatus;
     }
-    
-    
-    
-    
 
     @Override
     public int hashCode() {
@@ -251,5 +244,5 @@ public class StockCardC implements Serializable {
     public String toString() {
         return "entity.StockCard[ id=" + id + " ]";
     }
-    
+
 }

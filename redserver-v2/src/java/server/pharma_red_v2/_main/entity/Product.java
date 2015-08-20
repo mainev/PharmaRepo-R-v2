@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2._main.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import server.ProductLogListener;
 import server.pharma_red_v2.mbr.entity.ManufacturingProcedure;
 import server.pharma_red_v2.mbr.entity.Udf;
+import server.pharma_red_v2.sqlsvr_copy.entity.Company;
 
 /**
  *
@@ -34,43 +36,53 @@ import server.pharma_red_v2.mbr.entity.Udf;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
 
+    @Expose
     @Size(max = 5)
     @Column(name = "code")
     private String code;
 
+    @Expose
     @Size(max = 200)
     @Column(name = "brand_name")
     private String brandName;
 
+    @Expose
     @Size(max = 200)
     @Column(name = "generic_name")
     private String genericName;
 
+    @Expose
     @Size(max = 10)
     @Column(name = "vr_no")
     private String vrNo;
 
+    @Expose
     @Column(name = "shelf_life")
     private Short shelfLife;
 
+    @Expose
     @JoinColumn(name = "area_id", referencedColumnName = "id")
     @ManyToOne
     private Area areaId;
 
+    @Expose
     @JoinColumn(name = "classification_id", referencedColumnName = "id")
     @ManyToOne
     private Classification classificationId;
 
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @Expose
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
     @ManyToOne
-    private Company clientId;
+    private Company companyId;
 
+    @Expose
     @JoinColumn(name = "pack_size_id", referencedColumnName = "id")
     @ManyToOne
     private PackSize packSizeId;
@@ -100,24 +112,7 @@ public class Product implements Serializable {
     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
-    /*
 
-     public List<ManufacturingProcedure> getManufacturingProcedureList() {
-     return manufacturingProcedureList;
-     }
-
-     public void setManufacturingProcedureList(List<ManufacturingProcedure> manufacturingProcedureList) {
-     this.manufacturingProcedureList = manufacturingProcedureList;
-     }
-     */
-
-//    public List<Udf> getUdfList() {
-//        return udfList;
-//    }
-//
-//    public void setUdfList(List<Udf> udfList) {
-//        this.udfList = udfList;
-//    }
     public Product(Integer id) {
         this.id = id;
     }
@@ -186,12 +181,12 @@ public class Product implements Serializable {
         this.classificationId = classificationId;
     }
 
-    public Company getClientId() {
-        return clientId;
+    public Company getCompanyId() {
+        return companyId;
     }
 
-    public void setClientId(Company clientId) {
-        this.clientId = clientId;
+    public void setCompanyId(Company companyId) {
+        this.companyId = companyId;
     }
 
     public PackSize getPackSizeId() {

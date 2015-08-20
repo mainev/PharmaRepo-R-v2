@@ -25,6 +25,9 @@ import server.pharma_red_v2.security.facade.UserFacade;
  */
 public class AuthorizationFilter implements Filter {
 
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -41,38 +44,30 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        HttpServletRequest rq = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
+        this.request = (HttpServletRequest) request;
+        this.response = (HttpServletResponse) response;
 
-        //    System.out.println("FILTERING USER CREDENTIALS....");
-        //    System.out.println("**************************************");
-        if (rq.getHeader("authorization") != null) {
-            //     System.out.println("AUTHENTICATION SUCCESS!!!");
+        System.out.println("FILTERING USER CREDENTIALS....");
+        System.out.println("**************************************");
+        if (this.request.getHeader("authorization") != null) {
 
-            String userName = rq.getUserPrincipal().getName();
-            String methodName = rq.getPathInfo();
-//
-//            if (methodName == null) {
-//                System.out.println("ERROR");
-//                System.out.println("HttpStatusCode: 400");
-//                res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                return;
-//            }
+            String userName = this.request.getUserPrincipal().getName();
+            String methodName = this.request.getPathInfo();
 
             User user = userFacade.findByUsername(userName);
 
             AuthorizationManager authManager = new AuthorizationManager();
             //all USERS are filtered except for ADMIN
             if (authManager.isUserAuthorized(user, methodName) || user.isAdmin()) {
-                System.out.println("User is authorized to use " + rq.getPathInfo());
+                System.out.println("User is authorized to use " + this.request.getPathInfo());
                 chain.doFilter(request, response);
             } else {
                 //if user is not authorized ....
-                res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                this.response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 System.out.println("USER IS NOT AUTHORIZED TO USE " + methodName);
             }
         }
-        //    System.out.println("**************************************");
+        System.out.println("**************************************");
 
     }
 
@@ -80,6 +75,14 @@ public class AuthorizationFilter implements Filter {
     public void destroy() {
         System.out.println("destroyed");
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
     }
 
 }

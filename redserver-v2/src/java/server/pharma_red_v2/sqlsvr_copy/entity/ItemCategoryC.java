@@ -47,7 +47,7 @@ public class ItemCategoryC implements Serializable {
     @Column(name = "descs")
     private String descs;
     @OneToMany(mappedBy = "itemCategoryId")
-    private List<ItemC> itemList;
+    private List<Item> itemList;
     @JoinColumn(name = "item_class_id", referencedColumnName = "id")
     @ManyToOne
     private ItemClassC itemClassId;
@@ -89,11 +89,11 @@ public class ItemCategoryC implements Serializable {
     }
 
     @XmlTransient
-    public List<ItemC> getItemList() {
+    public List<Item> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<ItemC> itemList) {
+    public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
     }
 

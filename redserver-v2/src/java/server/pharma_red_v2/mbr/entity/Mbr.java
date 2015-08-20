@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,48 +33,64 @@ import server.pharma_red_v2.transaction.entity.StockCardTxn;
  * @author maine
  */
 @Entity
-@Table(name = "mbr", schema="mbr")
+@Table(name = "mbr", schema = "mbr")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Mbr.findAll", query = "SELECT m FROM Mbr m")})
 public class Mbr implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
-    @JoinColumn(name = "product_id", referencedColumnName="id")
+
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne
     private Product productId;
-    
-   @Column(name = "batch_size")
+
+    //for audit entry only
+    @Expose
+    @Column(name = "product_id", insertable = false, updatable = false)
+    private int product_id;
+
+    @Expose
+    @Column(name = "batch_size")
     private Double batchSize;
-   
+
+    @Expose
     @Size(max = 10)
     @Column(name = "batch_no")
     private String batchNo;
-    
-   @JoinColumn(name = "unit_id", referencedColumnName = "id")
-   @ManyToOne
+
+    @JoinColumn(name = "unit_id", referencedColumnName = "id")
+    @ManyToOne
     private Unit unitId;
-   
+
+    //for audit only
+    @Expose
+    @Column(name = "unit_id", insertable = false, updatable = false)
+    private short unit_id;
+
+    @Expose
     @Column(name = "mfg_date")
     @Temporal(TemporalType.DATE)
     private Date mfgDate;
-    
+
+    @Expose
     @Column(name = "exp_date")
     @Temporal(TemporalType.DATE)
     private Date expDate;
-    
+
+    @Expose
     @Size(max = 15)
     @Column(name = "po_no")
     private String poNo;
-    
+
     @OneToMany(mappedBy = "mbrId")
     private List<StockCardTxn> stockCardTxnList;
-    
+
+    @Expose
     @Column(name = "status")
     @Size(max = 20)
     private String status;
@@ -158,7 +173,6 @@ public class Mbr implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    
 
     @XmlTransient
     public List<StockCardTxn> getStockCardTxnList() {
@@ -169,9 +183,21 @@ public class Mbr implements Serializable {
         this.stockCardTxnList = stockCardTxnList;
     }
 
-   
-    
-    
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+
+    public short getUnit_id() {
+        return unit_id;
+    }
+
+    public void setUnit_id(short unit_id) {
+        this.unit_id = unit_id;
+    }
 
     @Override
     public int hashCode() {
@@ -197,5 +223,5 @@ public class Mbr implements Serializable {
     public String toString() {
         return "server.mbr.entity.Mbr[ id=" + id + " ]";
     }
-    
+
 }

@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import server.pharma_red_v2.mbr.entity.Mbr;
 import server.pharma_red_v2.mbr.entity.MbrStatus;
-import server.pharma_red_v2.transaction.entity.StockCardTxn;
 
 /**
  *
@@ -63,24 +62,22 @@ public class MbrFacade {
         return em.find(Mbr.class, id);
     }
 
-    public void reserveMbr(int mbrId) {
+    public Mbr reserveMbr(int mbrId) {
         Mbr mbr = this.findById(mbrId);
         mbr.setStatus(MbrStatus.RESERVED.toString());
+
+        return mbr;
     }
 
-    public void cancelReservation(int mbrId) {
+    public Mbr cancelReservation(int mbrId) {
         Mbr mbr = findById(mbrId);
-        if (mbr != null) {
-            try {
-                mbr.setStatus(MbrStatus.PENDING.toString());
-                for (StockCardTxn txn : mbr.getStockCardTxnList()) {
-                    txn.getStockCardId().setStockStatus("AVAILABLE");
-                    em.remove(txn);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
+        mbr.setStatus(MbrStatus.PENDING.toString());
+//        for (StockCardTxn txn : mbr.getStockCardTxnList()) {
+//            txn.getStockCardId().setStockStatus("AVAILABLE");
+//            em.remove(txn);
+//        }
+        return mbr;
     }
 
     public void releaseMbr(int mbrId) {

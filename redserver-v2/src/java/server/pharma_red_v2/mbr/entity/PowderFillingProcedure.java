@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,10 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,32 +28,38 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "powder_filling_procedure", schema = "mbr")
 @XmlRootElement
 public class PowderFillingProcedure implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
+    @Expose
     @Column(name = "step_number")
     private Short stepNumber;
-    
-  
+
+    @Expose
     @Column(name = "instruction")
     private String instruction;
-    
+
+    @Expose
     @Column(name = "requires_equipment")
     private boolean requiresEquipment;
-    
+
+    @Expose
     @Column(name = "done_by")
     @Size(max = 100)
     private String doneBy;
-    
+
+    @Expose
     @Column(name = "checked_by")
     @Size(max = 100)
     private String checkedBy;
-    
-    
+
+    @Expose
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
@@ -79,7 +83,6 @@ public class PowderFillingProcedure implements Serializable {
         this.checkedBy = checkedBy;
     }
 
-    
     public boolean isRequiresEquipment() {
         return requiresEquipment;
     }
@@ -88,8 +91,6 @@ public class PowderFillingProcedure implements Serializable {
         this.requiresEquipment = requiresEquipment;
     }
 
-    
-    
     @XmlTransient
     public ManufacturingProcedure getManufacturingProcedureId() {
         return manufacturingProcedureId;
@@ -99,7 +100,6 @@ public class PowderFillingProcedure implements Serializable {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
 
-    
     public PowderFillingProcedure(Integer id) {
         this.id = id;
     }
@@ -129,14 +129,13 @@ public class PowderFillingProcedure implements Serializable {
     }
 
     /*
-    public ManufacturingProcedure getManufacturingProcedureId() {
-        return manufacturingProcedureId;
-    }
+     public ManufacturingProcedure getManufacturingProcedureId() {
+     return manufacturingProcedureId;
+     }
 
-    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-        this.manufacturingProcedureId = manufacturingProcedureId;
-    }*/
-
+     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+     this.manufacturingProcedureId = manufacturingProcedureId;
+     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -161,5 +160,5 @@ public class PowderFillingProcedure implements Serializable {
     public String toString() {
         return "server.mbr.entity.PackagingProcedure[ id=" + id + " ]";
     }
-    
+
 }

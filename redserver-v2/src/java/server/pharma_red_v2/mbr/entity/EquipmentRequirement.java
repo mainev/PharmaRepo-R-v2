@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,26 +26,29 @@ import server.pharma_red_v2._main.entity.Equipment;
  * @author maine
  */
 @Entity
-@Table(name = "equipment_requirement", schema="mbr")
+@Table(name = "equipment_requirement", schema = "mbr")
 @XmlRootElement
 public class EquipmentRequirement implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
-   // @Column(name = "equipment_id")
-    @JoinColumn(name = "equipment_id", referencedColumnName="id")
+
+    @Expose
+    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
     @ManyToOne
     private Equipment equipmentId;
-    
-    
+
+    @Expose
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
-    
+
+    @Expose
     @Column(name = "procedure")
     @Size(max = 20)
     private String procedure;
@@ -65,8 +67,6 @@ public class EquipmentRequirement implements Serializable {
     public void setProcedure(String procedure) {
         this.procedure = procedure;
     }
-    
-    
 
     public Integer getId() {
         return id;
@@ -93,7 +93,6 @@ public class EquipmentRequirement implements Serializable {
         this.manufacturingProcedureId = manufacturingProcedureId;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -118,5 +117,5 @@ public class EquipmentRequirement implements Serializable {
     public String toString() {
         return "server.mbr.entity.EquipmentRequirementCoding[ id=" + id + " ]";
     }
-    
+
 }

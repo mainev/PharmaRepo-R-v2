@@ -11,8 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import server.pharma_red_v2._main.entity.PackagingMaterial;
 import server.pharma_red_v2._main.entity.Product;
+import server.pharma_red_v2.sqlsvr_copy.entity.Item;
+import server.pharma_red_v2.sqlsvr_copy.facade.ItemFacade;
 
 /**
  *
@@ -20,9 +21,6 @@ import server.pharma_red_v2._main.entity.Product;
  */
 @Stateless
 public class ProductFacade {
-
-    @EJB
-    private PackagingMaterialFacade packagingMaterialFacade;
 
     @PersistenceContext(unitName = "RedServer-v2PU")
     private EntityManager em;
@@ -40,8 +38,8 @@ public class ProductFacade {
     public Product findById(int id) {
         return em.find(Product.class, id);
     }
-    
-    public void createPrimarySecondaryPackaging(int productId, int primaryId, int secondaryId){
+
+    public void createPrimarySecondaryPackaging(int productId, int primaryId, int secondaryId) {
         Query query = em.createNativeQuery("INSERT INTO mbr.primary_secondary_packaging "
                 + "(id, primary_packaging_id, secondary_packaging_id) VALUES (?, ?, ?)");
         query.setParameter(1, productId);
@@ -50,18 +48,21 @@ public class ProductFacade {
         query.executeUpdate();
     }
 
-    public PackagingMaterial getPrimaryPackaging(Integer productId) {
+    @EJB
+    private ItemFacade itemFacade;
+
+    public Item getPrimaryPackaging(Integer productId) {
         Query query = em.createNativeQuery("SELECT primary_packaging_id from mbr.primary_secondary_packaging "
                 + "where mbr.primary_secondary_packaging.id = '" + productId + "'");
         Integer bottleId = (Integer) query.getSingleResult();
-        return packagingMaterialFacade.findById(bottleId);
+        return itemFacade.findById(bottleId);
     }
 
-    public PackagingMaterial getSecondaryPackaging(Integer productId) {
+    public Item getSecondaryPackaging(Integer productId) {
         Query query = em.createNativeQuery("SELECT secondary_packaging_id from mbr.primary_secondary_packaging "
                 + "where mbr.primary_secondary_packaging.id = '" + productId + "'");
         Integer cBoxId = (Integer) query.getSingleResult();
-        return packagingMaterialFacade.findById(cBoxId);
+        return itemFacade.findById(cBoxId);
     }
 
     public Boolean isCodeUnique(String code) {

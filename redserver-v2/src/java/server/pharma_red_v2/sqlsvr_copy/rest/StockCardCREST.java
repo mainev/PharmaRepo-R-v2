@@ -58,10 +58,10 @@ public class StockCardCREST {
     }
 
     @GET
-    @Path("/g_stock_card_by_company_cd_and_item_cd")
+    @Path("/g_stock_card_by_company_cd_and_item_id")
     @Produces("application/json")
-    public List<StockCardC> getStockCardByCompanyCdAndItemCd(@QueryParam("company_cd") String company_cd, @QueryParam("item_cd") String item_cd) {
-        return facade.findStockCardByCompanyCdAndItemCd(company_cd, item_cd);
+    public List<StockCardC> getStockCardByCompanyCdAndItemId(@QueryParam("company_cd") String company_cd, @QueryParam("item_id") String item_id) {
+        return facade.findStockCardByCompanyCdAndItemId(company_cd, Integer.parseInt(item_id));
     }
 
     @POST

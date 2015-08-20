@@ -5,9 +5,13 @@
  */
 package server.pharma_red_v2.transaction.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,6 +39,11 @@ public class StockCardTxnREST {
     @Inject
     private StockCardTxnFacade facade;
 
+    @Context
+    private HttpServletRequest request;
+    @Context
+    private HttpServletResponse response;
+
     public StockCardTxnREST() {
     }
 
@@ -60,7 +69,26 @@ public class StockCardTxnREST {
     public StockCardTxn createNewStockCardTxn(@QueryParam("mbr_id") String mbr_id, @QueryParam("stk_id") String stk_id, StockCardTxn txn) {
         int mbrId = Integer.parseInt(mbr_id);
         int stkId = Integer.parseInt(stk_id);
+
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "stock_card_txn");
+        response.setHeader("action", "INSERT");
+
         return facade.insert(mbrId, stkId, txn);
+    }
+
+    //this will return the deleted object in the database
+    @POST
+    @Path("/pst_delete_stock_card_txn")
+    @Produces(MediaType.APPLICATION_JSON)
+    public StockCardTxn deleteStockCardTxn(@QueryParam("stk_id") String stk_id) {
+        StockCardTxn old = facade.findById(Integer.parseInt(stk_id));
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        String json = gson.toJson(old);
+        response.setHeader("table_name", "stock_card_txn");
+        response.setHeader("action", "DELETE");
+        facade.deleteStockCardTxn(Integer.parseInt(stk_id));
+        return old;
     }
 
 }

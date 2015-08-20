@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -37,6 +38,7 @@ import server.pharma_red_v2._main.entity.Unit;
 public class Udf implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @NotNull
     @Basic(optional = false)
@@ -44,16 +46,16 @@ public class Udf implements Serializable {
     private Integer id;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Expose
     @Column(name = "content")
     private Double content;
 
+    @Expose
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
     @ManyToOne
     private Unit unitId;
 
-//    @JoinColumn(name = "product_id", referencedColumnName = "id")
-//    @ManyToOne
-//    private Product productId;
+    @Expose
     @OneToOne
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
     private Product productId;
@@ -160,5 +162,5 @@ public class Udf implements Serializable {
     public String toString() {
         return "server.mbr.entity.Udf[ id=" + id + " ]";
     }
-   
+
 }

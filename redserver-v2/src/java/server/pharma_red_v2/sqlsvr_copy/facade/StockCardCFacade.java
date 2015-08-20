@@ -42,7 +42,7 @@ public class StockCardCFacade {
      * @param itemCd
      * @return
      */
-    public List<StockCardC> findStockCardByItemCd(String itemCd) {
+    public List<StockCardC> findStockCardByItemCd(String item) {
 
         //temporary warehouseId
         //Raw Materials - Balubad
@@ -52,9 +52,9 @@ public class StockCardCFacade {
         String stat = "Approved";
 
         //add condition for expiry date
-        Query query = em.createQuery("Select s from StockCardC s where s.itemId.itemCd = :itemCd and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus order by s.expDate")
+        Query query = em.createQuery("Select s from StockCardC s where s.itemId.itemCd = :item and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus order by s.expDate")
                 .setParameter("stockStatus", "AVAILABLE")
-                .setParameter("itemCd", itemCd)
+                .setParameter("item", item)
                 .setParameter("rm_warehouse_id", rmWarehouseId)
                 .setParameter("pm_warehouse_id", pmWarehouseId)
                 .setParameter("inOutMd", "I")
@@ -62,7 +62,7 @@ public class StockCardCFacade {
         return query.getResultList();
     }
 
-    public List<StockCardC> findStockCardByCompanyCdAndItemCd(String companyCd, String itemCd) {
+    public List<StockCardC> findStockCardByCompanyCdAndItemId(String companyCd, int itemId) {
 
         //temporary warehouseId
         //Raw Materials - Balubad
@@ -72,10 +72,10 @@ public class StockCardCFacade {
         String stat = "Approved";
 
         //add condition for expiry date
-        Query query = em.createQuery("Select s from StockCardC s where s.companyId.code = :companyCd and s.itemId.itemCd = :itemCd and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus order by s.expDate")
+        Query query = em.createQuery("Select s from StockCardC s where s.companyId.code = :companyCd and s.itemId.id = :itemId and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus order by s.expDate")
                 .setParameter("stockStatus", "AVAILABLE")
                 .setParameter("companyCd", companyCd)
-                .setParameter("itemCd", itemCd)
+                .setParameter("itemId", itemId)
                 .setParameter("rm_warehouse_id", rmWarehouseId)
                 .setParameter("pm_warehouse_id", pmWarehouseId)
                 .setParameter("inOutMd", "I")

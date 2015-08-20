@@ -7,6 +7,7 @@ package server.pharma_red_v2._main.rest;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -31,6 +32,9 @@ public class PackSizeREST {
 
     @Inject
     private PackSizeFacade packSizeFacade;
+
+    @Context
+    private HttpServletResponse response;
 
     @POST
     @Path("/pst_new_pack_size")

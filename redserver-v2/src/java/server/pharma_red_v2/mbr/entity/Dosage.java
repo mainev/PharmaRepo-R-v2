@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.mbr.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -23,33 +24,28 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author maine
  */
 @Entity
-@Table(name = "dosage", schema="mbr")
+@Table(name = "dosage", schema = "mbr")
 @XmlRootElement
 public class Dosage implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-   
-    @JoinColumn(name="raw_material_requirement_id", referencedColumnName="id")
+
+    @Expose
+    @JoinColumn(name = "raw_material_requirement_id", referencedColumnName = "id")
     @ManyToOne
     private RawMaterialRequirement rawMaterialRequirementId;
-    
-    /*
-    @Column(name = "quantity")
-    private Double quantity;
-    
-  /*
-    @Column(name = "unit_id")
-    private Short unitId;
-    */
-    
+
+    @Expose
     @Column(name = "percent_multiplier")
     private Double percentMultiplier;
-    
-    
+
+    @Expose
     @JoinColumn(name = "compounding_procedure_id", referencedColumnName = "id")
     @ManyToOne
     private CompoundingProcedure compoundingProcedureId;
@@ -57,7 +53,6 @@ public class Dosage implements Serializable {
     public Dosage() {
     }
 
-    
     @XmlTransient
     public CompoundingProcedure getCompoundingProcedureId() {
         return compoundingProcedureId;
@@ -66,7 +61,6 @@ public class Dosage implements Serializable {
     public void setCompoundingProcedureId(CompoundingProcedure compoundingProcedureId) {
         this.compoundingProcedureId = compoundingProcedureId;
     }
-    
 
     public Dosage(Integer id) {
         this.id = id;
@@ -88,24 +82,23 @@ public class Dosage implements Serializable {
         this.rawMaterialRequirementId = rawMaterialRequirementId;
     }
 
-   /*
-    public Double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Double quantity) {
-        this.quantity = quantity;
-    }
-
     /*
-    public Short getUnitId() {
-        return unitId;
-    }
+     public Double getQuantity() {
+     return quantity;
+     }
 
-    public void setUnitId(Short unitId) {
-        this.unitId = unitId;
-    }*/
+     public void setQuantity(Double quantity) {
+     this.quantity = quantity;
+     }
 
+     /*
+     public Short getUnitId() {
+     return unitId;
+     }
+
+     public void setUnitId(Short unitId) {
+     this.unitId = unitId;
+     }*/
     public Double getPercentMultiplier() {
         return percentMultiplier;
     }
@@ -113,17 +106,16 @@ public class Dosage implements Serializable {
     public void setPercentMultiplier(Double percentMultiplier) {
         this.percentMultiplier = percentMultiplier;
     }
-    
+
     /*
 
-    public CompoundingProcedure getCompoundingProcedureId() {
-        return compoundingProcedureId;
-    }
+     public CompoundingProcedure getCompoundingProcedureId() {
+     return compoundingProcedureId;
+     }
 
-    public void setCompoundingProcedureId(CompoundingProcedure compoundingProcedureId) {
-        this.compoundingProcedureId = compoundingProcedureId;
-    }*/
-
+     public void setCompoundingProcedureId(CompoundingProcedure compoundingProcedureId) {
+     this.compoundingProcedureId = compoundingProcedureId;
+     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -148,5 +140,5 @@ public class Dosage implements Serializable {
     public String toString() {
         return "server.mbr.entity.Dosage[ id=" + id + " ]";
     }
-    
+
 }

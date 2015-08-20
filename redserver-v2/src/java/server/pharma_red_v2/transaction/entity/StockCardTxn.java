@@ -5,6 +5,7 @@
  */
 package server.pharma_red_v2.transaction.entity;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -31,28 +32,43 @@ import server.pharma_red_v2.sqlsvr_copy.entity.StockCardC;
 public class StockCardTxn implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @JoinColumn(name = "stock_card_id", referencedColumnName = "id")
     @ManyToOne
     private StockCardC stockCardId;
-    
+
+    //for audit entry
+    @Expose
+    @Column(name = "stock_card_id", insertable = false, updatable = false)
+    private int stock_card_id;
+
+    @Expose
     @Column(name = "qty")
     private Double qty;
-    
+
     @JoinColumn(name = "unit_id", referencedColumnName = "id")
     @ManyToOne
     private Unit unitId;
-    
- 
+
+    //for audit entry
+    @Expose
+    @Column(name = "unit_id", insertable = false, updatable = false)
+    private short unit_id;
+
     @JoinColumn(name = "mbr_id", referencedColumnName = "id")
     @ManyToOne
     private Mbr mbrId;
+
+    //for audit entry
+    @Expose
+    @Column(name = "mbr_id", insertable = false, updatable = false)
+    private int mbr_id;
 
     public StockCardTxn() {
     }
@@ -94,16 +110,38 @@ public class StockCardTxn implements Serializable {
         this.unitId = unitId;
     }
 
-   
     public Mbr getMbrId() {
         return mbrId;
     }
 
     public void setMbrId(Mbr mbrId) {
+
         this.mbrId = mbrId;
     }
-    
-    
+
+    public int getStock_card_id() {
+        return stock_card_id;
+    }
+
+    public void setStock_card_id(int stock_card_id) {
+        this.stock_card_id = stock_card_id;
+    }
+
+    public short getUnit_id() {
+        return unit_id;
+    }
+
+    public void setUnit_id(short unit_id) {
+        this.unit_id = unit_id;
+    }
+
+    public int getMbr_id() {
+        return mbr_id;
+    }
+
+    public void setMbr_id(int mbr_id) {
+        this.mbr_id = mbr_id;
+    }
 
     @Override
     public int hashCode() {
