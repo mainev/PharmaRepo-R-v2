@@ -19,6 +19,15 @@ public class EquipmentLocations {
         COMPOUNDING, ENCAPSULATION, CODING, PACKG_PROCEDURE, POWDER_FILLING
     }
 
+    public static List<String> getEquipmentLocationsForPowderArea() {
+        List<String> list = new ArrayList();
+
+        list.add(MANUFACTURING_PROCEDURE.COMPOUNDING.toString());
+        list.add(MANUFACTURING_PROCEDURE.POWDER_FILLING.toString());
+        list.add(MANUFACTURING_PROCEDURE.CODING.toString());
+        return list;
+    }
+
     public static List<String> getEquipmentLocationsForPowderVet() {
         List<String> list = new ArrayList();
 

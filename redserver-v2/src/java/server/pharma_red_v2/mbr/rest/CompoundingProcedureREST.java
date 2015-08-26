@@ -8,6 +8,7 @@ package server.pharma_red_v2.mbr.rest;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,6 +33,8 @@ public class CompoundingProcedureREST {
     @Context
     private UriInfo context;
 
+    @Context
+    private HttpServletResponse response;
     @Inject
     private CompoundingProcedureFacade cpFacade;
 
@@ -46,6 +49,10 @@ public class CompoundingProcedureREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public CompoundingProcedure createNewCompoundingProc(@QueryParam("mfg_id") String mfg_id, CompoundingProcedure cp) {
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "compounding_procedure");
+        response.setHeader("action", "INSERT");
+
         int mfgId = Integer.parseInt(mfg_id);
         return cpFacade.create(mfgId, cp);
     }

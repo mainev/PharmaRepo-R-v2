@@ -7,6 +7,7 @@ package server.pharma_red_v2.mbr.rest;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -34,6 +35,9 @@ public class UdfREST {
     @Inject
     private UdfFacade udfFacade;
 
+    @Context
+    private HttpServletResponse response;
+
     /**
      * Creates a new instance of UdfREST
      */
@@ -54,7 +58,9 @@ public class UdfREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Udf createNewUdf(Udf udfId) {
-
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "udf");
+        response.setHeader("action", "INSERT");
         return udfFacade.createUdf(udfId);
     }
 

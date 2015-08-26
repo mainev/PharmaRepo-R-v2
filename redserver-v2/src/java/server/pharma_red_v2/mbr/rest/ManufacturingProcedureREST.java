@@ -7,6 +7,7 @@ package server.pharma_red_v2.mbr.rest;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -29,6 +30,9 @@ public class ManufacturingProcedureREST {
     @Context
     private UriInfo context;
 
+    @Context
+    private HttpServletResponse response;
+
     @Inject
     private ManufacturingProcedureFacade manufacturingProcedureFacade;
 
@@ -37,6 +41,9 @@ public class ManufacturingProcedureREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ManufacturingProcedure createNewMfgProcedure(ManufacturingProcedure mp) {
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "manufacturing_procedure");
+        response.setHeader("action", "INSERT");
         return manufacturingProcedureFacade.create(mp);
     }
 }

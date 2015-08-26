@@ -105,6 +105,9 @@ public class ProductREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Product createNewProduct(Product product) {
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "product");
+        response.setHeader("action", "INSERT");
         return productFacade.create(product);
     }
 
@@ -113,7 +116,9 @@ public class ProductREST {
     public void createPrimarySecondaryPackg(@QueryParam("product_id") String product_id,
             @QueryParam("primary_id") String primary_id,
             @QueryParam("secondary_id") String secondary_id) {
-
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "primary_secondary_packaging");
+        response.setHeader("action", "INSERT");
         int productId = Integer.parseInt(product_id);
         int primaryId = Integer.parseInt(primary_id);
         int secondaryId = Integer.parseInt(secondary_id);

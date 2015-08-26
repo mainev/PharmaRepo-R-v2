@@ -1801,13 +1801,69 @@ INSERT INTO audit_trail VALUES (80, 'mainevillarias@gmail.com', '2015-08-19 17:0
 INSERT INTO audit_trail VALUES (81, 'mainevillarias@gmail.com', '2015-08-19 17:09:46.214', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":149,"stock_card_id":68,"qty":512.0,"unit_id":5,"mbr_id":90}');
 INSERT INTO audit_trail VALUES (82, 'mainevillarias@gmail.com', '2015-08-19 17:09:46.288', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":150,"stock_card_id":69,"qty":100.0,"unit_id":9,"mbr_id":90}');
 INSERT INTO audit_trail VALUES (83, 'mainevillarias@gmail.com', '2015-08-19 17:09:46.352', 'mbr', '/mbr/mbr/pst_reserve_mbr', 'UPDATE', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"PENDING"}', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"RESERVED"}');
+INSERT INTO audit_trail VALUES (84, 'mainevillarias@gmail.com', '2015-08-20 09:34:23.262', 'stock_card_txn', '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'DELETE', '{"id":149,"stock_card_id":68,"qty":512.0,"unit_id":5,"mbr_id":90}', '');
+INSERT INTO audit_trail VALUES (85, 'mainevillarias@gmail.com', '2015-08-20 09:34:23.491', 'stock_card_txn', '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'DELETE', '{"id":150,"stock_card_id":69,"qty":100.0,"unit_id":9,"mbr_id":90}', '');
+INSERT INTO audit_trail VALUES (86, 'mainevillarias@gmail.com', '2015-08-20 09:34:23.64', 'mbr', '/mbr/mbr/pst_cancel_reservation', 'UPDATE', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"RESERVED"}', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (87, 'mainevillarias@gmail.com', '2015-08-20 13:21:09.619', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":151,"stock_card_id":68,"qty":512.0,"unit_id":5,"mbr_id":90}');
+INSERT INTO audit_trail VALUES (88, 'mainevillarias@gmail.com', '2015-08-20 13:21:10.078', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":152,"stock_card_id":69,"qty":100.0,"unit_id":9,"mbr_id":90}');
+INSERT INTO audit_trail VALUES (89, 'mainevillarias@gmail.com', '2015-08-20 13:21:10.204', 'mbr', '/mbr/mbr/pst_reserve_mbr', 'UPDATE', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"PENDING"}', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"RESERVED"}');
+INSERT INTO audit_trail VALUES (90, 'mainevillarias@gmail.com', '2015-08-20 16:32:25.094', 'pack_size', '/main/pack_size/pst_new_pack_size', 'INSERT', '', '{"id":39,"quantity":10.0,"containerId":{"id":3,"name":"Pail"},"unitId":{"id":7,"name":"kg"}}');
+INSERT INTO audit_trail VALUES (91, 'mainevillarias@gmail.com', '2015-08-20 16:32:25.428', 'product', '/main/product/pst_new_product', 'INSERT', '', '{"id":71,"code":"p2","brandName":"colistilak fpp","genericName":"colistin sulfate","vrNo":"vrm-12-557","shelfLife":3,"areaId":{"id":3,"name":"POWDER AREA"},"classificationId":{"id":2,"description":"POWDER"},"companyId":{},"packSizeId":{"id":39,"quantity":10.0,"containerId":{"id":3,"name":"Pail"},"unitId":{"id":7,"name":"kg"}}}');
+INSERT INTO audit_trail VALUES (92, 'mainevillarias@gmail.com', '2015-08-20 16:32:25.494', 'udf', '/mbr/udf/pst_new_udf', 'INSERT', '', '{"id":71,"content":1.0,"unitId":{"id":7,"name":"kg"}}');
+INSERT INTO audit_trail VALUES (93, 'mainevillarias@gmail.com', '2015-08-20 16:32:25.61', 'manufacturing_procedure', '/mbr/manufacturing_procedure/pst_new_mfg_proc', 'INSERT', '', '{}');
+INSERT INTO audit_trail VALUES (101, 'mainevillarias@gmail.com', '2015-08-24 17:07:14.615', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":133,"product_id":70,"batchSize":700.0,"batchNo":"batch1","unit_id":2,"mfgDate":"2015-07-31T00:00:00","expDate":"2018-07-31T00:00:00","poNo":"797","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (94, 'mainevillarias@gmail.com', '2015-08-20 16:32:25.825', 'raw_material_requirement', '/mbr/raw_material_requirement/pst_new_raw_material_req', 'INSERT', '', '{"id":87,"itemId":{},"quantity":111.0,"unitId":{"id":6,"name":"g"},"udfId":{"id":71,"content":1.0,"unitId":{"id":7,"name":"kg"},"productId":{"id":71,"code":"p2","brandName":"colistilak fpp","genericName":"colistin sulfate","vrNo":"vrm-12-557","shelfLife":3,"areaId":{"id":3,"name":"POWDER AREA"},"classificationId":{"id":2,"description":"POWDER"},"companyId":{},"packSizeId":{"id":39,"quantity":10.0,"containerId":{"id":3,"name":"Pail"},"unitId":{"id":7,"name":"kg"}}}},"part":1}');
+INSERT INTO audit_trail VALUES (95, 'mainevillarias@gmail.com', '2015-08-20 16:32:25.95', 'packaging_material_requirement', '/mbr/packaging_material_requirement/pst_packg_material_req', 'INSERT', '', '{"id":56,"itemId":{},"quantity":1.0,"unitId":{"id":9,"name":"pcs"},"udfId":{"id":71,"content":1.0,"unitId":{"id":7,"name":"kg"},"productId":{"id":71,"code":"p2","brandName":"colistilak fpp","genericName":"colistin sulfate","vrNo":"vrm-12-557","shelfLife":3,"areaId":{"id":3,"name":"POWDER AREA"},"classificationId":{"id":2,"description":"POWDER"},"companyId":{},"packSizeId":{"id":39,"quantity":10.0,"containerId":{"id":3,"name":"Pail"},"unitId":{"id":7,"name":"kg"}}}}}');
+INSERT INTO audit_trail VALUES (96, 'mainevillarias@gmail.com', '2015-08-20 16:32:26.087', 'compounding_procedure', '/mbr/compounding_procedure/pst_new_compounding_proc', 'INSERT', '', '{"stepNumber":1,"header":"mix all","footer":true,"manufacturingProcedureId":{}}');
+INSERT INTO audit_trail VALUES (97, 'mainevillarias@gmail.com', '2015-08-20 16:32:26.294', 'dosage', '/mbr/dosage/pst_new_dosage', 'INSERT', '', '{"id":39,"rawMaterialRequirementId":{"id":87,"itemId":{},"quantity":111.0,"unitId":{"id":6,"name":"g"},"part":1},"percentMultiplier":1.0,"compoundingProcedureId":{"stepNumber":1,"header":"mix all","footer":true,"manufacturingProcedureId":{}}}');
+INSERT INTO audit_trail VALUES (98, 'mainevillarias@gmail.com', '2015-08-20 16:32:26.408', 'equipment_requirement', '/mbr/equipment_requirement/pst_create_new_equip_req', 'INSERT', '', '{"id":31,"equipmentId":{"id":2,"code":"NEQ-130","name":"Encapsulating Machine"},"manufacturingProcedureId":{},"procedure":"COMPOUNDING"}');
+INSERT INTO audit_trail VALUES (99, 'mainevillarias@gmail.com', '2015-08-20 16:32:26.514', 'packaging_operation', '/mbr/packaging_operation/pst_create_new_packg_operation', 'INSERT', '', '{"id":41,"stepNumber":1,"header":"packaging opt","part":1,"manufacturingProcedureId":{},"doneBy":"","checkedBy":""}');
+INSERT INTO audit_trail VALUES (100, 'mainevillarias@gmail.com', '2015-08-20 16:32:26.602', 'powder_filling_procedure', '/mbr/powder_filling/pst_new_powder_filling', 'INSERT', '', '{"id":6,"stepNumber":1,"instruction":"procedure filling","requiresEquipment":false,"doneBy":"","checkedBy":"","manufacturingProcedureId":{}}');
+INSERT INTO audit_trail VALUES (102, 'mainevillarias@gmail.com', '2015-08-25 09:47:15.584', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":134,"product_id":71,"batchSize":1.0,"batchNo":"batch1","unit_id":1,"mfgDate":"2015-08-28T00:00:00","expDate":"2018-08-28T00:00:00","poNo":"ee","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (103, 'mainevillarias@gmail.com', '2015-08-25 09:50:46.482', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":135,"product_id":71,"batchSize":15.0,"batchNo":"batch1","unit_id":7,"mfgDate":"2015-08-20T00:00:00","expDate":"2018-08-20T00:00:00","poNo":"dede","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (104, 'mainevillarias@gmail.com', '2015-08-25 09:55:12.388', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":136,"product_id":71,"batchSize":150.0,"batchNo":"batch1","unit_id":6,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"huh","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (105, 'mainevillarias@gmail.com', '2015-08-25 09:56:08.573', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":137,"product_id":71,"batchSize":200.0,"batchNo":"batch1","unit_id":6,"mfgDate":"2015-08-19T00:00:00","expDate":"2018-08-19T00:00:00","poNo":"ttt","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (106, 'mainevillarias@gmail.com', '2015-08-25 10:24:17.451', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":138,"product_id":71,"batchSize":100.0,"batchNo":"dsds","unit_id":7,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"dsds","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (107, 'mainevillarias@gmail.com', '2015-08-25 10:27:26.922', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":139,"product_id":70,"batchSize":1.0,"batchNo":"dddd","unit_id":7,"mfgDate":"2015-08-13T00:00:00","expDate":"2018-08-13T00:00:00","poNo":"dddd","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (108, 'mainevillarias@gmail.com', '2015-08-25 11:16:42.053', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":153,"stock_card_id":68,"qty":512.0,"unit_id":5,"mbr_id":133}');
+INSERT INTO audit_trail VALUES (109, 'mainevillarias@gmail.com', '2015-08-25 11:16:42.431', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":154,"stock_card_id":69,"qty":700.0,"unit_id":9,"mbr_id":133}');
+INSERT INTO audit_trail VALUES (110, 'mainevillarias@gmail.com', '2015-08-25 11:16:42.563', 'mbr', '/mbr/mbr/pst_reserve_mbr', 'UPDATE', '{"id":133,"product_id":70,"batchSize":700.0,"batchNo":"batch1","unit_id":2,"mfgDate":"2015-07-31T00:00:00","expDate":"2018-07-31T00:00:00","poNo":"797","status":"PENDING"}', '{"id":133,"product_id":70,"batchSize":700.0,"batchNo":"batch1","unit_id":2,"mfgDate":"2015-07-31T00:00:00","expDate":"2018-07-31T00:00:00","poNo":"797","status":"RESERVED"}');
+INSERT INTO audit_trail VALUES (111, 'mainevillarias@gmail.com', '2015-08-25 13:36:08.668', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":140,"product_id":71,"batchSize":57.0,"batchNo":"rtgf","unit_id":3,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"5tgb","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (112, 'mainevillarias@gmail.com', '2015-08-25 13:44:08.781', 'stock_card_txn', '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'DELETE', '{"id":151,"stock_card_id":68,"qty":512.0,"unit_id":5,"mbr_id":90}', '');
+INSERT INTO audit_trail VALUES (113, 'mainevillarias@gmail.com', '2015-08-25 13:44:08.96', 'stock_card_txn', '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'DELETE', '{"id":152,"stock_card_id":69,"qty":100.0,"unit_id":9,"mbr_id":90}', '');
+INSERT INTO audit_trail VALUES (114, 'mainevillarias@gmail.com', '2015-08-25 13:44:09.074', 'mbr', '/mbr/mbr/pst_cancel_reservation', 'UPDATE', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"RESERVED"}', '{"id":90,"product_id":70,"batchSize":100.0,"batchNo":"batch1","unit_id":3,"mfgDate":"2015-08-14T00:00:00","expDate":"2018-08-14T00:00:00","poNo":"r55","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (115, 'mainevillarias@gmail.com', '2015-08-25 13:44:11.23', 'stock_card_txn', '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'DELETE', '{"id":153,"stock_card_id":68,"qty":512.0,"unit_id":5,"mbr_id":133}', '');
+INSERT INTO audit_trail VALUES (116, 'mainevillarias@gmail.com', '2015-08-25 13:44:11.367', 'stock_card_txn', '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'DELETE', '{"id":154,"stock_card_id":69,"qty":700.0,"unit_id":9,"mbr_id":133}', '');
+INSERT INTO audit_trail VALUES (117, 'mainevillarias@gmail.com', '2015-08-25 13:44:11.47', 'mbr', '/mbr/mbr/pst_cancel_reservation', 'UPDATE', '{"id":133,"product_id":70,"batchSize":700.0,"batchNo":"batch1","unit_id":2,"mfgDate":"2015-07-31T00:00:00","expDate":"2018-07-31T00:00:00","poNo":"797","status":"RESERVED"}', '{"id":133,"product_id":70,"batchSize":700.0,"batchNo":"batch1","unit_id":2,"mfgDate":"2015-07-31T00:00:00","expDate":"2018-07-31T00:00:00","poNo":"797","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (118, 'mainevillarias@gmail.com', '2015-08-25 13:45:08.583', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":141,"product_id":71,"batchSize":1.0,"batchNo":"eee","unit_id":6,"mfgDate":"2015-08-27T00:00:00","expDate":"2018-08-27T00:00:00","poNo":"eee","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (119, 'mainevillarias@gmail.com', '2015-08-25 13:46:57.627', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":142,"product_id":71,"batchSize":20.0,"batchNo":"batch5","unit_id":6,"mfgDate":"2015-08-29T00:00:00","expDate":"2018-08-29T00:00:00","poNo":"po09","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (120, 'mainevillarias@gmail.com', '2015-08-25 14:15:09.748', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":143,"product_id":71,"batchSize":9.0,"batchNo":"bght","unit_id":7,"mfgDate":"2015-08-29T00:00:00","expDate":"2018-08-29T00:00:00","poNo":"po9","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (121, 'mainevillarias@gmail.com', '2015-08-25 14:20:31.985', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":144,"product_id":71,"batchSize":1.0,"batchNo":"iii","unit_id":7,"mfgDate":"2015-08-20T00:00:00","expDate":"2018-08-20T00:00:00","poNo":"poi","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (122, 'mainevillarias@gmail.com', '2015-08-25 14:25:30.114', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":145,"product_id":70,"batchSize":67.0,"batchNo":"777","unit_id":5,"mfgDate":"2015-08-20T00:00:00","expDate":"2018-08-20T00:00:00","poNo":"777","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (123, 'mainevillarias@gmail.com', '2015-08-25 14:32:32.729', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":146,"product_id":70,"batchSize":1.0,"batchNo":"batch4","unit_id":3,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"ded","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (124, 'mainevillarias@gmail.com', '2015-08-25 14:34:23.007', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":147,"product_id":71,"batchSize":1.0,"batchNo":"jikm","unit_id":7,"mfgDate":"2015-08-29T00:00:00","expDate":"2018-08-29T00:00:00","poNo":"pokl","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (125, 'mainevillarias@gmail.com', '2015-08-25 14:40:17.226', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":148,"product_id":71,"batchSize":12.0,"batchNo":"batch44","unit_id":7,"mfgDate":"2015-08-29T00:00:00","expDate":"2018-08-29T00:00:00","poNo":"poiuyt","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (126, 'mainevillarias@gmail.com', '2015-08-25 14:41:28.886', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":149,"product_id":70,"batchSize":12.0,"batchNo":"ee","unit_id":7,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"eee","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (127, 'mainevillarias@gmail.com', '2015-08-25 14:44:30.876', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":150,"product_id":71,"batchSize":12.0,"batchNo":"ee","unit_id":5,"mfgDate":"2015-08-29T00:00:00","expDate":"2018-08-29T00:00:00","poNo":"ee","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (128, 'mainevillarias@gmail.com', '2015-08-25 14:47:58.891', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":151,"product_id":71,"batchSize":12.0,"batchNo":"dwd","unit_id":7,"mfgDate":"2015-08-29T00:00:00","expDate":"2018-08-29T00:00:00","poNo":"ded","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (129, 'mainevillarias@gmail.com', '2015-08-25 14:49:39.795', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":152,"product_id":71,"batchSize":90.0,"batchNo":"jjj","unit_id":7,"mfgDate":"2015-08-20T00:00:00","expDate":"2018-08-20T00:00:00","poNo":"jjj","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (130, 'mainevillarias@gmail.com', '2015-08-25 14:51:57.369', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":153,"product_id":70,"batchSize":89.0,"batchNo":"gg","unit_id":5,"mfgDate":"2015-08-22T00:00:00","expDate":"2018-08-22T00:00:00","poNo":"ggg","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (131, 'mainevillarias@gmail.com', '2015-08-25 15:00:35.176', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":154,"product_id":71,"batchSize":78.0,"batchNo":"yy","unit_id":6,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"yy","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (132, 'mainevillarias@gmail.com', '2015-08-25 15:29:07.577', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":155,"product_id":71,"batchSize":123.0,"batchNo":"333","unit_id":7,"mfgDate":"2015-08-29T00:00:00","expDate":"2018-08-29T00:00:00","poNo":"333","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (133, 'mainevillarias@gmail.com', '2015-08-25 15:31:02.111', 'mbr', '/mbr/mbr/pst_new_batch', 'INSERT', '', '{"id":156,"product_id":70,"batchSize":15.0,"batchNo":"555","unit_id":7,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"55","status":"PENDING"}');
+INSERT INTO audit_trail VALUES (134, 'mainevillarias@gmail.com', '2015-08-25 15:55:08.38', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":155,"stock_card_id":68,"qty":512.0,"unit_id":5,"mbr_id":146}');
+INSERT INTO audit_trail VALUES (135, 'mainevillarias@gmail.com', '2015-08-25 15:55:08.446', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":156,"stock_card_id":69,"qty":1.0,"unit_id":9,"mbr_id":146}');
+INSERT INTO audit_trail VALUES (136, 'mainevillarias@gmail.com', '2015-08-25 15:55:08.517', 'mbr', '/mbr/mbr/pst_reserve_mbr', 'UPDATE', '{"id":146,"product_id":70,"batchSize":1.0,"batchNo":"batch4","unit_id":3,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"ded","status":"PENDING"}', '{"id":146,"product_id":70,"batchSize":1.0,"batchNo":"batch4","unit_id":3,"mfgDate":"2015-08-21T00:00:00","expDate":"2018-08-21T00:00:00","poNo":"ded","status":"RESERVED"}');
+INSERT INTO audit_trail VALUES (137, 'mainevillarias@gmail.com', '2015-08-25 15:56:57.177', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":157,"stock_card_id":68,"qty":45.568,"unit_id":6,"mbr_id":153}');
+INSERT INTO audit_trail VALUES (138, 'mainevillarias@gmail.com', '2015-08-25 15:56:57.238', 'stock_card_txn', '/transaction/stock_card_txn/pst_new_stock_card_txn', 'INSERT', '', '{"id":158,"stock_card_id":69,"qty":89.0,"unit_id":9,"mbr_id":153}');
+INSERT INTO audit_trail VALUES (139, 'mainevillarias@gmail.com', '2015-08-25 15:56:57.307', 'mbr', '/mbr/mbr/pst_reserve_mbr', 'UPDATE', '{"id":153,"product_id":70,"batchSize":89.0,"batchNo":"gg","unit_id":5,"mfgDate":"2015-08-22T00:00:00","expDate":"2018-08-22T00:00:00","poNo":"ggg","status":"PENDING"}', '{"id":153,"product_id":70,"batchSize":89.0,"batchNo":"gg","unit_id":5,"mfgDate":"2015-08-22T00:00:00","expDate":"2018-08-22T00:00:00","poNo":"ggg","status":"RESERVED"}');
 
 
 --
 -- Name: audit_trail_id_seq; Type: SEQUENCE SET; Schema: audit; Owner: postgres
 --
 
-SELECT pg_catalog.setval('audit_trail_id_seq', 83, true);
+SELECT pg_catalog.setval('audit_trail_id_seq', 139, true);
 
 
 SET search_path = main, pg_catalog;
@@ -1908,13 +1964,14 @@ SELECT pg_catalog.setval('pack_size_id_seq', 41, true);
 --
 
 INSERT INTO product VALUES (70, 'p1', 'brand 1', 'gen 1', 1, 1, 'vr01', 3, 1, 41);
+INSERT INTO product VALUES (71, 'p2', 'colistilak fpp', 'colistin sulfate', 2, 5, 'vrm-12-557', 3, 3, 39);
 
 
 --
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: main; Owner: postgres
 --
 
-SELECT pg_catalog.setval('product_id_seq', 70, true);
+SELECT pg_catalog.setval('product_id_seq', 71, true);
 
 
 --
@@ -1961,13 +2018,14 @@ SELECT pg_catalog.setval('bottling_procedure_id_seq', 5, true);
 --
 
 INSERT INTO compounding_procedure VALUES (38, 1, 'mix all', true, NULL, NULL, 70);
+INSERT INTO compounding_procedure VALUES (39, 1, 'mix all', true, NULL, NULL, 71);
 
 
 --
 -- Name: compounding_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('compounding_procedure_id_seq', 38, true);
+SELECT pg_catalog.setval('compounding_procedure_id_seq', 39, true);
 
 
 --
@@ -1975,13 +2033,14 @@ SELECT pg_catalog.setval('compounding_procedure_id_seq', 38, true);
 --
 
 INSERT INTO dosage VALUES (38, 86, 1, 38);
+INSERT INTO dosage VALUES (39, 87, 1, 39);
 
 
 --
 -- Name: dosage_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('dosage_id_seq', 38, true);
+SELECT pg_catalog.setval('dosage_id_seq', 39, true);
 
 
 --
@@ -1989,6 +2048,7 @@ SELECT pg_catalog.setval('dosage_id_seq', 38, true);
 --
 
 INSERT INTO equipment_requirement VALUES (30, 70, 1, 'COMPOUNDING');
+INSERT INTO equipment_requirement VALUES (31, 71, 2, 'COMPOUNDING');
 
 
 --
@@ -2002,7 +2062,7 @@ SELECT pg_catalog.setval('equipment_requirement_coding_equipment_id_seq', 1, fal
 -- Name: equipment_requirement_coding_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 30, true);
+SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 31, true);
 
 
 --
@@ -2017,6 +2077,7 @@ SELECT pg_catalog.setval('equipment_requirement_coding_manufacturing_procedure_i
 --
 
 INSERT INTO manufacturing_procedure VALUES (70);
+INSERT INTO manufacturing_procedure VALUES (71);
 
 
 --
@@ -2030,25 +2091,20 @@ SELECT pg_catalog.setval('manufacturing_procedure_id_seq', 4, true);
 -- Data for Name: mbr; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO mbr VALUES (91, 70, 100, 'batch1', 7, '2015-08-19', '2018-08-19', 'def', 'PENDING');
-INSERT INTO mbr VALUES (92, 70, 1000, 'batch1', 3, '2015-08-28', '2018-08-28', 'edf', 'PENDING');
-INSERT INTO mbr VALUES (93, 70, 1000, 'batch1', 7, '2015-08-27', '2018-08-27', 'dwd', 'PENDING');
-INSERT INTO mbr VALUES (94, 70, 1000, 'batch1', 3, '2015-08-27', '2018-08-27', 'dwd', 'PENDING');
-INSERT INTO mbr VALUES (126, 70, 1000, 'batch1', 7, '2015-08-13', '2018-08-13', 'eee', 'PENDING');
-INSERT INTO mbr VALUES (127, 70, 500, 'batch1', 7, '2015-08-21', '2018-08-21', 'ded', 'PENDING');
-INSERT INTO mbr VALUES (128, 70, 100, 'batch1', 7, '2015-08-28', '2018-08-28', 'dwd', 'PENDING');
-INSERT INTO mbr VALUES (129, 70, 50, 'batch1', 7, '2015-08-28', '2018-08-28', 'ftg', 'PENDING');
-INSERT INTO mbr VALUES (130, 70, 1000, 'batch1', 7, '2015-08-28', '2018-08-28', 'dede', 'PENDING');
-INSERT INTO mbr VALUES (131, 70, 1, 'batch1', 7, '2015-08-21', '2018-08-21', 'ff', 'PENDING');
-INSERT INTO mbr VALUES (132, 70, 10, 'batch1', 6, '2015-08-21', '2018-08-21', 'ikm', 'PENDING');
-INSERT INTO mbr VALUES (90, 70, 100, 'batch1', 3, '2015-08-14', '2018-08-14', 'r55', 'RESERVED');
+INSERT INTO mbr VALUES (158, 70, 1, 'b1', 6, '2015-08-22', '2018-08-22', 'tthb', 'DISPENSED');
+INSERT INTO mbr VALUES (162, 70, 1, 'ddd', 6, '2015-08-21', '2018-08-21', 'dd', 'DISPENSED');
+INSERT INTO mbr VALUES (159, 70, 1, 'uuu', 6, '2015-08-28', '2018-08-28', 'po90', 'DISPENSED');
+INSERT INTO mbr VALUES (161, 70, 1, 'sss', 6, '2015-08-28', '2018-08-28', 'sss', 'DISPENSED');
+INSERT INTO mbr VALUES (160, 70, 1, 'dddd', 6, '2015-08-29', '2018-08-29', 'eeee', 'DISPENSED');
+INSERT INTO mbr VALUES (163, 70, 1, '44', 6, '2015-08-21', '2018-08-21', '44', 'RESERVED');
+INSERT INTO mbr VALUES (164, 71, 1, 'eee', 6, '2015-08-20', '2018-08-20', 'swd', 'PENDING');
 
 
 --
 -- Name: mbr_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('mbr_id_seq', 132, true);
+SELECT pg_catalog.setval('mbr_id_seq', 164, true);
 
 
 --
@@ -2056,13 +2112,14 @@ SELECT pg_catalog.setval('mbr_id_seq', 132, true);
 --
 
 INSERT INTO packaging_material_requirement VALUES (55, 1, 9, 70, 971);
+INSERT INTO packaging_material_requirement VALUES (56, 1, 9, 71, 971);
 
 
 --
 -- Name: packaging_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 55, true);
+SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 56, true);
 
 
 --
@@ -2070,26 +2127,28 @@ SELECT pg_catalog.setval('packaging_material_requirement_id_seq', 55, true);
 --
 
 INSERT INTO packaging_operation VALUES (40, 1, 'contne ', 70, 1, '', '');
+INSERT INTO packaging_operation VALUES (41, 1, 'packaging opt', 71, 1, '', '');
 
 
 --
 -- Name: packaging_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_procedure_id_seq', 5, true);
+SELECT pg_catalog.setval('packaging_procedure_id_seq', 6, true);
 
 
 --
 -- Name: packaging_procedure_operation_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 40, true);
+SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 41, true);
 
 
 --
 -- Data for Name: powder_filling_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
+INSERT INTO powder_filling_procedure VALUES (6, 1, 'procedure filling', 71, false, '', '');
 
 
 --
@@ -2097,6 +2156,7 @@ SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 40, true);
 --
 
 INSERT INTO primary_secondary_packaging VALUES (70, 55, 55);
+INSERT INTO primary_secondary_packaging VALUES (71, 56, 56);
 
 
 --
@@ -2111,13 +2171,14 @@ SELECT pg_catalog.setval('primary_secondary_packaging_id_seq', 1, true);
 --
 
 INSERT INTO raw_material_requirement VALUES (86, 512, 5, 70, 0, 628);
+INSERT INTO raw_material_requirement VALUES (87, 111, 6, 71, 1, 628);
 
 
 --
 -- Name: raw_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('raw_material_requirement_id_seq', 86, true);
+SELECT pg_catalog.setval('raw_material_requirement_id_seq', 87, true);
 
 
 --
@@ -2125,6 +2186,7 @@ SELECT pg_catalog.setval('raw_material_requirement_id_seq', 86, true);
 --
 
 INSERT INTO udf VALUES (70, 1, 5);
+INSERT INTO udf VALUES (71, 1, 7);
 
 
 --
@@ -2259,13 +2321,14 @@ INSERT INTO method_sub_method VALUES (53, 64, 1);
 INSERT INTO method_sub_method VALUES (54, 56, 5);
 INSERT INTO method_sub_method VALUES (55, 61, 60);
 INSERT INTO method_sub_method VALUES (56, 61, 61);
+INSERT INTO method_sub_method VALUES (57, 54, 62);
 
 
 --
 -- Name: method_sub_method_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('method_sub_method_id_seq', 56, true);
+SELECT pg_catalog.setval('method_sub_method_id_seq', 57, true);
 
 
 --
@@ -2352,13 +2415,14 @@ INSERT INTO sub_method VALUES (5, '/sqlsvr_copy/company/g_company_list', 'View a
 INSERT INTO sub_method VALUES (59, '/audit/audit/g_audit_list', 'Get audit list');
 INSERT INTO sub_method VALUES (60, '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'Delete stockcardtxn in database');
 INSERT INTO sub_method VALUES (61, '/mbr/mbr/g_batch_stock_card_txn_list', 'Get batch stockcard transaction');
+INSERT INTO sub_method VALUES (62, '/mbr/mbr/g_batch_by_id', 'Get batch by id');
 
 
 --
 -- Name: submethod_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('submethod_id_seq', 61, true);
+SELECT pg_catalog.setval('submethod_id_seq', 62, true);
 
 
 --
@@ -3268,15 +3332,25 @@ SET search_path = transaction, pg_catalog;
 -- Data for Name: stock_card_txn; Type: TABLE DATA; Schema: transaction; Owner: postgres
 --
 
-INSERT INTO stock_card_txn VALUES (149, 68, 512, 5, 90);
-INSERT INTO stock_card_txn VALUES (150, 69, 100, 9, 90);
+INSERT INTO stock_card_txn VALUES (163, 68, 512, 6, 158);
+INSERT INTO stock_card_txn VALUES (164, 69, 1, 9, 158);
+INSERT INTO stock_card_txn VALUES (169, 68, 512, 6, 159);
+INSERT INTO stock_card_txn VALUES (170, 69, 1, 9, 159);
+INSERT INTO stock_card_txn VALUES (171, 68, 512, 6, 160);
+INSERT INTO stock_card_txn VALUES (172, 69, 1, 9, 160);
+INSERT INTO stock_card_txn VALUES (173, 68, 512, 6, 161);
+INSERT INTO stock_card_txn VALUES (174, 69, 1, 9, 161);
+INSERT INTO stock_card_txn VALUES (175, 68, 512, 6, 162);
+INSERT INTO stock_card_txn VALUES (176, 69, 1, 9, 162);
+INSERT INTO stock_card_txn VALUES (177, 68, 512, 6, 163);
+INSERT INTO stock_card_txn VALUES (178, 69, 1, 9, 163);
 
 
 --
 -- Name: stock_card_txn_id_seq; Type: SEQUENCE SET; Schema: transaction; Owner: postgres
 --
 
-SELECT pg_catalog.setval('stock_card_txn_id_seq', 150, true);
+SELECT pg_catalog.setval('stock_card_txn_id_seq', 178, true);
 
 
 SET search_path = audit, pg_catalog;

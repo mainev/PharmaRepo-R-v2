@@ -69,10 +69,10 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label text="(maximum: 10 characters)" textFill="#807e7e" />
+                  <Label text="(maximum: 15 characters)" textFill="#807e7e" />
                </children>
             </HBox>
-            <CustomTextField fx:id="vrNoTextField" maxLength="10" />
+            <CustomTextField fx:id="vrNoTextField" maxLength="15" />
             <Label text="*Shelf Life:">
                <font>
                   <Font name="System Bold" size="12.0" />

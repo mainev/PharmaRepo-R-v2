@@ -50,12 +50,6 @@ public class SingletonStockCardTxnRestClient {
         }
     }
 
-    /**
-     * DBMethodName : g_reserved_approved_by_item_cd
-     *
-     * @param itemCd
-     * @return
-     */
     public List<StockCardTxn> getReservedAndApprovedtByItemCd(String itemCd) {
         webResource = client.resource(BASE_URI + "/g_reserved_approved_by_item_cd");
         ClientResponse response = webResource
@@ -65,13 +59,6 @@ public class SingletonStockCardTxnRestClient {
         return Serializer.<StockCardTxn>deserializeList(jsonOutput, StockCardTxn.class);
     }
 
-    /**
-     * DBMethodName : g_reserved_approved_by_item_cd_company_cd
-     *
-     * @param itemCd
-     * @param companyCd
-     * @return
-     */
     public List<StockCardTxn> getReservedAndApprovedtByItemCdAndCompanyCd(String itemCd, String companyCd) {
         webResource = client.resource(BASE_URI + "/g_reserved_approved_by_item_cd_company_cd");
         ClientResponse response = webResource
@@ -82,14 +69,6 @@ public class SingletonStockCardTxnRestClient {
         return Serializer.<StockCardTxn>deserializeList(jsonOutput, StockCardTxn.class);
     }
 
-    /**
-     * DBMethodName : pst_new_stock_card_txn
-     *
-     * @param mbrId
-     * @param stkId
-     * @param txn
-     * @return
-     */
     public StockCardTxn createNewStockCardTxn(int mbrId, int stkId, StockCardTxn txn) {
         String input = Serializer.serialize(txn);
         System.out.println("serialized txn : " + input);

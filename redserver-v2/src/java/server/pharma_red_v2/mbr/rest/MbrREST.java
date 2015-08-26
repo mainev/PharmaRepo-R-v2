@@ -146,4 +146,12 @@ public class MbrREST {
         Mbr batch = mbrFacade.findById(Integer.parseInt(mbr_id));
         return batch.getStockCardTxnList();
     }
+
+    @GET
+    @Path("/g_batch_by_id")
+    @Produces("application/json")
+    public Mbr getBatchById(@QueryParam("mbr_id") String mbr_id) {
+        return mbrFacade.findById(Integer.parseInt(mbr_id));
+
+    }
 }

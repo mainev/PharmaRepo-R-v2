@@ -8,6 +8,7 @@ package server.pharma_red_v2.mbr.rest;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,6 +33,9 @@ public class DosageREST {
     @Context
     private UriInfo context;
 
+    @Context
+    private HttpServletResponse response;
+
     @Inject
     private DosageFacade dosFacade;
 
@@ -40,6 +44,9 @@ public class DosageREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Dosage createDosage(@QueryParam("cp_id") String cp_id, Dosage dos) {
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "dosage");
+        response.setHeader("action", "INSERT");
         int cpId = Integer.parseInt(cp_id);
         return dosFacade.create(cpId, dos);
     }

@@ -11,6 +11,17 @@ package mbrinstant;
  */
 public class FXMLLocations {
 
+    //***********************BATCH MONITORING***********************************//
+    //batch_monitoring
+    public static final String BATCH_MONITORING_SCREEN = "/mbrinstant/view/batch_monitoring/batch_monitoring.fxml";
+    public static final String BATCH_CREATION_DETAILS_SCREEN = "/mbrinstant/view/batch_monitoring/batch_creation_details.fxml";
+    public static final String BATCH_CREATION_FORM_SCREEN = "/mbrinstant/view/batch_monitoring/batch_creation_form.fxml";
+    public static final String MATERIAL_ALLOCATION_SCREEN = "/mbrinstant/view/batch_monitoring/material_allocation.fxml";
+    public static final String CHECK_AVAILABILITY = "/mbrinstant/view/batch_monitoring/check_availability.fxml";
+    public static final String MBR_GENERATION = "/mbrinstant/view/batch_monitoring/mbr_generation.fxml";
+    public static final String DISPENSE = "/mbrinstant/view/batch_monitoring/dispense.fxml";
+
+//***************************************************************************//
     //admin
     public static final String ROLE_MANAGEMENT_SCREEN = "view/admin/user_role.fxml";
 
@@ -44,7 +55,7 @@ public class FXMLLocations {
     //***********************************************************************//
 
     //main views
-    public static final String MAIN = "main.fxml";
+    public static final String MAIN = "/mbrinstant/view/main.fxml";
     public static final String WELCOME_SCREEN = "welcome.fxml";
 
     //security views

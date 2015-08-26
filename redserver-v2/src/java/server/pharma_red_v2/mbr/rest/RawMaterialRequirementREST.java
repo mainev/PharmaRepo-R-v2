@@ -8,6 +8,7 @@ package server.pharma_red_v2.mbr.rest;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,6 +33,9 @@ public class RawMaterialRequirementREST {
     @Context
     private UriInfo context;
 
+    @Context
+    private HttpServletResponse response;
+
     @Inject
     private RawMaterialRequirementFacade rmReqFacade;
 
@@ -44,6 +48,9 @@ public class RawMaterialRequirementREST {
     @Produces(MediaType.APPLICATION_JSON)
     public RawMaterialRequirement createRawMaterialRequirement(@QueryParam("udf_id") String udf_id, RawMaterialRequirement rmReq) {
         int udfId = Integer.parseInt(udf_id);
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "raw_material_requirement");
+        response.setHeader("action", "INSERT");
         return rmReqFacade.create(udfId, rmReq);
     }
 

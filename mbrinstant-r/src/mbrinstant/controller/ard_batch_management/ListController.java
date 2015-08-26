@@ -5,7 +5,6 @@
  */
 package mbrinstant.controller.ard_batch_management;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -22,12 +21,9 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -44,11 +40,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import mbrinstant.FXMLLocations;
 import mbrinstant.ScreenNavigator;
-import mbrinstant.animations.FadeInUpTransition;
+import mbrinstant.controller.batch_monitoring.BatchManager;
+import mbrinstant.controller.batch_monitoring.BatchMonitoringController;
+import mbrinstant.controller.batch_monitoring.ParentController;
 import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.mbr.Mbr;
@@ -56,6 +55,7 @@ import mbrinstant.entity.mbr.MbrStatus;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.security.SingletonAuthorizationManager;
+import mbrinstant.utils.Config;
 import mbrinstant.utils.DateConverter;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.PopOver;
@@ -89,6 +89,8 @@ public class ListController implements Initializable {
     private TableColumn<Mbr, String> _colVrNo;
     @FXML
     private TableColumn<Mbr, String> colStatus;
+    @FXML
+    private TableColumn colAction2;
 
     //rest client
     private SingletonMbrRestClient mbrRestClient = SingletonMbrRestClient.getInstance();
@@ -122,16 +124,41 @@ public class ListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        /*
+         try {
+         if (authManager.isUserPermitted(MAIN_METHOD_NAME)) {
+         batchRecordService.start();
+         batchRecordService.setOnRunning((event) -> {
+         progressIcon.setVisible(true);
+         });
+         batchRecordService.setOnSucceeded((event) -> {
+         progressIcon.setVisible(false);
+         detailsPane.setVisible(true);
+         new FadeInUpTransition(detailsPane).play();
+         });
+         } else {
+         CustomAlertDialog.showAccessDeniedDialog();
+         mainPane.setDisable(true);
+         }
+         } catch (ServerException ex) {
+         Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
+         }*/
         try {
             if (authManager.isUserPermitted(MAIN_METHOD_NAME)) {
-                batchRecordService.start();
-                batchRecordService.setOnRunning((event) -> {
-                    progressIcon.setVisible(true);
-                });
-                batchRecordService.setOnSucceeded((event) -> {
-                    progressIcon.setVisible(false);
-                    detailsPane.setVisible(true);
-                    new FadeInUpTransition(detailsPane).play();
+
+                configBatchRecordTable();
+                configureSettingsButton();
+
+                //initialize fields for search operation
+                initSearchCategory();
+                initSearchTextField();
+
+                mbrList.addListener(new ListChangeListener() {
+                    @Override
+                    public void onChanged(ListChangeListener.Change c) {
+                        refreshTable(mbrRecordTable);
+                    }
                 });
             } else {
                 CustomAlertDialog.showAccessDeniedDialog();
@@ -150,20 +177,6 @@ public class ListController implements Initializable {
                 @Override
                 protected Void call() throws Exception {
 
-                    configBatchRecordTable();
-                    configureSettingsButton();
-
-                    //initialize fields for search operation
-                    initSearchCategory();
-                    initSearchTextField();
-
-                    mbrList.addListener(new ListChangeListener() {
-                        @Override
-                        public void onChanged(ListChangeListener.Change c) {
-                            refreshTable(mbrRecordTable);
-                        }
-                    });
-
                     Thread.sleep(0);
                     return null;
                 }
@@ -174,17 +187,10 @@ public class ListController implements Initializable {
     @FXML
     private void showCreateNewBatchDialog() throws ServerException {
         if (authManager.isUserPermitted(CREATE_NEW_BATCH)) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXMLLocations.NEW_BATCH_DIALOG));
-                Parent root1 = (Parent) fxmlLoader.load();
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Create New Mbr");
-                stage.setScene(new Scene(root1));
-                stage.show();
-            } catch (IOException e) {
-                CustomAlertDialog.showExceptionDialog(e);
-            }
+            Config cf = new Config();
+            BatchManager bm = new BatchManager(null);
+            ParentController controller = new BatchMonitoringController(bm);
+            cf.newParentStage(FXMLLocations.BATCH_MONITORING_SCREEN, "Batch Monitoring", false, StageStyle.UTILITY, false, Modality.APPLICATION_MODAL, controller);
         } else {
             CustomAlertDialog.showAccessDeniedDialog();
         }
@@ -325,6 +331,23 @@ public class ListController implements Initializable {
             }
         });
 
+        colAction2.setSortable(false);
+        colAction2.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<Mbr, Mbr>, ObservableValue<Mbr>>() {
+
+                    @Override
+                    public ObservableValue<Mbr> call(TableColumn.CellDataFeatures<Mbr, Mbr> cp) {
+                        return new ReadOnlyObjectWrapper(cp.getValue());
+                    }
+                });
+
+        colAction2.setCellFactory(new Callback<TableColumn<Mbr, Mbr>, TableCell<Mbr, Mbr>>() {
+            @Override
+            public TableCell<Mbr, Mbr> call(TableColumn<Mbr, Mbr> col) {
+                return new Action2Cell();
+            }
+        });
+
     }
 
     public class ActionCell2 extends TableCell<Mbr, Mbr> {
@@ -391,6 +414,39 @@ public class ListController implements Initializable {
         }
     }
 
+    //cell factory for colAction2
+    public class Action2Cell extends TableCell<Mbr, Mbr> {
+
+        Button monitorButton = new Button("Monitor");
+        HBox hbox = new HBox();
+
+        public Action2Cell() {
+            hbox.setAlignment(Pos.CENTER);
+            hbox.getChildren().add(monitorButton);
+            monitorButton.setPrefWidth(100);
+
+            monitorButton.setOnAction(e -> {
+                mbrRecordTable.getSelectionModel().select(getTableRow().getIndex());
+                Mbr mbr = mbrRecordTable.getSelectionModel().getSelectedItem();
+                Config cf = new Config();
+                BatchManager bm = new BatchManager(mbr);
+                ParentController controller = new BatchMonitoringController(bm);
+                cf.newParentStage(FXMLLocations.BATCH_MONITORING_SCREEN, "Batch Monitoring", false, StageStyle.UTILITY, false, Modality.APPLICATION_MODAL, controller);
+            });
+
+        }
+
+        @Override
+        protected void updateItem(Mbr mbr, boolean empty) {
+            super.updateItem(mbr, empty);
+            if (mbr != null) {
+                setGraphic(hbox);
+            } else {
+                setGraphic(null);
+            }
+        }
+    }
+
     /*
      public void createMbrJasperReport() {
 
@@ -448,6 +504,11 @@ public class ListController implements Initializable {
      }
 
      */
+    public Stage getStage() {
+        Stage stage = (Stage) mbrRecordTable.getScene().getWindow();
+        return stage;
+    }
+
     public static void refreshTable(TableView tableView) {
         for (int i = 0; i < tableView.getColumns().size(); i++) {
             ((TableColumn) (tableView.getColumns().get(i))).setVisible(false);

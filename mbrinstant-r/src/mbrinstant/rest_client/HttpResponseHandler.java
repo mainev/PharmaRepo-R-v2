@@ -59,7 +59,7 @@ public class HttpResponseHandler {
                     break;
 
             }
-            System.out.println(this.toString());
+//            System.out.println(this.toString());
             return true;
             //create notification for successful request here...
 

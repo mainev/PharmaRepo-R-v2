@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import mbrinstant.controls.*?>
+
+<AnchorPane id="AnchorPane" minHeight="600.0" minWidth="650.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="281.0" layoutY="210.0" prefHeight="600.0" prefWidth="650.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="166.0" layoutY="51.0" text="Product" AnchorPane.rightAnchor="430.0" AnchorPane.topAnchor="50.0" />
+            <Label layoutX="70.0" layoutY="94.0" text="Batch Size" AnchorPane.rightAnchor="430.0" />
+            <HBox alignment="CENTER_LEFT" layoutX="136.0" layoutY="90.0" prefHeight="25.0" prefWidth="281.0" spacing="10.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="120.0">
+               <children>
+                  <TextField fx:id="batchSizeField" prefHeight="25.0" prefWidth="120.0" />
+                  <Label text="Unit" />
+                  <ComboBox fx:id="unitField" prefHeight="25.0" prefWidth="117.0" />
+               </children>
+            </HBox>
+            <Label layoutX="34.0" layoutY="128.0" text="Manufacturing Date" AnchorPane.rightAnchor="430.0" />
+            <DatePicker fx:id="mfgDateField" layoutX="252.0" layoutY="124.0" prefHeight="25.0" prefWidth="331.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="120.0" />
+            <Label layoutX="85.0" layoutY="169.0" text="PO No." AnchorPane.rightAnchor="430.0" />
+            <TextField fx:id="poNoField" layoutX="137.0" layoutY="165.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="120.0" />
+            <Label layoutX="77.0" layoutY="215.0" text="Batch No." AnchorPane.rightAnchor="430.0" />
+            <TextField fx:id="batchNoField" layoutX="251.0" layoutY="211.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="120.0" />
+            <HBox alignment="CENTER_RIGHT" layoutX="325.0" layoutY="262.0" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="saveButton" mnemonicParsing="false" prefWidth="100.0" text="Save" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#closeBatchMonitoring" prefWidth="100.0" text="Cancel" />
+               </children>
+            </HBox>
+            <SearchTextField fx:id="productField" layoutX="250.0" layoutY="47.0" prefHeight="25.0" prefWidth="215.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="50.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

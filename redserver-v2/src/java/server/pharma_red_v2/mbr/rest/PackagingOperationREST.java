@@ -7,6 +7,7 @@ package server.pharma_red_v2.mbr.rest;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -29,6 +30,8 @@ public class PackagingOperationREST {
 
     @Context
     private UriInfo context;
+    @Context
+    private HttpServletResponse response;
     @Inject
     private PackagingOperationFacade packagingOperationFacade;
 
@@ -43,6 +46,10 @@ public class PackagingOperationREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public PackagingOperation createNewPackgOperation(@QueryParam("mfg_id") String mfg_id, PackagingOperation ppo) {
+
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "packaging_operation");
+        response.setHeader("action", "INSERT");
         int mfgId = Integer.parseInt(mfg_id);
         return packagingOperationFacade.create(mfgId, ppo);
     }

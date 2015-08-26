@@ -5,10 +5,7 @@
  */
 package filter;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.IOException;
-import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +17,6 @@ import javax.ws.rs.ext.ReaderInterceptorContext;
 import javax.ws.rs.ext.WriterInterceptor;
 import javax.ws.rs.ext.WriterInterceptorContext;
 import server.pharma_red_v2.audit.AuditFacade;
-import server.pharma_red_v2.audit.AuditTrail;
 
 /**
  *
@@ -49,43 +45,38 @@ public class ServerInterceptor implements ReaderInterceptor, WriterInterceptor {
 
     @Override
     public void aroundWriteTo(WriterInterceptorContext responseContext) throws IOException {
+        System.out.println("NOTE:: INTERCEPTORS ARE CURRENTLY DISABLED. AUDIT TRAIL WILL NOT BE RECORDED");
 
-        //   System.out.println("INTERCEPTOR(WRITE): responseEntity" + responseContext.getEntity());
-//        System.out.println("Status: " + response.getStatus());
-//        System.out.println("Table:" + response.getHeader("table_name"));
-//        System.out.println("User:" + secu.getUserPrincipal().getName());
-//        System.out.println("Method: " + request.getMethod());
-//
-//
-        if (request.getMethod().equals("POST")) {
-            System.out.println("\nIntercepting POST request");
-            if (response.getStatus() == HttpServletResponse.SC_OK) {
-                AuditTrail audit = new AuditTrail();
-                audit.setDatetime(new Date());
-                audit.setTableName(response.getHeader("table_name"));
-                audit.setUsername(secu.getUserPrincipal().getName());
-                audit.setMethod(request.getPathInfo());
-                audit.setAction(response.getHeader("action"));
+        /*
+         if (request.getMethod().equals("POST")) {
+         System.out.println("\nIntercepting POST request");
+         if (response.getStatus() == HttpServletResponse.SC_OK) {
+         AuditTrail audit = new AuditTrail();
+         audit.setDatetime(new Date());
+         audit.setTableName(response.getHeader("table_name"));
+         audit.setUsername(secu.getUserPrincipal().getName());
+         audit.setMethod(request.getPathInfo());
+         audit.setAction(response.getHeader("action"));
 
-                if (!response.getHeader("action").equals("DELETE")) {
-                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                    String json = gson.toJson(responseContext.getEntity());
-                    System.out.println(json);
-                    audit.setNewValue(json);
-                    audit.setOldValue(response.getHeader("old_value"));
-                } else {
-                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
-                    String json = gson.toJson(responseContext.getEntity());
-                    audit.setOldValue(json);
-                    audit.setNewValue("");
-                }
-                auditFacade.insert(audit);
+         if (!response.getHeader("action").equals("DELETE")) {
+         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+         String json = gson.toJson(responseContext.getEntity());
+         System.out.println(json);
+         audit.setNewValue(json);
+         audit.setOldValue(response.getHeader("old_value"));
+         } else {
+         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+         String json = gson.toJson(responseContext.getEntity());
+         audit.setOldValue(json);
+         audit.setNewValue("");
+         }
+         auditFacade.insert(audit);
 
-            }
-            System.out.println("\nAUDIT RECORDED");
+         }
+         System.out.println("\nAUDIT RECORDED");
 
-        }
-
+         }
+         */
         responseContext.proceed();
     }
 

@@ -102,8 +102,8 @@ public class ProductWizardController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        loadPages();
-        initAreaScanner();
+        setPagesByArea();
+        setInstructionPagesByArea();
         initStepsListView();
         initButtons();
 
@@ -112,16 +112,17 @@ public class ProductWizardController implements Initializable {
     ObservableList<AnchorPane> DEFAULT_PAGES = FXCollections.observableArrayList();
     ObservableList<AnchorPane> TABLET_HUMAN_PAGES = FXCollections.observableArrayList();
     ObservableList<AnchorPane> POWDER_VET_PAGES = FXCollections.observableArrayList();
+    ObservableList<AnchorPane> POWDER_AREA_PAGES = FXCollections.observableArrayList();
 
-    private void loadPages() {
+    private void setPagesByArea() {
         DEFAULT_PAGES.setAll(
-                MAIN_DETAILS_PAGE,
-                RMREQ_PAGE,
-                PMREQ_PAGE,
-                COMPROC_PAGE,
-                EQUIPREQ_PAGE,
-                PACKG_OPERATION_PAGE,
-                PRIMARY_SECONDARY_PAGE
+                MAIN_DETAILS_PAGE
+        //                RMREQ_PAGE,
+        //                PMREQ_PAGE,
+        //                COMPROC_PAGE,
+        //                EQUIPREQ_PAGE,
+        //                PACKG_OPERATION_PAGE,
+        //                PRIMARY_SECONDARY_PAGE
         );
 
         TABLET_HUMAN_PAGES.setAll(
@@ -144,10 +145,20 @@ public class ProductWizardController implements Initializable {
                 PACKG_OPERATION_PAGE,
                 PRIMARY_SECONDARY_PAGE);
 
+        POWDER_AREA_PAGES.setAll(
+                MAIN_DETAILS_PAGE,
+                RMREQ_PAGE,
+                PMREQ_PAGE,
+                COMPROC_PAGE,
+                EQUIPREQ_PAGE,
+                POWDER_FILLING_PAGE,
+                PACKG_OPERATION_PAGE,
+                PRIMARY_SECONDARY_PAGE);
+
         pages.setAll(DEFAULT_PAGES);
     }
 
-    private void initAreaScanner() {
+    private void setInstructionPagesByArea() {
         CustomChoiceBox area = mainDetailsController.areaChoiceBox;
         area.getSelectionModel().selectedItemProperty().addListener((ob, ov, nv) -> {
             Area selectedArea = (Area) nv;
@@ -162,6 +173,10 @@ public class ProductWizardController implements Initializable {
                 ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForPowderVet());
                 equipReqController.procedureChoiceBox.setItems(equipmentLocations);
 
+            } else if (selectedArea.getName().equals("POWDER AREA")) {
+                pages.setAll(POWDER_AREA_PAGES);
+                ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForPowderArea());
+                equipReqController.procedureChoiceBox.setItems(equipmentLocations);
             } else {
                 pages.setAll(DEFAULT_PAGES);
                 ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForAll());
@@ -201,8 +216,10 @@ public class ProductWizardController implements Initializable {
                     Stage stage = (Stage) finishButton.getScene().getWindow();
                     stage.close();
                     ScreenNavigator.loadScreen(FXMLLocations.PRODUCT_LIST);
+
                 } catch (ServerException ex) {
-                    Logger.getLogger(ProductWizardController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProductWizardController.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 MyNotifications.displayError("Please enter all required fields");
@@ -214,8 +231,8 @@ public class ProductWizardController implements Initializable {
 
     private void initStepsListView() {
         //for disabling list view selection
-//        stepList.setMouseTransparent(true);
-//        stepList.setFocusTraversable(false);
+        stepList.setMouseTransparent(true);
+        stepList.setFocusTraversable(false);
 
         stepList.getItems().clear();
         stepList.setItems(pages);
@@ -262,6 +279,7 @@ public class ProductWizardController implements Initializable {
 
     public void setScreen(Node node) {
         mainStackPane.getChildren().setAll(node);
+
     }
 
     //sets what to display in the steps pane

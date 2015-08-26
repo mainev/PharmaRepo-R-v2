@@ -5,6 +5,7 @@
  */
 package mbrinstant.rest_client;
 
+import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -47,6 +48,8 @@ public class SingletonMbrRestClientTest {
             System.out.println(mbrRestClient.getBatchList());
             assert mbrRestClient.getResponseHandler().getCode() == 200;
 
+            Mbr batch = mbrRestClient.getBatchById(152);
+            System.out.println("batch---->" + batch.getProductId().getUdfId().getRawMaterialRequirementList());
             mbrRestClient.destroy();
 
             System.out.println(mbrRestClient.getBatchList());

@@ -21,7 +21,6 @@ public class UDFCalculator {
         double multiplier = getUdfMultiplier(mbr);
         Product product = mbr.getProductId();
         List<RawMaterialRequirement> list = product.getUdfId().getRawMaterialRequirementList();
-
         for (RawMaterialRequirement rmReq : list) {
             double oldQty = rmReq.getQuantity();
             String oldUnit = rmReq.getUnitId().getName();
@@ -29,7 +28,7 @@ public class UDFCalculator {
             newQty = (oldQty * multiplier);
             newUnit = oldUnit;
             rawMaterialQuantityAndUnitConverter();
-        
+
             rmReq.setNewQuantity(roundThreeDecimals(newQty));
             rmReq.setNewUnit(newUnit);
         }
@@ -82,9 +81,8 @@ public class UDFCalculator {
                         multiplier = (MetricConverter.convertGramToMicrogram(batchSize) / udfContent);
                     }
                     break;
-               
-                //add another case here for weight unit
 
+                //add another case here for weight unit
                 case "L":
                     if (udfContentUnit.equals("mL")) {
                         multiplier = (MetricConverter.convertLitreToMillilitre(batchSize) / udfContent);

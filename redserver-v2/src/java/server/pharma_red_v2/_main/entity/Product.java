@@ -59,7 +59,7 @@ public class Product implements Serializable {
     private String genericName;
 
     @Expose
-    @Size(max = 10)
+    @Size(max = 15)
     @Column(name = "vr_no")
     private String vrNo;
 

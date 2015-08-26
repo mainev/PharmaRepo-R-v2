@@ -12,12 +12,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
@@ -34,11 +32,14 @@ public class SearchTextField<T> extends VBox implements Validatable {
 
     public SearchTextField() {
         super();
-        
+
         textField.setPrefHeight(25);
+
         this.setPrefHeight(textField.getHeight());
         this.getChildren().add(textField);
         this.getChildren().add(listView);
+        this.setMinHeight(25);
+        this.setPrefHeight(25);
 
         //set margin of nodes
         VBox.setMargin(textField, new Insets(0, 0, 0, 0));
@@ -70,12 +71,14 @@ public class SearchTextField<T> extends VBox implements Validatable {
         configureListView();
     }
 
-    public void setPromptText(String promptText){
+    public void setPromptText(String promptText) {
         textField.setPromptText(promptText);
     }
-    public void setTextFieldPadding(Insets insets){
+
+    public void setTextFieldPadding(Insets insets) {
         textField.setPadding(insets);
     }
+
     public void setItems(ObservableList<T> items) {
         this.items.addAll(items);
     }
@@ -83,8 +86,8 @@ public class SearchTextField<T> extends VBox implements Validatable {
     public void setTextFieldMargin(int top, int left, int bottom, int right) {
         VBox.setMargin(textField, new Insets(top, left, bottom, right));
     }
-    
-    public void setTextFieldMargin(Insets insets){
+
+    public void setTextFieldMargin(Insets insets) {
         VBox.setMargin(textField, insets);
     }
 
@@ -114,7 +117,7 @@ public class SearchTextField<T> extends VBox implements Validatable {
                 listView.setVisible(true);
                 listView.getSelectionModel().clearSelection();
             } else {
-               // listView.setVisible(false);
+                // listView.setVisible(false);
                 listView.getSelectionModel().clearSelection();
             }
         });

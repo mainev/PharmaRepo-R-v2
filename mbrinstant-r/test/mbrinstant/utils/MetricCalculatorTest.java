@@ -5,9 +5,9 @@
  */
 package mbrinstant.utils;
 
+import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -42,41 +42,13 @@ public class MetricCalculatorTest {
      */
     @Test
     public void testAdd() {
-
-//        BigDecimal x1 = new BigDecimal("721.50065");
-//        BigDecimal x2 = new BigDecimal("333");
-//        BigDecimal xDiff = x1.add(x2);
-//        System.out.println("BigDecimal Result (float value): " + x1.add(x2));
-//         System.out.println("bin: "+Long.toBinaryString(Double.doubleToLongBits(xDiff.doubleValue())));
-////
-//        Double b1 = 721.50065;
-//        Double b2 = 333.0;
-//        Double diff = b1 - b2;
-//        System.out.println();
-//        System.out.println("Calculate: " + b1 + " - " + b2);
-//        System.out.println("Double Result : " + diff);
-//        System.out.println("Double Result (float value): " + diff.floatValue()+'\n');
-//
-//
-//        Double value1 = 721.50065;
-//        Double value2 = 333.0;
-//
-//        StringTokenizer tokenizer = new StringTokenizer(String.valueOf(value1), ".");
-//        String intg = tokenizer.nextToken();
-//        String frac = tokenizer.nextToken();
-//
-//        System.out.println("integral = " + Double.parseDouble(intg));
-//        System.out.println("fractional = " + (Double.parseDouble("." + frac)));
-//        Integer iFrac = Integer.parseInt(frac);
-//        Double dFrac = Double.parseDouble("." + frac);
-//        System.out.println("fraction in integer format: " + iFrac);
-//        System.out.println("exponent: "+Math.floor(Math.log(dFrac) / Math.log(10)));
-        Quantity q1 = new Quantity(1, "mg");
-        Quantity q2 = new Quantity(1, "kg");
-        Quantity qResult = MetricCalculator.add(q1, q2);
-
-        System.out.println("unit: " + qResult);
-        fail("The test case is a prototype.");
+        String val1 = "721.50065";
+        String val2 = "333";
+        BigDecimal x1 = new BigDecimal(val1);
+        BigDecimal x2 = new BigDecimal(val2);
+        System.out.println("BigDecimal Result  (ADD): " + x1.add(x2));
+        System.out.println("BigDecimal Result  (DIFF): " + x1.subtract(x2));
+        System.out.println("Double result: " + (Double.parseDouble(val1) - Double.parseDouble(val2)));
     }
 
 }

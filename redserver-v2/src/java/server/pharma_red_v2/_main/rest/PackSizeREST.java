@@ -41,6 +41,9 @@ public class PackSizeREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public PackSize createNewPackSize(PackSize packSizeId) {
+        response.setHeader("old_value", "");
+        response.setHeader("table_name", "pack_size");
+        response.setHeader("action", "INSERT");
         return packSizeFacade.create(packSizeId);
     }
 }

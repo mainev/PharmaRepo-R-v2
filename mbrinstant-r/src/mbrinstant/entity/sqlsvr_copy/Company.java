@@ -12,6 +12,7 @@ import com.google.gson.annotations.Expose;
  * @author maine
  */
 public class Company {
+
     @Expose
     private Short id;
     @Expose
@@ -77,7 +78,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "entity.CompanyC[ id=" + id + " ]";
+        return code + " : " + descs;
     }
-    
+
 }

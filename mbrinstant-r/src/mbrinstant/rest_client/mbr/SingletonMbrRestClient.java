@@ -143,6 +143,22 @@ public class SingletonMbrRestClient {
         return mbrList;
     }
 
+    public Mbr getBatchById(int id) throws ServerException {
+        webResource = client.resource(BASE_URI + "/g_batch_by_id");
+
+        ClientResponse response = webResource
+                .queryParam("mbr_id", String.valueOf(id))
+                .accept("application/json")
+                .get(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonResult = response.getEntity(String.class);
+            return Serializer.<Mbr>deserialize(jsonResult, Mbr.class);
+        }
+
+        return null;
+    }
+
     public Mbr createNewBatch(Product productId, double batchSize, Date mfgDate, Date expDate, String poNo, Unit unitId) throws ServerException {
 
         String batchNo = "batch1";
@@ -165,10 +181,7 @@ public class SingletonMbrRestClient {
     }
 
     public Mbr createNewBatch(Mbr mbr) throws ServerException {
-        String batchNo = "batch1";
-        System.out.println("NOTE: batchNo is temporarily set to 'batch1' in the MbrRestClient");
 
-        mbr.setBatchNo(batchNo);
         mbr.setStatus(MbrStatus.PENDING.toString());
         String input = Serializer.serialize(mbr);
         webResource = client.resource(BASE_URI + "/pst_new_batch");
@@ -182,7 +195,7 @@ public class SingletonMbrRestClient {
         return null;
     }
 
-    public void reserveBatch(Mbr mbr) throws ServerException {
+    public Mbr reserveBatch(Mbr mbr) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_reserve_mbr");
         ClientResponse response = webResource
                 .queryParam("mbr_id", String.valueOf(mbr.getId()))
@@ -190,11 +203,14 @@ public class SingletonMbrRestClient {
                 );
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
-            System.out.println("Batch " + mbr.getBatchNo() + " successfully reserved.");
+            String output = response.getEntity(String.class);
+            return Serializer.<Mbr>deserialize(output, Mbr.class);
         }
+
+        return null;
     }
 
-    public void cancelBatchReservation(Mbr mbr) throws ServerException {
+    public Mbr cancelBatchReservation(Mbr mbr) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_cancel_reservation");
         ClientResponse response = webResource
                 .queryParam("mbr_id", String.valueOf(mbr.getId()))
@@ -202,8 +218,10 @@ public class SingletonMbrRestClient {
                 );
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
-            System.out.println("Batch " + mbr.getBatchNo() + " reservation successfully removed.");
+            String output = response.getEntity(String.class);
+            return Serializer.<Mbr>deserialize(output, Mbr.class);
         }
+        return null;
     }
 
     public void printBatch(Mbr mbr) throws ServerException {

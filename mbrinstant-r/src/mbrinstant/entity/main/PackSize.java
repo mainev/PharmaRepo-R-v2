@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class PackSize implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Expose
     private Integer id;
@@ -31,7 +32,6 @@ public class PackSize implements Serializable {
         this.unitId = unitId;
     }
 
-    
     public PackSize() {
     }
 
@@ -54,7 +54,6 @@ public class PackSize implements Serializable {
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
-
 
     public Container getContainerId() {
         return containerId;
@@ -94,7 +93,7 @@ public class PackSize implements Serializable {
 
     @Override
     public String toString() {
-        return ""+quantity+" " + unitId+" per "+containerId;
+        return "" + quantity + " " + unitId + " per " + containerId;
     }
-    
+
 }

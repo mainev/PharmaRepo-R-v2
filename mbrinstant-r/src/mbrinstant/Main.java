@@ -182,7 +182,7 @@ public class Main extends Application {
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setResizable(false);
             stage.setTitle("Pharma System");
-            // stage.setMaximized(true);
+            stage.setMaximized(true);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

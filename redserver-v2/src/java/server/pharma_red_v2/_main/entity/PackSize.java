@@ -37,7 +37,7 @@ public class PackSize implements Serializable {
 
     @Expose
     @Column(name = "quantity")
-    private double quantity;
+    private Double quantity;
 
     @Expose
     @JoinColumn(name = "container_id", referencedColumnName = "id")

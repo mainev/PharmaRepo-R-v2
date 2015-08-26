@@ -96,15 +96,11 @@ public class MainController implements Initializable {
             public void changed(ObservableValue<? extends Toggle> ov,
                     Toggle toggle, Toggle new_toggle) {
                 if (new_toggle == null) {
-
                     //load the default welcome screen
                     ScreenNavigator.loadScreen(FXMLLocations.WELCOME_SCREEN);
-
                 } else {
-
                     String userData = (String) menuToggleGroup.getSelectedToggle().getUserData();
                     ScreenNavigator.loadScreen(userData);
-
                 }
             }
         });
