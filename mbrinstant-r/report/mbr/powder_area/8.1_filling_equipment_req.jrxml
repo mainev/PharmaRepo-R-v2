@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="8.1_filling_equipment_req" language="groovy" pageWidth="491" pageHeight="555" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="491" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="84db081a-a76e-4494-9b3c-734da01d16e9">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="equipment" class="java.lang.Object">
+		<fieldDescription><![CDATA[equipmentId]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="15">
+			<staticText>
+				<reportElement x="37" y="0" width="286" height="15" uuid="3432174c-06c9-4954-afbe-f589e2d3dc27"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[MACHINES/EQUIPMENTS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="323" y="0" width="168" height="15" uuid="fdbf933a-7183-466f-80ae-f7ca6b467fa7"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ID NO.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="37" height="15" uuid="f10b48a1-1959-48d5-947c-82370b9efc04"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}+"."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="0" width="286" height="15" uuid="fb92d939-0a6a-4019-b336-3a3513e0d1e0"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{equipment}.getName()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="323" y="0" width="168" height="15" uuid="006af30e-8e9b-4600-a1e4-3505a25bc3c2"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{equipment}.getCode()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

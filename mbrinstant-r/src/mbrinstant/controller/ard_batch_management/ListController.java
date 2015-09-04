@@ -7,7 +7,6 @@ package mbrinstant.controller.ard_batch_management;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,9 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -44,14 +41,13 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import mbrinstant.FXMLLocations;
-import mbrinstant.ScreenNavigator;
 import mbrinstant.controller.batch_monitoring.BatchManager;
 import mbrinstant.controller.batch_monitoring.BatchMonitoringController;
 import mbrinstant.controller.batch_monitoring.ParentController;
 import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
+import mbrinstant.entity.MbrStatus;
 import mbrinstant.entity.mbr.Mbr;
-import mbrinstant.entity.mbr.MbrStatus;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.security.SingletonAuthorizationManager;
@@ -83,8 +79,6 @@ public class ListController implements Initializable {
     private TableColumn<Mbr, LocalDate> _colExpDate;
     @FXML
     private TableColumn<Mbr, String> _colPoNo;
-    @FXML
-    private TableColumn colAction;
     @FXML
     private TableColumn<Mbr, String> _colVrNo;
     @FXML
@@ -312,24 +306,7 @@ public class ListController implements Initializable {
         _colExpDate.setCellValueFactory(c -> new SimpleObjectProperty(DateConverter.convertDateToLocalDate(c.getValue().getExpDate())));
         _colPoNo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPoNo()));
         _colVrNo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getProductId().getVrNo()));
-        colStatus.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getStatus()));
-
-        colAction.setSortable(false);
-        colAction.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<Mbr, Mbr>, ObservableValue<Mbr>>() {
-
-                    @Override
-                    public ObservableValue<Mbr> call(TableColumn.CellDataFeatures<Mbr, Mbr> cp) {
-                        return new ReadOnlyObjectWrapper(cp.getValue());
-                    }
-                });
-
-        colAction.setCellFactory(new Callback<TableColumn<Mbr, Mbr>, TableCell<Mbr, Mbr>>() {
-            @Override
-            public TableCell<Mbr, Mbr> call(TableColumn<Mbr, Mbr> col) {
-                return new ActionCell2();
-            }
-        });
+        colStatus.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getStatus()));
 
         colAction2.setSortable(false);
         colAction2.setCellValueFactory(
@@ -348,70 +325,6 @@ public class ListController implements Initializable {
             }
         });
 
-    }
-
-    public class ActionCell2 extends TableCell<Mbr, Mbr> {
-
-        Button release = new Button("Print/Release");
-        Button approve = new Button("Approve");
-        HBox releaseHbox = new HBox();
-        HBox approveHbox = new HBox();
-
-        public ActionCell2() {
-            releaseHbox.setAlignment(Pos.CENTER);
-            releaseHbox.getChildren().add(release);
-            release.setPrefWidth(100);
-
-            approveHbox.setAlignment(Pos.CENTER);
-            approveHbox.getChildren().add(approve);
-            approve.setPrefWidth(100);
-
-            release.setOnAction(e -> {
-                //show confirmation dialog
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Release");
-                alert.setHeaderText("Confirm MBR Release");
-                alert.setContentText("Are you sure you want to release this batch?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK) {
-
-                    mbrRecordTable.getSelectionModel().select(getTableRow().getIndex());
-                    Mbr mbr = mbrRecordTable.getSelectionModel().getSelectedItem();
-
-                    try {
-                        mbrRestClient.printBatch(mbr);
-                    } catch (ServerException ex) {
-                        Logger.getLogger(ListController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    //close the info window
-                    Stage stage = (Stage) release.getScene().getWindow();
-                    stage.close();
-                    ScreenNavigator.loadScreen(FXMLLocations.BATCH_RECORD_SCREEN);
-
-                }
-
-            });
-
-            approve.setOnAction(e -> {
-                MyNotifications.displayError("Approve method not yet implemented.");
-            });
-        }
-
-        @Override
-        protected void updateItem(Mbr mbr, boolean empty) {
-            super.updateItem(mbr, empty);
-            if (mbr != null) {
-                if (mbr.getStatus().equals(MbrStatus.RESERVED.toString())) {
-                    setGraphic(releaseHbox);
-                } else if (mbr.getStatus().equals(MbrStatus.DISPENSED.toString())) {
-                    setGraphic(approveHbox);
-                }
-            } else {
-                setGraphic(null);
-            }
-        }
     }
 
     //cell factory for colAction2

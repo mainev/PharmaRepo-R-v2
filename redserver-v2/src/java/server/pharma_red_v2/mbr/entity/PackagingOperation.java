@@ -43,8 +43,8 @@ public class PackagingOperation implements Serializable {
 
     @Expose
     @Size(max = 1000)
-    @Column(name = "header")
-    private String header;
+    @Column(name = "instruction")
+    private String instruction;
 
     @Expose
     @Column(name = "part")
@@ -104,12 +104,12 @@ public class PackagingOperation implements Serializable {
         this.stepNumber = stepNumber;
     }
 
-    public String getHeader() {
-        return header;
+    public String getInstruction() {
+        return instruction;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
     }
 
     public Short getPart() {

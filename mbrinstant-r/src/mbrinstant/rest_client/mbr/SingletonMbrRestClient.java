@@ -21,12 +21,11 @@ import javafx.collections.ObservableList;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import mbrinstant.controls.CustomAlertDialog;
+import mbrinstant.entity.MbrStatus;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.Mbr;
-import mbrinstant.entity.mbr.MbrStatus;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
-import mbrinstant.entity.transaction.StockCardTxn;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -166,7 +165,7 @@ public class SingletonMbrRestClient {
 
         Mbr mbr = new Mbr(productId, batchSize, batchNo, mfgDate, expDate,
                 poNo, unitId);
-        mbr.setStatus(MbrStatus.PENDING.toString());
+        mbr.setStatus(MbrStatus.PENDING);
         String input = Serializer.serialize(mbr);
         webResource = client.resource(BASE_URI + "/pst_new_batch");
         ClientResponse response = webResource
@@ -182,7 +181,7 @@ public class SingletonMbrRestClient {
 
     public Mbr createNewBatch(Mbr mbr) throws ServerException {
 
-        mbr.setStatus(MbrStatus.PENDING.toString());
+        mbr.setStatus(MbrStatus.PENDING);
         String input = Serializer.serialize(mbr);
         webResource = client.resource(BASE_URI + "/pst_new_batch");
         ClientResponse response = webResource
@@ -250,22 +249,21 @@ public class SingletonMbrRestClient {
 
     }
 
-    public ObservableList<StockCardTxn> getBatchStockCardTxnList(int mbrId) throws ServerException {
-        ObservableList<StockCardTxn> txnList = FXCollections.observableArrayList();
-
-        webResource = client.resource(BASE_URI + "/g_batch_stock_card_txn_list");
-        ClientResponse response = webResource
-                .queryParam("mbr_id", String.valueOf(mbrId))
-                .accept("application/json").get(ClientResponse.class);
-        responseHandler.setCode(response.getStatus());
-        if (responseHandler.isSuccessful()) {
-            String jsonOutput = response.getEntity(String.class);
-            txnList = Serializer.<StockCardTxn>deserializeList(jsonOutput, StockCardTxn.class);
-        }
-
-        return txnList;
-    }
-
+//    public ObservableList<StockCardTxn> getBatchStockCardTxnList(int mbrId) throws ServerException {
+//        ObservableList<StockCardTxn> txnList = FXCollections.observableArrayList();
+//
+//        webResource = client.resource(BASE_URI + "/g_batch_stock_card_txn_list");
+//        ClientResponse response = webResource
+//                .queryParam("mbr_id", String.valueOf(mbrId))
+//                .accept("application/json").get(ClientResponse.class);
+//        responseHandler.setCode(response.getStatus());
+//        if (responseHandler.isSuccessful()) {
+//            String jsonOutput = response.getEntity(String.class);
+//            txnList = Serializer.<StockCardTxn>deserializeList(jsonOutput, StockCardTxn.class);
+//        }
+//
+//        return txnList;
+//    }
     public int getPrimaryPackagingQuantity(List<PackagingMaterialRequirement> pmrList, int bottleId) {
         for (PackagingMaterialRequirement bpmr : pmrList) {
             if (bpmr.getItemId().getId() == bottleId) {

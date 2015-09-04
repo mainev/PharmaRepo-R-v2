@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="main_template" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="95a0695d-505f-4659-9258-e89ddef1666a">
+	<property name="ireport.zoom" value="1.272292855117457"/>
+	<property name="ireport.x" value="39"/>
+	<property name="ireport.y" value="3"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="batch" class="java.lang.Object"/>
+	<parameter name="batch_rm_specs" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="batch_pm_req" class="java.util.List"/>
+	<parameter name="compounding_proc" class="java.util.List"/>
+	<parameter name="compounding_equip_req_list" class="java.util.List"/>
+	<parameter name="filling_proc" class="java.util.List"/>
+	<parameter name="filling_equip_req_list" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="54" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="246" height="42" uuid="850f77ee-eb99-49ff-a557-d0ccf0a5c37c"/>
+				<imageExpression><![CDATA["P:\\PharmaRepo-R-v2\\MBRInstant-R\\report\\mbr\\powder_area\\nutratech.jpg"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="46" width="802" height="1" uuid="cfe271fc-f96d-4395-af5f-badc450b3f6c"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="49" width="802" height="1" uuid="8d9e7b6d-13d9-4daf-8251-3c1f2479522a"/>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="51" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="50" uuid="dfef96d9-93a5-4950-84cb-43967c944421"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="filling_proc">
+					<subreportParameterExpression><![CDATA[$P{filling_proc}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_pm_req">
+					<subreportParameterExpression><![CDATA[$P{batch_pm_req}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="filling_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{filling_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch">
+					<subreportParameterExpression><![CDATA[$P{batch}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{compounding_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_proc">
+					<subreportParameterExpression><![CDATA[$P{compounding_proc}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_rm_specs">
+					<subreportParameterExpression><![CDATA[$P{batch_rm_specs}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "mbr_template.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="50" width="100" height="1" uuid="6bb7a217-9339-4347-89ec-364b03190504"/>
+			</break>
+		</band>
+		<band height="51">
+			<subreport>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="50" uuid="ebf0211d-6e75-41d4-86fb-64d704f6704a"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="filling_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{filling_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="filling_proc">
+					<subreportParameterExpression><![CDATA[$P{filling_proc}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_pm_req">
+					<subreportParameterExpression><![CDATA[$P{batch_pm_req}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{compounding_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch">
+					<subreportParameterExpression><![CDATA[$P{batch}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_proc">
+					<subreportParameterExpression><![CDATA[$P{compounding_proc}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_rm_specs">
+					<subreportParameterExpression><![CDATA[$P{batch_rm_specs}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pdr_template.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="50" width="100" height="1" uuid="f5ed3880-8d31-45bc-b9c0-e300bdd81b25"/>
+			</break>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="44" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="412" y="11" width="40" height="15" uuid="cf2330b7-3026-42bc-a355-897bf81edcf0"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="125" y="26" width="555" height="15" uuid="2e7693ea-c0f8-49ee-b2c6-db7a4226838f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[This document is a property of NUTRA TECH BIOPHARMA, INC. It shall not be reproduced in part or in full or used without authorization]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="332" y="11" width="80" height="15" uuid="15ac0777-c30f-40a7-a3ac-95e1c1f5f2aa"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

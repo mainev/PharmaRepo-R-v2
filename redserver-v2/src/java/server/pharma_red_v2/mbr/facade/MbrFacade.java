@@ -64,7 +64,7 @@ public class MbrFacade {
 
     public Mbr reserveMbr(int mbrId) {
         Mbr mbr = this.findById(mbrId);
-        mbr.setStatus(MbrStatus.RESERVED.toString());
+        mbr.setStatus(MbrStatus.RESERVED);
 
         return mbr;
     }
@@ -72,7 +72,7 @@ public class MbrFacade {
     public Mbr cancelReservation(int mbrId) {
         Mbr mbr = findById(mbrId);
 
-        mbr.setStatus(MbrStatus.PENDING.toString());
+        mbr.setStatus(MbrStatus.PENDING);
 //        for (StockCardTxn txn : mbr.getStockCardTxnList()) {
 //            txn.getStockCardId().setStockStatus("AVAILABLE");
 //            em.remove(txn);
@@ -83,14 +83,14 @@ public class MbrFacade {
     public void releaseMbr(int mbrId) {
         Mbr mbr = findById(mbrId);
         if (mbr != null) {
-            mbr.setStatus(MbrStatus.PRINTED.toString());
+            mbr.setStatus(MbrStatus.PRINTED);
         }
     }
 
     public void dispenseMbrMaterials(int mbrId) {
         Mbr mbr = findById(mbrId);
         if (mbr != null) {
-            mbr.setStatus(MbrStatus.DISPENSED.toString());
+            mbr.setStatus(MbrStatus.DISPENSED);
         }
     }
 }

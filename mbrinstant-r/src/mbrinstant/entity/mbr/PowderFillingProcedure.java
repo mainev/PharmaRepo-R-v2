@@ -32,8 +32,6 @@ public class PowderFillingProcedure {
         this.doneBy = doneBy;
         this.checkedBy = checkedBy;
     }
-    
-    
 
     public PowderFillingProcedure() {
     }
@@ -57,7 +55,6 @@ public class PowderFillingProcedure {
     public void setCheckedBy(String checkedBy) {
         this.checkedBy = checkedBy;
     }
-    
 
     public boolean isRequiresEquipment() {
         return requiresEquipment;

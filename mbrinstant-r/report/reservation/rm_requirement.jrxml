@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rm_requirement" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1d32f311-ab4c-4bcd-ac58-f202d15580e4">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="105"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
 	</parameter>
 	<field name="raw_material_name" class="java.lang.Object">
-		<fieldDescription><![CDATA[rmReq.rawMaterialId.name]]></fieldDescription>
+		<fieldDescription><![CDATA[rmReq.itemId.descs]]></fieldDescription>
 	</field>
 	<field name="required_qty" class="java.lang.Object">
 		<fieldDescription><![CDATA[requiredQty]]></fieldDescription>
@@ -16,7 +16,7 @@
 		<fieldDescription><![CDATA[txnList]]></fieldDescription>
 	</field>
 	<field name="raw_material_code" class="java.lang.String">
-		<fieldDescription><![CDATA[rmReq.rawMaterialId.code]]></fieldDescription>
+		<fieldDescription><![CDATA[rmReq.itemId.itemCd]]></fieldDescription>
 	</field>
 	<field name="part" class="java.lang.Short">
 		<fieldDescription><![CDATA[rmReq.part]]></fieldDescription>

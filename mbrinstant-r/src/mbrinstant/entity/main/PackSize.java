@@ -93,7 +93,7 @@ public class PackSize implements Serializable {
 
     @Override
     public String toString() {
-        return "" + quantity + " " + unitId + " per " + containerId;
+        return quantity + " " + unitId + " per " + containerId;
     }
 
 }

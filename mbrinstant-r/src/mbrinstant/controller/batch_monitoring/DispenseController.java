@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import mbrinstant.entity.MbrStatus;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.exceptions.ServerException;
 
@@ -51,19 +52,14 @@ public class DispenseController implements Initializable, ChildController {
 
     private void checkBatchStatus() {
         if (batch != null) {
-            switch (batch.getStatus()) {
-                case "PRINTED":
-                    message.setText("Materials are ready for dispensing.");
-                    vbox.getChildren().clear();
-                    vbox.getChildren().addAll(message, dispense);
-                    break;
-                case "DISPENSED":
-                    message.setText("Materials have been dispensed");
-                    vbox.getChildren().clear();
-                    vbox.getChildren().addAll(message);
-                    break;
-                default:
-                    break;
+            if (batch.getStatus() == MbrStatus.PRINTED) {
+                message.setText("Materials are ready for dispensing.");
+                vbox.getChildren().clear();
+                vbox.getChildren().addAll(message, dispense);
+            } else if (batch.getStatus() == MbrStatus.DISPENSED) {
+                message.setText("Materials have been dispensed");
+                vbox.getChildren().clear();
+                vbox.getChildren().addAll(message);
             }
         }
 

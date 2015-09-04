@@ -91,8 +91,8 @@ public class StockcardMonitoringController implements Initializable {
         txnTable.setItems(txnList);
 
         colQty.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getQty() + " " + c.getValue().getUnitId()));
-        colStatus.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMbrId().getStatus()));
-        colPurpose.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMbrId().getBatchNo()));
+        //   colStatus.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMbrId().getStatus()));
+        //   colPurpose.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMbrId().getBatchNo()));
     }
 
     private void initControlNoTextField() {
@@ -156,7 +156,7 @@ public class StockcardMonitoringController implements Initializable {
         lotNoLabel.setText(stockCard.getLotNo());
         mfgDateLabel.setText(DateFormatter.convertToString(stockCard.getMfgDate()));
         expDateLabel.setText(DateFormatter.convertToString(stockCard.getExpDate()));
-        stockStatusLabel.setText(stockCard.getStockStatus());
+        stockStatusLabel.setText(stockCard.getStockStatus().name());
         statusLabel.setText(stockCard.getStatus());
         inOutModeLabel.setText(stockCard.getInoutMode());
 

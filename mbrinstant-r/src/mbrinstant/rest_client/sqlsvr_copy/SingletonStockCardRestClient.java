@@ -16,6 +16,9 @@ import java.util.List;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import mbrinstant.controls.CustomAlertDialog;
+import mbrinstant.entity.StockStatus;
+import mbrinstant.entity.sqlsvr_copy.Company;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.entity.sqlsvr_copy.StockCardC;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
@@ -54,16 +57,9 @@ public class SingletonStockCardRestClient {
         }
     }
 
-    /**
-     * DBMethodName : g_stock_card_list
-     *
-     * @param itemCd
-     * @return
-     */
     public List<StockCardC> getStockCardList() throws ServerException {
         webResource = client.resource(BASE_URI + "/g_stock_card_list");
         ClientResponse response = webResource
-                .queryParam("method", "g_stock_card_list")
                 .accept("application/json").get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
@@ -73,12 +69,6 @@ public class SingletonStockCardRestClient {
         return null;
     }
 
-    /**
-     * DBMethodName : g_stock_card_by_item_cd
-     *
-     * @param itemCd
-     * @return
-     */
     public List<StockCardC> getStockCardByItemCd(String itemCd) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_stock_card_by_item_cd");
         ClientResponse response = webResource
@@ -92,12 +82,6 @@ public class SingletonStockCardRestClient {
         return null;
     }
 
-    /**
-     * DBMethodName : g_stock_card_by_id
-     *
-     * @param id
-     * @return
-     */
     public StockCardC getStockCardById(int id) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_stock_card_by_id");
         ClientResponse response = webResource
@@ -111,14 +95,7 @@ public class SingletonStockCardRestClient {
         return null;
     }
 
-    /**
-     * DBMethodName : g_stock_card_by_company_cd_and_item_cd
-     *
-     * @param companyCd
-     * @param itemCd
-     * @return
-     */
-    public List<StockCardC> getStockCardByCompanyCdAndItemCd(String companyCd, int itemId) throws ServerException {
+    public List<StockCardC> getAvailableStockCardByCompanyCdAndItemId(String companyCd, int itemId) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_stock_card_by_company_cd_and_item_id");
         ClientResponse response = webResource
                 .queryParam("company_cd", companyCd)
@@ -132,12 +109,20 @@ public class SingletonStockCardRestClient {
         return null;
     }
 
-    /**
-     * DBMethodName : pst_change_stock_card_status_to_depleted
-     *
-     * @param stk_id
-     */
-    //change stockcard status to depleted
+    public List<StockCardC> getAvailableStockCard(Company company, Item item) throws ServerException {
+        webResource = client.resource(BASE_URI + "/g_available_stockcard");
+        ClientResponse response = webResource
+                .queryParam("company_id", String.valueOf(company.getId()))
+                .queryParam("item_id", String.valueOf(item.getId()))
+                .accept("application/json").get(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            String jsonOutput = response.getEntity(String.class);
+            return Serializer.<StockCardC>deserializeList(jsonOutput, StockCardC.class);
+        }
+        return null;
+    }
+
     public void changeStockCardStatusToDepleted(int stk_id) throws ServerException {
         webResource = client.resource(BASE_URI + "/pst_change_stock_card_status_to_depleted");
         ClientResponse response = webResource
@@ -150,12 +135,18 @@ public class SingletonStockCardRestClient {
 
     }
 
-    /**
-     * DBMethodName : g_stockcard_by_control_no
-     *
-     * @param controlNo
-     * @return
-     */
+    public void updateStockCardStockStatus(StockCardC stk, StockStatus stockStat) throws ServerException {
+        webResource = client.resource(BASE_URI + "/pst_update_stock_card_stock_status");
+        ClientResponse response = webResource
+                .queryParam("stk_id", String.valueOf(stk.getId()))
+                .queryParam("stock_stat", stockStat.toString())
+                .accept("application/json").post(ClientResponse.class);
+        responseHandler.setCode(response.getStatus());
+        if (responseHandler.isSuccessful()) {
+            System.out.println("Stockcard status successfully updated.");
+        }
+    }
+
     public StockCardC getStockCardByControlNo(String controlNo) throws ServerException {
 
         webResource = client.resource(BASE_URI + "/g_stockcard_by_control_no");

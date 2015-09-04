@@ -6,6 +6,7 @@
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties/>
   </persistence-unit>
+  <!--
   <persistence-unit name="SampleServerPU" transaction-type="JTA">
     <jta-data-source>jdbc/mssql_sample</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
@@ -16,4 +17,5 @@
     <jta-data-source>jdbc/sqlsvr/Nutratech_DB</jta-data-source>
     <properties/>
   </persistence-unit>
+  -->
 </persistence>

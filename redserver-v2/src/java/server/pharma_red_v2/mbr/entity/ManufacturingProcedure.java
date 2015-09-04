@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -58,7 +56,7 @@ public class ManufacturingProcedure implements Serializable {
     @OneToMany(mappedBy = "manufacturingProcedureId")
     private List<PackagingOperation> packagingProcedureOperationList;
     @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<PowderFillingProcedure> packagingProcedureList;
+    private List<PowderFillingProcedure> powderFillingProcedureList;
     @OneToMany(mappedBy = "manufacturingProcedureId")
     private List<BottlingProcedure> bottlingProcedureList;
 
@@ -94,12 +92,12 @@ public class ManufacturingProcedure implements Serializable {
         this.packagingProcedureOperationList = packagingProcedureOperationList;
     }
 
-    public List<PowderFillingProcedure> getPackagingProcedureList() {
-        return packagingProcedureList;
+    public List<PowderFillingProcedure> getPowderFillingProcedureList() {
+        return powderFillingProcedureList;
     }
 
-    public void setPackagingProcedureList(List<PowderFillingProcedure> packagingProcedureList) {
-        this.packagingProcedureList = packagingProcedureList;
+    public void setPowderFillingProcedureList(List<PowderFillingProcedure> powderFillingProcedureList) {
+        this.powderFillingProcedureList = powderFillingProcedureList;
     }
 
     public ManufacturingProcedure() {

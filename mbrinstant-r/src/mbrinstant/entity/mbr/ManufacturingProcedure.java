@@ -16,18 +16,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class ManufacturingProcedure implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Expose
     private Integer id;
-    @Expose(serialize=false)
+    @Expose(serialize = false)
     private List<EquipmentRequirement> equipmentRequirementList;
-    @Expose(serialize=false)
+    @Expose(serialize = false)
     private List<CompoundingProcedure> compoundingProcedureList;
-    @Expose(serialize=false)
+    @Expose(serialize = false)
     private List<PackagingOperation> packagingProcedureOperationList;
-    @Expose(serialize=false)
-    private List<PowderFillingProcedure> packagingProcedureList;
-    @Expose(serialize=false)
+    @Expose(serialize = false)
+    private List<PowderFillingProcedure> powderFillingProcedureList;
+    @Expose(serialize = false)
     private List<BottlingProcedure> bottlingProcedureList;
 
     public ManufacturingProcedure() {
@@ -45,7 +46,6 @@ public class ManufacturingProcedure implements Serializable {
         this.id = id;
     }
 
-
     public List<BottlingProcedure> getBottlingProcedureList() {
         return bottlingProcedureList;
     }
@@ -54,8 +54,6 @@ public class ManufacturingProcedure implements Serializable {
         this.bottlingProcedureList = bottlingProcedureList;
     }
 
-    
-  
     public List<EquipmentRequirement> getEquipmentRequirementList() {
         return equipmentRequirementList;
     }
@@ -64,7 +62,6 @@ public class ManufacturingProcedure implements Serializable {
         this.equipmentRequirementList = equipmentRequirementList;
     }
 
-   
     public List<CompoundingProcedure> getCompoundingProcedureList() {
         return compoundingProcedureList;
     }
@@ -73,7 +70,6 @@ public class ManufacturingProcedure implements Serializable {
         this.compoundingProcedureList = compoundingProcedureList;
     }
 
-  
     public List<PackagingOperation> getPackagingProcedureOperationList() {
         return packagingProcedureOperationList;
     }
@@ -82,13 +78,12 @@ public class ManufacturingProcedure implements Serializable {
         this.packagingProcedureOperationList = packagingProcedureOperationList;
     }
 
-    
-    public List<PowderFillingProcedure> getPackagingProcedureList() {
-        return packagingProcedureList;
+    public List<PowderFillingProcedure> getPowderFillingProcedureList() {
+        return powderFillingProcedureList;
     }
 
-    public void setPackagingProcedureList(List<PowderFillingProcedure> packagingProcedureList) {
-        this.packagingProcedureList = packagingProcedureList;
+    public void setPowderFillingProcedureList(List<PowderFillingProcedure> powderFillingProcedureList) {
+        this.powderFillingProcedureList = powderFillingProcedureList;
     }
 
     @Override
@@ -115,5 +110,5 @@ public class ManufacturingProcedure implements Serializable {
     public String toString() {
         return "server.mbr.entity.ManufacturingProcedure[ id=" + id + " ]";
     }
-    
+
 }

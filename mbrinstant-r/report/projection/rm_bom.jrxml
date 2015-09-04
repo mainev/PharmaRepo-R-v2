@@ -5,7 +5,7 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="udf" class="java.lang.Object"/>
 	<field name="raw_material" class="java.lang.Object">
-		<fieldDescription><![CDATA[rawMaterialId]]></fieldDescription>
+		<fieldDescription><![CDATA[itemId]]></fieldDescription>
 	</field>
 	<field name="quantity" class="java.lang.Double">
 		<fieldDescription><![CDATA[quantity]]></fieldDescription>

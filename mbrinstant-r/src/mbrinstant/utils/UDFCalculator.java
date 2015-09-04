@@ -6,31 +6,54 @@
 package mbrinstant.utils;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mbrinstant.entity.main.Product;
+import mbrinstant.entity.main.Unit;
+import mbrinstant.entity.mbr.BatchItemRequirement;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
+import mbrinstant.exceptions.ServerException;
+import mbrinstant.rest_client.main.SingletonUnitRestClient;
 
 public class UDFCalculator {
 
-    double newQty;
-    String newUnit;
+    private double newQty;
+    private String newUnit;
+    private List<BatchItemRequirement> batchItemRequirementList = new ArrayList();
 
     public void calculateRawMaterialBatchReq(Mbr mbr) {
         double multiplier = getUdfMultiplier(mbr);
         Product product = mbr.getProductId();
         List<RawMaterialRequirement> list = product.getUdfId().getRawMaterialRequirementList();
         for (RawMaterialRequirement rmReq : list) {
-            double oldQty = rmReq.getQuantity();
-            String oldUnit = rmReq.getUnitId().getName();
+            try {
+                double oldQty = rmReq.getQuantity();
+                String oldUnit = rmReq.getUnitId().getName();
 
-            newQty = (oldQty * multiplier);
-            newUnit = oldUnit;
-            rawMaterialQuantityAndUnitConverter();
+                newQty = (oldQty * multiplier);
+                newUnit = oldUnit;
+                rawMaterialQuantityAndUnitConverter();
 
-            rmReq.setNewQuantity(roundThreeDecimals(newQty));
-            rmReq.setNewUnit(newUnit);
+                rmReq.setNewQuantity(roundThreeDecimals(newQty));
+                rmReq.setNewUnit(newUnit);
+
+                //for creating new batch item requirement
+                BatchItemRequirement batchItemReq = new BatchItemRequirement();
+                batchItemReq.setItemId(rmReq.getItemId());
+                batchItemReq.setUdfQty(oldQty);
+                batchItemReq.setUdfQtyUnitId(rmReq.getUnitId());
+                batchItemReq.setRequiredQty(newQty);
+                batchItemReq.setRequiredQtyUnitId(getEquivalentUnit(newUnit));
+                batchItemReq.setPart(rmReq.getPart());
+                batchItemRequirementList.add(batchItemReq);
+            } catch (ServerException ex) {
+                Logger.getLogger(UDFCalculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }
 
@@ -39,8 +62,19 @@ public class UDFCalculator {
         List<PackagingMaterialRequirement> packagingMaterialReqCollection = mbr.getProductId().getUdfId().getPackagingMaterialRequirementList();
 
         for (PackagingMaterialRequirement pmr : packagingMaterialReqCollection) {
+
             double quantity = pmr.getQuantity() * batchSize;
             pmr.setNewQuantity(quantity);
+
+            //for creating new batch item requirement
+            BatchItemRequirement batchItemReq = new BatchItemRequirement();
+            batchItemReq.setItemId(pmr.getItemId());
+            batchItemReq.setUdfQty(pmr.getQuantity());
+            batchItemReq.setUdfQtyUnitId(pmr.getUnitId());
+            batchItemReq.setRequiredQty(quantity);
+            batchItemReq.setRequiredQtyUnitId(pmr.getUnitId());
+            batchItemReq.setPart((short) 0);
+            batchItemRequirementList.add(batchItemReq);
         }
     }
 
@@ -192,4 +226,24 @@ public class UDFCalculator {
         DecimalFormat twoDForm = new DecimalFormat("#");
         return Double.valueOf(twoDForm.format(d));
     }
+
+    public Unit getEquivalentUnit(String unitName) throws ServerException {
+
+        List<Unit> unitList = SingletonUnitRestClient.getInstance().getUnitList();
+        for (Unit u : unitList) {
+            if (u.getName().toUpperCase().trim().equals(unitName.toUpperCase().trim())) {
+                return u;
+            }
+        }
+        return null;//throw exception
+    }
+
+    public List<BatchItemRequirement> getBatchItemRequirementList() {
+        return batchItemRequirementList;
+    }
+
+    public void setBatchItemRequirementList(List<BatchItemRequirement> batchItemRequirementList) {
+        this.batchItemRequirementList = batchItemRequirementList;
+    }
+
 }

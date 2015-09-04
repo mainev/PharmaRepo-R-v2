@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import server.pharma_red_v2.StockStatus;
 import server.pharma_red_v2.transaction.entity.StockCardTxn;
 
 /**
@@ -90,8 +93,8 @@ public class StockCardC implements Serializable {
     private List<StockCardTxn> stockCardTxnList;
 
     @Column(name = "stock_status")
-    @Size(max = 10)
-    private String stockStatus;
+    @Enumerated(EnumType.STRING)
+    private StockStatus stockStatus;
 
     public StockCardC() {
     }
@@ -212,11 +215,11 @@ public class StockCardC implements Serializable {
         this.stockCardTxnList = stockCardTxnList;
     }
 
-    public String getStockStatus() {
+    public StockStatus getStockStatus() {
         return stockStatus;
     }
 
-    public void setStockStatus(String stockStatus) {
+    public void setStockStatus(StockStatus stockStatus) {
         this.stockStatus = stockStatus;
     }
 

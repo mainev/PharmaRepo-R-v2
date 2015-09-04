@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="3_product_formulation" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4b98b437-f709-400b-903d-2424dd451fef">
+	<property name="ireport.zoom" value="3.4522712143931042"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="batch_rm_specs" class="java.util.List"/>
+	<parameter name="batch_pm_req" class="java.util.List"/>
+	<parameter name="batch" class="java.lang.Object"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="15" uuid="f71ae8ea-9e04-4366-a51b-ed1c071841ff"/>
+				<subreportParameter name="batch">
+					<subreportParameterExpression><![CDATA[$P{batch}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_rm_specs}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.1_raw_material_specification.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="15" uuid="2f349e7e-7a91-47a1-bf75-5ed6187b845c"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_pm_req}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.2_packg_material_requirement.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="15">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="15" uuid="618c6f57-94ea-4211-b10e-a6714329f048"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.3_indirect_material_requirement.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

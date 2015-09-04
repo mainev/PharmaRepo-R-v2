@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="6.3_dosage_list" language="groovy" pageWidth="468" pageHeight="555" orientation="Landscape" columnWidth="468" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0a16304c-a943-4829-8218-11718d2263d5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="item" class="java.lang.Object">
+		<fieldDescription><![CDATA[rawMaterialRequirementId.itemId]]></fieldDescription>
+	</field>
+	<field name="required_qty" class="java.lang.Double">
+		<fieldDescription><![CDATA[rawMaterialRequirementId.newQuantity]]></fieldDescription>
+	</field>
+	<field name="required_qty_unit" class="java.lang.String">
+		<fieldDescription><![CDATA[rawMaterialRequirementId.newUnit]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="0" y="0" width="322" height="15" uuid="9c2f2c04-c760-4a68-94c9-043c449adca0"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{item}.getDescs()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="322" y="0" width="146" height="15" uuid="45348383-6845-434e-9dc1-807e70730db7"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{required_qty}+" "+$F{required_qty_unit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

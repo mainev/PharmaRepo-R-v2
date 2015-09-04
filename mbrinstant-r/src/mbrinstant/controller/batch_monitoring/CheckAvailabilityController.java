@@ -6,23 +6,18 @@
 package mbrinstant.controller.batch_monitoring;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -31,11 +26,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import mbrinstant.controller.mmd_batch_management.MbrRequirementHelper;
-import mbrinstant.controller.mmd_batch_management.MbrRequirementHelper.ControlledPackagingMaterial;
-import mbrinstant.controller.mmd_batch_management.MbrRequirementHelper.ControlledRawMaterial;
+import mbrinstant.controller.batch_monitoring.BatchItemAllocationHelper.ControlledItem;
 import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.transaction.StockCardTxn;
@@ -44,11 +36,6 @@ import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.rest_client.sqlsvr_copy.SingletonStockCardRestClient;
 import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
 import mbrinstant.security.SingletonAuthorizationManager;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -60,19 +47,23 @@ public class CheckAvailabilityController implements Initializable, ChildControll
     private Mbr batch;
     private BatchMonitoringController parent;
     @FXML
-    TableView<ControlledRawMaterial> controlledRmTable;
+    private TableView<ControlledItem> controlledRmTable;
 
     @FXML
-    TableColumn<ControlledRawMaterial, ControlledRawMaterial> colRmActualQty;
+    private TableColumn<ControlledItem, ControlledItem> colRmActualQty;
     @FXML
-    TableColumn colStatus;
+    private TableColumn<ControlledItem, ControlledItem> colRm;
+    @FXML
+    private TableColumn<ControlledItem, ControlledItem> colPm;
+    @FXML
+    private TableColumn colStatus;
 
     @FXML
-    TableView<ControlledPackagingMaterial> controlledPmTable;
+    private TableView<ControlledItem> controlledPmTable;
     @FXML
-    TableColumn<ControlledPackagingMaterial, ControlledPackagingMaterial> colPmActualQty;
+    private TableColumn<ControlledItem, ControlledItem> colPmActualQty;
     @FXML
-    TableColumn colPmStatus;
+    private TableColumn colPmStatus;
 
     @FXML
     Label productLabel;
@@ -93,14 +84,10 @@ public class CheckAvailabilityController implements Initializable, ChildControll
     SingletonStockCardTxnRestClient stockCardTxnRestClient = SingletonStockCardTxnRestClient.getInstance();
     private SingletonAuthorizationManager authManager = SingletonAuthorizationManager.getInstance();
 
-    //method names
-    private final String PRINT_PRODUCT_FORMULATION = "print_product_formulation";
-
     BatchManager batchManager;
 
-    MbrRequirementHelper batchRequirementHandler;//must be final
-    ObservableList<MbrRequirementHelper.ControlledRawMaterial> controlledRmList = FXCollections.observableArrayList();
-    ObservableList<MbrRequirementHelper.ControlledPackagingMaterial> controlledPmList = FXCollections.observableArrayList();
+    ObservableList<BatchItemAllocationHelper.ControlledItem> controlledRmList = FXCollections.observableArrayList();
+    ObservableList<BatchItemAllocationHelper.ControlledItem> controlledPmList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -109,15 +96,14 @@ public class CheckAvailabilityController implements Initializable, ChildControll
         try {
             this.batchManager = (BatchManager) this.parent.getDataManager();
             this.batch = (Mbr) batchManager.getData();
-            this.batchManager.mbrHandler = new MbrRequirementHelper(batch);
-            batchRequirementHandler = this.batchManager.mbrHandler;
+            this.batchManager.batchRequirementHandler = new BatchItemAllocationHelper(batch);
 
         } catch (Exception e) {
             e.printStackTrace();
             CustomAlertDialog.showExceptionDialog(e);
         }
-        controlledRmList = batchRequirementHandler.getControlledRmList();
-        controlledPmList = batchRequirementHandler.getControlledPmList();
+        controlledRmList = batchManager.batchRequirementHandler.getControlledRawMatList();
+        controlledPmList = batchManager.batchRequirementHandler.getControlledPackgMatList();
 
         productLabel.setText(batch.getProductId().toString());
         batchSizeLabel.setText(batch.getBatchSize() + " " + batch.getUnitId());
@@ -136,6 +122,14 @@ public class CheckAvailabilityController implements Initializable, ChildControll
                     this.parent.reload();
                 }
         );
+
+        printButton.setOnAction(e -> {
+//            try {
+//                this.batchManager.printProductFormulation(printButton);
+//            } catch (ServerException ex) {
+//                Logger.getLogger(CheckAvailabilityController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+        });
         initControlledRmTable();
         initControlledPmTable();
     }
@@ -145,64 +139,21 @@ public class CheckAvailabilityController implements Initializable, ChildControll
         this.parent = (BatchMonitoringController) parentController;
     }
 
-    public void printProductFormulation() throws ServerException {
-        if (authManager.isUserPermitted(PRINT_PRODUCT_FORMULATION)) {
-            Stage primaryStage = (Stage) printButton.getScene().getWindow();
-            primaryStage.getScene().getRoot()
-                    .cursorProperty()
-                    .bind(
-                            Bindings
-                            .when(jasperService.runningProperty())
-                            .then(Cursor.WAIT)
-                            .otherwise(Cursor.DEFAULT)
-                    );
-            jasperService.restart();
-        } else {
-            CustomAlertDialog.showAccessDeniedDialog();
-        }
-    }
-
-    private final Service jasperService = new Service() {
-        @Override
-        protected Task createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    try {
-                        Map<String, Object> params = new HashMap();
-                        params.put("mbr", batch);
-                        params.put("controlled_rm_list", controlledRmList);
-                        params.put("controlled_pm_list", controlledPmList);
-                        JasperPrint jasperPrint = JasperFillManager.fillReport("report/reservation/reservation.jasper",
-                                params, (new JREmptyDataSource()));
-
-                        JasperViewer.viewReport(jasperPrint, false);
-                    } catch (JRException ex) {
-                        ex.printStackTrace();
-                        CustomAlertDialog.showExceptionDialog(ex);
-                    }
-
-                    Thread.sleep(1000);
-                    return null;
-                }
-            };
-        }
-    };
-
     public void initControlledPmTable() {
         controlledPmTable.setItems(controlledPmList);
+        colPm.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getBatchItemReq()));
         colPmActualQty.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<ControlledPackagingMaterial, ControlledPackagingMaterial>, ObservableValue<ControlledPackagingMaterial>>() {
+                new Callback<TableColumn.CellDataFeatures<ControlledItem, ControlledItem>, ObservableValue<ControlledItem>>() {
 
                     @Override
-                    public ObservableValue<ControlledPackagingMaterial> call(TableColumn.CellDataFeatures<ControlledPackagingMaterial, ControlledPackagingMaterial> c) {
+                    public ObservableValue<ControlledItem> call(TableColumn.CellDataFeatures<ControlledItem, ControlledItem> c) {
                         return new ReadOnlyObjectWrapper(c.getValue());
                     }
                 });
 
-        colPmActualQty.setCellFactory(new Callback<TableColumn<ControlledPackagingMaterial, ControlledPackagingMaterial>, TableCell<ControlledPackagingMaterial, ControlledPackagingMaterial>>() {
+        colPmActualQty.setCellFactory(new Callback<TableColumn<ControlledItem, ControlledItem>, TableCell<ControlledItem, ControlledItem>>() {
             @Override
-            public TableCell<ControlledPackagingMaterial, ControlledPackagingMaterial> call(TableColumn<ControlledPackagingMaterial, ControlledPackagingMaterial> col) {
+            public TableCell<ControlledItem, ControlledItem> call(TableColumn<ControlledItem, ControlledItem> col) {
                 return new PmActualQtyCell();
             }
         });
@@ -210,26 +161,27 @@ public class CheckAvailabilityController implements Initializable, ChildControll
 
     public void initControlledRmTable() {
         controlledRmTable.setItems(controlledRmList);
+        colRm.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getBatchItemReq()));
 
         colRmActualQty.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<ControlledRawMaterial, ControlledRawMaterial>, ObservableValue<ControlledRawMaterial>>() {
+                new Callback<TableColumn.CellDataFeatures<ControlledItem, ControlledItem>, ObservableValue<ControlledItem>>() {
 
                     @Override
-                    public ObservableValue<ControlledRawMaterial> call(TableColumn.CellDataFeatures<ControlledRawMaterial, ControlledRawMaterial> c) {
+                    public ObservableValue<ControlledItem> call(TableColumn.CellDataFeatures<ControlledItem, ControlledItem> c) {
                         return new ReadOnlyObjectWrapper(c.getValue());
                     }
                 });
 
-        colRmActualQty.setCellFactory(new Callback<TableColumn<ControlledRawMaterial, ControlledRawMaterial>, TableCell<ControlledRawMaterial, ControlledRawMaterial>>() {
+        colRmActualQty.setCellFactory(new Callback<TableColumn<ControlledItem, ControlledItem>, TableCell<ControlledItem, ControlledItem>>() {
             @Override
-            public TableCell<ControlledRawMaterial, ControlledRawMaterial> call(TableColumn<ControlledRawMaterial, ControlledRawMaterial> col) {
+            public TableCell<ControlledItem, ControlledItem> call(TableColumn<ControlledItem, ControlledItem> col) {
                 return new RmActualQtyCell();
             }
         });
 
     }
 
-    public class RmActualQtyCell extends TableCell<ControlledRawMaterial, ControlledRawMaterial> {
+    public class RmActualQtyCell extends TableCell<ControlledItem, ControlledItem> {
 
         VBox vbox = new VBox();
         GridPane grid = new GridPane();
@@ -250,7 +202,7 @@ public class CheckAvailabilityController implements Initializable, ChildControll
 
         //Display text area if row is not empty
         @Override
-        protected void updateItem(ControlledRawMaterial c, boolean empty) {
+        protected void updateItem(ControlledItem c, boolean empty) {
             super.updateItem(c, empty);
             if (c != null && !c.getTxnList().isEmpty()) {
                 int amountColumnIndex = 0;
@@ -258,7 +210,7 @@ public class CheckAvailabilityController implements Initializable, ChildControll
                 int rowIndex = 0;
                 for (StockCardTxn txn : c.getTxnList()) {
                     grid.add(new Label(txn.getQty() + " " + txn.getUnitId().getName()), amountColumnIndex, rowIndex);
-                    grid.add(new Label(txn.getStockCard().getControlNo()), controlNoColumnIndex, rowIndex);
+                    grid.add(new Label(txn.getTempStockCard().getControlNo()), controlNoColumnIndex, rowIndex);
 
                     rowIndex++;
                 }
@@ -270,7 +222,7 @@ public class CheckAvailabilityController implements Initializable, ChildControll
         }
     }
 
-    public class PmActualQtyCell extends TableCell<ControlledPackagingMaterial, ControlledPackagingMaterial> {
+    public class PmActualQtyCell extends TableCell<ControlledItem, ControlledItem> {
 
         VBox vbox = new VBox();
         GridPane grid = new GridPane();
@@ -289,9 +241,8 @@ public class CheckAvailabilityController implements Initializable, ChildControll
 
         }
 
-        //Display text area if row is not empty
         @Override
-        protected void updateItem(ControlledPackagingMaterial c, boolean empty) {
+        protected void updateItem(ControlledItem c, boolean empty) {
             super.updateItem(c, empty);
             if (c != null && !c.getTxnList().isEmpty()) {
                 int amountColumnIndex = 0;
@@ -299,8 +250,7 @@ public class CheckAvailabilityController implements Initializable, ChildControll
                 int rowIndex = 0;
                 for (StockCardTxn txn : c.getTxnList()) {
                     grid.add(new Label(txn.getQty() + " " + txn.getUnitId().getName()), amountColumnIndex, rowIndex);
-                    grid.add(new Label(txn.getStockCard().getControlNo()), controlNoColumnIndex, rowIndex);
-
+                    grid.add(new Label(txn.getTempStockCard().getControlNo()), controlNoColumnIndex, rowIndex);
                     rowIndex++;
                 }
 
@@ -309,10 +259,6 @@ public class CheckAvailabilityController implements Initializable, ChildControll
                 setGraphic(null);
             }
         }
-    }
-
-    public void setControlledRmList(ObservableList<ControlledRawMaterial> controlledRmList) {
-        this.controlledRmList = controlledRmList;
     }
 
 }

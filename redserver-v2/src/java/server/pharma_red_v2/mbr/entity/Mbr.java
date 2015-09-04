@@ -12,6 +12,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,10 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import server.pharma_red_v2._main.entity.Product;
 import server.pharma_red_v2._main.entity.Unit;
-import server.pharma_red_v2.transaction.entity.StockCardTxn;
 
 /**
  *
@@ -87,13 +87,13 @@ public class Mbr implements Serializable {
     @Column(name = "po_no")
     private String poNo;
 
-    @OneToMany(mappedBy = "mbrId")
-    private List<StockCardTxn> stockCardTxnList;
+    @OneToMany(mappedBy = "batchId")
+    private List<BatchItemRequirement> batchItemRequirementList;
 
     @Expose
     @Column(name = "status")
-    @Size(max = 20)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private MbrStatus status;
 
     public Mbr() {
     }
@@ -166,21 +166,20 @@ public class Mbr implements Serializable {
         this.poNo = poNo;
     }
 
-    public String getStatus() {
+    public MbrStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(MbrStatus status) {
         this.status = status;
     }
 
-    @XmlTransient
-    public List<StockCardTxn> getStockCardTxnList() {
-        return stockCardTxnList;
+    public List<BatchItemRequirement> getBatchItemRequirementList() {
+        return batchItemRequirementList;
     }
 
-    public void setStockCardTxnList(List<StockCardTxn> stockCardTxnList) {
-        this.stockCardTxnList = stockCardTxnList;
+    public void setBatchItemRequirementList(List<BatchItemRequirement> batchItemRequirementList) {
+        this.batchItemRequirementList = batchItemRequirementList;
     }
 
     public int getProduct_id() {

@@ -22,7 +22,7 @@ public class PackagingOperation implements Serializable {
     @Expose
     private Short stepNumber;
     @Expose
-    private String header;
+    private String instruction;
     @Expose
     private Short part;
     @Expose
@@ -30,16 +30,12 @@ public class PackagingOperation implements Serializable {
     @Expose
     private String checkedBy;
 
-    public PackagingOperation(String header, Short part, String doneBy, String checkedBy) {
-        this.header = header;
+    public PackagingOperation(String instruction, Short part, String doneBy, String checkedBy) {
+        this.instruction = instruction;
         this.part = part;
         this.doneBy = doneBy;
         this.checkedBy = checkedBy;
     }
-    
-  
-    
-    
 
     public PackagingOperation() {
     }
@@ -88,12 +84,12 @@ public class PackagingOperation implements Serializable {
         this.stepNumber = stepNumber;
     }
 
-    public String getHeader() {
-        return header;
+    public String getInstruction() {
+        return instruction;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
     }
 
     /*

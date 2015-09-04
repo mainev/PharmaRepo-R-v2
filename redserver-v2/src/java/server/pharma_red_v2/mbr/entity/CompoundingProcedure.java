@@ -44,13 +44,13 @@ public class CompoundingProcedure implements Serializable, Comparable<Compoundin
     private Short stepNumber;
 
     @Expose
-    @Size(max = 500)
-    @Column(name = "header")
-    private String header;
+    @Size(max = 2147483647)
+    @Column(name = "instruction")
+    private String instruction;
 
     @Expose
-    @Column(name = "footer")
-    private Boolean footer;
+    @Column(name = "time_monitored")
+    private Boolean timeMonitored;
 
     @Expose
     @Size(max = 100)
@@ -69,6 +69,16 @@ public class CompoundingProcedure implements Serializable, Comparable<Compoundin
     @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
     @ManyToOne
     private ManufacturingProcedure manufacturingProcedureId;
+
+    @Column(name = "requires_equipment")
+    private Boolean requiresEquipment;
+
+    @Column(name = "requires_rmreq")
+    private Boolean requiresRawMaterialRequirementList;
+
+    @Size(max = 2147483647)
+    @Column(name = "remarks")
+    private String remarks;
 
     public CompoundingProcedure() {
     }
@@ -102,20 +112,20 @@ public class CompoundingProcedure implements Serializable, Comparable<Compoundin
         this.stepNumber = stepNumber;
     }
 
-    public String getHeader() {
-        return header;
+    public String getInstruction() {
+        return instruction;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
     }
 
-    public Boolean getFooter() {
-        return footer;
+    public Boolean getTimeMonitored() {
+        return timeMonitored;
     }
 
-    public void setFooter(Boolean footer) {
-        this.footer = footer;
+    public void setTimeMonitored(Boolean timeMonitored) {
+        this.timeMonitored = timeMonitored;
     }
 
     public String getDoneBy() {
@@ -142,15 +152,30 @@ public class CompoundingProcedure implements Serializable, Comparable<Compoundin
         this.dosageList = dosageList;
     }
 
-    /*
-     public ManufacturingProcedure getManufacturingProcedureId() {
-     return manufacturingProcedureId;
-     }
+    public Boolean getRequiresEquipment() {
+        return requiresEquipment;
+    }
 
-     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-     this.manufacturingProcedureId = manufacturingProcedureId;
-     }
-     */
+    public void setRequiresEquipment(Boolean requiresEquipment) {
+        this.requiresEquipment = requiresEquipment;
+    }
+
+    public Boolean getRequiresRawMaterialRequirementList() {
+        return requiresRawMaterialRequirementList;
+    }
+
+    public void setRequiresRawMaterialRequirementList(Boolean requiresRawMaterialRequirementList) {
+        this.requiresRawMaterialRequirementList = requiresRawMaterialRequirementList;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

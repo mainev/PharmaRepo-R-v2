@@ -24,7 +24,6 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 import server.pharma_red_v2.mbr.entity.Mbr;
 import server.pharma_red_v2.mbr.facade.MbrFacade;
-import server.pharma_red_v2.transaction.entity.StockCardTxn;
 
 /**
  * REST Web Service
@@ -139,14 +138,13 @@ public class MbrREST {
         mbrFacade.dispenseMbrMaterials(Integer.parseInt(mbr_id));
     }
 
-    @GET
-    @Path("/g_batch_stock_card_txn_list")
-    @Produces("application/json")
-    public List<StockCardTxn> getBatchStockCardTxnList(@QueryParam("mbr_id") String mbr_id) {
-        Mbr batch = mbrFacade.findById(Integer.parseInt(mbr_id));
-        return batch.getStockCardTxnList();
-    }
-
+//    @GET
+//    @Path("/g_batch_stock_card_txn_list")
+//    @Produces("application/json")
+//    public List<StockCardTxn> getBatchStockCardTxnList(@QueryParam("mbr_id") String mbr_id) {
+//        Mbr batch = mbrFacade.findById(Integer.parseInt(mbr_id));
+//        return batch.getStockCardTxnList();
+//    }
     @GET
     @Path("/g_batch_by_id")
     @Produces("application/json")

@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import mbrinstant.FXMLLocations;
+import mbrinstant.entity.MbrStatus;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.utils.Config;
@@ -156,22 +157,16 @@ public class BatchMonitoringController implements Initializable, ParentControlle
 
     private void monitorSelectedBatch() {
         if (batch != null) {
-            switch (batch.getStatus()) {
-                case "PENDING":
-                    processList.getSelectionModel().select(1);
-                    break;
-                case "RESERVED":
-                    processList.getSelectionModel().select(2);
-                    break;
-                case "PRINTED":
-                    processList.getSelectionModel().select(3);
-                    break;
-                case "DISPENSED":
-                    processList.getSelectionModel().select(3);
-                    break;
-                default:
-                    break;
+            if (batch.getStatus() == MbrStatus.PENDING) {
+                processList.getSelectionModel().select(1);
+            } else if (batch.getStatus() == MbrStatus.RESERVED) {
+                processList.getSelectionModel().select(2);
+            } else if (batch.getStatus() == MbrStatus.PRINTED) {
+                processList.getSelectionModel().select(3);
+            } else if (batch.getStatus() == MbrStatus.DISPENSED) {
+                processList.getSelectionModel().select(3);
             }
+
         } else {
             processList.getSelectionModel().select(0);
         }
@@ -193,43 +188,34 @@ public class BatchMonitoringController implements Initializable, ParentControlle
                 hbox.getChildren().add(new Label(item));
                 hbox.getChildren().add(imgv);
                 if (batch != null) {
-                    if (batch.getStatus().equals("PENDING")) {
+                    if (batch.getStatus() == MbrStatus.PENDING) {
                         switch (item) {
                             case "Batch Creation":
                                 final Image image2 = new Image(BatchMonitoringController.class.getResourceAsStream("check.png"));
                                 imgv.setImage(image2);
                                 break;
                         }
-                    } else if (batch.getStatus().equals("RESERVED")) {
+                    } else if (batch.getStatus() == MbrStatus.RESERVED) {
                         switch (item) {
                             case "Batch Creation":
-//                                final Image image2 = new Image(BatchMonitoringController.class.getResourceAsStream("check.png"));
-//                                imgv.setImage(image2);
                             case "Material Allocation":
                                 imgv.setImage(new Image(BatchMonitoringController.class.getResourceAsStream("check.png")));
                                 break;
 
                         }
-                    } else if (batch.getStatus().equals("PRINTED")) {
+                    } else if (batch.getStatus() == MbrStatus.PRINTED) {
                         switch (item) {
                             case "Batch Creation":
-//                                final Image image2 = new Image(BatchMonitoringController.class.getResourceAsStream("check.png"));
-//                                imgv.setImage(image2);
                             case "Material Allocation":
-                            //        imgv.setImage(new Image(BatchMonitoringController.class.getResourceAsStream("check.png")));
                             case "MBR Generation":
                                 imgv.setImage(new Image(BatchMonitoringController.class.getResourceAsStream("check.png")));
                                 break;
                         }
-                    } else if (batch.getStatus().equals("DISPENSED")) {
+                    } else if (batch.getStatus() == MbrStatus.DISPENSED) {
                         switch (item) {
                             case "Batch Creation":
-//                                final Image image2 = new Image(BatchMonitoringController.class.getResourceAsStream("check.png"));
-//                                imgv.setImage(image2);
                             case "Material Allocation":
-                            //      imgv.setImage(new Image(BatchMonitoringController.class.getResourceAsStream("check.png")));
                             case "MBR Generation":
-                            //        imgv.setImage(new Image(BatchMonitoringController.class.getResourceAsStream("check.png")));
                             case "Dispensing":
                                 imgv.setImage(new Image(BatchMonitoringController.class.getResourceAsStream("check.png")));
                                 break;

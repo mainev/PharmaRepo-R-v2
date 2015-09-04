@@ -8,8 +8,8 @@ package mbrinstant.entity.sqlsvr_copy;
 import com.google.gson.annotations.Expose;
 import java.util.Date;
 import java.util.List;
+import mbrinstant.entity.StockStatus;
 import mbrinstant.entity.main.Unit;
-import mbrinstant.entity.mbr.MbrStatus;
 import mbrinstant.entity.transaction.StockCardTxn;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
 import mbrinstant.utils.MetricCalculator;
@@ -48,7 +48,7 @@ public class StockCardC {
     @Expose
     private WarehouseC warehouseId;
     @Expose
-    private String stockStatus;
+    private StockStatus stockStatus;
 
     private List<StockCardTxn> stockCardTxnList;
 
@@ -169,11 +169,11 @@ public class StockCardC {
         return quantity;
     }
 
-    public String getStockStatus() {
+    public StockStatus getStockStatus() {
         return stockStatus;
     }
 
-    public void setStockStatus(String stockStatus) {
+    public void setStockStatus(StockStatus stockStatus) {
         this.stockStatus = stockStatus;
     }
 
@@ -203,11 +203,13 @@ public class StockCardC {
     public Quantity getAvailableQuantity() throws Exception {
         Quantity used = new Quantity();
         for (StockCardTxn stxn : stockCardTxnList) {
-            String stat = stxn.getMbrId().getStatus();
+//            String stat = stxn.getMbrId().getStatus();
+//
+//            if (!stat.equalsIgnoreCase(MbrStatus.PENDING.toString())) {
+//                used = MetricCalculator.add(used, new Quantity(stxn.getQty(), stxn.getUnitId().getName()));
+//            }
 
-            if (!stat.equalsIgnoreCase(MbrStatus.PENDING.toString())) {
-                used = MetricCalculator.add(used, new Quantity(stxn.getQty(), stxn.getUnitId().getName()));
-            }
+            used = MetricCalculator.add(used, new Quantity(stxn.getQty(), stxn.getUnitId().getName()));
         }
 
         return MetricCalculator.subtract(getStockQuantity(), used);

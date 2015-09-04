@@ -18,8 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import server.pharma_red_v2._main.entity.Unit;
-import server.pharma_red_v2.mbr.entity.Mbr;
+import server.pharma_red_v2.mbr.entity.BatchItemRequirement;
 import server.pharma_red_v2.sqlsvr_copy.entity.StockCardC;
 
 /**
@@ -61,15 +62,21 @@ public class StockCardTxn implements Serializable {
     @Column(name = "unit_id", insertable = false, updatable = false)
     private short unit_id;
 
-    @JoinColumn(name = "mbr_id", referencedColumnName = "id")
+//    @JoinColumn(name = "mbr_id", referencedColumnName = "id")
+//    @ManyToOne
+//    private Mbr mbrId;
+    @JoinColumn(name = "batch_item_req_id", referencedColumnName = "id")
     @ManyToOne
-    private Mbr mbrId;
+    private BatchItemRequirement batchItemReqId;
+
+    @JoinColumn(name = "transaction_type_id", referencedColumnName = "id")
+    @ManyToOne
+    private TransactionType transactionTypeId;
 
     //for audit entry
-    @Expose
-    @Column(name = "mbr_id", insertable = false, updatable = false)
-    private int mbr_id;
-
+//    @Expose
+//    @Column(name = "mbr_id", insertable = false, updatable = false)
+//    private int mbr_id;
     public StockCardTxn() {
     }
 
@@ -110,15 +117,14 @@ public class StockCardTxn implements Serializable {
         this.unitId = unitId;
     }
 
-    public Mbr getMbrId() {
-        return mbrId;
-    }
-
-    public void setMbrId(Mbr mbrId) {
-
-        this.mbrId = mbrId;
-    }
-
+//    public Mbr getMbrId() {
+//        return mbrId;
+//    }
+//
+//    public void setMbrId(Mbr mbrId) {
+//
+//        this.mbrId = mbrId;
+//    }
     public int getStock_card_id() {
         return stock_card_id;
     }
@@ -135,12 +141,29 @@ public class StockCardTxn implements Serializable {
         this.unit_id = unit_id;
     }
 
-    public int getMbr_id() {
-        return mbr_id;
+//    public int getMbr_id() {
+//        return mbr_id;
+//    }
+//
+//    public void setMbr_id(int mbr_id) {
+//        this.mbr_id = mbr_id;
+//    }
+    public TransactionType getTransactionTypeId() {
+        return transactionTypeId;
     }
 
-    public void setMbr_id(int mbr_id) {
-        this.mbr_id = mbr_id;
+    @XmlTransient
+    @JsonIgnore
+    public BatchItemRequirement getBatchItemReqId() {
+        return batchItemReqId;
+    }
+
+    public void setBatchItemReqId(BatchItemRequirement batchItemReqId) {
+        this.batchItemReqId = batchItemReqId;
+    }
+
+    public void setTransactionTypeId(TransactionType transactionTypeId) {
+        this.transactionTypeId = transactionTypeId;
     }
 
     @Override

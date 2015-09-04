@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mbrinstant.entity.mbr;
+package mbrinstant.entity;
 
 /**
  *
  * @author maine
  */
-public enum MbrStatus {
+public enum ItemReqStatusEnum {
 
-    PENDING,
-    RESERVED,
+    ALLOCATED,
     DISPENSED,
-    APPROVED,
-    PRINTED
+    PENDING
 }

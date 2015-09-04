@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="packaging_material" class="java.lang.Object">
-		<fieldDescription><![CDATA[packagingMaterialId]]></fieldDescription>
+		<fieldDescription><![CDATA[itemId]]></fieldDescription>
 	</field>
 	<field name="quantity" class="java.lang.Double">
 		<fieldDescription><![CDATA[quantity]]></fieldDescription>

@@ -239,7 +239,7 @@ public class CompoundingProceduresController implements Initializable, PageContr
 
         //tb.itemsProperty().bind(rmReqChoiceBox.itemsProperty());
         compoundingProcedureTableView.setItems(compoundingProcedureList);
-        colCompoundingProcedureHeader.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getHeader()));
+        colCompoundingProcedureHeader.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getInstruction()));
         colCompoundingProcedureStep.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getStepNumber()));
 
         colCompoundingProcedureAction.setSortable(false);

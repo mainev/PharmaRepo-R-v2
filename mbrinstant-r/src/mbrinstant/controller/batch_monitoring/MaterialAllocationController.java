@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import mbrinstant.FXMLLocations;
 import mbrinstant.controls.CustomAlertDialog;
+import mbrinstant.entity.MbrStatus;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
@@ -36,8 +37,9 @@ public class MaterialAllocationController implements Initializable, ChildControl
     @FXML
     private VBox vbox;
 
-    private Button checkAvailability = new Button("Check Availability");
-    private Button cancelReservation = new Button("Cancel Reservation");
+    private final Button checkAvailability = new Button("Check Availability");
+    private final Button cancelReservation = new Button("Cancel Reservation");
+    private final Button viewAllocation = new Button("View Allocation");
 
     //rest client
     SingletonMbrRestClient batchRestClient = SingletonMbrRestClient.getInstance();
@@ -89,38 +91,31 @@ public class MaterialAllocationController implements Initializable, ChildControl
 
     private void checkBatchStatus() {
         if (batch != null) {
-            switch (batch.getStatus()) {
-                case "PENDING":
-                    message.setText("Materials ready for allocation");
-                    vbox.getChildren().clear();
-                    vbox.getChildren().addAll(message, checkAvailability);
-                    break;
-                case "RESERVED":
-                    message.setText("Materials have been reserved.");
-                    vbox.getChildren().clear();
-                    vbox.getChildren().addAll(message, cancelReservation);
-                    break;
-                case "PRINTED":
-                    message.setText("Materials have been allocated.");
-                    vbox.getChildren().clear();
-                    vbox.getChildren().addAll(message);
-                    break;
-
-                case "DISPENSED":
-                    message.setText("Materials have been allocated.");
-                    vbox.getChildren().clear();
-                    vbox.getChildren().addAll(message);
-                    break;
-                default: {
-                    try {
-                        throw new Exception("Exception in MaterialAllocationController.");
-                    } catch (Exception ex) {
-                        CustomAlertDialog.showExceptionDialog(ex);
-                        Logger.getLogger(MaterialAllocationController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+            if (batch.getStatus() == MbrStatus.PENDING) {
+                message.setText("Materials ready for allocation");
+                vbox.getChildren().clear();
+                vbox.getChildren().addAll(message, checkAvailability);
+            } else if (batch.getStatus() == MbrStatus.RESERVED) {
+                message.setText("Materials have been reserved.");
+                vbox.getChildren().clear();
+                vbox.getChildren().addAll(message, cancelReservation);
+            } else if (batch.getStatus() == MbrStatus.PRINTED) {
+                message.setText("Materials have been allocated.");
+                vbox.getChildren().clear();
+                vbox.getChildren().addAll(message, viewAllocation);
+            } else if (batch.getStatus() == MbrStatus.DISPENSED) {
+                message.setText("Materials have been allocated.");
+                vbox.getChildren().clear();
+                vbox.getChildren().addAll(message, viewAllocation);
+            } else {
+                try {
+                    throw new Exception("Exception in MaterialAllocationController.");
+                } catch (Exception ex) {
+                    CustomAlertDialog.showExceptionDialog(ex);
+                    Logger.getLogger(MaterialAllocationController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                break;
             }
+
         }
 
     }

@@ -32,7 +32,7 @@ public class PackagingProcedureTableFactory {
             super.updateItem(op, empty);
             if (op != null) {
                 setGraphic(textArea);
-                textArea.setText(op.getHeader());
+                textArea.setText(op.getInstruction());
             }
         }
     }

@@ -8,41 +8,45 @@ package mbrinstant.entity.mbr;
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author maine
  */
 public class CompoundingProcedure implements Serializable {
+
     @Expose
     private Integer id;
     @Expose
     private Short stepNumber;
     @Expose
-    private String header;
+    private String instruction;
     @Expose
-    private Boolean footer;
+    private Boolean timeMonitored;
     @Expose
     private String doneBy;
     @Expose
     private String checkedBy;
-    @Expose(serialize=false)
-    private List<Dosage> dosageList;
 
-   
-    
-    
-    
-    public CompoundingProcedure(short stepNumber, String header, boolean footer, String doneBy, String checkedBy, List<Dosage> dosageList){
-    
+    @Expose(serialize = false)
+    private List<Dosage> dosageList;
+    @Expose
+    private Boolean requiresEquipment;
+    @Expose
+    private Boolean requiresRawMaterialRequirementList;
+    @Expose
+    private String remarks;
+
+    public CompoundingProcedure(short stepNumber, String header, boolean footer, String doneBy, String checkedBy, List<Dosage> dosageList) {
+
         this.stepNumber = stepNumber;
-        this.header = header;
-        this.footer = footer;
+        this.instruction = header;
+        this.timeMonitored = footer;
         this.doneBy = doneBy;
         this.checkedBy = checkedBy;
         this.dosageList = dosageList;
     }
+
     public CompoundingProcedure() {
     }
 
@@ -66,20 +70,20 @@ public class CompoundingProcedure implements Serializable {
         this.stepNumber = stepNumber;
     }
 
-    public String getHeader() {
-        return header;
+    public String getInstruction() {
+        return instruction;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
     }
 
-    public Boolean getFooter() {
-        return footer;
+    public Boolean getTimeMonitored() {
+        return timeMonitored;
     }
 
-    public void setFooter(Boolean footer) {
-        this.footer = footer;
+    public void setTimeMonitored(Boolean timeMonitored) {
+        this.timeMonitored = timeMonitored;
     }
 
     public String getDoneBy() {
@@ -106,7 +110,30 @@ public class CompoundingProcedure implements Serializable {
         this.dosageList = dosageList;
     }
 
- 
+    public Boolean getRequiresEquipment() {
+        return requiresEquipment;
+    }
+
+    public void setRequiresEquipment(Boolean requiresEquipment) {
+        this.requiresEquipment = requiresEquipment;
+    }
+
+    public Boolean getRequiresRawMaterialRequirementList() {
+        return requiresRawMaterialRequirementList;
+    }
+
+    public void setRequiresRawMaterialRequirementList(Boolean requiresRawMaterialRequirementList) {
+        this.requiresRawMaterialRequirementList = requiresRawMaterialRequirementList;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -129,9 +156,7 @@ public class CompoundingProcedure implements Serializable {
 
     @Override
     public String toString() {
-        return stepNumber + " " + header;
+        return stepNumber + " " + instruction;
     }
-    
-   
-    
+
 }

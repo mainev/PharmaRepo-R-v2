@@ -26,6 +26,15 @@ CREATE SCHEMA audit;
 ALTER SCHEMA audit OWNER TO postgres;
 
 --
+-- Name: line_clearance; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA line_clearance;
+
+
+ALTER SCHEMA line_clearance OWNER TO postgres;
+
+--
 -- Name: main; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -141,6 +150,148 @@ ALTER TABLE audit.audit_trail_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE audit_trail_id_seq OWNED BY audit_trail.id;
+
+
+SET search_path = line_clearance, pg_catalog;
+
+--
+-- Name: coding_room_line_clearance; Type: TABLE; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE coding_room_line_clearance (
+    id integer NOT NULL,
+    step_no smallint,
+    instruction character varying,
+    checked_by character varying(100),
+    verified_by character varying(100),
+    type smallint,
+    area smallint
+);
+
+
+ALTER TABLE line_clearance.coding_room_line_clearance OWNER TO postgres;
+
+--
+-- Name: compounding_area_line_clearance; Type: TABLE; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE compounding_area_line_clearance (
+    id integer NOT NULL,
+    step_no smallint,
+    instruction character varying,
+    checked_by character varying(100),
+    verified_by character varying(100),
+    type smallint,
+    area smallint
+);
+
+
+ALTER TABLE line_clearance.compounding_area_line_clearance OWNER TO postgres;
+
+--
+-- Name: dispensing_area_line_clearance; Type: TABLE; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE dispensing_area_line_clearance (
+    id integer NOT NULL,
+    step_no smallint,
+    instruction character varying,
+    checked_by character varying(100),
+    verified_by character varying(100),
+    type smallint,
+    area smallint
+);
+
+
+ALTER TABLE line_clearance.dispensing_area_line_clearance OWNER TO postgres;
+
+--
+-- Name: dispensing_area_id_seq; Type: SEQUENCE; Schema: line_clearance; Owner: postgres
+--
+
+CREATE SEQUENCE dispensing_area_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE line_clearance.dispensing_area_id_seq OWNER TO postgres;
+
+--
+-- Name: dispensing_area_id_seq; Type: SEQUENCE OWNED BY; Schema: line_clearance; Owner: postgres
+--
+
+ALTER SEQUENCE dispensing_area_id_seq OWNED BY dispensing_area_line_clearance.id;
+
+
+--
+-- Name: filling_area_line_clearance; Type: TABLE; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE filling_area_line_clearance (
+    id integer NOT NULL,
+    step_no smallint,
+    instruction character varying,
+    checked_by character varying(100),
+    verified_by character varying(100),
+    type smallint,
+    area smallint
+);
+
+
+ALTER TABLE line_clearance.filling_area_line_clearance OWNER TO postgres;
+
+--
+-- Name: labeling_packg_area_line_clearance; Type: TABLE; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE labeling_packg_area_line_clearance (
+    id integer NOT NULL,
+    step_no smallint,
+    instruction character varying,
+    checked_by character varying(100),
+    verified_by character varying(100),
+    type smallint,
+    area smallint
+);
+
+
+ALTER TABLE line_clearance.labeling_packg_area_line_clearance OWNER TO postgres;
+
+--
+-- Name: type; Type: TABLE; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE type (
+    id smallint NOT NULL,
+    code character varying(5),
+    description character varying(50)
+);
+
+
+ALTER TABLE line_clearance.type OWNER TO postgres;
+
+--
+-- Name: type_id_seq; Type: SEQUENCE; Schema: line_clearance; Owner: postgres
+--
+
+CREATE SEQUENCE type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE line_clearance.type_id_seq OWNER TO postgres;
+
+--
+-- Name: type_id_seq; Type: SEQUENCE OWNED BY; Schema: line_clearance; Owner: postgres
+--
+
+ALTER SEQUENCE type_id_seq OWNED BY type.id;
 
 
 SET search_path = main, pg_catalog;
@@ -390,6 +541,55 @@ ALTER SEQUENCE unit_id_seq OWNED BY unit.id;
 SET search_path = mbr, pg_catalog;
 
 --
+-- Name: batch_item_requirement; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE batch_item_requirement (
+    id integer NOT NULL,
+    batch_id integer,
+    item_id integer,
+    udf_qty double precision,
+    udf_qty_unit_id smallint,
+    required_qty double precision,
+    required_qty_unit_id smallint,
+    date_allocated timestamp without time zone,
+    date_dispensed timestamp without time zone,
+    item_req_status character varying(20),
+    part smallint
+);
+
+
+ALTER TABLE mbr.batch_item_requirement OWNER TO postgres;
+
+--
+-- Name: TABLE batch_item_requirement; Type: COMMENT; Schema: mbr; Owner: postgres
+--
+
+COMMENT ON TABLE batch_item_requirement IS 'computation record for batch item requirement';
+
+
+--
+-- Name: batch_item_requirement_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
+--
+
+CREATE SEQUENCE batch_item_requirement_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE mbr.batch_item_requirement_id_seq OWNER TO postgres;
+
+--
+-- Name: batch_item_requirement_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
+--
+
+ALTER SEQUENCE batch_item_requirement_id_seq OWNED BY batch_item_requirement.id;
+
+
+--
 -- Name: bottling_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
@@ -425,17 +625,44 @@ ALTER SEQUENCE bottling_procedure_id_seq OWNED BY bottling_procedure.id;
 
 
 --
+-- Name: coding_spec; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE coding_spec (
+    id integer NOT NULL,
+    step_no smallint,
+    instruction character varying,
+    requires_equipment boolean,
+    done_by character varying(100),
+    checked_by character varying(100),
+    area smallint
+);
+
+
+ALTER TABLE mbr.coding_spec OWNER TO postgres;
+
+--
+-- Name: TABLE coding_spec; Type: COMMENT; Schema: mbr; Owner: postgres
+--
+
+COMMENT ON TABLE coding_spec IS 'Coding specification';
+
+
+--
 -- Name: compounding_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE compounding_procedure (
     id integer NOT NULL,
     step_number smallint,
-    header character varying(500),
-    footer boolean,
+    instruction character varying,
+    time_monitored boolean,
     done_by character varying(100),
     checked_by character varying(100),
-    manufacturing_procedure_id integer
+    manufacturing_procedure_id integer,
+    requires_equipment boolean,
+    remarks character varying,
+    requires_rmreq boolean
 );
 
 
@@ -575,6 +802,48 @@ ALTER SEQUENCE equipment_requirement_coding_manufacturing_procedure_id_seq OWNED
 
 
 --
+-- Name: main_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE main_procedure (
+    id smallint NOT NULL,
+    heading character varying(1),
+    heading_title character varying(50),
+    area smallint
+);
+
+
+ALTER TABLE mbr.main_procedure OWNER TO postgres;
+
+--
+-- Name: TABLE main_procedure; Type: COMMENT; Schema: mbr; Owner: postgres
+--
+
+COMMENT ON TABLE main_procedure IS 'first page of mbr';
+
+
+--
+-- Name: main_procedure_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
+--
+
+CREATE SEQUENCE main_procedure_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE mbr.main_procedure_id_seq OWNER TO postgres;
+
+--
+-- Name: main_procedure_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
+--
+
+ALTER SEQUENCE main_procedure_id_seq OWNED BY main_procedure.id;
+
+
+--
 -- Name: manufacturing_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
@@ -689,7 +958,7 @@ ALTER SEQUENCE packaging_material_requirement_id_seq OWNED BY packaging_material
 CREATE TABLE packaging_operation (
     id integer NOT NULL,
     step_number smallint,
-    header character varying(1000),
+    instruction character varying(1000),
     manufacturing_procedure_id integer,
     part smallint,
     done_by character varying(100),
@@ -834,6 +1103,48 @@ ALTER TABLE mbr.raw_material_requirement_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE raw_material_requirement_id_seq OWNED BY raw_material_requirement.id;
+
+
+--
+-- Name: sub_procedure; Type: TABLE; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE sub_procedure (
+    id integer NOT NULL,
+    main_procedure smallint,
+    sub_procedure character varying(200),
+    step_no smallint
+);
+
+
+ALTER TABLE mbr.sub_procedure OWNER TO postgres;
+
+--
+-- Name: TABLE sub_procedure; Type: COMMENT; Schema: mbr; Owner: postgres
+--
+
+COMMENT ON TABLE sub_procedure IS 'for the first page of mbr';
+
+
+--
+-- Name: sub_procedure_id_seq; Type: SEQUENCE; Schema: mbr; Owner: postgres
+--
+
+CREATE SEQUENCE sub_procedure_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE mbr.sub_procedure_id_seq OWNER TO postgres;
+
+--
+-- Name: sub_procedure_id_seq; Type: SEQUENCE OWNED BY; Schema: mbr; Owner: postgres
+--
+
+ALTER SEQUENCE sub_procedure_id_seq OWNED BY sub_procedure.id;
 
 
 --
@@ -1502,7 +1813,8 @@ CREATE TABLE stock_card_txn (
     stock_card_id integer,
     qty double precision,
     unit_id smallint,
-    mbr_id integer
+    batch_item_req_id integer,
+    transaction_type_id smallint
 );
 
 
@@ -1529,6 +1841,40 @@ ALTER TABLE transaction.stock_card_txn_id_seq OWNER TO postgres;
 ALTER SEQUENCE stock_card_txn_id_seq OWNED BY stock_card_txn.id;
 
 
+--
+-- Name: transaction_type; Type: TABLE; Schema: transaction; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE transaction_type (
+    id smallint NOT NULL,
+    code character varying(50),
+    description character varying(100)
+);
+
+
+ALTER TABLE transaction.transaction_type OWNER TO postgres;
+
+--
+-- Name: transaction_type_id_seq; Type: SEQUENCE; Schema: transaction; Owner: postgres
+--
+
+CREATE SEQUENCE transaction_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE transaction.transaction_type_id_seq OWNER TO postgres;
+
+--
+-- Name: transaction_type_id_seq; Type: SEQUENCE OWNED BY; Schema: transaction; Owner: postgres
+--
+
+ALTER SEQUENCE transaction_type_id_seq OWNED BY transaction_type.id;
+
+
 SET search_path = audit, pg_catalog;
 
 --
@@ -1536,6 +1882,22 @@ SET search_path = audit, pg_catalog;
 --
 
 ALTER TABLE ONLY audit_trail ALTER COLUMN id SET DEFAULT nextval('audit_trail_id_seq'::regclass);
+
+
+SET search_path = line_clearance, pg_catalog;
+
+--
+-- Name: id; Type: DEFAULT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY dispensing_area_line_clearance ALTER COLUMN id SET DEFAULT nextval('dispensing_area_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY type ALTER COLUMN id SET DEFAULT nextval('type_id_seq'::regclass);
 
 
 SET search_path = main, pg_catalog;
@@ -1595,6 +1957,13 @@ SET search_path = mbr, pg_catalog;
 -- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
 --
 
+ALTER TABLE ONLY batch_item_requirement ALTER COLUMN id SET DEFAULT nextval('batch_item_requirement_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
+--
+
 ALTER TABLE ONLY bottling_procedure ALTER COLUMN id SET DEFAULT nextval('bottling_procedure_id_seq'::regclass);
 
 
@@ -1617,6 +1986,13 @@ ALTER TABLE ONLY dosage ALTER COLUMN id SET DEFAULT nextval('dosage_id_seq'::reg
 --
 
 ALTER TABLE ONLY equipment_requirement ALTER COLUMN id SET DEFAULT nextval('equipment_requirement_coding_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY main_procedure ALTER COLUMN id SET DEFAULT nextval('main_procedure_id_seq'::regclass);
 
 
 --
@@ -1652,6 +2028,13 @@ ALTER TABLE ONLY powder_filling_procedure ALTER COLUMN id SET DEFAULT nextval('p
 --
 
 ALTER TABLE ONLY raw_material_requirement ALTER COLUMN id SET DEFAULT nextval('raw_material_requirement_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY sub_procedure ALTER COLUMN id SET DEFAULT nextval('sub_procedure_id_seq'::regclass);
 
 
 SET search_path = security, pg_catalog;
@@ -1779,6 +2162,13 @@ SET search_path = transaction, pg_catalog;
 ALTER TABLE ONLY stock_card_txn ALTER COLUMN id SET DEFAULT nextval('stock_card_txn_id_seq'::regclass);
 
 
+--
+-- Name: id; Type: DEFAULT; Schema: transaction; Owner: postgres
+--
+
+ALTER TABLE ONLY transaction_type ALTER COLUMN id SET DEFAULT nextval('transaction_type_id_seq'::regclass);
+
+
 SET search_path = audit, pg_catalog;
 
 --
@@ -1864,6 +2254,126 @@ INSERT INTO audit_trail VALUES (139, 'mainevillarias@gmail.com', '2015-08-25 15:
 --
 
 SELECT pg_catalog.setval('audit_trail_id_seq', 139, true);
+
+
+SET search_path = line_clearance, pg_catalog;
+
+--
+-- Data for Name: coding_room_line_clearance; Type: TABLE DATA; Schema: line_clearance; Owner: postgres
+--
+
+INSERT INTO coding_room_line_clearance VALUES (1, 1, 'Are there leftover materials from previous batch?', '', '', 1, 3);
+INSERT INTO coding_room_line_clearance VALUES (2, 2, 'Is the room / work area clean and in order?', '', '', 1, 3);
+INSERT INTO coding_room_line_clearance VALUES (3, 3, 'Is the coding machine and accessories clean and bear equipment clean tags?', '', '', 1, 3);
+INSERT INTO coding_room_line_clearance VALUES (4, 4, 'Are all the printed materials required for coding available and bear approved QA stickers, as applicable?', '', '', 1, 3);
+INSERT INTO coding_room_line_clearance VALUES (5, 5, 'Are the workers wearing the correct / complete uniform and other suitable protective wear?', '', '', 1, 3);
+INSERT INTO coding_room_line_clearance VALUES (6, 6, 'Is the PO (Packaging Order) available in the working area?', '', '', 1, 3);
+INSERT INTO coding_room_line_clearance VALUES (7, 7, 'Is the Batch No. in the Coding Request (CR) consistent with the Batch No. reflected in the Batch Packaging Order (PO)?', '', '', 1, 3);
+INSERT INTO coding_room_line_clearance VALUES (8, 1, 'Are all unused / rejected materials from previous run recorded and reconciled?', '', '', 2, 3);
+INSERT INTO coding_room_line_clearance VALUES (9, 2, 'Are the coded materials labeled and "batched" and secured in a rack designated for?', '', '', 2, 3);
+INSERT INTO coding_room_line_clearance VALUES (10, 3, 'Are all machines unplugged and switched off?', '', '', 2, 3);
+INSERT INTO coding_room_line_clearance VALUES (11, 4, 'Is the MBR properly / completely documented and signed?', '', '', 2, 3);
+INSERT INTO coding_room_line_clearance VALUES (12, 5, 'Are finished goods / work-in-process from the previous batch removed from the area?', '', '', 2, 3);
+
+
+--
+-- Data for Name: compounding_area_line_clearance; Type: TABLE DATA; Schema: line_clearance; Owner: postgres
+--
+
+INSERT INTO compounding_area_line_clearance VALUES (1, 1, 'All materials from previous operation have been removed in the compounding area.', '', '', 1, 3);
+INSERT INTO compounding_area_line_clearance VALUES (2, 2, 'Unnecessary documents, product identification of previous product have been removed.', '', '', 1, 3);
+INSERT INTO compounding_area_line_clearance VALUES (3, 3, 'Check the entire area for cleanliness. Usage logbooks are available in their designated place.', '', '', 1, 3);
+INSERT INTO compounding_area_line_clearance VALUES (4, 4, 'Room production identification tag is properly attached.', '', '', 1, 3);
+INSERT INTO compounding_area_line_clearance VALUES (5, 5, 'Check the availability of the Approved Manufacturing Batch Record (MBR).', '', '', 1, 3);
+INSERT INTO compounding_area_line_clearance VALUES (6, 6, 'Check for the correctness  and completeness of the raw materials based on the MBR.', '', '', 1, 3);
+INSERT INTO compounding_area_line_clearance VALUES (7, 7, 'Equipment, Tools and Accessories
+ 7.1 Paddle Mixer cleaned, sanitized and in good condition.
+ 7.2 Blue Drums with double-lined PE Bag cleaned, sanitized and in good condition.
+ 7.3 Dust collector cleaned and in good condition.
+ 7.4 Mesh Screen, Scoops and Spatulas were cleaned, sanitized and in good condition.
+ 7.5 With Certified Clean Tag attached and valid cleanliness.
+ 7.6 In-Process Tag is properly accomplished and attached.', '', '', 1, 3);
+INSERT INTO compounding_area_line_clearance VALUES (8, 8, 'Check if the temperature and %RH is within specification/s.
+ Temp. Specification: NMT 25°C       Actual Reading:_________________
+ %RH Specification: NMT 50%       Actual Reading:_________________', '', '', 1, 3);
+
+
+--
+-- Name: dispensing_area_id_seq; Type: SEQUENCE SET; Schema: line_clearance; Owner: postgres
+--
+
+SELECT pg_catalog.setval('dispensing_area_id_seq', 21, true);
+
+
+--
+-- Data for Name: dispensing_area_line_clearance; Type: TABLE DATA; Schema: line_clearance; Owner: postgres
+--
+
+INSERT INTO dispensing_area_line_clearance VALUES (1, 1, 'All materials from previous operation have been removed.', NULL, NULL, 1, 3);
+INSERT INTO dispensing_area_line_clearance VALUES (2, 1, 'Check if the MBR is completely filled-up and signed.', NULL, NULL, 2, 3);
+INSERT INTO dispensing_area_line_clearance VALUES (3, 2, 'Equipment and accessories are cleaned, cleared of previous materials.', NULL, NULL, 1, 3);
+
+
+--
+-- Data for Name: filling_area_line_clearance; Type: TABLE DATA; Schema: line_clearance; Owner: postgres
+--
+
+INSERT INTO filling_area_line_clearance VALUES (1, 1, 'Check if the entire filling including the equipment is cleared of all excess product of previous lot.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (2, 2, 'Check if the area is cleared of any documents from previously used and product previously compounded.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (3, 3, 'Unnecessary documents have been removed from the area.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (4, 4, 'Inspect the entire premises for cleanliness. Usage logbooks are available in their designated place.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (5, 5, 'Room Production Identification Tag is attached.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (6, 6, 'Check for the availability of the MBR.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (7, 7, 'Check the correctness and completeness of the packaging materials received based on the specification of the MBR.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (8, 8, 'Check if the equipment to use has its valid Certified Clean Tag.', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (10, 10, 'Check and monitor room temperature (NMT 25°C) and Relative Humidity (NMT 50%) using NF-QA-011-01-01
+(Controlled Area).
+Actual Temperature Reading: _______________   Actual Reading: _______________', '', '', 1, 3);
+INSERT INTO filling_area_line_clearance VALUES (11, 1, 'Check if the MBR is properly / completely documented and signed.', '', '', 2, 3);
+INSERT INTO filling_area_line_clearance VALUES (12, 2, 'Check if the product material tags are properly signed.', '', '', 2, 3);
+INSERT INTO filling_area_line_clearance VALUES (13, 3, 'Remove materials used for the ended lot from the area.', '', '', 2, 3);
+INSERT INTO filling_area_line_clearance VALUES (14, 4, 'Clean all equipment from the bulk powder and packaging materials used.', '', '', 2, 3);
+INSERT INTO filling_area_line_clearance VALUES (15, 5, 'Removed all rejected packaging materials.', '', '', 2, 3);
+INSERT INTO filling_area_line_clearance VALUES (16, 6, 'Clean and clear the filling area including the floor, inspection tables, stools and weighing balance.', '', '', 2, 3);
+INSERT INTO filling_area_line_clearance VALUES (17, 7, 'Place an equipment status tag after cleaning the equipment.', '', '', 2, 3);
+INSERT INTO filling_area_line_clearance VALUES (9, 9, 'Equipment, Tools and Accessories
+ 9.1 Scoops cleaned, sanitized and in good condition.
+ 9.2 Weighing Balance and scoops cleaned, sanitized and in good condition.', '', '', 1, 3);
+
+
+--
+-- Data for Name: labeling_packg_area_line_clearance; Type: TABLE DATA; Schema: line_clearance; Owner: postgres
+--
+
+INSERT INTO labeling_packg_area_line_clearance VALUES (1, 1, 'Check if the entire packaging area is cleared of all excess product of previous lot.', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (2, 2, 'Check if the area is cleared of any documents and/or products from the previous finished goods.', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (3, 3, 'Remove all unnecessary documents if these are no required for the work-in-process.', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (4, 4, 'Inspect the whole area for cleanliness. Usage logbooks are available in their designated place.', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (5, 5, 'Check for the availability of the MBR.', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (6, 6, 'Check the correctness and completeness of the materials needed received based on the MBR.', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (7, 7, 'Check if the temperature is NMT 25°C. (Actual Temp. ______________)', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (8, 8, 'Check for the completeness and correctness of the total filled plastic bags received based on MBR.', '', '', 1, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (9, 1, 'Check if the MBR is properly / completely documented and signed.', '', '', 2, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (10, 2, 'Check if the finished product tags are properly signed and affixed on the finished product.', '', '', 2, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (11, 3, 'Remove all finished product of the ended lot from the area.', '', '', 2, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (12, 4, 'Clean and clear the packaging area including the floor and tables.', '', '', 2, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (13, 5, 'Account and reconcile the finished product before transferring to quarantine area.', '', '', 2, 3);
+INSERT INTO labeling_packg_area_line_clearance VALUES (14, 6, 'Clean and clear the packaging area including the floor & tables.', '', '', 2, 3);
+
+
+--
+-- Data for Name: type; Type: TABLE DATA; Schema: line_clearance; Owner: postgres
+--
+
+INSERT INTO type VALUES (1, 'START', 'Line clearance for starting');
+INSERT INTO type VALUES (2, 'END', 'Line clearance for ending');
+
+
+--
+-- Name: type_id_seq; Type: SEQUENCE SET; Schema: line_clearance; Owner: postgres
+--
+
+SELECT pg_catalog.setval('type_id_seq', 2, true);
 
 
 SET search_path = main, pg_catalog;
@@ -2001,6 +2511,27 @@ SELECT pg_catalog.setval('unit_id_seq', 11, true);
 SET search_path = mbr, pg_catalog;
 
 --
+-- Data for Name: batch_item_requirement; Type: TABLE DATA; Schema: mbr; Owner: postgres
+--
+
+INSERT INTO batch_item_requirement VALUES (18, 173, 628, 111, 6, 1.665, 7, NULL, NULL, 'ALLOCATED', 1);
+INSERT INTO batch_item_requirement VALUES (19, 173, 628, 50, 5, 750, 5, NULL, NULL, 'ALLOCATED', 2);
+INSERT INTO batch_item_requirement VALUES (20, 173, 971, 1, 9, 15, 9, NULL, NULL, 'ALLOCATED', 0);
+INSERT INTO batch_item_requirement VALUES (16, 172, 628, 512, 5, 512, 7, NULL, NULL, NULL, 0);
+INSERT INTO batch_item_requirement VALUES (17, 172, 971, 1, 9, 1, 9, NULL, NULL, NULL, 0);
+INSERT INTO batch_item_requirement VALUES (13, 171, 628, 111, 6, 111, 6, NULL, NULL, 'ALLOCATED', 1);
+INSERT INTO batch_item_requirement VALUES (14, 171, 628, 50, 5, 50, 5, NULL, NULL, 'ALLOCATED', 2);
+INSERT INTO batch_item_requirement VALUES (15, 171, 971, 1, 9, 1, 9, NULL, NULL, 'ALLOCATED', 0);
+
+
+--
+-- Name: batch_item_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
+--
+
+SELECT pg_catalog.setval('batch_item_requirement_id_seq', 17, true);
+
+
+--
 -- Data for Name: bottling_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
@@ -2014,11 +2545,17 @@ SELECT pg_catalog.setval('bottling_procedure_id_seq', 5, true);
 
 
 --
+-- Data for Name: coding_spec; Type: TABLE DATA; Schema: mbr; Owner: postgres
+--
+
+
+
+--
 -- Data for Name: compounding_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO compounding_procedure VALUES (38, 1, 'mix all', true, NULL, NULL, 70);
-INSERT INTO compounding_procedure VALUES (39, 1, 'mix all', true, NULL, NULL, 71);
+INSERT INTO compounding_procedure VALUES (38, 1, 'mix all', true, NULL, NULL, 70, NULL, NULL, NULL);
+INSERT INTO compounding_procedure VALUES (39, 1, 'mix all', true, NULL, NULL, 71, true, 'AMBOT', true);
 
 
 --
@@ -2049,6 +2586,7 @@ SELECT pg_catalog.setval('dosage_id_seq', 39, true);
 
 INSERT INTO equipment_requirement VALUES (30, 70, 1, 'COMPOUNDING');
 INSERT INTO equipment_requirement VALUES (31, 71, 2, 'COMPOUNDING');
+INSERT INTO equipment_requirement VALUES (32, 71, 5, 'POWDER_FILLING');
 
 
 --
@@ -2062,7 +2600,7 @@ SELECT pg_catalog.setval('equipment_requirement_coding_equipment_id_seq', 1, fal
 -- Name: equipment_requirement_coding_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 31, true);
+SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 32, true);
 
 
 --
@@ -2070,6 +2608,28 @@ SELECT pg_catalog.setval('equipment_requirement_coding_id_seq', 31, true);
 --
 
 SELECT pg_catalog.setval('equipment_requirement_coding_manufacturing_procedure_id_seq', 1, false);
+
+
+--
+-- Data for Name: main_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
+--
+
+INSERT INTO main_procedure VALUES (1, 'A', 'Documentation/Regulatory', 3);
+INSERT INTO main_procedure VALUES (2, 'B', 'Dispensing', 3);
+INSERT INTO main_procedure VALUES (3, 'C', 'Compounding', 3);
+INSERT INTO main_procedure VALUES (4, 'D', 'Filling', 3);
+INSERT INTO main_procedure VALUES (5, 'E', 'Packaging', 3);
+INSERT INTO main_procedure VALUES (6, 'F', 'Finished Goods', 3);
+INSERT INTO main_procedure VALUES (7, 'G', 'Finished Product (Approval and Release)', 3);
+INSERT INTO main_procedure VALUES (8, 'H', 'Others', 3);
+INSERT INTO main_procedure VALUES (9, '', 'If applicable', 3);
+
+
+--
+-- Name: main_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
+--
+
+SELECT pg_catalog.setval('main_procedure_id_seq', 9, true);
 
 
 --
@@ -2091,20 +2651,16 @@ SELECT pg_catalog.setval('manufacturing_procedure_id_seq', 4, true);
 -- Data for Name: mbr; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO mbr VALUES (158, 70, 1, 'b1', 6, '2015-08-22', '2018-08-22', 'tthb', 'DISPENSED');
-INSERT INTO mbr VALUES (162, 70, 1, 'ddd', 6, '2015-08-21', '2018-08-21', 'dd', 'DISPENSED');
-INSERT INTO mbr VALUES (159, 70, 1, 'uuu', 6, '2015-08-28', '2018-08-28', 'po90', 'DISPENSED');
-INSERT INTO mbr VALUES (161, 70, 1, 'sss', 6, '2015-08-28', '2018-08-28', 'sss', 'DISPENSED');
-INSERT INTO mbr VALUES (160, 70, 1, 'dddd', 6, '2015-08-29', '2018-08-29', 'eeee', 'DISPENSED');
-INSERT INTO mbr VALUES (163, 70, 1, '44', 6, '2015-08-21', '2018-08-21', '44', 'RESERVED');
-INSERT INTO mbr VALUES (164, 71, 1, 'eee', 6, '2015-08-20', '2018-08-20', 'swd', 'PENDING');
+INSERT INTO mbr VALUES (173, 71, 15, 'batch1', 7, '2015-09-26', '2018-09-26', 'po90', 'PRINTED');
+INSERT INTO mbr VALUES (172, 70, 1, 'dd', 7, '2015-09-18', '2018-09-18', 'dd', 'PENDING');
+INSERT INTO mbr VALUES (171, 71, 1, 'batch1', 7, '2015-09-25', '2018-09-25', 'po90', 'RESERVED');
 
 
 --
 -- Name: mbr_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('mbr_id_seq', 164, true);
+SELECT pg_catalog.setval('mbr_id_seq', 172, true);
 
 
 --
@@ -2134,7 +2690,7 @@ INSERT INTO packaging_operation VALUES (41, 1, 'packaging opt', 71, 1, '', '');
 -- Name: packaging_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('packaging_procedure_id_seq', 6, true);
+SELECT pg_catalog.setval('packaging_procedure_id_seq', 7, true);
 
 
 --
@@ -2148,7 +2704,8 @@ SELECT pg_catalog.setval('packaging_procedure_operation_id_seq', 41, true);
 -- Data for Name: powder_filling_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
 --
 
-INSERT INTO powder_filling_procedure VALUES (6, 1, 'procedure filling', 71, false, '', '');
+INSERT INTO powder_filling_procedure VALUES (6, 1, 'procedure filling', 71, true, '', '');
+INSERT INTO powder_filling_procedure VALUES (7, 2, 'Transfer the compounded product to the filling section.', 71, false, NULL, NULL);
 
 
 --
@@ -2172,13 +2729,33 @@ SELECT pg_catalog.setval('primary_secondary_packaging_id_seq', 1, true);
 
 INSERT INTO raw_material_requirement VALUES (86, 512, 5, 70, 0, 628);
 INSERT INTO raw_material_requirement VALUES (87, 111, 6, 71, 1, 628);
+INSERT INTO raw_material_requirement VALUES (88, 50, 5, 71, 2, 628);
 
 
 --
 -- Name: raw_material_requirement_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
 --
 
-SELECT pg_catalog.setval('raw_material_requirement_id_seq', 87, true);
+SELECT pg_catalog.setval('raw_material_requirement_id_seq', 88, true);
+
+
+--
+-- Data for Name: sub_procedure; Type: TABLE DATA; Schema: mbr; Owner: postgres
+--
+
+INSERT INTO sub_procedure VALUES (1, 1, 'Batch No., Shelf-life, Pack Size and VR No., of the product is correct.', 1);
+INSERT INTO sub_procedure VALUES (2, 2, 'Line clearance accomplished and verified prior to weighing.', 1);
+INSERT INTO sub_procedure VALUES (3, 2, 'Raw materials were correct, individually weighed and weights verified by pharmacist.', 2);
+INSERT INTO sub_procedure VALUES (4, 3, 'Line clearance checked by Production-In-Charge and verified by QA.', 1);
+INSERT INTO sub_procedure VALUES (5, 3, 'Equipment clean tags attached to the MBR.', 2);
+INSERT INTO sub_procedure VALUES (6, 3, 'The dispensing tags attached to the weighed raw materials are filed with the batch documents.', 3);
+
+
+--
+-- Name: sub_procedure_id_seq; Type: SEQUENCE SET; Schema: mbr; Owner: postgres
+--
+
+SELECT pg_catalog.setval('sub_procedure_id_seq', 31, true);
 
 
 --
@@ -2416,13 +2993,20 @@ INSERT INTO sub_method VALUES (59, '/audit/audit/g_audit_list', 'Get audit list'
 INSERT INTO sub_method VALUES (60, '/transaction/stock_card_txn/pst_delete_stock_card_txn', 'Delete stockcardtxn in database');
 INSERT INTO sub_method VALUES (61, '/mbr/mbr/g_batch_stock_card_txn_list', 'Get batch stockcard transaction');
 INSERT INTO sub_method VALUES (62, '/mbr/mbr/g_batch_by_id', 'Get batch by id');
+INSERT INTO sub_method VALUES (63, '/transaction/stock_card_txn/g_stockcardtxn_by_batch_no', 'Get all stockcard transaction with the same batch no');
+INSERT INTO sub_method VALUES (64, '/transaction/stock_card_txn/g_stockcardtxn_by_batch_no_and_item_category', 'Get all stockcard transaction with the same batch no and item category');
+INSERT INTO sub_method VALUES (65, '/transaction/stock_card_txn/g_stockcard', 'Returns the instance of the stockCardTxn''s stockCard');
+INSERT INTO sub_method VALUES (66, 'mbr/batch_item_requirement/pst_new_batch_item_req', 'Save a new batch item requirement');
+INSERT INTO sub_method VALUES (67, 'sqlsvr_copy/stock_card_c/g_available_stockcard', 'Get available stockcard by companyId, itemId');
+INSERT INTO sub_method VALUES (68, 'mbr/batch_item_requirement/pst_update_batch_item_req_status', 'Update batch item requirement status');
+INSERT INTO sub_method VALUES (69, 'sqlsvr_copy/stock_card_c/pst_update_stock_card_stock_status', 'Update stockcard stock status (AVAILABLE, DEPLETED)');
 
 
 --
 -- Name: submethod_id_seq; Type: SEQUENCE SET; Schema: security; Owner: postgres
 --
 
-SELECT pg_catalog.setval('submethod_id_seq', 62, true);
+SELECT pg_catalog.setval('submethod_id_seq', 68, true);
 
 
 --
@@ -3289,15 +3873,17 @@ SELECT pg_catalog.setval('item_type_id_seq', 2, true);
 -- Data for Name: stock_card; Type: TABLE DATA; Schema: sqlsvr_copy; Owner: postgres
 --
 
-INSERT INTO stock_card VALUES (68, 1, 5, 'I', 628, 100, 1000, 'lot1', '2015-08-18', '2016-08-17', 'control1', 'Approved', 'KG', 'AVAILABLE');
 INSERT INTO stock_card VALUES (69, 1, 2, 'I', 971, 15, 10000, 'LOTOP', '2015-08-18', '2016-08-17', 'pmc', 'Approved', 'PCS', 'AVAILABLE');
+INSERT INTO stock_card VALUES (70, 5, 2, 'I', 971, 43, 10000, 'lop0pk', '2015-08-18', '2016-08-17', 'control2', 'Approved', 'PCS', 'AVAILABLE');
+INSERT INTO stock_card VALUES (68, 5, 5, 'I', 628, 100, 1000, 'lot1', '2015-08-18', '2016-08-17', 'control1', 'Approved', 'KG', 'AVAILABLE');
+INSERT INTO stock_card VALUES (71, 5, 5, 'I', 628, 56, 1, 'HYNB', '2015-08-18', '2015-10-17', 'CONTROL3', 'Approved', 'KG', 'DEPLETED');
 
 
 --
 -- Name: stock_card_id_seq; Type: SEQUENCE SET; Schema: sqlsvr_copy; Owner: postgres
 --
 
-SELECT pg_catalog.setval('stock_card_id_seq', 69, true);
+SELECT pg_catalog.setval('stock_card_id_seq', 71, true);
 
 
 --
@@ -3332,25 +3918,33 @@ SET search_path = transaction, pg_catalog;
 -- Data for Name: stock_card_txn; Type: TABLE DATA; Schema: transaction; Owner: postgres
 --
 
-INSERT INTO stock_card_txn VALUES (163, 68, 512, 6, 158);
-INSERT INTO stock_card_txn VALUES (164, 69, 1, 9, 158);
-INSERT INTO stock_card_txn VALUES (169, 68, 512, 6, 159);
-INSERT INTO stock_card_txn VALUES (170, 69, 1, 9, 159);
-INSERT INTO stock_card_txn VALUES (171, 68, 512, 6, 160);
-INSERT INTO stock_card_txn VALUES (172, 69, 1, 9, 160);
-INSERT INTO stock_card_txn VALUES (173, 68, 512, 6, 161);
-INSERT INTO stock_card_txn VALUES (174, 69, 1, 9, 161);
-INSERT INTO stock_card_txn VALUES (175, 68, 512, 6, 162);
-INSERT INTO stock_card_txn VALUES (176, 69, 1, 9, 162);
-INSERT INTO stock_card_txn VALUES (177, 68, 512, 6, 163);
-INSERT INTO stock_card_txn VALUES (178, 69, 1, 9, 163);
+INSERT INTO stock_card_txn VALUES (203, 71, 1, 7, 18, NULL);
+INSERT INTO stock_card_txn VALUES (204, 68, 0.66500000000000004, 7, 18, NULL);
+INSERT INTO stock_card_txn VALUES (205, 71, 750, 5, 19, NULL);
+INSERT INTO stock_card_txn VALUES (206, 70, 15, 9, 20, NULL);
+INSERT INTO stock_card_txn VALUES (196, 71, 111, 6, 13, NULL);
+INSERT INTO stock_card_txn VALUES (197, 71, 50, 5, 14, NULL);
+INSERT INTO stock_card_txn VALUES (198, 70, 1, 9, 15, NULL);
 
 
 --
 -- Name: stock_card_txn_id_seq; Type: SEQUENCE SET; Schema: transaction; Owner: postgres
 --
 
-SELECT pg_catalog.setval('stock_card_txn_id_seq', 178, true);
+SELECT pg_catalog.setval('stock_card_txn_id_seq', 198, true);
+
+
+--
+-- Data for Name: transaction_type; Type: TABLE DATA; Schema: transaction; Owner: postgres
+--
+
+
+
+--
+-- Name: transaction_type_id_seq; Type: SEQUENCE SET; Schema: transaction; Owner: postgres
+--
+
+SELECT pg_catalog.setval('transaction_type_id_seq', 1, false);
 
 
 SET search_path = audit, pg_catalog;
@@ -3361,6 +3955,56 @@ SET search_path = audit, pg_catalog;
 
 ALTER TABLE ONLY audit_trail
     ADD CONSTRAINT audit_trail_pkey PRIMARY KEY (id);
+
+
+SET search_path = line_clearance, pg_catalog;
+
+--
+-- Name: coding_room_pkey; Type: CONSTRAINT; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY coding_room_line_clearance
+    ADD CONSTRAINT coding_room_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: compounding_area_pkey; Type: CONSTRAINT; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY compounding_area_line_clearance
+    ADD CONSTRAINT compounding_area_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dispensing_area_pkey; Type: CONSTRAINT; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY dispensing_area_line_clearance
+    ADD CONSTRAINT dispensing_area_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: filling_area_pkey; Type: CONSTRAINT; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY filling_area_line_clearance
+    ADD CONSTRAINT filling_area_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: labeling_packg_area_line_clearance_pkey; Type: CONSTRAINT; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY labeling_packg_area_line_clearance
+    ADD CONSTRAINT labeling_packg_area_line_clearance_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: type_pkey; Type: CONSTRAINT; Schema: line_clearance; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY type
+    ADD CONSTRAINT type_pkey PRIMARY KEY (id);
 
 
 SET search_path = main, pg_catalog;
@@ -3424,11 +4068,27 @@ ALTER TABLE ONLY unit
 SET search_path = mbr, pg_catalog;
 
 --
+-- Name: batch_item_requirement_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY batch_item_requirement
+    ADD CONSTRAINT batch_item_requirement_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: bottling_procedure_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY bottling_procedure
     ADD CONSTRAINT bottling_procedure_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: coding_spec_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY coding_spec
+    ADD CONSTRAINT coding_spec_pkey PRIMARY KEY (id);
 
 
 --
@@ -3453,6 +4113,14 @@ ALTER TABLE ONLY dosage
 
 ALTER TABLE ONLY equipment_requirement
     ADD CONSTRAINT equipment_requirement_coding_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: main_procedure_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY main_procedure
+    ADD CONSTRAINT main_procedure_pkey PRIMARY KEY (id);
 
 
 --
@@ -3525,6 +4193,14 @@ ALTER TABLE ONLY primary_secondary_packaging
 
 ALTER TABLE ONLY raw_material_requirement
     ADD CONSTRAINT raw_material_requirement_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sub_procedure_pkey; Type: CONSTRAINT; Schema: mbr; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY sub_procedure
+    ADD CONSTRAINT sub_procedure_pkey PRIMARY KEY (id);
 
 
 --
@@ -3781,6 +4457,104 @@ ALTER TABLE ONLY stock_card_txn
     ADD CONSTRAINT stock_card_txn_pkey PRIMARY KEY (id);
 
 
+--
+-- Name: transaction_type_code_key; Type: CONSTRAINT; Schema: transaction; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY transaction_type
+    ADD CONSTRAINT transaction_type_code_key UNIQUE (code);
+
+
+--
+-- Name: transaction_type_pkey; Type: CONSTRAINT; Schema: transaction; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY transaction_type
+    ADD CONSTRAINT transaction_type_pkey PRIMARY KEY (id);
+
+
+SET search_path = line_clearance, pg_catalog;
+
+--
+-- Name: coding_room_area_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY coding_room_line_clearance
+    ADD CONSTRAINT coding_room_area_fkey FOREIGN KEY (area) REFERENCES main.area(id);
+
+
+--
+-- Name: coding_room_type_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY coding_room_line_clearance
+    ADD CONSTRAINT coding_room_type_fkey FOREIGN KEY (type) REFERENCES type(id);
+
+
+--
+-- Name: compounding_area_area_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY compounding_area_line_clearance
+    ADD CONSTRAINT compounding_area_area_fkey FOREIGN KEY (area) REFERENCES main.area(id);
+
+
+--
+-- Name: compounding_area_type_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY compounding_area_line_clearance
+    ADD CONSTRAINT compounding_area_type_fkey FOREIGN KEY (type) REFERENCES type(id);
+
+
+--
+-- Name: dispensing_area_area_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY dispensing_area_line_clearance
+    ADD CONSTRAINT dispensing_area_area_fkey FOREIGN KEY (area) REFERENCES main.area(id);
+
+
+--
+-- Name: dispensing_area_type_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY dispensing_area_line_clearance
+    ADD CONSTRAINT dispensing_area_type_fkey FOREIGN KEY (type) REFERENCES type(id);
+
+
+--
+-- Name: filling_area_area_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY filling_area_line_clearance
+    ADD CONSTRAINT filling_area_area_fkey FOREIGN KEY (area) REFERENCES main.area(id);
+
+
+--
+-- Name: filling_area_type_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY filling_area_line_clearance
+    ADD CONSTRAINT filling_area_type_fkey FOREIGN KEY (type) REFERENCES type(id);
+
+
+--
+-- Name: labeling_packg_area_line_clearance_area_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY labeling_packg_area_line_clearance
+    ADD CONSTRAINT labeling_packg_area_line_clearance_area_fkey FOREIGN KEY (area) REFERENCES main.area(id);
+
+
+--
+-- Name: labeling_packg_area_line_clearance_type_fkey; Type: FK CONSTRAINT; Schema: line_clearance; Owner: postgres
+--
+
+ALTER TABLE ONLY labeling_packg_area_line_clearance
+    ADD CONSTRAINT labeling_packg_area_line_clearance_type_fkey FOREIGN KEY (type) REFERENCES type(id);
+
+
 SET search_path = main, pg_catalog;
 
 --
@@ -3834,11 +4608,51 @@ ALTER TABLE ONLY product
 SET search_path = mbr, pg_catalog;
 
 --
+-- Name: batch_item_requirement_batch_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY batch_item_requirement
+    ADD CONSTRAINT batch_item_requirement_batch_id_fkey FOREIGN KEY (batch_id) REFERENCES mbr(id);
+
+
+--
+-- Name: batch_item_requirement_item_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY batch_item_requirement
+    ADD CONSTRAINT batch_item_requirement_item_id_fkey FOREIGN KEY (item_id) REFERENCES sqlsvr_copy.item(id);
+
+
+--
+-- Name: batch_item_requirement_required_qty_unit_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY batch_item_requirement
+    ADD CONSTRAINT batch_item_requirement_required_qty_unit_id_fkey FOREIGN KEY (required_qty_unit_id) REFERENCES main.unit(id);
+
+
+--
+-- Name: batch_item_requirement_udf_qty_unit_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY batch_item_requirement
+    ADD CONSTRAINT batch_item_requirement_udf_qty_unit_id_fkey FOREIGN KEY (udf_qty_unit_id) REFERENCES main.unit(id);
+
+
+--
 -- Name: bottling_procedure_manufacturing_procedure_id_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
 --
 
 ALTER TABLE ONLY bottling_procedure
     ADD CONSTRAINT bottling_procedure_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
+
+
+--
+-- Name: coding_spec_area_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY coding_spec
+    ADD CONSTRAINT coding_spec_area_fkey FOREIGN KEY (area) REFERENCES main.area(id);
 
 
 --
@@ -3879,6 +4693,14 @@ ALTER TABLE ONLY equipment_requirement
 
 ALTER TABLE ONLY equipment_requirement
     ADD CONSTRAINT equipment_requirement_coding_manufacturing_procedure_id_fkey FOREIGN KEY (manufacturing_procedure_id) REFERENCES manufacturing_procedure(id);
+
+
+--
+-- Name: main_procedure_area_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY main_procedure
+    ADD CONSTRAINT main_procedure_area_fkey FOREIGN KEY (area) REFERENCES main.area(id);
 
 
 --
@@ -3991,6 +4813,14 @@ ALTER TABLE ONLY raw_material_requirement
 
 ALTER TABLE ONLY raw_material_requirement
     ADD CONSTRAINT raw_material_requirement_unit_id_fkey FOREIGN KEY (unit_id) REFERENCES main.unit(id);
+
+
+--
+-- Name: sub_procedure_main_procedure_fkey; Type: FK CONSTRAINT; Schema: mbr; Owner: postgres
+--
+
+ALTER TABLE ONLY sub_procedure
+    ADD CONSTRAINT sub_procedure_main_procedure_fkey FOREIGN KEY (main_procedure) REFERENCES main_procedure(id);
 
 
 --
@@ -4128,11 +4958,11 @@ ALTER TABLE ONLY stock_card
 SET search_path = transaction, pg_catalog;
 
 --
--- Name: stock_card_txn_mbr_id_fkey; Type: FK CONSTRAINT; Schema: transaction; Owner: postgres
+-- Name: stock_card_txn_batch_item_req_id_fkey; Type: FK CONSTRAINT; Schema: transaction; Owner: postgres
 --
 
 ALTER TABLE ONLY stock_card_txn
-    ADD CONSTRAINT stock_card_txn_mbr_id_fkey FOREIGN KEY (mbr_id) REFERENCES mbr.mbr(id);
+    ADD CONSTRAINT stock_card_txn_batch_item_req_id_fkey FOREIGN KEY (batch_item_req_id) REFERENCES mbr.batch_item_requirement(id);
 
 
 --
@@ -4141,6 +4971,14 @@ ALTER TABLE ONLY stock_card_txn
 
 ALTER TABLE ONLY stock_card_txn
     ADD CONSTRAINT stock_card_txn_stock_card_id_fkey FOREIGN KEY (stock_card_id) REFERENCES sqlsvr_copy.stock_card(id);
+
+
+--
+-- Name: stock_card_txn_transaction_type_id_fkey; Type: FK CONSTRAINT; Schema: transaction; Owner: postgres
+--
+
+ALTER TABLE ONLY stock_card_txn
+    ADD CONSTRAINT stock_card_txn_transaction_type_id_fkey FOREIGN KEY (transaction_type_id) REFERENCES transaction_type(id);
 
 
 --

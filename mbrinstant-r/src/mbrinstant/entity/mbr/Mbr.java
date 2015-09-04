@@ -8,7 +8,9 @@ package mbrinstant.entity.mbr;
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
+import mbrinstant.entity.MbrStatus;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
 
@@ -37,7 +39,9 @@ public class Mbr implements Serializable {
     @Expose
     private String poNo;
     @Expose
-    private String status;
+    private MbrStatus status;
+    @Expose
+    private List<BatchItemRequirement> batchItemRequirementList;
 
     //added fields for audit tracking
     @Expose
@@ -130,12 +134,20 @@ public class Mbr implements Serializable {
         this.poNo = poNo;
     }
 
-    public String getStatus() {
+    public MbrStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(MbrStatus status) {
         this.status = status;
+    }
+
+    public List<BatchItemRequirement> getBatchItemRequirementList() {
+        return batchItemRequirementList;
+    }
+
+    public void setBatchItemRequirementList(List<BatchItemRequirement> batchItemRequirementList) {
+        this.batchItemRequirementList = batchItemRequirementList;
     }
 
     public int getProduct_id() {
@@ -176,7 +188,7 @@ public class Mbr implements Serializable {
 
     @Override
     public String toString() {
-        return "server.mbr.entity.Mbr[ id=" + id + " ]";
+        return "Batch: " + batchNo + " ( " + productId + ") [" + batchSize + " " + unitId + "]";
     }
 
 }

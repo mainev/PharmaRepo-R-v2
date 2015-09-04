@@ -8,8 +8,6 @@ package mbrinstant.controller.mmd_batch_management;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -45,8 +43,7 @@ import mbrinstant.ScreenNavigator;
 import mbrinstant.controls.CustomAlertDialog;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.mbr.Mbr;
-import mbrinstant.entity.mbr.MbrStatus;
-import mbrinstant.entity.transaction.StockCardTxn;
+import mbrinstant.entity.MbrStatus;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.rest_client.transaction.SingletonStockCardTxnRestClient;
@@ -148,7 +145,7 @@ public class MmdBatchManagementController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXMLLocations.MATERIAL_REQUIREMENT_DIALOG));
                 MaterialRequirementInfoController controller = new MaterialRequirementInfoController();
-                controller.setMbr(batch);
+                //    controller.setMbr(batch);
                 fxmlLoader.setController(controller);
                 Parent root1 = (Parent) fxmlLoader.load();
 
@@ -168,28 +165,31 @@ public class MmdBatchManagementController implements Initializable {
     }
 
     private void cancelReservation(Mbr batch) throws ServerException {
-        if (authManager.isUserPermitted(CANCEL_RESERVATION)) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Cancel Reservation");
-            alert.setHeaderText("Confirm Cancellation");
-            alert.setContentText("Are you sure you want to cancel the reservation for this batch?");
+        /*
+         if (authManager.isUserPermitted(CANCEL_RESERVATION)) {
+         Alert alert = new Alert(AlertType.CONFIRMATION);
+         alert.setTitle("Cancel Reservation");
+         alert.setHeaderText("Confirm Cancellation");
+         alert.setContentText("Are you sure you want to cancel the reservation for this batch?");
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                List<StockCardTxn> txnList = mbrRestClient.getBatchStockCardTxnList(batch.getId());
+         Optional<ButtonType> result = alert.showAndWait();
+         if (result.get() == ButtonType.OK) {
+         List<StockCardTxn> txnList = mbrRestClient.getBatchStockCardTxnList(batch.getId());
 
-                Iterator<StockCardTxn> txnListIterator = txnList.iterator();
-                while (txnListIterator.hasNext()) {
-                    StockCardTxn txn = txnListIterator.next();
-                    stockCardTxnRestClient.deleteStockCardTxn(txn.getId());
-                }
-                mbrRestClient.cancelBatchReservation(batch);
-                ScreenNavigator.loadScreen(FXMLLocations.MMD_BATCH_MANAGEMENT_VIEW);
+         Iterator<StockCardTxn> txnListIterator = txnList.iterator();
+         while (txnListIterator.hasNext()) {
+         StockCardTxn txn = txnListIterator.next();
+         stockCardTxnRestClient.deleteStockCardTxn(txn.getId());
+         }
+         mbrRestClient.cancelBatchReservation(batch);
+         ScreenNavigator.loadScreen(FXMLLocations.MMD_BATCH_MANAGEMENT_VIEW);
 
-            }
-        } else {
-            CustomAlertDialog.showAccessDeniedDialog();
-        }
+         }
+         } else {
+         CustomAlertDialog.showAccessDeniedDialog();
+         }
+
+         */
 
     }
 

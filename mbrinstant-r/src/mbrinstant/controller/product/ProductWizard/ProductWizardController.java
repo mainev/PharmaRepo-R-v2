@@ -31,7 +31,7 @@ import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.MyNotifications;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Product;
-import mbrinstant.entity.mbr.EquipmentLocations;
+import mbrinstant.EquipmentLocations;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.exceptions.ServerException;
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="14_coded_label" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9c149b6c-504c-4bd3-8cee-490c882ff00d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="236"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="280" splitType="Stretch">
+			<break>
+				<reportElement x="0" y="279" width="100" height="1" uuid="c304723b-e5ab-403f-a292-bbe0cc1280d5"/>
+			</break>
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="15" uuid="2bfd309e-378c-4eda-984c-fc9fb5dde8f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODED LABEL]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="41" y="15" width="718" height="264" uuid="7a13dee0-2706-4253-899b-3fd9f1a85e55"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+		</band>
+		<band height="280">
+			<frame>
+				<reportElement x="41" y="15" width="718" height="264" uuid="9fc1e371-5cbf-46a0-b1a1-6fbb4817ce9a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="15" uuid="95625b4e-fadd-4a06-aee5-b4a0ccdf9def"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODED LABEL]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

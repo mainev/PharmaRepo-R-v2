@@ -49,9 +49,7 @@
                                     <TableView fx:id="controlledRmTable" layoutX="103.0" layoutY="40.0" prefHeight="371.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
                                           <TableColumn fx:id="colRm" prefWidth="300.0" text="Ingredients">
-                                              <cellValueFactory>
-                                                  <PropertyValueFactory property="rmReq" />
-                                              </cellValueFactory>
+                                            
                                           </TableColumn>
                                         <TableColumn prefWidth="100.0" text="Required Qty">
                                               <cellValueFactory>
@@ -78,9 +76,7 @@
                                     <TableView fx:id="controlledPmTable" prefHeight="369.0" prefWidth="798.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <columns>
                                           <TableColumn fx:id="colPm" prefWidth="300.0" text="Ingredients">
-                                              <cellValueFactory>
-                                                  <PropertyValueFactory property="pmReq" />
-                                              </cellValueFactory>
+                                             
                                           </TableColumn>
                                           <TableColumn fx:id="colPmRequiredQty" prefWidth="100.0" text="Required Qty">
                                               <cellValueFactory>
@@ -110,7 +106,7 @@
                   <HBox prefHeight="50.0" prefWidth="200.0" />
                   <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button fx:id="printButton" mnemonicParsing="false" onAction="#printProductFormulation" prefWidth="100.0" text="Print" />
+                        <Button fx:id="printButton" mnemonicParsing="false" prefWidth="100.0" text="Print" />
                         <Button fx:id="reserveButton" mnemonicParsing="false"  prefWidth="100.0" text="Reserve" />
                         <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Cancel" />
                      </children>

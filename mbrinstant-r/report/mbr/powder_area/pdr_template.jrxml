@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pdr_template" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="816b4982-cd30-4b66-b898-b84b5f42005a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="531"/>
+	<property name="ireport.callouts" value="##Fri Sep 04 15:37:07 SGT 2015\ncallouts.7.pins=147,451;\ncallouts.11.pins=160,663;\ncallouts.9.pins=140,560;\ncallouts.6.bounds=471,386,199,42\ncallouts.13.pins=161,764;\ncallouts.7.bounds=473,425,257,62\ncallouts.8.bounds=478,484,188,43\ncallouts.2.text=8_filling_procedure\ncallouts.9.bounds=480,535,246,52\ncallouts.10.bounds=485,585,204,45\ncallouts.4.text=10_end_of_filling\ncallouts.6.text=12_coding_room_line_clearance\ncallouts.10.text=16_packaging_procedure_part_1\n\ncallouts.8.text=14_coded_label\ncallouts.11.bounds=477,640,227,55\ncallouts.12.text=18_packaging_procedure_part_2\ncallouts.2.pins=162,223;\ncallouts.14.text=20_finished_goods_reconciliation\ncallouts.12.bounds=471,699,243,50\ncallouts.4.pins=158,305;\ncallouts.6.pins=121,404;\ncallouts.10.pins=164,604;\ncallouts.8.pins=171,504;\ncallouts.13.bounds=489,749,226,57\ncallouts.12.pins=127,711;\ncallouts.14.pins=118,814;\ncallouts.14.bounds=500,820,247,44\ncallouts.1.bounds=467,159,206,55\ncallouts.1.text=7_filling_area_line_clearance(start)\n\ncallouts.2.bounds=478,206,175,50\ncallouts.3.text=9_fill_weight_monitoring_sheet\ncallouts.5.text=11_additional_materials\ncallouts.3.bounds=467,255,215,47\ncallouts.7.text=13_coding_specification\ncallouts.11.text=17_filled_weight_monitoring\ncallouts.9.text=15_labeling_packg_area_line_clearance\ncallouts.4.bounds=475,301,173,39\ncallouts.1.pins=142,165;\ncallouts.13.text=19_packaging_material_reconciliation\ncallouts.3.pins=113,257;\ncallouts.5.bounds=477,337,191,46\ncallouts.5.pins=155,357;"/>
+	<parameter name="batch" class="java.lang.Object"/>
+	<parameter name="filling_equip_req_list" class="java.util.List"/>
+	<parameter name="filling_proc" class="java.util.List"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
+	</parameter>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="158" splitType="Stretch">
+			<staticText>
+				<reportElement x="503" y="47" width="73" height="15" uuid="6d5c64ef-afbd-4963-a188-6293b7c4d6ff"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[VR. NO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="62" width="398" height="15" uuid="7c0fbf23-2274-4082-9b4d-d725dc422094"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.productId.companyId.descs]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="107" width="105" height="15" uuid="91682c45-d881-48c6-9abf-9a181830658b"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[EXP DATE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="503" y="62" width="73" height="15" uuid="82bdd32e-bf96-450f-a772-37857eca8a5d"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[BATCH NO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="503" y="107" width="73" height="15" uuid="5e7eba58-6486-4cb3-aca5-3acff238ba3c"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[SO #:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="32" width="697" height="15" uuid="66db3075-fe43-4674-a63a-b225ccf394c1"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.productId.genericName]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="32" width="105" height="15" uuid="4b46a3ae-ed39-4c7c-a624-1fedb32d92bf"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[GENERIC NAME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="503" y="92" width="73" height="15" uuid="75540a6b-84f5-4397-a79c-634466809b81"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[BATCH SIZE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="576" y="77" width="226" height="15" uuid="ad08f269-decb-4ade-a263-df00efe1155a"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.productId.packSizeId]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="62" width="105" height="15" uuid="4aef2e4f-b4fb-4834-a82f-a80cd6c8d41a"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[CLIENT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="47" width="105" height="15" uuid="01da6e04-7d7c-4991-b184-53e1ed47e43a"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PRODUCT / BRAND:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="576" y="47" width="226" height="15" uuid="f8b86cf0-9fb7-43fb-8248-7a65dd81cc82"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.productId.vrNo]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="92" width="105" height="15" uuid="3678691c-5ddb-403b-bf74-a5ddae5c5d5c"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[MFG DATE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="576" y="107" width="226" height="15" uuid="11b2a858-c26e-4fbc-a3f6-b471750e75e7"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA["\"\""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="535" y="122" width="267" height="30" uuid="97a17dca-6b73-45f4-ab43-3d31b0a933a4"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Approved by/date:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="802" height="25" uuid="8e3c2d08-acf2-4e00-b016-0fde248044ec"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PACKAGING DIRECTION RECORD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="77" width="105" height="15" uuid="2bc49007-8184-44c8-8862-8c9db45c1d3f"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[SHELF LIFE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="503" y="77" width="73" height="15" uuid="caeed304-0a85-4ca5-9af3-c7d744fe3670"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PACK SIZE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="122" width="220" height="30" uuid="70d6d654-772c-44ee-8720-9fba5180b95f"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Prepared by/date:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="107" width="398" height="15" uuid="7f39f675-7bc9-462b-88a7-6b3379448542"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.expDate]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="576" y="62" width="226" height="15" uuid="4283f627-6cb3-4454-8ae4-f4be5c99444b"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.batchNo]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="47" width="398" height="15" uuid="c91cc76a-eebf-4911-974e-37c2e516e4aa"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.productId.brandName]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="77" width="398" height="15" uuid="63c44405-d3ec-4297-975f-06ce956d1336"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.productId.shelfLife]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="122" width="315" height="30" uuid="61a12a2b-07ea-4968-97d7-4f7d1804c039"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Checked by/date:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="92" width="398" height="15" uuid="e5d68813-c664-4609-bd22-740bac85b807"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.mfgDate]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="576" y="92" width="226" height="15" uuid="540ac8ed-4e76-4ada-b08b-0ae73635e89b"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none"/>
+				<textFieldExpression><![CDATA[$P{batch}.batchSize + " " + $P{batch}.unitId]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="56">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="45" uuid="3db5aa57-e08b-43fb-947a-0baac9b99097"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "7_filling_area_lc_start.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="46">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="37" uuid="bb440e78-aa71-4ad6-9a59-5947a6ba7d65"/>
+				<subreportParameter name="filling_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{filling_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{filling_proc}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "8_filling_procedure.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="41">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="30" uuid="c6b26e7a-13f7-4710-847c-146c710141a7"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "9_fill_weight_monitoring_sheet.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="45">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="32" uuid="20f871b2-e41a-4f11-925c-b0c9353fa401"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "10_end_of_filling.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="39" uuid="d411e76a-ed43-48b3-8500-eb9254919290"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "11_additional_materials.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="35" uuid="b53ef1b7-5a9d-4dcc-af88-3e5efba8f852"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "12_coding_room_line_clearance.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="39" uuid="9fb9aa26-3644-4928-b113-01efbf4850d5"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "13_coding_specification.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="35" uuid="47ae140f-057b-494e-8bff-b725255393a3"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "14_coded_label.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="55">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="40" uuid="10a44206-076d-44d8-9e21-c6ed9bd77fe2"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "15_labeling_packg_area_line_clearance.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="35" uuid="087b2aa3-a898-4788-8903-eea024fa78ad"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "16_packaging_procedure_part_1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="53">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="40" uuid="f7af9726-f7fa-4b8f-88ca-5973c247b13d"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "17_filled_weight_monitoring.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="36" uuid="0c57ab18-3c43-40df-97b4-6c7ab552234c"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "18_packaging_procedure_part_2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="39" uuid="4af2e8bb-442c-48e6-8e67-bdc9e8cd564e"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "19_packaging_material_reconciliation.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="38" uuid="ccb1117c-4d8f-4b9a-a834-c7c44b50127e"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "20_finished_goods_reconciliation.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="6.2_compounding_rm_specs" language="groovy" pageWidth="468" pageHeight="555" orientation="Landscape" columnWidth="468" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7eae0542-da36-4ad8-85c7-74e176655552">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="item" class="java.lang.Object">
+		<fieldDescription><![CDATA[item]]></fieldDescription>
+	</field>
+	<field name="required_qty" class="java.lang.Object">
+		<fieldDescription><![CDATA[requiredQty]]></fieldDescription>
+	</field>
+	<field name="part" class="java.lang.Short">
+		<fieldDescription><![CDATA[part]]></fieldDescription>
+	</field>
+	<variable name="item_part" class="java.lang.Object" resetType="None">
+		<variableExpression><![CDATA[($F{part} == 0) ? ""  : ("(Part "+$F{part}+") ")]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="0" y="0" width="322" height="15" uuid="aac1e925-d7af-4357-994a-897167b3ae01"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{item}.getDescs()+$V{item_part}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="322" y="0" width="146" height="15" uuid="d073b7ce-e6ef-46ff-b0f2-c89261cdb3a0"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{required_qty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

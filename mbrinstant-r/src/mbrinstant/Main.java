@@ -24,6 +24,7 @@ import mbrinstant.rest_client.main.SingletonEquipmentRestClient;
 import mbrinstant.rest_client.main.SingletonPackSizeRestClient;
 import mbrinstant.rest_client.main.SingletonProductRestClient;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
+import mbrinstant.rest_client.mbr.SingletonBatchItemRequirementRestClient;
 import mbrinstant.rest_client.mbr.SingletonBottlingProcedureRestClient;
 import mbrinstant.rest_client.mbr.SingletonCompoundingProcRestClient;
 import mbrinstant.rest_client.mbr.SingletonDosageRestClient;
@@ -129,7 +130,7 @@ public class Main extends Application {
         SingletonStockCardTxnRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonAuthorizationManager.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonAuditRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-
+        SingletonBatchItemRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         loadMainPane();
     }
 
@@ -161,6 +162,7 @@ public class Main extends Application {
         SingletonStockCardTxnRestClient.getInstance().destroy();
         SingletonAuthorizationManager.getInstance().destroy();
         SingletonAuditRestClient.getInstance().destroy();
+        SingletonBatchItemRequirementRestClient.getInstance().destroy();
 
         this.loadLoginDialog();
         MyNotifications.displayConfirm("SUCCESSFULLY LOGGED OUT");
@@ -182,7 +184,7 @@ public class Main extends Application {
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setResizable(false);
             stage.setTitle("Pharma System");
-            stage.setMaximized(true);
+            //   stage.setMaximized(true);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

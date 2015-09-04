@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="6_compounding" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="43c489fb-9f61-4415-9879-a74c5c2ddaef">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["P:\\PharmaRepo-R-v2\\MBRInstant-R\\report\\mbr\\powder_area\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="compounding_equip_req_list" class="java.util.List"/>
+	<parameter name="batch_rm_specs" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="step_no" class="java.lang.Short">
+		<fieldDescription><![CDATA[stepNumber]]></fieldDescription>
+	</field>
+	<field name="instruction" class="java.lang.String">
+		<fieldDescription><![CDATA[instruction]]></fieldDescription>
+	</field>
+	<field name="time_monitored" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[timeMonitored]]></fieldDescription>
+	</field>
+	<field name="done_by" class="java.lang.String">
+		<fieldDescription><![CDATA[doneBy]]></fieldDescription>
+	</field>
+	<field name="checked_by" class="java.lang.String">
+		<fieldDescription><![CDATA[checkedBy]]></fieldDescription>
+	</field>
+	<field name="dosage_list" class="java.util.List">
+		<fieldDescription><![CDATA[dosageList]]></fieldDescription>
+	</field>
+	<field name="requires_equipment" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[requiresEquipment]]></fieldDescription>
+	</field>
+	<field name="requires_rm_spec" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[requiresRawMaterialRequirementList]]></fieldDescription>
+	</field>
+	<field name="remarks" class="java.lang.String">
+		<fieldDescription><![CDATA[remarks]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="672" y="0" width="130" height="20" uuid="8c597e57-a669-4e8d-913b-9ab18503840f"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Checked by/Date:"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="50" y="0" width="492" height="20" uuid="28d8ee32-06f3-401a-a3ca-800ecf77cd21"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["COMPOUNDING"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="20" uuid="13edeee9-91a7-43fc-b159-0a22b15762b4"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Step No."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="542" y="0" width="130" height="20" uuid="79ae85a2-dae4-42ee-a574-c269dfcf1adf"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Done by/Date:"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="46" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="46" uuid="d847ec14-6e29-4efc-8e42-a0a02ddc620c"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{step_no}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="50" y="0" width="492" height="46" uuid="d449a506-c928-430f-963c-f4d7652d52e5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<frame>
+					<reportElement x="0" y="0" width="492" height="46" uuid="133555a4-89f5-4f81-a390-9af376d160cb"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textField isStretchWithOverflow="true">
+						<reportElement x="0" y="0" width="492" height="15" uuid="f729463c-8940-45e2-abfb-63bdd96f386f"/>
+						<box leftPadding="3" rightPadding="3"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression><![CDATA[$F{instruction}]]></textFieldExpression>
+					</textField>
+					<subreport>
+						<reportElement x="12" y="15" width="468" height="0" uuid="aee0af97-f4d9-490a-849b-e188be176646">
+							<printWhenExpression><![CDATA[$F{requires_equipment}==true]]></printWhenExpression>
+						</reportElement>
+						<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{compounding_equip_req_list}))]]></dataSourceExpression>
+						<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "6.1_compounding_equipment_req.jasper"]]></subreportExpression>
+					</subreport>
+					<subreport>
+						<reportElement positionType="Float" x="12" y="17" width="468" height="0" uuid="c2e1e7d5-0f53-4f30-9242-37257e6efb9b">
+							<printWhenExpression><![CDATA[$F{requires_rm_spec}==true]]></printWhenExpression>
+						</reportElement>
+						<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_rm_specs}))]]></dataSourceExpression>
+						<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "6.2_compounding_rm_specs.jasper"]]></subreportExpression>
+					</subreport>
+					<subreport>
+						<reportElement positionType="Float" x="12" y="18" width="468" height="0" uuid="071a8433-e485-4fff-a090-60234ef2a0ee"/>
+						<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{dosage_list}))]]></dataSourceExpression>
+						<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "6.3_dosage_list.jasper"]]></subreportExpression>
+					</subreport>
+					<subreport>
+						<reportElement positionType="Float" x="12" y="36" width="468" height="0" uuid="f57cdc29-959f-448a-ad12-2db9dbfa2da6">
+							<printWhenExpression><![CDATA[$F{time_monitored}==true]]></printWhenExpression>
+						</reportElement>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+						<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "6.4_time_monitored.jasper"]]></subreportExpression>
+					</subreport>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement stretchType="RelativeToTallestObject" x="542" y="0" width="260" height="46" uuid="5e52dc82-10b2-4b02-a0bd-e637a96a2926"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textField>
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="130" height="46" uuid="f99e9ef1-0e8c-469a-8936-d8c9b4139e09">
+						<printWhenExpression><![CDATA[$F{remarks}==null]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="130" y="0" width="130" height="46" uuid="abd46109-3d15-452a-bcb8-caa1a66daaae">
+						<printWhenExpression><![CDATA[$F{remarks}==null]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textFieldExpression><![CDATA[""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="260" height="46" uuid="e08d3941-a0d6-48d6-a6de-aa5249a3b920">
+						<printWhenExpression><![CDATA[$F{remarks}!=null]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="3" rightPadding="3">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textFieldExpression><![CDATA[$F{remarks}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<summary>
+		<band height="165" splitType="Prevent">
+			<staticText>
+				<reportElement x="100" y="11" width="231" height="15" uuid="51f9afcd-dd29-4c68-8b91-e30bf24d9380"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Production-In-Charge:____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="11" width="231" height="15" uuid="d040d240-1292-4722-8ce8-171212f4054b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QA Inspector:____________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="37" width="231" height="15" uuid="c21e4fc2-a008-461a-a191-426d5db10ad3"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BULK VERIFIED BY:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="52" width="231" height="15" uuid="a3e3df0d-bc1c-46d7-a9fb-3525c3432e64"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Production Supervisor/date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="67" width="231" height="15" uuid="3d26202b-1fcd-4a4e-bc70-549517b23771"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="52" width="231" height="15" uuid="36ec7bed-8ac8-4da0-9f4a-239a8404dd47"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[QA Manager/date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="67" width="231" height="15" uuid="70a750ae-9896-4332-b90c-5fb15634f13e"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="37" width="231" height="15" uuid="6a86b42d-e731-48b9-af0d-4a946f0ac365"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BULK APPROVED BY:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="119" width="231" height="15" uuid="354410a8-8312-4b7d-83ad-3bfdfe6fa1da"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Q.C. Disposition:____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="134" width="113" height="15" uuid="464f2578-d13f-4c63-aadf-27267a7f182d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QC Analyst]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="104" width="231" height="15" uuid="0e66fd45-2110-4b6d-9808-43c9cb7cbfa5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[BULK POWDER APPROVAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="119" width="231" height="15" uuid="fa9d84bf-05fd-4d50-a4bc-96df891fcc29"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approved by/Date:_________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="520" y="134" width="152" height="15" uuid="6e56ea3e-f482-469e-986a-c9bb50f0d925"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QC Supervisor/Manager]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

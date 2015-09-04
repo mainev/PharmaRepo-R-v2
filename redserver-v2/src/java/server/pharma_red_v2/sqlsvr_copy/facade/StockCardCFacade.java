@@ -5,11 +5,13 @@
  */
 package server.pharma_red_v2.sqlsvr_copy.facade;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import server.pharma_red_v2.StockStatus;
 import server.pharma_red_v2.sqlsvr_copy.entity.StockCardC;
 
 /**
@@ -53,7 +55,7 @@ public class StockCardCFacade {
 
         //add condition for expiry date
         Query query = em.createQuery("Select s from StockCardC s where s.itemId.itemCd = :item and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus order by s.expDate")
-                .setParameter("stockStatus", "AVAILABLE")
+                .setParameter("stockStatus", StockStatus.AVAILABLE)
                 .setParameter("item", item)
                 .setParameter("rm_warehouse_id", rmWarehouseId)
                 .setParameter("pm_warehouse_id", pmWarehouseId)
@@ -62,7 +64,7 @@ public class StockCardCFacade {
         return query.getResultList();
     }
 
-    public List<StockCardC> findStockCardByCompanyCdAndItemId(String companyCd, int itemId) {
+    public List<StockCardC> findAvailableStockCardByCompanyCdAndItemId(String companyCd, int itemId) {
 
         //temporary warehouseId
         //Raw Materials - Balubad
@@ -72,20 +74,49 @@ public class StockCardCFacade {
         String stat = "Approved";
 
         //add condition for expiry date
-        Query query = em.createQuery("Select s from StockCardC s where s.companyId.code = :companyCd and s.itemId.id = :itemId and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus order by s.expDate")
-                .setParameter("stockStatus", "AVAILABLE")
+        Query query = em.createQuery("Select s from StockCardC s where s.companyId.code = :companyCd and s.itemId.id = :itemId and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus AND s.expDate > :dateToday order by s.expDate")
+                .setParameter("stockStatus", StockStatus.AVAILABLE)
                 .setParameter("companyCd", companyCd)
                 .setParameter("itemId", itemId)
                 .setParameter("rm_warehouse_id", rmWarehouseId)
                 .setParameter("pm_warehouse_id", pmWarehouseId)
                 .setParameter("inOutMd", "I")
-                .setParameter("stat", stat);
+                .setParameter("stat", stat)
+                .setParameter("dateToday", new Date());
+
+        return query.getResultList();
+    }
+
+    public List<StockCardC> findAvailableStockCard(int companyId, int itemId) {
+        //temporary warehouseId
+        //Raw Materials - Balubad
+        short rmWarehouseId = 5;
+        short pmWarehouseId = 2;
+
+        String stat = "Approved";
+
+        //add condition for expiry date
+        Query query = em.createQuery("Select s from StockCardC s where s.companyId.id = :companyId and s.itemId.id = :itemId and (s.warehouseId.id = :rm_warehouse_id OR s.warehouseId.id =:pm_warehouse_id) and s.inoutMode = :inOutMd and s.status = :stat AND s.stockStatus = :stockStatus AND s.expDate > :dateToday order by s.expDate")
+                .setParameter("stockStatus", StockStatus.AVAILABLE)
+                .setParameter("companyId", companyId)
+                .setParameter("itemId", itemId)
+                .setParameter("rm_warehouse_id", rmWarehouseId)
+                .setParameter("pm_warehouse_id", pmWarehouseId)
+                .setParameter("inOutMd", "I")
+                .setParameter("stat", stat)
+                .setParameter("dateToday", new Date());
+
         return query.getResultList();
     }
 
     public void updateStockCardStatusToDepleted(int stkId) {
         StockCardC stk = this.findById(stkId);
-        stk.setStockStatus("DEPLETED");
+        stk.setStockStatus(StockStatus.DEPLETED);
+    }
+
+    public void updateStockCardStockStatus(int stkId, StockStatus stockStat) {
+        StockCardC stk = this.findById(stkId);
+        stk.setStockStatus(stockStat);
     }
 
     public StockCardC findByControlNo(String controlNo) {

@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
 	</parameter>
 	<field name="packaging_material_name" class="java.lang.Object">
-		<fieldDescription><![CDATA[pmReq.packagingMaterialId.description]]></fieldDescription>
+		<fieldDescription><![CDATA[pmReq.itemId.descs]]></fieldDescription>
 	</field>
 	<field name="required_qty" class="java.lang.Object">
 		<fieldDescription><![CDATA[requiredQty]]></fieldDescription>
@@ -16,7 +16,7 @@
 		<fieldDescription><![CDATA[txnList]]></fieldDescription>
 	</field>
 	<field name="packaging_material_code" class="java.lang.Object">
-		<fieldDescription><![CDATA[pmReq.packagingMaterialId.code]]></fieldDescription>
+		<fieldDescription><![CDATA[pmReq.itemId.itemCd]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server;
+
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -39,6 +39,7 @@ public class ApplicationConfig extends Application {
         resources.add(server.pharma_red_v2._main.rest.ProductREST.class);
         resources.add(server.pharma_red_v2._main.rest.UnitREST.class);
         resources.add(server.pharma_red_v2.audit.AuditREST.class);
+        resources.add(server.pharma_red_v2.mbr.rest.BatchItemRequirementREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.BottlingProcedureREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.CompoundingProcedureREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.DosageREST.class);

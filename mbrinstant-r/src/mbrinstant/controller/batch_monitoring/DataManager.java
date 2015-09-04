@@ -5,6 +5,8 @@
  */
 package mbrinstant.controller.batch_monitoring;
 
+import mbrinstant.exceptions.ServerException;
+
 /**
  *
  * @author maine
@@ -14,4 +16,11 @@ public interface DataManager {
     public void setData(Object object);
 
     public Object getData();
+
+    /**
+     * Reloads data from the server.
+     *
+     * @throws ServerException
+     */
+    public void reloadData() throws ServerException;
 }

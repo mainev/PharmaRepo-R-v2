@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import server.pharma_red_v2.StockStatus;
 import server.pharma_red_v2.sqlsvr_copy.entity.StockCardC;
 import server.pharma_red_v2.sqlsvr_copy.facade.StockCardCFacade;
 
@@ -60,8 +61,8 @@ public class StockCardCREST {
     @GET
     @Path("/g_stock_card_by_company_cd_and_item_id")
     @Produces("application/json")
-    public List<StockCardC> getStockCardByCompanyCdAndItemId(@QueryParam("company_cd") String company_cd, @QueryParam("item_id") String item_id) {
-        return facade.findStockCardByCompanyCdAndItemId(company_cd, Integer.parseInt(item_id));
+    public List<StockCardC> getAvailableStockCardByCompanyCdAndItemId(@QueryParam("company_cd") String company_cd, @QueryParam("item_id") String item_id) {
+        return facade.findAvailableStockCardByCompanyCdAndItemId(company_cd, Integer.parseInt(item_id));
     }
 
     @POST
@@ -77,4 +78,18 @@ public class StockCardCREST {
         return facade.findByControlNo(controlNo);
     }
 
+    @GET
+    @Path("/g_available_stockcard")
+    @Produces("application/json")
+    public List<StockCardC> getAvailableStockCard(@QueryParam("company_id") String company_id,
+            @QueryParam("item_id") String item_id) {
+        return facade
+                .findAvailableStockCard(Integer.parseInt(company_id), Integer.parseInt(item_id));
+    }
+
+    @POST
+    @Path("/pst_update_stock_card_stock_status")
+    public void updateStockCardStockStatus(@QueryParam("stk_id") String stk_id, @QueryParam("stock_stat") String stock_stat) {
+        facade.updateStockCardStockStatus(Integer.parseInt(stk_id), StockStatus.valueOf(stock_stat));
+    }
 }

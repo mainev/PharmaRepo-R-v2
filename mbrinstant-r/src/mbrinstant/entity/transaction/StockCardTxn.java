@@ -7,7 +7,7 @@ package mbrinstant.entity.transaction;
 
 import com.google.gson.annotations.Expose;
 import mbrinstant.entity.main.Unit;
-import mbrinstant.entity.mbr.Mbr;
+import mbrinstant.entity.mbr.BatchItemRequirement;
 import mbrinstant.entity.sqlsvr_copy.StockCardC;
 
 /**
@@ -23,27 +23,26 @@ public class StockCardTxn {
     @Expose
     private Unit unitId;
     @Expose
-    private Mbr mbrId;
+    private TransactionType transactionTypeId;
 
     //for audit entry
     @Expose
     private int stock_card_id;
     @Expose
     private short unit_id;
-    @Expose
-    private int mbr_id;
 
-    private StockCardC stockCard;//must not be serialized
+    private StockCardC tempStockCard;//must not be serialized
+    private BatchItemRequirement tempBatchItem;
 
     public StockCardTxn() {
     }
 
-    public StockCardC getStockCard() {
-        return stockCard;
+    public StockCardC getTempStockCard() {
+        return tempStockCard;
     }
 
-    public void setStockCard(StockCardC stockCard) {
-        this.stockCard = stockCard;
+    public void setTempStockCard(StockCardC tempStockCard) {
+        this.tempStockCard = tempStockCard;
     }
 
     public StockCardTxn(Integer id) {
@@ -74,12 +73,12 @@ public class StockCardTxn {
         this.unitId = unitId;
     }
 
-    public Mbr getMbrId() {
-        return mbrId;
+    public TransactionType getTransactionTypeId() {
+        return transactionTypeId;
     }
 
-    public void setMbrId(Mbr mbrId) {
-        this.mbrId = mbrId;
+    public void setTransactionTypeId(TransactionType transactionTypeId) {
+        this.transactionTypeId = transactionTypeId;
     }
 
     public int getStock_card_id() {
@@ -98,34 +97,33 @@ public class StockCardTxn {
         this.unit_id = unit_id;
     }
 
-    public int getMbr_id() {
-        return mbr_id;
+    public BatchItemRequirement getTempBatchItem() {
+        return tempBatchItem;
     }
 
-    public void setMbr_id(int mbr_id) {
-        this.mbr_id = mbr_id;
+    public void setTempBatchItem(BatchItemRequirement tempBatchItem) {
+        this.tempBatchItem = tempBatchItem;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StockCardTxn)) {
-            return false;
-        }
-        StockCardTxn other = (StockCardTxn) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof StockCardTxn)) {
+//            return false;
+//        }
+//        StockCardTxn other = (StockCardTxn) object;
+//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
     @Override
     public String toString() {
         return qty + " " + unitId;

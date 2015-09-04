@@ -41,7 +41,7 @@ public class CompoundingProcedureTableFactory {
             super.updateItem(cp, empty);
             if (cp != null) {
                 setGraphic(textArea);
-                textArea.setText(cp.getHeader());
+                textArea.setText(cp.getInstruction());
             } else {
                 setGraphic(null);
             }
@@ -94,7 +94,7 @@ public class CompoundingProcedureTableFactory {
             if (cp != null) {
                 // setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 setGraphic(hbox);
-                checkBox.setSelected(cp.getFooter());
+                checkBox.setSelected(cp.getTimeMonitored());
             } else {
                 setGraphic(null);
             }
