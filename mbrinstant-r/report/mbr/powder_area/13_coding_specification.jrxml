@@ -4,10 +4,11 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["P:\\PharmaRepo-R-v2\\MBRInstant-R\\report\\mbr\\powder_area\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="coding_spec_equip_req_list" class="java.util.List"/>
 	<field name="step_no" class="java.lang.Short">
-		<fieldDescription><![CDATA[stepNumber]]></fieldDescription>
+		<fieldDescription><![CDATA[stepNo]]></fieldDescription>
 	</field>
 	<field name="instruction" class="java.lang.String">
 		<fieldDescription><![CDATA[instruction]]></fieldDescription>
@@ -166,7 +167,7 @@
 					<reportElement x="0" y="13" width="491" height="0" uuid="9f386a9e-1351-40ab-a557-f16b86419e7f">
 						<printWhenExpression><![CDATA[$F{requires_equip}==true]]></printWhenExpression>
 					</reportElement>
-					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+					<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{coding_spec_equip_req_list}))]]></dataSourceExpression>
 					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "equipment_req_template.jasper"]]></subreportExpression>
 				</subreport>
 			</frame>

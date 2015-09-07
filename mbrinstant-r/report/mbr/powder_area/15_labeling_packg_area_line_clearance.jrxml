@@ -6,6 +6,8 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["P:\\PharmaRepo-R-v2\\MBRInstant-R\\report\\mbr\\powder_area\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="labeling_packg_line_clearance_start" class="java.util.List"/>
+	<parameter name="labeling_packg_line_clearance_end" class="java.util.List"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -136,14 +138,14 @@
 		<band height="45" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="0" width="200" height="45" uuid="187b4023-c3d5-4b23-9b9e-703db776d8c1"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{labeling_packg_line_clearance_start}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "15.1_start_of_labeling.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="50">
 			<subreport>
 				<reportElement x="0" y="0" width="200" height="50" uuid="30ca1251-09ea-4c74-bd9e-706cf1afb6ac"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{labeling_packg_line_clearance_end}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "15.2_end_of_labeling_packaging.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

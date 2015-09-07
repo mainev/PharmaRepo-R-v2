@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pdr_template" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="816b4982-cd30-4b66-b898-b84b5f42005a">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.1000000000000016"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="531"/>
-	<property name="ireport.callouts" value="##Fri Sep 04 15:37:07 SGT 2015\ncallouts.7.pins=147,451;\ncallouts.11.pins=160,663;\ncallouts.9.pins=140,560;\ncallouts.6.bounds=471,386,199,42\ncallouts.13.pins=161,764;\ncallouts.7.bounds=473,425,257,62\ncallouts.8.bounds=478,484,188,43\ncallouts.2.text=8_filling_procedure\ncallouts.9.bounds=480,535,246,52\ncallouts.10.bounds=485,585,204,45\ncallouts.4.text=10_end_of_filling\ncallouts.6.text=12_coding_room_line_clearance\ncallouts.10.text=16_packaging_procedure_part_1\n\ncallouts.8.text=14_coded_label\ncallouts.11.bounds=477,640,227,55\ncallouts.12.text=18_packaging_procedure_part_2\ncallouts.2.pins=162,223;\ncallouts.14.text=20_finished_goods_reconciliation\ncallouts.12.bounds=471,699,243,50\ncallouts.4.pins=158,305;\ncallouts.6.pins=121,404;\ncallouts.10.pins=164,604;\ncallouts.8.pins=171,504;\ncallouts.13.bounds=489,749,226,57\ncallouts.12.pins=127,711;\ncallouts.14.pins=118,814;\ncallouts.14.bounds=500,820,247,44\ncallouts.1.bounds=467,159,206,55\ncallouts.1.text=7_filling_area_line_clearance(start)\n\ncallouts.2.bounds=478,206,175,50\ncallouts.3.text=9_fill_weight_monitoring_sheet\ncallouts.5.text=11_additional_materials\ncallouts.3.bounds=467,255,215,47\ncallouts.7.text=13_coding_specification\ncallouts.11.text=17_filled_weight_monitoring\ncallouts.9.text=15_labeling_packg_area_line_clearance\ncallouts.4.bounds=475,301,173,39\ncallouts.1.pins=142,165;\ncallouts.13.text=19_packaging_material_reconciliation\ncallouts.3.pins=113,257;\ncallouts.5.bounds=477,337,191,46\ncallouts.5.pins=155,357;"/>
+	<property name="ireport.y" value="240"/>
+	<property name="ireport.callouts" value="##Mon Sep 07 09:15:22 SGT 2015\ncallouts.7.pins=163,345;\ncallouts.11.pins=150,472;\ncallouts.9.pins=163,408;\ncallouts.6.bounds=456,313,192,36\ncallouts.13.pins=147,533;\ncallouts.15.pins=150,597;\ncallouts.7.bounds=460,340,149,38\ncallouts.8.bounds=474,377,111,36\ncallouts.2.text=8_filling_procedure\ncallouts.9.bounds=448,406,234,34\ncallouts.10.bounds=456,435,199,37\ncallouts.4.text=10_end_of_filling\ncallouts.6.text=12_coding_room_line_clearance\ncallouts.10.text=16_packaging_procedure_part_1\n\ncallouts.8.text=14_coded_label\ncallouts.11.bounds=458,467,176,37\ncallouts.12.text=18_packaging_procedure_part_2\ncallouts.2.pins=163,194;\ncallouts.14.text=20_finished_goods_reconciliation\ncallouts.12.bounds=456,499,202,37\ncallouts.4.pins=147,253;\ncallouts.16.text=22_comments_page\ncallouts.6.pins=169,317;\ncallouts.10.pins=126,436;\ncallouts.8.pins=165,377;\ncallouts.13.bounds=460,528,220,39\ncallouts.12.pins=114,505;\ncallouts.14.pins=117,562;\ncallouts.14.bounds=458,560,190,39\ncallouts.16.pins=118,628;\ncallouts.1.bounds=467,159,205,43\ncallouts.15.bounds=464,594,170,36\ncallouts.1.text=7_filling_area_line_clearance(start)\n\ncallouts.2.bounds=472,191,174,35\ncallouts.16.bounds=470,624,140,36\ncallouts.3.text=9_fill_weight_monitoring_sheet\ncallouts.5.text=11_additional_materials\ncallouts.3.bounds=461,222,215,35\ncallouts.7.text=13_coding_specification\ncallouts.11.text=17_filled_weight_monitoring\ncallouts.9.text=15_labeling_packg_area_line_clearance\ncallouts.4.bounds=466,251,173,39\ncallouts.1.pins=142,165;\ncallouts.13.text=19_packaging_material_reconciliation\ncallouts.3.pins=127,222;\ncallouts.15.text=21_direct_labor_data_sheet\ncallouts.5.bounds=456,284,169,35\ncallouts.5.pins=154,282;"/>
 	<parameter name="batch" class="java.lang.Object"/>
 	<parameter name="filling_equip_req_list" class="java.util.List"/>
 	<parameter name="filling_proc" class="java.util.List"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="filling_area_line_clearance_start" class="java.util.List"/>
+	<parameter name="filling_area_line_clearance_end" class="java.util.List"/>
+	<parameter name="coding_area_line_clearance_start" class="java.util.List"/>
+	<parameter name="coding_area_line_clearance_end" class="java.util.List"/>
+	<parameter name="labeling_packg_line_clearance_start" class="java.util.List"/>
+	<parameter name="labeling_packg_line_clearance_end" class="java.util.List"/>
+	<parameter name="packaging_procedure_1" class="java.util.List"/>
+	<parameter name="packaging_procedure_2" class="java.util.List"/>
+	<parameter name="batch_pm_req" class="java.util.List"/>
+	<parameter name="coding_specification" class="java.util.List"/>
+	<parameter name="coding_spec_equip_req_list" class="java.util.List"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -329,16 +340,19 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="56">
+		<band height="30">
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="45" uuid="3db5aa57-e08b-43fb-947a-0baac9b99097"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<reportElement x="0" y="0" width="200" height="30" uuid="3db5aa57-e08b-43fb-947a-0baac9b99097"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{filling_area_line_clearance_start}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "7_filling_area_lc_start.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="46">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="5979b3d3-66a2-4e50-8cfd-620ad9bd7ae7"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="37" uuid="bb440e78-aa71-4ad6-9a59-5947a6ba7d65"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="bb440e78-aa71-4ad6-9a59-5947a6ba7d65"/>
 				<subreportParameter name="filling_equip_req_list">
 					<subreportParameterExpression><![CDATA[$P{filling_equip_req_list}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -346,88 +360,159 @@
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "8_filling_procedure.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="41">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="5bc33534-8c93-40b1-ac22-a5a8921c13b8"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="30" uuid="c6b26e7a-13f7-4710-847c-146c710141a7"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="c6b26e7a-13f7-4710-847c-146c710141a7"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "9_fill_weight_monitoring_sheet.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="45">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="8a851ab8-baa0-48c2-b60a-6b9d223b6259"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="32" uuid="20f871b2-e41a-4f11-925c-b0c9353fa401"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<reportElement x="0" y="1" width="200" height="30" uuid="20f871b2-e41a-4f11-925c-b0c9353fa401"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{filling_area_line_clearance_end}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "10_end_of_filling.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="5276f26b-8a39-4bd1-8848-4b637572ca6a"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="39" uuid="d411e76a-ed43-48b3-8500-eb9254919290"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="d411e76a-ed43-48b3-8500-eb9254919290"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "11_additional_materials.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="35d55319-1236-4b67-b571-4cbebcfa739c"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="35" uuid="b53ef1b7-5a9d-4dcc-af88-3e5efba8f852"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="b53ef1b7-5a9d-4dcc-af88-3e5efba8f852"/>
+				<subreportParameter name="coding_area_line_clearance_start">
+					<subreportParameterExpression><![CDATA[$P{coding_area_line_clearance_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="coding_area_line_clearance_end">
+					<subreportParameterExpression><![CDATA[$P{coding_area_line_clearance_end}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "12_coding_room_line_clearance.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="72a7585c-1f02-4847-805d-8f2ecccc1602"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="39" uuid="9fb9aa26-3644-4928-b113-01efbf4850d5"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<reportElement x="0" y="1" width="200" height="30" uuid="9fb9aa26-3644-4928-b113-01efbf4850d5"/>
+				<subreportParameter name="coding_spec_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{coding_spec_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{coding_specification}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "13_coding_specification.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="416fa2f9-56c3-45f7-a301-670b18c227dd"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="35" uuid="47ae140f-057b-494e-8bff-b725255393a3"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="47ae140f-057b-494e-8bff-b725255393a3"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "14_coded_label.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="55">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="928dddec-e8ae-46d3-b91e-8c3ebb6ec94e"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="40" uuid="10a44206-076d-44d8-9e21-c6ed9bd77fe2"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="10a44206-076d-44d8-9e21-c6ed9bd77fe2"/>
+				<subreportParameter name="labeling_packg_line_clearance_end">
+					<subreportParameterExpression><![CDATA[$P{labeling_packg_line_clearance_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="labeling_packg_line_clearance_start">
+					<subreportParameterExpression><![CDATA[$P{labeling_packg_line_clearance_start}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "15_labeling_packg_area_line_clearance.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="1224cd45-8b9f-4597-bb01-8d51ba582999"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="35" uuid="087b2aa3-a898-4788-8903-eea024fa78ad"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<reportElement x="0" y="1" width="200" height="30" uuid="087b2aa3-a898-4788-8903-eea024fa78ad"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{packaging_procedure_1}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "16_packaging_procedure_part_1.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="53">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="b1ab1a3c-bf95-4cee-9ea3-a0cd0164d283"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="40" uuid="f7af9726-f7fa-4b8f-88ca-5973c247b13d"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="f7af9726-f7fa-4b8f-88ca-5973c247b13d"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "17_filled_weight_monitoring.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="541f5153-5251-4b71-903e-f53bd5c85ac0"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="36" uuid="0c57ab18-3c43-40df-97b4-6c7ab552234c"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<reportElement x="0" y="1" width="200" height="30" uuid="0c57ab18-3c43-40df-97b4-6c7ab552234c"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{packaging_procedure_2}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "18_packaging_procedure_part_2.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="b529343f-ab52-40b0-8e34-e03a78fbc79a"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="39" uuid="4af2e8bb-442c-48e6-8e67-bdc9e8cd564e"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<reportElement x="0" y="1" width="200" height="30" uuid="4af2e8bb-442c-48e6-8e67-bdc9e8cd564e"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_pm_req}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "19_packaging_material_reconciliation.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="50">
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="fc007633-9e70-4d3b-9093-579c0c3a0ec8"/>
+			</break>
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="38" uuid="ccb1117c-4d8f-4b9a-a834-c7c44b50127e"/>
+				<reportElement x="0" y="1" width="200" height="30" uuid="ccb1117c-4d8f-4b9a-a834-c7c44b50127e"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "20_finished_goods_reconciliation.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="4eb3f4c6-a102-432a-ba0a-496b190fb853"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="1" width="200" height="30" uuid="37e8a8a3-746e-409a-b3c1-74f76fb23e9f"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "21_direct_labor_data_sheet.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="31">
+			<break>
+				<reportElement x="0" y="0" width="100" height="1" uuid="6e23a00d-3679-4b2e-849c-72f5b98ccbe3"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="1" width="200" height="30" uuid="4c3c5c6b-f2e1-4bc6-a423-1de09ab7cc81"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "22_comments_page.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

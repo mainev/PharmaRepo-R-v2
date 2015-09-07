@@ -16,7 +16,7 @@ public class EquipmentLocations {
 
     public static enum MANUFACTURING_PROCEDURE {
 
-        COMPOUNDING, ENCAPSULATION, CODING, PACKG_PROCEDURE, POWDER_FILLING
+        COMPOUNDING, ENCAPSULATION, CODING_SPECS, PACKG_PROCEDURE, POWDER_FILLING
     }
 
     public static List<String> getEquipmentLocationsForPowderArea() {
@@ -24,7 +24,7 @@ public class EquipmentLocations {
 
         list.add(MANUFACTURING_PROCEDURE.COMPOUNDING.toString());
         list.add(MANUFACTURING_PROCEDURE.POWDER_FILLING.toString());
-        list.add(MANUFACTURING_PROCEDURE.CODING.toString());
+        list.add(MANUFACTURING_PROCEDURE.CODING_SPECS.toString());
         return list;
     }
 
@@ -32,7 +32,7 @@ public class EquipmentLocations {
         List<String> list = new ArrayList();
 
         list.add(MANUFACTURING_PROCEDURE.COMPOUNDING.toString());
-        list.add(MANUFACTURING_PROCEDURE.CODING.toString());
+        list.add(MANUFACTURING_PROCEDURE.CODING_SPECS.toString());
         list.add(MANUFACTURING_PROCEDURE.POWDER_FILLING.toString());
         return list;
     }
@@ -49,7 +49,7 @@ public class EquipmentLocations {
         List<String> list = new ArrayList();
 
         list.add(MANUFACTURING_PROCEDURE.COMPOUNDING.toString());
-        list.add(MANUFACTURING_PROCEDURE.CODING.toString());
+        list.add(MANUFACTURING_PROCEDURE.CODING_SPECS.toString());
         list.add(MANUFACTURING_PROCEDURE.ENCAPSULATION.toString());
         list.add(MANUFACTURING_PROCEDURE.PACKG_PROCEDURE.toString());
         return list;

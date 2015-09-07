@@ -9,6 +9,8 @@
 	<parameter name="batch_rm_specs" class="java.util.List"/>
 	<parameter name="batch_pm_req" class="java.util.List"/>
 	<parameter name="batch" class="java.lang.Object"/>
+	<parameter name="batch_direct_pm_req" class="java.util.List"/>
+	<parameter name="batch_indirect_pm_req" class="java.util.List"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -26,14 +28,14 @@
 		<band height="20">
 			<subreport>
 				<reportElement x="0" y="0" width="802" height="15" uuid="2f349e7e-7a91-47a1-bf75-5ed6187b845c"/>
-				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_pm_req}))]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_direct_pm_req}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.2_packg_material_requirement.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="15">
 			<subreport>
 				<reportElement x="0" y="0" width="802" height="15" uuid="618c6f57-94ea-4211-b10e-a6714329f048"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_indirect_pm_req}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.3_indirect_material_requirement.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

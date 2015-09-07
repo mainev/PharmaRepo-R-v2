@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="main_template" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="95a0695d-505f-4659-9258-e89ddef1666a">
 	<property name="ireport.zoom" value="1.272292855117457"/>
-	<property name="ireport.x" value="39"/>
-	<property name="ireport.y" value="3"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
 	</parameter>
@@ -15,6 +15,19 @@
 	<parameter name="compounding_equip_req_list" class="java.util.List"/>
 	<parameter name="filling_proc" class="java.util.List"/>
 	<parameter name="filling_equip_req_list" class="java.util.List"/>
+	<parameter name="compounding_area_line_clearance_start" class="java.util.List"/>
+	<parameter name="filling_area_line_clearance_start" class="java.util.List"/>
+	<parameter name="filling_area_line_clearance_end" class="java.util.List"/>
+	<parameter name="coding_area_line_clearance_start" class="java.util.List"/>
+	<parameter name="coding_area_line_clearance_end" class="java.util.List"/>
+	<parameter name="labeling_packg_line_clearance_start" class="java.util.List"/>
+	<parameter name="labeling_packg_line_clearance_end" class="java.util.List"/>
+	<parameter name="packaging_procedure_1" class="java.util.List"/>
+	<parameter name="packaging_procedure_2" class="java.util.List"/>
+	<parameter name="batch_direct_pm_req" class="java.util.List"/>
+	<parameter name="batch_indirect_pm_req" class="java.util.List"/>
+	<parameter name="coding_specification" class="java.util.List"/>
+	<parameter name="coding_spec_equip_req_list" class="java.util.List"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -42,6 +55,9 @@
 		<band height="51" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="0" width="802" height="50" uuid="dfef96d9-93a5-4950-84cb-43967c944421"/>
+				<subreportParameter name="batch_direct_pm_req">
+					<subreportParameterExpression><![CDATA[$P{batch_direct_pm_req}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -59,6 +75,12 @@
 				</subreportParameter>
 				<subreportParameter name="compounding_equip_req_list">
 					<subreportParameterExpression><![CDATA[$P{compounding_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_area_line_clearance_start">
+					<subreportParameterExpression><![CDATA[$P{compounding_area_line_clearance_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_indirect_pm_req">
+					<subreportParameterExpression><![CDATA[$P{batch_indirect_pm_req}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="compounding_proc">
 					<subreportParameterExpression><![CDATA[$P{compounding_proc}]]></subreportParameterExpression>
@@ -76,11 +98,44 @@
 		<band height="51">
 			<subreport>
 				<reportElement mode="Opaque" x="0" y="0" width="802" height="50" uuid="ebf0211d-6e75-41d4-86fb-64d704f6704a"/>
+				<subreportParameter name="batch_direct_pm_req">
+					<subreportParameterExpression><![CDATA[$P{batch_direct_pm_req}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="coding_area_line_clearance_start">
+					<subreportParameterExpression><![CDATA[$P{coding_area_line_clearance_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{compounding_equip_req_list}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_area_line_clearance_start">
+					<subreportParameterExpression><![CDATA[$P{compounding_area_line_clearance_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="batch_indirect_pm_req">
+					<subreportParameterExpression><![CDATA[$P{batch_indirect_pm_req}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="compounding_proc">
+					<subreportParameterExpression><![CDATA[$P{compounding_proc}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="coding_area_line_clearance_end">
+					<subreportParameterExpression><![CDATA[$P{coding_area_line_clearance_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="filling_area_line_clearance_start">
+					<subreportParameterExpression><![CDATA[$P{filling_area_line_clearance_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="labeling_packg_line_clearance_start">
+					<subreportParameterExpression><![CDATA[$P{labeling_packg_line_clearance_start}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="filling_equip_req_list">
-					<subreportParameterExpression><![CDATA[$P{filling_equip_req_list}]]></subreportParameterExpression>
+				<subreportParameter name="packaging_procedure_2">
+					<subreportParameterExpression><![CDATA[$P{packaging_procedure_2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="packaging_procedure_1">
+					<subreportParameterExpression><![CDATA[$P{packaging_procedure_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="coding_spec_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{coding_spec_equip_req_list}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="filling_proc">
 					<subreportParameterExpression><![CDATA[$P{filling_proc}]]></subreportParameterExpression>
@@ -88,14 +143,20 @@
 				<subreportParameter name="batch_pm_req">
 					<subreportParameterExpression><![CDATA[$P{batch_pm_req}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="compounding_equip_req_list">
-					<subreportParameterExpression><![CDATA[$P{compounding_equip_req_list}]]></subreportParameterExpression>
+				<subreportParameter name="filling_equip_req_list">
+					<subreportParameterExpression><![CDATA[$P{filling_equip_req_list}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="batch">
 					<subreportParameterExpression><![CDATA[$P{batch}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="compounding_proc">
-					<subreportParameterExpression><![CDATA[$P{compounding_proc}]]></subreportParameterExpression>
+				<subreportParameter name="filling_area_line_clearance_end">
+					<subreportParameterExpression><![CDATA[$P{filling_area_line_clearance_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="labeling_packg_line_clearance_end">
+					<subreportParameterExpression><![CDATA[$P{labeling_packg_line_clearance_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="coding_specification">
+					<subreportParameterExpression><![CDATA[$P{coding_specification}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="batch_rm_specs">
 					<subreportParameterExpression><![CDATA[$P{batch_rm_specs}]]></subreportParameterExpression>
@@ -103,9 +164,6 @@
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pdr_template.jasper"]]></subreportExpression>
 			</subreport>
-			<break>
-				<reportElement x="0" y="50" width="100" height="1" uuid="f5ed3880-8d31-45bc-b9c0-e300bdd81b25"/>
-			</break>
 		</band>
 	</detail>
 	<pageFooter>

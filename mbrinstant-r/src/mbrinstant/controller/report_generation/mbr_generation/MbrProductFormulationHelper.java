@@ -84,56 +84,60 @@ public class MbrProductFormulationHelper {
 
         return pmReqList;
     }
-    /*
-     private StockCardTxn getMatchingStockCardTxnFromList(RawMaterialRequirement rmReq, List<StockCardTxn> stkTxnList) {
-     for (StockCardTxn stkTxn : stkTxnList) {
-     if (isMatch(rmReq, stkTxn)) {
-     return stkTxn;
-     }
-     }
-     return null;
-     }
 
-     private StockCardTxn getMatchingStockCardTxnFromList(PackagingMaterialRequirement pmReq, List<StockCardTxn> stkTxnList) {
-     for (StockCardTxn stkTxn : stkTxnList) {
-     if (isMatch(pmReq, stkTxn)) {
-     return stkTxn;
-     }
-     }
-     return null;
-     }
+    public List<MbrPackgMaterialRequirement> deriveDirectPackagingMaterial() throws ServerException {
+        List<MbrPackgMaterialRequirement> pmReqList = new ArrayList();
 
-     private boolean isMatch(RawMaterialRequirement rmReq, StockCardTxn stkTxn) {
-     try {
-     boolean codeMatch;
-     boolean itemCategoryMatch;
-     boolean partMatch;
+        List<BatchItemRequirement> batchItemReqList = batch.getBatchItemRequirementList();
+        for (BatchItemRequirement bir : batchItemReqList) {
+            String code = bir.getItemId().getItemCategoryId().getCode();
+            String type = bir.getItemId().getItemTypeId().getCode();
+            if (code.equals("PM") && type.equals("DM")) {
+                List<StockCardTxn> stkTxnList = bir.getStockCardTxnList();
+                List<ControlNo> cnList = new ArrayList();
+                for (StockCardTxn txn : stkTxnList) {
+                    Quantity actualQty = new Quantity(txn.getQty(), txn.getUnitId().getName());
+                    String controlNo = stkTxnRestClient.getStockCard(txn).getControlNo();
+                    cnList.add(new ControlNo(controlNo, actualQty));
+                }
+                Quantity udfQuantity = new Quantity(bir.getUdfQty(), bir.getUdfQtyUnitId().getName());
+                Quantity requiredQty = new Quantity(bir.getRequiredQty(), bir.getRequiredQtyUnitId().getName());
 
-     StockCardC stk = stkTxnRestClient.getStockCard(stkTxn);
-     codeMatch = stk.getItemId().getItemCd().equals(rmReq.getItemId().getItemCd());
-     itemCategoryMatch = stk.getItemId().getItemCategoryId().getCode().equals(rmReq.getItemId().getItemCategoryId().getCode());
+                MbrPackgMaterialRequirement rmSpec
+                        = new MbrPackgMaterialRequirement(bir.getItemId(), udfQuantity, requiredQty, cnList);
+                pmReqList.add(rmSpec);
+            }
 
-     return codeMatch && itemCategoryMatch;
-     } catch (ServerException ex) {
-     Logger.getLogger(MbrProductFormulationHelper.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     return false;
-     }
+        }
 
-     private boolean isMatch(PackagingMaterialRequirement pmReq, StockCardTxn stkTxn) {
-     try {
-     boolean codeMatch;
-     boolean itemCategoryMatch;
+        return pmReqList;
+    }
 
-     StockCardC stk = stkTxnRestClient.getStockCard(stkTxn);
-     codeMatch = stk.getItemId().getItemCd().equals(pmReq.getItemId().getItemCd());
-     itemCategoryMatch = stk.getItemId().getItemCategoryId().getCode().equals(pmReq.getItemId().getItemCategoryId().getCode());
+    public List<MbrPackgMaterialRequirement> deriveInDirectPackagingMaterial() throws ServerException {
+        List<MbrPackgMaterialRequirement> pmReqList = new ArrayList();
 
-     return codeMatch && itemCategoryMatch;
-     } catch (ServerException ex) {
-     Logger.getLogger(MbrProductFormulationHelper.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     return false;
-     }
-     */
+        List<BatchItemRequirement> batchItemReqList = batch.getBatchItemRequirementList();
+        for (BatchItemRequirement bir : batchItemReqList) {
+            String code = bir.getItemId().getItemCategoryId().getCode();
+            String type = bir.getItemId().getItemTypeId().getCode();
+            if (code.equals("PM") && type.equals("IDM")) {
+                List<StockCardTxn> stkTxnList = bir.getStockCardTxnList();
+                List<ControlNo> cnList = new ArrayList();
+                for (StockCardTxn txn : stkTxnList) {
+                    Quantity actualQty = new Quantity(txn.getQty(), txn.getUnitId().getName());
+                    String controlNo = stkTxnRestClient.getStockCard(txn).getControlNo();
+                    cnList.add(new ControlNo(controlNo, actualQty));
+                }
+                Quantity udfQuantity = new Quantity(bir.getUdfQty(), bir.getUdfQtyUnitId().getName());
+                Quantity requiredQty = new Quantity(bir.getRequiredQty(), bir.getRequiredQtyUnitId().getName());
+
+                MbrPackgMaterialRequirement rmSpec
+                        = new MbrPackgMaterialRequirement(bir.getItemId(), udfQuantity, requiredQty, cnList);
+                pmReqList.add(rmSpec);
+            }
+
+        }
+
+        return pmReqList;
+    }
 }
