@@ -114,66 +114,69 @@ public class BatchItemAllocationHelper {
 
                 //availableStocks has values
                 for (int i = 0; (requiredQty.getValue() > 0 && i < availableStocks.size()); i++) {
+
                     StockCardC stk = availableStocks.get(i);
                     Quantity stockCardAvailableQty = stk.getAvailableQuantity();
+                    if (!depletedStockCardList.contains(stk)) {
+                        //if stockCardAvailableQty is greater than requiredQty
+                        if (MetricCalculator.isGreaterThan(stockCardAvailableQty, requiredQty)) {
+                            System.out.println(stk.getQty() + " " + stk.getUom() + " is greater than " + requiredQty);
+                            StockCardTxn stxn = new StockCardTxn();
+                            stxn.setQty(requiredQty.getValue());
+                            stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
+                            stxn.setTempStockCard(stk);
+                            stxn.setTempBatchItem(batchItemReq);
 
-                    //if stockCardAvailableQty is greater than requiredQty
-                    if (MetricCalculator.isGreaterThan(stockCardAvailableQty, requiredQty)) {
-                        System.out.println(stk.getQty() + " " + stk.getUom() + " is greater than " + requiredQty);
-                        StockCardTxn stxn = new StockCardTxn();
-                        stxn.setQty(requiredQty.getValue());
-                        stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
-                        stxn.setTempStockCard(stk);
-                        stxn.setTempBatchItem(batchItemReq);
+                            stkTransactionList.add(stxn);
 
-                        stkTransactionList.add(stxn);
+                            //for audit entry
+                            stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                            stxn.setStock_card_id(stk.getId());
 
-                        //for audit entry
-                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
-                        stxn.setStock_card_id(stk.getId());
+                            System.out.println("RESERVED TXN: " + stxn);
+                            System.out.println();
+                            requiredQty.setValue(0);
 
-                        System.out.println("RESERVED TXN: " + stxn);
-                        System.out.println();
-                        requiredQty.setValue(0);
+                        } //if availableQty is equal to requiredQty
+                        else if (MetricCalculator.isEqual(stockCardAvailableQty, requiredQty)) {
+                            System.out.println(stk.getQty() + " " + stk.getUom() + " is equals to " + requiredQty);
+                            StockCardTxn stxn = new StockCardTxn();
+                            stxn.setQty(requiredQty.getValue());
+                            stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
+                            stxn.setTempStockCard(stk);
+                            stkTransactionList.add(stxn);
+                            stxn.setTempBatchItem(batchItemReq);
 
-                    } //if availableQty is equal to requiredQty
-                    else if (MetricCalculator.isEqual(stockCardAvailableQty, requiredQty)) {
-                        System.out.println(stk.getQty() + " " + stk.getUom() + " is equals to " + requiredQty);
-                        StockCardTxn stxn = new StockCardTxn();
-                        stxn.setQty(requiredQty.getValue());
-                        stxn.setUnitId(getEquivalentUnit(requiredQty.getUnit()));
-                        stxn.setTempStockCard(stk);
-                        stkTransactionList.add(stxn);
-                        stxn.setTempBatchItem(batchItemReq);
+                            //for audit entry
+                            stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                            stxn.setStock_card_id(stk.getId());
 
-                        //for audit entry
-                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
-                        stxn.setStock_card_id(stk.getId());
+                            System.out.println("RESERVED TXN: " + stxn);
+                            System.out.println();
+                            requiredQty.setValue(0);
+                            depletedStockCardList.add(stk);
+                        } //if availableQty is less than the requiredQty
+                        else {
+                            System.out.println(stk.getQty() + " " + stk.getUom() + " is less than " + requiredQty);
+                            StockCardTxn stxn = new StockCardTxn();
+                            stxn.setQty(stockCardAvailableQty.getValue());
+                            stxn.setUnitId(getEquivalentUnit(stockCardAvailableQty.getUnit()));
+                            stxn.setTempStockCard(stk);
+                            stkTransactionList.add(stxn);
+                            stxn.setTempBatchItem(batchItemReq);
 
-                        System.out.println("RESERVED TXN: " + stxn);
-                        System.out.println();
-                        requiredQty.setValue(0);
-                        depletedStockCardList.add(stk);
-                    } //if availableQty is less than the requiredQty
-                    else {
-                        System.out.println(stk.getQty() + " " + stk.getUom() + " is less than " + requiredQty);
-                        StockCardTxn stxn = new StockCardTxn();
-                        stxn.setQty(stockCardAvailableQty.getValue());
-                        stxn.setUnitId(getEquivalentUnit(stockCardAvailableQty.getUnit()));
-                        stxn.setTempStockCard(stk);
-                        stkTransactionList.add(stxn);
-                        stxn.setTempBatchItem(batchItemReq);
+                            //for audit entry
+                            stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
+                            stxn.setStock_card_id(stk.getId());
 
-                        //for audit entry
-                        stxn.setUnit_id(getEquivalentUnit(requiredQty.getUnit()).getId());
-                        stxn.setStock_card_id(stk.getId());
+                            requiredQty = MetricCalculator.subtract(requiredQty, stockCardAvailableQty);
+                            System.out.println("RESERVED TXN: " + stxn);
+                            depletedStockCardList.add(stk);
+                        }
 
-                        requiredQty = MetricCalculator.subtract(requiredQty, stockCardAvailableQty);
-                        System.out.println("RESERVED TXN: " + stxn);
-                        depletedStockCardList.add(stk);
+                        overallAvailableQty = MetricCalculator.add(overallAvailableQty, stk.getAvailableQuantity());
                     }
 
-                    overallAvailableQty = MetricCalculator.add(overallAvailableQty, stk.getAvailableQuantity());
                 }
 
                 //if overalAvailableQty is less than the requiredQty

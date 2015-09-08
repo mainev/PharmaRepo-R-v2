@@ -47,7 +47,7 @@ public class ApplicationConfig extends Application {
         resources.add(server.pharma_red_v2.mbr.rest.ManufacturingProcedureREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.MbrREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.PackagingMaterialRequirementREST.class);
-        resources.add(server.pharma_red_v2.mbr.rest.PackagingOperationREST.class);
+        resources.add(server.pharma_red_v2.mbr.rest.PackagingProcedureREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.PowderFillingREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.RawMaterialRequirementREST.class);
         resources.add(server.pharma_red_v2.mbr.rest.UdfREST.class);

@@ -27,7 +27,7 @@
 	</pageHeader>
 	<detail>
 		<band height="15" splitType="Stretch">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="325" y="0" width="168" height="15" uuid="40d26c5b-3c41-4182-ba53-cb4fe1c49530"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.0"/>

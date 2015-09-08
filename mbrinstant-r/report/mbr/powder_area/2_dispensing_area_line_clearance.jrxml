@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="2_dispensing_area_line_clearance" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e41defe9-57f2-42a6-9ba2-887bec75ad3a">
-	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="3.215383215000002"/>
+	<property name="ireport.x" value="27"/>
+	<property name="ireport.y" value="53"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="start_of_dispensing" class="java.util.List"/>
 	<parameter name="end_of_dispensing" class="java.util.List"/>
@@ -133,14 +133,14 @@
 		</band>
 	</title>
 	<detail>
-		<band height="16">
+		<band height="15" splitType="Prevent">
 			<subreport>
 				<reportElement x="0" y="0" width="802" height="15" uuid="732387dc-461c-4f4a-9fed-2e37ef23f4b5"/>
 				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{start_of_dispensing}))]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "2.1_start_of_dispensing.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="16">
+		<band height="15" splitType="Prevent">
 			<subreport>
 				<reportElement x="0" y="0" width="802" height="15" uuid="3200db5d-fc3d-4e5f-b10c-a610b9b41584"/>
 				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{end_of_dispensing}))]]></dataSourceExpression>

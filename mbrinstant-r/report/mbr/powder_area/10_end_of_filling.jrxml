@@ -13,7 +13,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="15" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="542" height="15" uuid="101f5930-77ad-49c5-925f-650903e631e6"/>
 				<box leftPadding="3" rightPadding="3">
@@ -26,7 +26,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["End of Dispensing"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["End of Filling"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="542" y="0" width="130" height="15" uuid="77aa69dd-7039-474e-8615-28b3e06884a6"/>
@@ -55,6 +55,62 @@
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Verified by/Date:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="15" width="107" height="15" uuid="df2540bb-7073-40bd-a6ca-8ef8324ce389"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date/Time Finished:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="15" width="99" height="15" uuid="d7715f72-4313-470a-925d-e606e32944d0"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date/Time Started:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="493" y="15" width="309" height="15" uuid="7ef595b2-29c6-48d9-aef6-82308452b986"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="15" width="287" height="15" uuid="b60898ec-200b-4728-a905-dd69d429b62d"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

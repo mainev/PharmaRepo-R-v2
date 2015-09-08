@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import mbrinstant.entity.ProcedureCategory;
 import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.SearchTextField;
@@ -45,7 +46,7 @@ public class EquipmentRequirementController implements Initializable, PageContro
     @FXML
     SearchTextField<Equipment> equipmentTextField;
     @FXML
-    CustomChoiceBox procedureChoiceBox;
+    CustomChoiceBox<ProcedureCategory> procedureChoiceBox;
     @FXML
     Button addEquipmentButton;
 
@@ -148,8 +149,8 @@ public class EquipmentRequirementController implements Initializable, PageContro
         return equipmentTextField.getSelectedItem();
     }
 
-    private String getProcedure() {
-        return procedureChoiceBox.getValue().toString();
+    private ProcedureCategory getProcedure() {
+        return procedureChoiceBox.getValue();
     }
 
     @Override

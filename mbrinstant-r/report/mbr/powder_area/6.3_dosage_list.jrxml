@@ -27,7 +27,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{item}.getDescs()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[java.lang.Character.toString((char)$V{REPORT_COUNT}+96)+". "+$F{item}.getDescs()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="322" y="0" width="146" height="15" uuid="45348383-6845-434e-9dc1-807e70730db7"/>

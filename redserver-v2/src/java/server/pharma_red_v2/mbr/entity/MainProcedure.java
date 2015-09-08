@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -52,6 +53,7 @@ public class MainProcedure implements Serializable {
     private Area area;
 
     @OneToMany(mappedBy = "mainProcedure")
+    @OrderBy("stepNo")
     private List<SubProcedure> subProcedureList;
 
     public MainProcedure() {

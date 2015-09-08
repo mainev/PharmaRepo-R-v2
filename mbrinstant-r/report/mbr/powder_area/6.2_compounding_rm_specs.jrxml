@@ -33,16 +33,16 @@
 				<textFieldExpression><![CDATA[$F{item}.getDescs()+$V{item_part}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="322" y="0" width="146" height="15" uuid="d073b7ce-e6ef-46ff-b0f2-c89261cdb3a0"/>
-				<box leftPadding="3" rightPadding="3">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="322" y="0" width="146" height="15" uuid="375ae4cf-27ac-4d98-bb4e-1c3c1a4ff608"/>
+				<box leftPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{required_qty}]]></textFieldExpression>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[""+$F{required_qty}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

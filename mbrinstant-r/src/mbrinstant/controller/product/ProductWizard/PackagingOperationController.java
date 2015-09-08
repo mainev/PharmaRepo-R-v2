@@ -26,9 +26,9 @@ import mbrinstant.controls.ConstraintValidator;
 import mbrinstant.controls.CustomTextArea;
 import mbrinstant.controls.IntegerTextField;
 import mbrinstant.entity.mbr.ManufacturingProcedure;
-import mbrinstant.entity.mbr.PackagingOperation;
+import mbrinstant.entity.mbr.PackagingProcedure;
 import mbrinstant.exceptions.ServerException;
-import mbrinstant.rest_client.mbr.SingletonPackgOperationRestClient;
+import mbrinstant.rest_client.mbr.SingletonPackgProcedureRestClient;
 
 /**
  * FXML Controller class
@@ -38,7 +38,7 @@ import mbrinstant.rest_client.mbr.SingletonPackgOperationRestClient;
 public class PackagingOperationController implements Initializable, PageController {
 
     @FXML
-    TableView<PackagingOperation> packagingOperationTable;
+    TableView<PackagingProcedure> packagingOperationTable;
     @FXML
     TableColumn colAction;
     @FXML
@@ -61,10 +61,10 @@ public class PackagingOperationController implements Initializable, PageControll
     @FXML
     Button addButton;
 
-    ObservableList<PackagingOperation> packagingProcedureList = FXCollections.observableArrayList();
+    ObservableList<PackagingProcedure> packagingProcedureList = FXCollections.observableArrayList();
 
     //rest client
-    SingletonPackgOperationRestClient packagingOperationService = SingletonPackgOperationRestClient.getInstance();
+    SingletonPackgProcedureRestClient packagingOperationService = SingletonPackgProcedureRestClient.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,7 +78,7 @@ public class PackagingOperationController implements Initializable, PageControll
 
         addButton.setOnAction(e -> {
             if (validator.validateFields()) {
-                PackagingOperation ppo = new PackagingOperation(getContent(), getPart(), getDoneBy(), getCheckedBy());
+                PackagingProcedure ppo = new PackagingProcedure(getContent(), getPart(), getDoneBy(), getCheckedBy());
                 packagingProcedureList.add(ppo);
             }
         });
@@ -87,7 +87,7 @@ public class PackagingOperationController implements Initializable, PageControll
             @Override
             public void onChanged(ListChangeListener.Change c) {
                 short i = 1;
-                for (PackagingOperation ppo : packagingProcedureList) {
+                for (PackagingProcedure ppo : packagingProcedureList) {
                     ppo.setStepNumber(i);
                     i++;
                 }
@@ -100,8 +100,8 @@ public class PackagingOperationController implements Initializable, PageControll
 
     public void createPackagingOperations(ManufacturingProcedure mfg) throws ServerException {
         if (!packagingProcedureList.isEmpty()) {
-            for (PackagingOperation ppo : packagingProcedureList) {
-                packagingOperationService.createNewPackgOperation(mfg.getId(), ppo);
+            for (PackagingProcedure ppo : packagingProcedureList) {
+                packagingOperationService.createNewPackgProcedure(mfg.getId(), ppo);
             }
         }
     }
@@ -112,23 +112,23 @@ public class PackagingOperationController implements Initializable, PageControll
         colAction.setSortable(false);
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
-        colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PackagingOperation, Boolean>, ObservableValue<Boolean>>() {
+        colAction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PackagingProcedure, Boolean>, ObservableValue<Boolean>>() {
             @Override
-            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<PackagingOperation, Boolean> features) {
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<PackagingProcedure, Boolean> features) {
                 return new SimpleBooleanProperty(features.getValue() != null);
             }
         });
 
         // create a cell value factory with an add button for each row in the table.
-        colAction.setCellFactory(new Callback<TableColumn<PackagingOperation, Boolean>, TableCell<PackagingOperation, Boolean>>() {
+        colAction.setCellFactory(new Callback<TableColumn<PackagingProcedure, Boolean>, TableCell<PackagingProcedure, Boolean>>() {
             @Override
-            public TableCell<PackagingOperation, Boolean> call(TableColumn<PackagingOperation, Boolean> erCol) {
+            public TableCell<PackagingProcedure, Boolean> call(TableColumn<PackagingProcedure, Boolean> erCol) {
                 return new ActionCell(packagingOperationTable);
             }
         });
     }
 
-    public class ActionCell extends TableCell<PackagingOperation, Boolean> {
+    public class ActionCell extends TableCell<PackagingProcedure, Boolean> {
 
         HBox hbox = new HBox();
         Button delete = new Button("Remove");

@@ -32,7 +32,7 @@ import mbrinstant.rest_client.mbr.SingletonEquipmentRequirementRestClient;
 import mbrinstant.rest_client.mbr.SingletonMbrRestClient;
 import mbrinstant.rest_client.mbr.SingletonMfgProcedureRestClient;
 import mbrinstant.rest_client.mbr.SingletonPackgMaterialRequirementRestClient;
-import mbrinstant.rest_client.mbr.SingletonPackgOperationRestClient;
+import mbrinstant.rest_client.mbr.SingletonPackgProcedureRestClient;
 import mbrinstant.rest_client.mbr.SingletonPowderFillingRestClient;
 import mbrinstant.rest_client.mbr.SingletonRawMaterialRequirementRestClient;
 import mbrinstant.rest_client.mbr.SingletonUdfRestClient;
@@ -121,7 +121,7 @@ public class Main extends Application {
         SingletonEquipmentRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonMfgProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonPackgMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
-        SingletonPackgOperationRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
+        SingletonPackgProcedureRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonPowderFillingRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonRawMaterialRequirementRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
         SingletonUdfRestClient.getInstance().setUsernameAndPassword(emailAd, pwd);
@@ -153,7 +153,7 @@ public class Main extends Application {
         SingletonEquipmentRequirementRestClient.getInstance().destroy();
         SingletonMfgProcedureRestClient.getInstance().destroy();
         SingletonPackgMaterialRequirementRestClient.getInstance().destroy();
-        SingletonPackgOperationRestClient.getInstance().destroy();
+        SingletonPackgProcedureRestClient.getInstance().destroy();
         SingletonPowderFillingRestClient.getInstance().destroy();
         SingletonRawMaterialRequirementRestClient.getInstance().destroy();
         SingletonUdfRestClient.getInstance().destroy();

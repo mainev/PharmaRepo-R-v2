@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -51,13 +52,21 @@ public class ManufacturingProcedure implements Serializable {
 
     @OneToMany(mappedBy = "manufacturingProcedureId")
     private List<EquipmentRequirement> equipmentRequirementList;
+
     @OneToMany(mappedBy = "manufacturingProcedureId")
+    @OrderBy("stepNumber")
     private List<CompoundingProcedure> compoundingProcedureList;
+
     @OneToMany(mappedBy = "manufacturingProcedureId")
-    private List<PackagingOperation> packagingProcedureOperationList;
+    @OrderBy("stepNumber")
+    private List<PackagingProcedure> packagingProcedureOperationList;
+
     @OneToMany(mappedBy = "manufacturingProcedureId")
+    @OrderBy("stepNumber")
     private List<PowderFillingProcedure> powderFillingProcedureList;
+
     @OneToMany(mappedBy = "manufacturingProcedureId")
+    @OrderBy("stepNumber")
     private List<BottlingProcedure> bottlingProcedureList;
 
     public List<BottlingProcedure> getBottlingProcedureList() {
@@ -84,11 +93,11 @@ public class ManufacturingProcedure implements Serializable {
         this.compoundingProcedureList = compoundingProcedureList;
     }
 
-    public List<PackagingOperation> getPackagingProcedureOperationList() {
+    public List<PackagingProcedure> getPackagingProcedureOperationList() {
         return packagingProcedureOperationList;
     }
 
-    public void setPackagingProcedureOperationList(List<PackagingOperation> packagingProcedureOperationList) {
+    public void setPackagingProcedureOperationList(List<PackagingProcedure> packagingProcedureOperationList) {
         this.packagingProcedureOperationList = packagingProcedureOperationList;
     }
 

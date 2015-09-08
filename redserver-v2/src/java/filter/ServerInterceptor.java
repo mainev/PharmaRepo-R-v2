@@ -45,7 +45,7 @@ public class ServerInterceptor implements ReaderInterceptor, WriterInterceptor {
 
     @Override
     public void aroundWriteTo(WriterInterceptorContext responseContext) throws IOException {
-        System.out.println("NOTE:: INTERCEPTOR IS UNDER MAINTENANCE AND CURRENTLY DISABLED. AUDIT TRAIL WILL NOT BE RECORDED");
+        System.out.println("NOTE:: INTERCEPTOR IS CURRENTLY DISABLED. AUDIT TRAIL WILL NOT BE RECORDED");
 
         /*
          if (request.getMethod().equals("POST")) {

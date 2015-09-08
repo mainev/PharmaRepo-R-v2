@@ -132,7 +132,6 @@ public class SingletonProductRestClient {
     public Item getPrimaryPackaging(Product productId) throws ServerException {
         webResource = client.resource(BASE_URI + "/g_primary_packg");
         ClientResponse response = webResource
-                .queryParam("method", "g_primary_packg")
                 .queryParam("productId", String.valueOf(productId.getId()))
                 .accept("application/json")
                 .get(ClientResponse.class);

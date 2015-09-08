@@ -46,7 +46,7 @@ public class UDFCalculator {
                 batchItemReq.setItemId(rmReq.getItemId());
                 batchItemReq.setUdfQty(oldQty);
                 batchItemReq.setUdfQtyUnitId(rmReq.getUnitId());
-                batchItemReq.setRequiredQty(newQty);
+                batchItemReq.setRequiredQty(rmReq.getNewQuantity());
                 batchItemReq.setRequiredQtyUnitId(getEquivalentUnit(newUnit));
                 batchItemReq.setPart(rmReq.getPart());
                 batchItemRequirementList.add(batchItemReq);
@@ -71,7 +71,7 @@ public class UDFCalculator {
             batchItemReq.setItemId(pmr.getItemId());
             batchItemReq.setUdfQty(pmr.getQuantity());
             batchItemReq.setUdfQtyUnitId(pmr.getUnitId());
-            batchItemReq.setRequiredQty(quantity);
+            batchItemReq.setRequiredQty(roundZeroDecimals(quantity));
             batchItemReq.setRequiredQtyUnitId(pmr.getUnitId());
             batchItemReq.setPart((short) 0);
             batchItemRequirementList.add(batchItemReq);

@@ -9,13 +9,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import mbrinstant.entity.ProcedureCategory;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.Dosage;
-import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.Mbr;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
+import mbrinstant.entity.sqlsvr_copy.Item;
 import mbrinstant.exceptions.ServerException;
+import mbrinstant.rest_client.main.SingletonProductRestClient;
+import mbrinstant.utils.Quantity;
 import mbrinstant.utils.UDFCalculator;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -29,11 +32,10 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class MbrGenerator {
 
+    SingletonProductRestClient productRestClient = SingletonProductRestClient.getInstance();
     private Mbr batch;
     private List<MbrRawMaterialSpecification> batchRmSpecs = new ArrayList();
     private List<MbrPackgMaterialRequirement> batchPmReq = new ArrayList();
-    private List<EquipmentRequirement> compoundingEquipReqList = new ArrayList();
-    private List<EquipmentRequirement> powderFillingEquipReqList = new ArrayList();
     private MbrProductFormulationHelper productFormulationHelper;
 
     public MbrGenerator(Mbr batch) {
@@ -45,54 +47,11 @@ public class MbrGenerator {
 
         batchRmSpecs = productFormulationHelper.deriveRawMaterialSpecification();
         batchPmReq = productFormulationHelper.derivePackagingMaterial();
-        compoundingEquipReqList = getCompoundingEquipmentRequirements(batch);
-        powderFillingEquipReqList = getPowderFillingEquipmentRequirements(batch);
         System.out.println("batch raw material specification list: " + batchRmSpecs);
         System.out.println("batch packg material requirement list: " + batchPmReq);
         System.out.println("COMPOUNDING PROC LIST: " + batch.getProductId().getManufacturingProcedureId().getCompoundingProcedureList());
-        System.out.println("EQUIPMENT REQ for compounding: " + getCompoundingEquipmentRequirements(batch));
-        System.out.println("filling procedure: " + batch.getProductId().getManufacturingProcedureId().getPowderFillingProcedureList());
-        System.out.println("EQUIPMENT REQ for filling: " + powderFillingEquipReqList);
+
         createMbrJasperReport();
-    }
-
-    public List<EquipmentRequirement> getPowderFillingEquipmentRequirements(Mbr batch) {
-        List<EquipmentRequirement> list = new ArrayList();
-        List<EquipmentRequirement> equipmentReqList = batch.getProductId().getManufacturingProcedureId().getEquipmentRequirementList();
-        for (EquipmentRequirement er : equipmentReqList) {
-            if (er.getProcedure().equals("POWDER_FILLING")) {
-                list.add(er);
-            }
-        }
-
-        return list;
-
-    }
-
-    public List<EquipmentRequirement> getCompoundingEquipmentRequirements(Mbr batch) {
-        List<EquipmentRequirement> list = new ArrayList();
-        List<EquipmentRequirement> equipmentReqList = batch.getProductId().getManufacturingProcedureId().getEquipmentRequirementList();
-        for (EquipmentRequirement er : equipmentReqList) {
-            if (er.getProcedure().equals("COMPOUNDING")) {
-                list.add(er);
-            }
-        }
-
-        return list;
-
-    }
-
-    public List<EquipmentRequirement> getCodingSpecsEquipmentRequirements(Mbr batch) {
-        List<EquipmentRequirement> list = new ArrayList();
-        List<EquipmentRequirement> equipmentReqList = batch.getProductId().getManufacturingProcedureId().getEquipmentRequirementList();
-        for (EquipmentRequirement er : equipmentReqList) {
-            if (er.getProcedure().equals("CODING_SPECS")) {
-                list.add(er);
-            }
-        }
-
-        return list;
-
     }
 
     public void createMbrJasperReport() throws ServerException {
@@ -121,10 +80,14 @@ public class MbrGenerator {
             params.put("batch", batch);
             params.put("batch_rm_specs", batchRmSpecs);
             params.put("batch_pm_req", batchPmReq);
-            params.put("compounding_proc", batch.getProductId().getManufacturingProcedureId().getCompoundingProcedureList());
-            params.put("compounding_equip_req_list", compoundingEquipReqList);
+
+            //filling procedure
             params.put("filling_proc", batch.getProductId().getManufacturingProcedureId().getPowderFillingProcedureList());
-            params.put("filling_equip_req_list", powderFillingEquipReqList);
+            params.put("filling_equip_req_list", MbrEquipmentRequirementHelper.getEquipmentRequirement(batch, ProcedureCategory.POWDER_FILLING));
+
+            //compounding procedure
+            params.put("compounding_proc", batch.getProductId().getManufacturingProcedureId().getCompoundingProcedureList());
+            params.put("compounding_equip_req_list", MbrEquipmentRequirementHelper.getEquipmentRequirement(batch, ProcedureCategory.COMPOUNDING));
 
             //packaging material requirements
             params.put("batch_direct_pm_req", productFormulationHelper.deriveDirectPackagingMaterial());
@@ -151,8 +114,19 @@ public class MbrGenerator {
 
             //coding specification
             params.put("coding_specification", batch.getProductId().getAreaId().getCodingSpecificationList());
-            params.put("coding_spec_equip_req_list", this.getCodingSpecsEquipmentRequirements(batch));
+            params.put("coding_spec_equip_req_list", MbrEquipmentRequirementHelper.getEquipmentRequirement(batch, ProcedureCategory.CODING_SPECS));
 
+            //filled weight monitoring sheet
+            System.out.println(productRestClient.getPrimaryPackaging(batch.getProductId()));
+            Item primaryPackgItem = productRestClient.getPrimaryPackaging(batch.getProductId());
+            Quantity primaryPackgQty = getPrimaryPackagingQuantity(batchPmReq, primaryPackgItem.getId());
+            Integer[] primaryPackagingNoOfRows = new Integer[getNumberOfReportRows(primaryPackgQty.getValue())];
+            System.out.println("no of items = " + primaryPackgQty);
+            System.out.println("no of rows = " + primaryPackagingNoOfRows.length);
+            params.put("primary_packg_qty", primaryPackgQty);
+            params.put("primary_packg_rows", primaryPackagingNoOfRows);
+
+            //jasper report
             JasperPrint jasperPrint = JasperFillManager.fillReport("report/mbr/powder_area/main_template.jasper",
                     params, new JREmptyDataSource());
             JasperViewer.viewReport(jasperPrint, false);
@@ -161,4 +135,38 @@ public class MbrGenerator {
         }
     }
 
+    public Quantity getPrimaryPackagingQuantity(List<MbrPackgMaterialRequirement> pmrList, int bottleId) {
+        for (MbrPackgMaterialRequirement bpmr : pmrList) {
+            if (bpmr.getItem().getId() == bottleId) {
+                return bpmr.getRequiredQty();
+            }
+        }
+        return null;
+    }
+
+    private int getNumberOfReportRows(double size) {
+        int rows = 0;
+        int item = 0;
+        int counter = 0;
+        while (item < size) {
+            counter += 60;
+
+            rows = counter / 3;
+            item = item + 60;
+            System.out.println("counter =" + counter);
+            System.out.println("item =" + item);
+            System.out.println("rows =" + rows + "\n");
+        }
+        return rows;
+    }
+    /*
+     public int getSecondaryPackagingQuantity(List<PackagingMaterialRequirement> pmrList, int cBoxId) {
+     for (PackagingMaterialRequirement pmr : pmrList) {
+     if (pmr.getItemId().getId() == cBoxId) {
+     return (int) pmr.getNewQuantity();
+     }
+     }
+     return 0;
+     }
+     */
 }

@@ -76,7 +76,6 @@ public class ProductREST {
     @GET
     @Path("/g_primary_packg")
     @Produces("application/json")
-    @Consumes("application/json")
     public Item getPrimaryPackaging(@QueryParam("productId") String productId) {
         Integer product_id = Integer.parseInt(productId);
         return productFacade.getPrimaryPackaging(product_id);

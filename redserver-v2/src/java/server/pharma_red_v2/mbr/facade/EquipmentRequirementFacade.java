@@ -10,6 +10,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import server.pharma_red_v2.ProcedureCategory;
 import server.pharma_red_v2.mbr.entity.EquipmentRequirement;
 
 /**
@@ -32,7 +33,7 @@ public class EquipmentRequirementFacade {
     public List<EquipmentRequirement> findAllByManufacturingIdAndProcedure(int mfgId, String procedure) {
         return em.createQuery("Select e from EquipmentRequirement e where e.manufacturingProcedureId.id = :mfgId and e.procedure = :proc")
                 .setParameter("mfgId", mfgId)
-                .setParameter("proc", procedure)
+                .setParameter("proc", ProcedureCategory.valueOf(procedure))
                 .getResultList();
 
     }

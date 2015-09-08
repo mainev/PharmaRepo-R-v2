@@ -7,7 +7,7 @@ package mbrinstant.controller.product;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextArea;
-import mbrinstant.entity.mbr.PackagingOperation;
+import mbrinstant.entity.mbr.PackagingProcedure;
 
 /**
  *
@@ -17,7 +17,7 @@ public class PackagingProcedureTableFactory {
    
     
 
-    public class OperationProcedureCell extends TableCell<PackagingOperation, PackagingOperation> {
+    public class OperationProcedureCell extends TableCell<PackagingProcedure, PackagingProcedure> {
 
         TextArea textArea = new TextArea();
 
@@ -28,7 +28,7 @@ public class PackagingProcedureTableFactory {
 
         //Display text area if row is not empty
         @Override
-        protected void updateItem(PackagingOperation op, boolean empty) {
+        protected void updateItem(PackagingProcedure op, boolean empty) {
             super.updateItem(op, empty);
             if (op != null) {
                 setGraphic(textArea);

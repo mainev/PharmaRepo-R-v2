@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import mbrinstant.entity.ProcedureCategory;
 import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
@@ -63,14 +64,13 @@ public class SingletonEquipmentRequirementRestClient {
      * @param procedure
      * @return
      */
-    public ObservableList<EquipmentRequirement> getEquipmentByMfgIdAndProcedureType(int mfgId, String procedure)
+    public ObservableList<EquipmentRequirement> getEquipmentByMfgIdAndProcedureCategory(int mfgId, ProcedureCategory procedure)
             throws ServerException {
         webResource = client.resource(BASE_URI + "/g_find_by_mfg_id_and_procedure");
 
         ClientResponse response = webResource
-                .queryParam("method", "g_find_by_mfg_id_and_procedure")
                 .queryParam("mfgId", String.valueOf(mfgId))
-                .queryParam("procedure", procedure)
+                .queryParam("procedure", procedure.toString())
                 .accept("application/json")
                 .get(ClientResponse.class);
         responseHandler.setCode(response.getStatus());

@@ -51,7 +51,7 @@
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{equipment}.getName()]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="323" y="0" width="168" height="15" uuid="006af30e-8e9b-4600-a1e4-3505a25bc3c2"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.0"/>

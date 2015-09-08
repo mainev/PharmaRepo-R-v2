@@ -13,9 +13,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="70" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<textField>
-				<reportElement x="568" y="20" width="118" height="50" uuid="de576b18-c79a-4b33-bc76-a38b959380f3"/>
+				<reportElement x="522" y="20" width="140" height="40" uuid="de576b18-c79a-4b33-bc76-a38b959380f3"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -29,7 +29,7 @@
 				<textFieldExpression><![CDATA["Verified by/Date: (QA)"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="452" y="20" width="116" height="50" uuid="8d330736-1e5c-4370-bcb0-35584d5bcfc9"/>
+				<reportElement x="417" y="20" width="105" height="40" uuid="8d330736-1e5c-4370-bcb0-35584d5bcfc9"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -43,7 +43,7 @@
 				<textFieldExpression><![CDATA["Dispensed by/Date: (Disp. Cust.)"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="20" width="242" height="50" uuid="62e86312-2a86-4d3f-a5d3-d7205e737ef5"/>
+				<reportElement x="50" y="20" width="232" height="40" uuid="62e86312-2a86-4d3f-a5d3-d7205e737ef5"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -65,7 +65,7 @@
 				<textFieldExpression><![CDATA["INDIRECT MATERIALS"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="312" y="20" width="70" height="50" uuid="2de77cff-968b-4eef-b861-f203b50a2ba8"/>
+				<reportElement x="282" y="20" width="70" height="40" uuid="2de77cff-968b-4eef-b861-f203b50a2ba8"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -79,7 +79,7 @@
 				<textFieldExpression><![CDATA["Required Quantity"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="382" y="20" width="70" height="50" uuid="fcc249ae-607a-48d4-a038-b8247d844e5a"/>
+				<reportElement x="352" y="20" width="65" height="40" uuid="fcc249ae-607a-48d4-a038-b8247d844e5a"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -93,7 +93,7 @@
 				<textFieldExpression><![CDATA["Issued Quantity"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="20" width="70" height="50" uuid="990a68e0-2552-4a65-aad3-595769b2d5c1"/>
+				<reportElement x="0" y="20" width="50" height="40" uuid="990a68e0-2552-4a65-aad3-595769b2d5c1"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -107,7 +107,7 @@
 				<textFieldExpression><![CDATA["Item Code"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="686" y="20" width="116" height="50" uuid="7689ab35-8364-4c21-be6a-fcc15039e1b6"/>
+				<reportElement x="662" y="20" width="140" height="40" uuid="7689ab35-8364-4c21-be6a-fcc15039e1b6"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -125,7 +125,7 @@
 	<detail>
 		<band height="15">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="70" height="15" uuid="973f235d-ae9e-4810-9c2e-f3d9f39015d7"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="15" uuid="973f235d-ae9e-4810-9c2e-f3d9f39015d7"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -133,11 +133,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{item}.getItemCd()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="70" y="0" width="242" height="15" uuid="07fb6df5-7aea-42bd-a90e-1caa4aac1f4d"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="50" y="0" width="232" height="15" uuid="07fb6df5-7aea-42bd-a90e-1caa4aac1f4d"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -145,11 +147,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{item}.getDescs()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="312" y="0" width="70" height="15" uuid="10e21fbe-4598-4ff4-9069-62c0fc98a6fb"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="282" y="0" width="70" height="15" uuid="10e21fbe-4598-4ff4-9069-62c0fc98a6fb"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -157,11 +161,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{required_qty}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="382" y="0" width="70" height="15" uuid="d841d9a2-bd7a-46c1-ba0d-099d4be80ca8"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="352" y="0" width="65" height="15" uuid="d841d9a2-bd7a-46c1-ba0d-099d4be80ca8"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -169,11 +175,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="452" y="0" width="116" height="15" uuid="5647104e-d81d-4558-ade2-8321e490e897"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="417" y="0" width="105" height="15" uuid="5647104e-d81d-4558-ade2-8321e490e897"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -181,11 +189,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="568" y="0" width="118" height="15" uuid="5727d3bd-5dc1-4786-a682-63302c525a4a"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="522" y="0" width="140" height="15" uuid="5727d3bd-5dc1-4786-a682-63302c525a4a"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -193,11 +203,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="686" y="0" width="116" height="15" uuid="1ba883ba-7b53-4898-a9e7-7d5b1c6bf75d"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="662" y="0" width="140" height="15" uuid="1ba883ba-7b53-4898-a9e7-7d5b1c6bf75d"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -205,7 +217,9 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
 		</band>

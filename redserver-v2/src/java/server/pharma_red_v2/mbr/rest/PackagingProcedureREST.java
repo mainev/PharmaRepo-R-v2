@@ -16,39 +16,39 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-import server.pharma_red_v2.mbr.entity.PackagingOperation;
-import server.pharma_red_v2.mbr.facade.PackagingOperationFacade;
+import server.pharma_red_v2.mbr.entity.PackagingProcedure;
+import server.pharma_red_v2.mbr.facade.PackagingProcedureFacade;
 
 /**
  * REST Web Service
  *
  * @author maine
  */
-@Path("mbr/packaging_operation")
+@Path("mbr/packaging_procedure")
 @RequestScoped
-public class PackagingOperationREST {
+public class PackagingProcedureREST {
 
     @Context
     private UriInfo context;
     @Context
     private HttpServletResponse response;
     @Inject
-    private PackagingOperationFacade packagingOperationFacade;
+    private PackagingProcedureFacade packagingOperationFacade;
 
     /**
      * Creates a new instance of PackagingOperationREST
      */
-    public PackagingOperationREST() {
+    public PackagingProcedureREST() {
     }
 
     @POST
-    @Path("/pst_create_new_packg_operation")
+    @Path("/pst_new_packg_procedure")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public PackagingOperation createNewPackgOperation(@QueryParam("mfg_id") String mfg_id, PackagingOperation ppo) {
+    public PackagingProcedure createNewPackgOperation(@QueryParam("mfg_id") String mfg_id, PackagingProcedure ppo) {
 
         response.setHeader("old_value", "");
-        response.setHeader("table_name", "packaging_operation");
+        response.setHeader("table_name", "packaging_procedure");
         response.setHeader("action", "INSERT");
         int mfgId = Integer.parseInt(mfg_id);
         return packagingOperationFacade.create(mfgId, ppo);

@@ -3,72 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.pharma_red_v2.mbr.entity;
+package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author maine
  */
-@Entity
-@Table(name = "packaging_operation", schema = "mbr")
 @XmlRootElement
-public class PackagingOperation implements Serializable {
+public class PackagingProcedure implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Expose
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
     private Integer id;
-
     @Expose
-    @Column(name = "step_number")
     private Short stepNumber;
-
     @Expose
-    @Size(max = 1000)
-    @Column(name = "instruction")
     private String instruction;
-
     @Expose
-    @Column(name = "part")
     private Short part;
-
     @Expose
-    @JoinColumn(name = "manufacturing_procedure_id", referencedColumnName = "id")
-    @ManyToOne
-    private ManufacturingProcedure manufacturingProcedureId;
-
-    @Expose
-    @Column(name = "done_by")
-    @Size(max = 100)
     private String doneBy;
-
     @Expose
-    @Column(name = "checked_by")
-    @Size(max = 100)
     private String checkedBy;
 
-    public PackagingOperation() {
+    public PackagingProcedure(String instruction, Short part, String doneBy, String checkedBy) {
+        this.instruction = instruction;
+        this.part = part;
+        this.doneBy = doneBy;
+        this.checkedBy = checkedBy;
     }
 
-    public PackagingOperation(Integer id) {
+    public PackagingProcedure() {
+    }
+
+    public PackagingProcedure(Integer id) {
         this.id = id;
     }
 
@@ -86,6 +58,14 @@ public class PackagingOperation implements Serializable {
 
     public void setCheckedBy(String checkedBy) {
         this.checkedBy = checkedBy;
+    }
+
+    public Short getPart() {
+        return part;
+    }
+
+    public void setPart(Short part) {
+        this.part = part;
     }
 
     public Integer getId() {
@@ -112,23 +92,14 @@ public class PackagingOperation implements Serializable {
         this.instruction = instruction;
     }
 
-    public Short getPart() {
-        return part;
-    }
+    /*
+     public ManufacturingProcedure getManufacturingProcedureId() {
+     return manufacturingProcedureId;
+     }
 
-    public void setPart(Short part) {
-        this.part = part;
-    }
-
-    @XmlTransient
-    public ManufacturingProcedure getManufacturingProcedureId() {
-        return manufacturingProcedureId;
-    }
-
-    public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
-        this.manufacturingProcedureId = manufacturingProcedureId;
-    }
-
+     public void setManufacturingProcedureId(ManufacturingProcedure manufacturingProcedureId) {
+     this.manufacturingProcedureId = manufacturingProcedureId;
+     }*/
     @Override
     public int hashCode() {
         int hash = 0;
@@ -139,10 +110,10 @@ public class PackagingOperation implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PackagingOperation)) {
+        if (!(object instanceof PackagingProcedure)) {
             return false;
         }
-        PackagingOperation other = (PackagingOperation) object;
+        PackagingProcedure other = (PackagingProcedure) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

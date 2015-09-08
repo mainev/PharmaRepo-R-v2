@@ -8,7 +8,7 @@ package mbrinstant.controller.report_generation.mbr_generation;
 import java.util.ArrayList;
 import java.util.List;
 import mbrinstant.entity.mbr.Mbr;
-import mbrinstant.entity.mbr.PackagingOperation;
+import mbrinstant.entity.mbr.PackagingProcedure;
 
 /**
  *
@@ -16,9 +16,9 @@ import mbrinstant.entity.mbr.PackagingOperation;
  */
 public class MbrProcedureHelper {
 
-    public static List<PackagingOperation> getPackagingProcedurePartOne(Mbr batch) {
-        List<PackagingOperation> result = new ArrayList();
-        List<PackagingOperation> list = batch.getProductId().getManufacturingProcedureId().getPackagingProcedureOperationList();
+    public static List<PackagingProcedure> getPackagingProcedurePartOne(Mbr batch) {
+        List<PackagingProcedure> result = new ArrayList();
+        List<PackagingProcedure> list = batch.getProductId().getManufacturingProcedureId().getPackagingProcedureOperationList();
 
         list.forEach(po -> {
             if (po.getPart() == 1) {
@@ -29,9 +29,9 @@ public class MbrProcedureHelper {
         return result;
     }
 
-    public static List<PackagingOperation> getPackagingProcedurePartTwo(Mbr batch) {
-        List<PackagingOperation> result = new ArrayList();
-        List<PackagingOperation> list = batch.getProductId().getManufacturingProcedureId().getPackagingProcedureOperationList();
+    public static List<PackagingProcedure> getPackagingProcedurePartTwo(Mbr batch) {
+        List<PackagingProcedure> result = new ArrayList();
+        List<PackagingProcedure> list = batch.getProductId().getManufacturingProcedureId().getPackagingProcedureOperationList();
 
         list.forEach(po -> {
             if (po.getPart() == 2) {

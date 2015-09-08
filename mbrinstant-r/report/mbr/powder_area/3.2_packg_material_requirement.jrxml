@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="3.2_packg_material_requirement" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="97d4de9b-f7c1-45c7-aa78-0db8c2a5c665">
-	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.zoom" value="1.4641000000000015"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -22,9 +22,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="86" splitType="Stretch">
+		<band height="85" splitType="Stretch">
 			<textField>
-				<reportElement x="312" y="20" width="70" height="65" uuid="343717cf-8f57-4535-8884-86758a3f6fa8"/>
+				<reportElement x="282" y="20" width="70" height="65" uuid="343717cf-8f57-4535-8884-86758a3f6fa8"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -38,7 +38,7 @@
 				<textFieldExpression><![CDATA["Required Quantity"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="382" y="20" width="70" height="65" uuid="13d32f0f-d9d4-4843-94ea-b816915b081a"/>
+				<reportElement x="352" y="20" width="65" height="65" uuid="13d32f0f-d9d4-4843-94ea-b816915b081a"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -60,7 +60,7 @@
 				<textFieldExpression><![CDATA["PACKAGING MATERIALS"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="452" y="20" width="70" height="65" uuid="6fcca0ce-3e14-4708-b761-e48bcaa5e055"/>
+				<reportElement x="417" y="20" width="105" height="65" uuid="6fcca0ce-3e14-4708-b761-e48bcaa5e055"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -102,7 +102,7 @@
 				<textFieldExpression><![CDATA["Checked by/Date: (Disp. Cust)"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="20" width="70" height="65" uuid="d9055cc5-53d5-496a-aa8a-a62f26bfe662"/>
+				<reportElement x="0" y="20" width="50" height="65" uuid="d9055cc5-53d5-496a-aa8a-a62f26bfe662"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -116,7 +116,7 @@
 				<textFieldExpression><![CDATA["Item Code"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="20" width="242" height="65" uuid="dbd9263b-e3a8-467a-beb2-9e74ffa15c4f"/>
+				<reportElement x="50" y="20" width="232" height="65" uuid="dbd9263b-e3a8-467a-beb2-9e74ffa15c4f"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -174,9 +174,9 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="14">
+		<band height="15" splitType="Prevent">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="70" y="-1" width="242" height="15" uuid="bcf2f7ac-ad21-4773-9f9c-552d6e30330b"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="50" y="0" width="232" height="15" uuid="bcf2f7ac-ad21-4773-9f9c-552d6e30330b"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -184,11 +184,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{item}.getDescs()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="-1" width="70" height="15" uuid="e9f1f6ea-66bf-4ea8-ba0a-15d9b1fd8964"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="15" uuid="e9f1f6ea-66bf-4ea8-ba0a-15d9b1fd8964"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -196,11 +198,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{item}.getItemCd()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="312" y="-1" width="70" height="15" uuid="12166145-14d3-4b72-ac4b-3599fa2ffff4"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="282" y="0" width="70" height="15" uuid="12166145-14d3-4b72-ac4b-3599fa2ffff4"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -208,11 +212,13 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{required_qty}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="382" y="-1" width="70" height="15" uuid="3d976899-5ac9-4f61-8a66-6b014916e44e"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="352" y="0" width="65" height="15" uuid="3d976899-5ac9-4f61-8a66-6b014916e44e"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -220,11 +226,74 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="417" y="0" width="105" height="15" uuid="dec9f13c-8194-455a-9c73-1ade22628cfa"/>
+				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{controlNoList}))]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.1.1_rm_spec_control_no.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="522" y="0" width="70" height="15" uuid="2d5bbc84-34ef-419f-9f93-de3d450f5da1"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="592" y="0" width="70" height="15" uuid="dae16400-b582-4a0c-9cc9-ef7854078355"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="662" y="0" width="70" height="15" uuid="0968aeb6-d75c-47dd-99c1-f9559ac21bb5"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="732" y="0" width="70" height="15" uuid="e0804e8d-0ada-4373-bad4-616aad07be0a"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[""]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="452" y="-1" width="70" height="15" uuid="c7fd6924-b6b8-4b60-98b4-8279eb9629de"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="417" y="0" width="105" height="15" uuid="c7fd6924-b6b8-4b60-98b4-8279eb9629de"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -232,60 +301,7 @@
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<subreport>
-					<reportElement x="0" y="0" width="70" height="15" uuid="dec9f13c-8194-455a-9c73-1ade22628cfa"/>
-					<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{controlNoList}))]]></dataSourceExpression>
-					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.1.1_rm_spec_control_no.jasper"]]></subreportExpression>
-				</subreport>
 			</frame>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="522" y="-1" width="70" height="15" uuid="2d5bbc84-34ef-419f-9f93-de3d450f5da1"/>
-				<box leftPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="592" y="-1" width="70" height="15" uuid="dae16400-b582-4a0c-9cc9-ef7854078355"/>
-				<box leftPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="662" y="-1" width="70" height="15" uuid="0968aeb6-d75c-47dd-99c1-f9559ac21bb5"/>
-				<box leftPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="732" y="-1" width="70" height="15" uuid="e0804e8d-0ada-4373-bad4-616aad07be0a"/>
-				<box leftPadding="3" rightPadding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[""]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 </jasperReport>

@@ -29,9 +29,9 @@ import mbrinstant.FXMLLocations;
 import mbrinstant.ScreenNavigator;
 import mbrinstant.controls.CustomChoiceBox;
 import mbrinstant.controls.MyNotifications;
+import mbrinstant.entity.ProcedureCategory;
 import mbrinstant.entity.main.Area;
 import mbrinstant.entity.main.Product;
-import mbrinstant.EquipmentLocations;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.exceptions.ServerException;
 
@@ -102,9 +102,11 @@ public class ProductWizardController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
         setPagesByArea();
-        setInstructionPagesByArea();
         initStepsListView();
+        setInstructionPagesByArea();
+
         initButtons();
 
     }
@@ -159,30 +161,34 @@ public class ProductWizardController implements Initializable {
     }
 
     private void setInstructionPagesByArea() {
+        equipReqController.procedureChoiceBox.setItems(FXCollections.observableArrayList(ProcedureCategory.values()));
+
         CustomChoiceBox area = mainDetailsController.areaChoiceBox;
         area.getSelectionModel().selectedItemProperty().addListener((ob, ov, nv) -> {
             Area selectedArea = (Area) nv;
             equipReqController.equipmentRequirementList.clear();
+
             if (selectedArea.getName().equals("TABLET HUMAN")) {
                 pages.setAll(TABLET_HUMAN_PAGES);
-                ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForTabletHuman());
-                equipReqController.procedureChoiceBox.setItems(equipmentLocations);
+                //  ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForTabletHuman());
+                //  equipReqController.procedureChoiceBox.setItems(equipmentLocations);
 
             } else if (selectedArea.getName().equals("POWDER VET")) {
                 pages.setAll(POWDER_VET_PAGES);
-                ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForPowderVet());
-                equipReqController.procedureChoiceBox.setItems(equipmentLocations);
+                //   ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForPowderVet());
+                //   equipReqController.procedureChoiceBox.setItems(equipmentLocations);
 
             } else if (selectedArea.getName().equals("POWDER AREA")) {
                 pages.setAll(POWDER_AREA_PAGES);
-                ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForPowderArea());
-                equipReqController.procedureChoiceBox.setItems(equipmentLocations);
+                //  ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForPowderArea());
+                //   equipReqController.procedureChoiceBox.setItems(equipmentLocations);
             } else {
                 pages.setAll(DEFAULT_PAGES);
-                ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForAll());
-                equipReqController.procedureChoiceBox.setItems(equipmentLocations);
+                //  ObservableList<String> equipmentLocations = FXCollections.observableArrayList(EquipmentLocations.getEquipmentLocationsForAll());
+                //   equipReqController.procedureChoiceBox.setItems(equipmentLocations);
             }
         });
+
     }
 
     private void initButtons() {
@@ -231,8 +237,8 @@ public class ProductWizardController implements Initializable {
 
     private void initStepsListView() {
         //for disabling list view selection
-        stepList.setMouseTransparent(true);
-        stepList.setFocusTraversable(false);
+        //  stepList.setMouseTransparent(true);
+        //  stepList.setFocusTraversable(false);
 
         stepList.getItems().clear();
         stepList.setItems(pages);

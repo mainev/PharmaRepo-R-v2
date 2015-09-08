@@ -149,7 +149,7 @@ public class BatchItemRequirement {
     @Override
     public String toString() {
         String p = "";
-        System.out.println(part);
+
         if (part > 0) {
             p = " (Part " + part + ")";
         }

@@ -25,7 +25,7 @@
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "3.1_raw_material_specification.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="20">
+		<band height="20" splitType="Prevent">
 			<subreport>
 				<reportElement x="0" y="0" width="802" height="15" uuid="2f349e7e-7a91-47a1-bf75-5ed6187b845c"/>
 				<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_direct_pm_req}))]]></dataSourceExpression>

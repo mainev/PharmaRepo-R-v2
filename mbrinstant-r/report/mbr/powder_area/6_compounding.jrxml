@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="6_compounding" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="43c489fb-9f61-4415-9879-a74c5c2ddaef">
-	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.zoom" value="2.593742460100005"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["P:\\PharmaRepo-R-v2\\MBRInstant-R\\report\\mbr\\powder_area\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="compounding_equip_req_list" class="java.util.List"/>
 	<parameter name="batch_rm_specs" class="java.util.List">
@@ -101,9 +101,9 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="46" splitType="Prevent">
+		<band height="20" splitType="Prevent">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="46" uuid="d847ec14-6e29-4efc-8e42-a0a02ddc620c"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="50" height="20" uuid="d847ec14-6e29-4efc-8e42-a0a02ddc620c"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -117,7 +117,7 @@
 				<textFieldExpression><![CDATA[$F{step_no}]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement x="50" y="0" width="492" height="46" uuid="d449a506-c928-430f-963c-f4d7652d52e5"/>
+				<reportElement stretchType="RelativeToTallestObject" x="50" y="0" width="492" height="20" uuid="d449a506-c928-430f-963c-f4d7652d52e5"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -126,13 +126,13 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<frame>
-					<reportElement x="0" y="0" width="492" height="46" uuid="133555a4-89f5-4f81-a390-9af376d160cb"/>
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="492" height="20" uuid="133555a4-89f5-4f81-a390-9af376d160cb"/>
 					<box>
-						<pen lineWidth="1.0"/>
-						<topPen lineWidth="1.0"/>
-						<leftPen lineWidth="1.0"/>
-						<bottomPen lineWidth="1.0"/>
-						<rightPen lineWidth="1.0"/>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
 					</box>
 					<textField isStretchWithOverflow="true">
 						<reportElement x="0" y="0" width="492" height="15" uuid="f729463c-8940-45e2-abfb-63bdd96f386f"/>
@@ -148,19 +148,21 @@
 						<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "6.1_compounding_equipment_req.jasper"]]></subreportExpression>
 					</subreport>
 					<subreport>
-						<reportElement positionType="Float" x="12" y="17" width="468" height="0" uuid="c2e1e7d5-0f53-4f30-9242-37257e6efb9b">
+						<reportElement positionType="Float" x="12" y="16" width="468" height="0" uuid="c2e1e7d5-0f53-4f30-9242-37257e6efb9b">
 							<printWhenExpression><![CDATA[$F{requires_rm_spec}==true]]></printWhenExpression>
 						</reportElement>
 						<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{batch_rm_specs}))]]></dataSourceExpression>
 						<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "6.2_compounding_rm_specs.jasper"]]></subreportExpression>
 					</subreport>
 					<subreport>
-						<reportElement positionType="Float" x="12" y="18" width="468" height="0" uuid="071a8433-e485-4fff-a090-60234ef2a0ee"/>
+						<reportElement positionType="Float" x="12" y="17" width="468" height="0" uuid="071a8433-e485-4fff-a090-60234ef2a0ee">
+							<printWhenExpression><![CDATA[!$F{dosage_list}.isEmpty()]]></printWhenExpression>
+						</reportElement>
 						<dataSourceExpression><![CDATA[(new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{dosage_list}))]]></dataSourceExpression>
 						<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "6.3_dosage_list.jasper"]]></subreportExpression>
 					</subreport>
 					<subreport>
-						<reportElement positionType="Float" x="12" y="36" width="468" height="0" uuid="f57cdc29-959f-448a-ad12-2db9dbfa2da6">
+						<reportElement positionType="Float" x="12" y="20" width="468" height="0" uuid="f57cdc29-959f-448a-ad12-2db9dbfa2da6">
 							<printWhenExpression><![CDATA[$F{time_monitored}==true]]></printWhenExpression>
 						</reportElement>
 						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
@@ -169,7 +171,7 @@
 				</frame>
 			</frame>
 			<frame>
-				<reportElement stretchType="RelativeToTallestObject" x="542" y="0" width="260" height="46" uuid="5e52dc82-10b2-4b02-a0bd-e637a96a2926"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="542" y="0" width="260" height="20" uuid="5e52dc82-10b2-4b02-a0bd-e637a96a2926"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -178,7 +180,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textField>
-					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="130" height="46" uuid="f99e9ef1-0e8c-469a-8936-d8c9b4139e09">
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="130" height="20" uuid="f99e9ef1-0e8c-469a-8936-d8c9b4139e09">
 						<printWhenExpression><![CDATA[$F{remarks}==null]]></printWhenExpression>
 					</reportElement>
 					<box>
@@ -191,7 +193,7 @@
 					<textFieldExpression><![CDATA[""]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement positionType="Float" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="130" y="0" width="130" height="46" uuid="abd46109-3d15-452a-bcb8-caa1a66daaae">
+					<reportElement positionType="Float" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="130" y="0" width="130" height="20" uuid="abd46109-3d15-452a-bcb8-caa1a66daaae">
 						<printWhenExpression><![CDATA[$F{remarks}==null]]></printWhenExpression>
 					</reportElement>
 					<box>
@@ -203,8 +205,8 @@
 					</box>
 					<textFieldExpression><![CDATA[""]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="260" height="46" uuid="e08d3941-a0d6-48d6-a6de-aa5249a3b920">
+				<textField isStretchWithOverflow="true">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="260" height="20" uuid="e08d3941-a0d6-48d6-a6de-aa5249a3b920">
 						<printWhenExpression><![CDATA[$F{remarks}!=null]]></printWhenExpression>
 					</reportElement>
 					<box leftPadding="3" rightPadding="3">

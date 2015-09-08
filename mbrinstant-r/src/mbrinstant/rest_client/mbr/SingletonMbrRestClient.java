@@ -13,7 +13,6 @@ import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -25,7 +24,6 @@ import mbrinstant.entity.MbrStatus;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.main.Unit;
 import mbrinstant.entity.mbr.Mbr;
-import mbrinstant.entity.mbr.PackagingMaterialRequirement;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -264,24 +262,6 @@ public class SingletonMbrRestClient {
 //
 //        return txnList;
 //    }
-    public int getPrimaryPackagingQuantity(List<PackagingMaterialRequirement> pmrList, int bottleId) {
-        for (PackagingMaterialRequirement bpmr : pmrList) {
-            if (bpmr.getItemId().getId() == bottleId) {
-                return (int) bpmr.getNewQuantity();
-            }
-        }
-        return 0;
-    }
-
-    public int getSecondaryPackagingQuantity(List<PackagingMaterialRequirement> pmrList, int cBoxId) {
-        for (PackagingMaterialRequirement pmr : pmrList) {
-            if (pmr.getItemId().getId() == cBoxId) {
-                return (int) pmr.getNewQuantity();
-            }
-        }
-        return 0;
-    }
-
     public static SingletonMbrRestClient getInstance() {
         return SingletonMbrRestClientHolder.INSTANCE;
 

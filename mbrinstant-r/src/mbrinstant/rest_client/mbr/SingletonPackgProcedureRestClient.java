@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import mbrinstant.entity.mbr.PackagingOperation;
+import mbrinstant.entity.mbr.PackagingProcedure;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.HttpResponseHandler;
 import mbrinstant.rest_client.SecureRestClientTrustManager;
@@ -27,7 +27,7 @@ import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
  *
  * @author maine
  */
-public class SingletonPackgOperationRestClient {
+public class SingletonPackgProcedureRestClient {
 
     private Client client;
     private WebResource webResource;
@@ -35,7 +35,7 @@ public class SingletonPackgOperationRestClient {
     private final HttpResponseHandler responseHandler = new HttpResponseHandler();
     private SSLContext sslContext = null;
 
-    private SingletonPackgOperationRestClient() {
+    private SingletonPackgProcedureRestClient() {
 
         try {
             SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
@@ -50,7 +50,7 @@ public class SingletonPackgOperationRestClient {
 
             client = Client.create(defaultClientConfig);
         } catch (NoSuchAlgorithmException | KeyManagementException ex) {
-            Logger.getLogger(SingletonPackgOperationRestClient.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SingletonPackgProcedureRestClient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -62,32 +62,31 @@ public class SingletonPackgOperationRestClient {
      * @param ppo
      * @return
      */
-    public PackagingOperation createNewPackgOperation(int mfgId, PackagingOperation ppo) throws ServerException {
+    public PackagingProcedure createNewPackgProcedure(int mfgId, PackagingProcedure ppo) throws ServerException {
 
         String input = Serializer.serialize(ppo);
         System.out.println("serialized packaging operation: " + input);
-        webResource = client.resource(BASE_URI + "/pst_create_new_packg_operation");
+        webResource = client.resource(BASE_URI + "/pst_new_packg_procedure");
         ClientResponse response = webResource
-                .queryParam("method", "pst_create_new_packg_operation")
                 .queryParam("mfg_id", String.valueOf(mfgId))
                 .type("application/json")
                 .post(ClientResponse.class, input);
         responseHandler.setCode(response.getStatus());
         if (responseHandler.isSuccessful()) {
             String output = response.getEntity(String.class);
-            return Serializer.<PackagingOperation>deserialize(output, PackagingOperation.class);
+            return Serializer.<PackagingProcedure>deserialize(output, PackagingProcedure.class);
         }
         return null;
 
     }
 
-    public static SingletonPackgOperationRestClient getInstance() {
+    public static SingletonPackgProcedureRestClient getInstance() {
         return SingletonPackgOperationRestClientHolder.INSTANCE;
     }
 
     private static class SingletonPackgOperationRestClientHolder {
 
-        private static final SingletonPackgOperationRestClient INSTANCE = new SingletonPackgOperationRestClient();
+        private static final SingletonPackgProcedureRestClient INSTANCE = new SingletonPackgProcedureRestClient();
     }
 
     public HttpResponseHandler getResponseHandler() {

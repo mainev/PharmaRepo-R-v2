@@ -33,6 +33,10 @@ public class PackagingMaterialRequirementFacade {
         return em.find(PackagingMaterialRequirement.class, pmReq.getId());
     }
 
+    public PackagingMaterialRequirement findById(int id) {
+        return em.find(PackagingMaterialRequirement.class, id);
+    }
+
     public List<PackagingMaterialRequirement> findByUdfId(int udfId) {
         return em.createQuery("select p from PackagingMaterialRequirement p where p.udfId.id = :id")
                 .setParameter("id", udfId).getResultList();

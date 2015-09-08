@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import server.pharma_red_v2._main.entity.Product;
+import server.pharma_red_v2.mbr.facade.PackagingMaterialRequirementFacade;
 import server.pharma_red_v2.sqlsvr_copy.entity.Item;
 import server.pharma_red_v2.sqlsvr_copy.facade.ItemFacade;
 
@@ -50,12 +51,14 @@ public class ProductFacade {
 
     @EJB
     private ItemFacade itemFacade;
+    @EJB
+    private PackagingMaterialRequirementFacade pmReqFacade;
 
     public Item getPrimaryPackaging(Integer productId) {
         Query query = em.createNativeQuery("SELECT primary_packaging_id from mbr.primary_secondary_packaging "
                 + "where mbr.primary_secondary_packaging.id = '" + productId + "'");
-        Integer bottleId = (Integer) query.getSingleResult();
-        return itemFacade.findById(bottleId);
+        Integer pmReqId = (Integer) query.getSingleResult();
+        return pmReqFacade.findById(pmReqId).getItemId();
     }
 
     public Item getSecondaryPackaging(Integer productId) {

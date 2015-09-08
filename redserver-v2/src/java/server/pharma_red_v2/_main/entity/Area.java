@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -49,21 +50,27 @@ public class Area implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "area")
+    @OrderBy("stepNo")
     private List<CodingRoomLineClearance> codingRoomLineClearanceList;
 
     @OneToMany(mappedBy = "area")
+    @OrderBy("stepNo")
     private List<CompoundingAreaLineClearance> compoundingAreaLineClearanceList;
 
     @OneToMany(mappedBy = "area")
+    @OrderBy("stepNo")
     private List<DispensingAreaLineClearance> dispensingAreaLineClearanceList;
 
     @OneToMany(mappedBy = "area")
+    @OrderBy("stepNo")
     private List<FillingAreaLineClearance> fillingAreaLineClearanceList;
 
     @OneToMany(mappedBy = "area")
+    @OrderBy("stepNo")
     private List<LabelingPackgAreaLineClearance> labelingPakcgAreaLineClearanceList;
 
     @OneToMany(mappedBy = "area")
+    @OrderBy("stepNo")
     private List<CodingSpecification> codingSpecificationList;
 
     @OneToMany(mappedBy = "area")

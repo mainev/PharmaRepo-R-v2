@@ -6,6 +6,7 @@
 package mbrinstant.entity.mbr;
 
 import com.google.gson.annotations.Expose;
+import mbrinstant.entity.ProcedureCategory;
 import mbrinstant.entity.main.Equipment;
 
 /**
@@ -14,17 +15,17 @@ import mbrinstant.entity.main.Equipment;
  */
 public class EquipmentRequirement {
 
-   // private static final long serialVersionUID = 1L;
+    // private static final long serialVersionUID = 1L;
     @Expose
     private Integer id;
     @Expose
     private Equipment equipmentId;
     @Expose
-    private String procedure;
+    private ProcedureCategory procedureCategory;
 
-    public EquipmentRequirement(Equipment equipmentId, String procedure) {
+    public EquipmentRequirement(Equipment equipmentId, ProcedureCategory cat) {
         this.equipmentId = equipmentId;
-        this.procedure = procedure;
+        this.procedureCategory = cat;
     }
 
     public EquipmentRequirement() {
@@ -34,12 +35,12 @@ public class EquipmentRequirement {
         this.id = id;
     }
 
-    public String getProcedure() {
-        return procedure;
+    public ProcedureCategory getProcedureCategory() {
+        return procedureCategory;
     }
 
-    public void setProcedure(String procedure) {
-        this.procedure = procedure;
+    public void setProcedureCategory(ProcedureCategory procedureCategory) {
+        this.procedureCategory = procedureCategory;
     }
 
     public Integer getId() {
@@ -86,7 +87,6 @@ public class EquipmentRequirement {
 //        }
 //        return true;
 //    }
-
     @Override
     public String toString() {
         return "server.mbr.entity.EquipmentRequirementCoding[ id=" + id + " ]";

@@ -28,11 +28,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import mbrinstant.entity.ProcedureCategory;
 import mbrinstant.entity.main.Product;
 import mbrinstant.entity.mbr.CompoundingProcedure;
 import mbrinstant.entity.mbr.EquipmentRequirement;
 import mbrinstant.entity.mbr.PackagingMaterialRequirement;
-import mbrinstant.entity.mbr.PackagingOperation;
+import mbrinstant.entity.mbr.PackagingProcedure;
 import mbrinstant.entity.mbr.RawMaterialRequirement;
 import mbrinstant.exceptions.ServerException;
 import mbrinstant.rest_client.main.SingletonUnitRestClient;
@@ -108,7 +109,7 @@ public class DetailsController implements Initializable {
 
     /*EQUIPMENT REQUIREMENTS PANE*/
     @FXML
-    private ChoiceBox<String> procedureChoiceBox;
+    private ChoiceBox<ProcedureCategory> procedureChoiceBox;
     @FXML
     private TableView<EquipmentRequirement> equipmentRequirementTable;
     @FXML
@@ -263,12 +264,12 @@ public class DetailsController implements Initializable {
     }
 
     private void initProcedureChoiceBox() {
-        procedureChoiceBox.setItems(FXCollections.observableArrayList(COMPOUNDING, ENCAP, CODING, PACKG_PROC));
+        procedureChoiceBox.setItems(FXCollections.observableArrayList(ProcedureCategory.values()));
         procedureChoiceBox.getSelectionModel().selectFirst();
 
         procedureChoiceBox.valueProperty().addListener((ob, ov, nv) -> {
             try {
-                equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getEquipmentByMfgIdAndProcedureType(product.getManufacturingProcedureId().getId(), procedureChoiceBox.getValue())));
+                equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getEquipmentByMfgIdAndProcedureCategory(product.getManufacturingProcedureId().getId(), procedureChoiceBox.getValue())));
             } catch (ServerException ex) {
                 Logger.getLogger(DetailsController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -277,17 +278,17 @@ public class DetailsController implements Initializable {
 
     private void initEquipmentRequirementTable() throws ServerException {
         int mfgId = product.getManufacturingProcedureId().getId();
-        equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getEquipmentByMfgIdAndProcedureType(mfgId, procedureChoiceBox.getValue())));
+        equipmentRequirementTable.setItems(FXCollections.observableArrayList(equipmentRequirementService.getEquipmentByMfgIdAndProcedureCategory(mfgId, procedureChoiceBox.getValue())));
         colEquipmentRequirementCode.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipmentId().getCode()));
         colEquipmentRequirementName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEquipmentId().getName()));
     }
 
     @FXML
-    TableView<PackagingOperation> packgProcOperationTable;
+    TableView<PackagingProcedure> packgProcOperationTable;
     @FXML
-    TableColumn<PackagingOperation, Short> operationStep;
+    TableColumn<PackagingProcedure, Short> operationStep;
     @FXML
-    TableColumn<PackagingOperation, PackagingOperation> operationProcedure;
+    TableColumn<PackagingProcedure, PackagingProcedure> operationProcedure;
 
     PackagingProcedureTableFactory packgProcTableFactory = new PackagingProcedureTableFactory();
 
@@ -297,20 +298,20 @@ public class DetailsController implements Initializable {
     }
 
     private void initOperationTable() {
-        ObservableList<PackagingOperation> packgProcOperationList = FXCollections.observableArrayList(product.getManufacturingProcedureId().getPackagingProcedureOperationList());
+        ObservableList<PackagingProcedure> packgProcOperationList = FXCollections.observableArrayList(product.getManufacturingProcedureId().getPackagingProcedureOperationList());
         packgProcOperationTable.setItems(packgProcOperationList);
         operationStep.setCellValueFactory(c -> new SimpleObjectProperty(c.getValue().getStepNumber()));
 
-        operationProcedure.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PackagingOperation, PackagingOperation>, ObservableValue<PackagingOperation>>() {
+        operationProcedure.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PackagingProcedure, PackagingProcedure>, ObservableValue<PackagingProcedure>>() {
             @Override
-            public ObservableValue<PackagingOperation> call(TableColumn.CellDataFeatures<PackagingOperation, PackagingOperation> cp) {
+            public ObservableValue<PackagingProcedure> call(TableColumn.CellDataFeatures<PackagingProcedure, PackagingProcedure> cp) {
                 return new ReadOnlyObjectWrapper(cp.getValue());
             }
         });
 
-        operationProcedure.setCellFactory(new Callback<TableColumn<PackagingOperation, PackagingOperation>, TableCell<PackagingOperation, PackagingOperation>>() {
+        operationProcedure.setCellFactory(new Callback<TableColumn<PackagingProcedure, PackagingProcedure>, TableCell<PackagingProcedure, PackagingProcedure>>() {
             @Override
-            public TableCell<PackagingOperation, PackagingOperation> call(TableColumn<PackagingOperation, PackagingOperation> colCompoundingProcedureHeader) {
+            public TableCell<PackagingProcedure, PackagingProcedure> call(TableColumn<PackagingProcedure, PackagingProcedure> colCompoundingProcedureHeader) {
                 return packgProcTableFactory.new OperationProcedureCell();
             }
         });

@@ -57,7 +57,7 @@
 				<textFieldExpression><![CDATA["PACKAGING PROCEDURE"]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="671" y="0" width="131" height="20" uuid="45312a41-72d3-4c28-9724-025779052a08"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="670" y="0" width="131" height="20" uuid="45312a41-72d3-4c28-9724-025779052a08"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -73,7 +73,7 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="15" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="-1" y="0" width="50" height="15" uuid="f0418dc8-2eb2-4cd4-8f3a-00428a10dae5"/>
 				<box>

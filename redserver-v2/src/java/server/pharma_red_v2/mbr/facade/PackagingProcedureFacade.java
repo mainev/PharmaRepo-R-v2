@@ -10,14 +10,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import server.pharma_red_v2.mbr.entity.PackagingOperation;
+import server.pharma_red_v2.mbr.entity.PackagingProcedure;
 
 /**
  *
  * @author maine
  */
 @Stateless
-public class PackagingOperationFacade {
+public class PackagingProcedureFacade {
 
     @EJB
     private ManufacturingProcedureFacade manufacturingProcedureFacade;
@@ -25,15 +25,15 @@ public class PackagingOperationFacade {
     @PersistenceContext(unitName = "RedServer-v2PU")
     private EntityManager em;
 
-    public List<PackagingOperation> findAll() {
-        return em.createQuery("SELECT p from PackagingOperation p order by p.id desc").getResultList();
+    public List<PackagingProcedure> findAll() {
+        return em.createQuery("SELECT p from PackagingProcedure p order by p.id desc").getResultList();
     }
 
-    public PackagingOperation create(int mfgId, PackagingOperation ppo) {
+    public PackagingProcedure create(int mfgId, PackagingProcedure ppo) {
 
         ppo.setManufacturingProcedureId(manufacturingProcedureFacade.findById(mfgId));
         em.persist(ppo);
         em.flush();
-        return em.find(PackagingOperation.class, ppo.getId());
+        return em.find(PackagingProcedure.class, ppo.getId());
     }
 }

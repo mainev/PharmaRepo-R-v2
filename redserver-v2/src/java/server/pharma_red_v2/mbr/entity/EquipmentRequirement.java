@@ -10,15 +10,17 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import server.pharma_red_v2.ProcedureCategory;
 import server.pharma_red_v2._main.entity.Equipment;
 
 /**
@@ -49,9 +51,9 @@ public class EquipmentRequirement implements Serializable {
     private ManufacturingProcedure manufacturingProcedureId;
 
     @Expose
-    @Column(name = "procedure")
-    @Size(max = 20)
-    private String procedure;
+    @Column(name = "procedure_category")
+    @Enumerated(EnumType.STRING)
+    private ProcedureCategory procedureCategory;
 
     public EquipmentRequirement() {
     }
@@ -60,12 +62,12 @@ public class EquipmentRequirement implements Serializable {
         this.id = id;
     }
 
-    public String getProcedure() {
-        return procedure;
+    public ProcedureCategory getProcedureCategory() {
+        return procedureCategory;
     }
 
-    public void setProcedure(String procedure) {
-        this.procedure = procedure;
+    public void setProcedureCategory(ProcedureCategory procedureCategory) {
+        this.procedureCategory = procedureCategory;
     }
 
     public Integer getId() {

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="3.1.1_rm_spec_control_no" language="groovy" pageWidth="70" pageHeight="555" orientation="Landscape" columnWidth="70" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a16e895f-6741-431c-8600-90ec2648010a">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="3.1.1_rm_spec_control_no" language="groovy" pageWidth="105" pageHeight="555" orientation="Landscape" columnWidth="105" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a16e895f-6741-431c-8600-90ec2648010a">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="control_no" class="java.lang.String">
 		<fieldDescription><![CDATA[controlNo]]></fieldDescription>
+	</field>
+	<field name="required_qty" class="java.lang.Object">
+		<fieldDescription><![CDATA[actualQty]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -12,7 +15,7 @@
 	<detail>
 		<band height="13" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="70" height="13" uuid="6829986a-f8bb-4195-990a-fffa0c71d612"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="52" y="0" width="53" height="13" uuid="6829986a-f8bb-4195-990a-fffa0c71d612"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -20,8 +23,24 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{control_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="52" height="13" uuid="940fc4a3-f291-44ea-936e-be5d0f96854d"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{required_qty}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
